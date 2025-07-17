@@ -7,28 +7,50 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <body>
   <audio id="bg-music" src="intro-music.mp3" autoplay loop></audio>
+  <button id="mute-btn">🔊</button>
 
-  <!-- resto del contenido: logo, BIENVENIDO, barra -->
-<button id="mute-btn">🔇</button>
-    <script>
-  const music = document.getElementById('bg-music');
-  const btn = document.getElementById('mute-btn');
-  btn.addEventListener('click', () => {
-    if (music.muted) {
-      music.muted = false;
-      btn.textContent = '🔊';
-    } else {
-      music.muted = true;
-      btn.textContent = '🔇';
-    }
-  });
-    </script>
   <div class="container">
     <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
     <h1>BIENVENIDO</h1>
-    <div class="loader"><div class="bar"></div></div>
+    <div id="percentage">0%</div>
+    <div class="loader">
+      <div class="bar" id="bar"></div>
+    </div>
+    <button id="continue-btn" style="display: none;">Continuar</button>
   </div>
+
+  <script>
+    const music = document.getElementById('bg-music');
+    const muteBtn = document.getElementById('mute-btn');
+    const bar = document.getElementById('bar');
+    const percentage = document.getElementById('percentage');
+    const continueBtn = document.getElementById('continue-btn');
+
+    muteBtn.addEventListener('click', () => {
+      music.muted = !music.muted;
+      muteBtn.textContent = music.muted ? '🔇' : '🔊';
+    });
+
+    let progress = 0;
+    const loading = setInterval(() => {
+      progress++;
+      percentage.textContent = `${progress}%`;
+      bar.style.width = `${progress}%`;
+      if (progress >= 100) {
+        clearInterval(loading);
+        continueBtn.style.display = 'inline-block';
+      }
+    }, 40);
+
+    // Optional: auto-start music on interaction
+    window.addEventListener('click', () => {
+      music.play().catch(() => {});
+    });
+
+    continueBtn.addEventListener('click', () => {
+      window.location.href = "home.html"; // redirige si ya está lista
+    });
+  </script>
 </body>
 </html>
