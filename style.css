@@ -18,61 +18,71 @@ body {
 }
 
 .logo {
-  width: 220px;
+  width: 230px;
   margin-bottom: 20px;
-  box-shadow: 0 0 25px #ffcc00aa, 0 0 10px #fff2;
-  border-radius: 10px;
+  box-shadow: 0 0 30px #ffcc00cc, 0 0 12px #ffffff22;
+  border-radius: 12px;
+  transition: transform 0.4s ease;
+}
+.logo:hover {
+  transform: scale(1.05);
 }
 
 h1 {
   font-size: 3rem;
   letter-spacing: 10px;
   margin-bottom: 10px;
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
 }
 
 #percentage {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   margin-bottom: 12px;
+  color: #00ffe0;
+  font-weight: bold;
+  text-shadow: 0 0 8px #00ffe080;
 }
 
 .loader {
   margin: 0 auto 20px;
-  width: 260px;
-  height: 14px;
-  background: #333;
-  border-radius: 10px;
+  width: 280px;
+  height: 18px;
+  background: #222;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 0 8px #00ffcc;
+  box-shadow: 0 0 12px #00ffe0aa;
 }
 
 .loader .bar {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #00ffcc, #00e6b8);
-  animation: shine 1.5s linear infinite;
+  background: linear-gradient(90deg, #00ffe0, #00bfff, #00ffe0);
+  background-size: 400% 100%;
+  animation: gradientMove 2s linear infinite;
   transition: width 0.3s ease-in-out;
 }
 
-@keyframes shine {
-  0% { background-position: 0 0; }
-  100% { background-position: 250px 0; }
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
 }
 
 #continue-btn {
-  background-color: #00ffcc;
+  background: linear-gradient(90deg, #00ffe0, #00c8ff);
   color: #000;
+  font-size: 1.1rem;
+  padding: 12px 28px;
   border: none;
-  padding: 10px 25px;
-  font-size: 1rem;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease;
-  box-shadow: 0 0 10px #00ffcc90;
+  box-shadow: 0 0 15px #00ffe088;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 #continue-btn:hover {
-  background-color: #00e6b8;
+  background: linear-gradient(90deg, #00c8ff, #00ffe0);
+  transform: scale(1.05);
 }
 
 #mute-btn {
