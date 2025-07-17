@@ -7,8 +7,24 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <audio src="musica.mp3" autoplay loop></audio>
+  <body>
+  <audio id="bg-music" src="intro-music.mp3" autoplay loop></audio>
 
+  <!-- resto del contenido: logo, BIENVENIDO, barra -->
+<button id="mute-btn">🔇</button>
+    <script>
+  const music = document.getElementById('bg-music');
+  const btn = document.getElementById('mute-btn');
+  btn.addEventListener('click', () => {
+    if (music.muted) {
+      music.muted = false;
+      btn.textContent = '🔊';
+    } else {
+      music.muted = true;
+      btn.textContent = '🔇';
+    }
+  });
+    </script>
   <div class="container">
     <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
     <h1>BIENVENIDO</h1>
