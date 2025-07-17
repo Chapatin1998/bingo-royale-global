@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Música -->
   <audio id="bg-music" src="intro-music.mp3" autoplay loop></audio>
   <button id="mute-btn">🔊</button>
 
+  <div class="bg-effect"></div>
+
   <div class="container">
     <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
-    <h1>BIENVENIDO</h1>
+    <h1 class="title-glow">BIENVENIDO</h1>
     <div id="percentage">0%</div>
     <div class="loader">
       <div class="bar" id="bar"></div>
@@ -28,14 +29,12 @@
     const percentage = document.getElementById('percentage');
     const continueBtn = document.getElementById('continue-btn');
 
-    // Autoplay for all browsers (fallbacks included)
     function forceAutoplay() {
       music.play().catch(() => {});
     }
 
     document.addEventListener('DOMContentLoaded', forceAutoplay);
     document.addEventListener('click', forceAutoplay);
-    document.addEventListener('visibilitychange', forceAutoplay);
 
     muteBtn.addEventListener('click', () => {
       music.muted = !music.muted;
@@ -52,10 +51,10 @@
         clearInterval(loading);
         continueBtn.style.display = 'inline-block';
       }
-    }, 35); // velocidad ajustada
+    }, 40);
 
     continueBtn.addEventListener('click', () => {
-      window.location.href = "home.html"; // cambiar luego si quieres otra página
+      window.location.href = "home.html";
     });
   </script>
 </body>
