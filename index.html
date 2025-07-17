@@ -1,28 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bienvenido | Bingo VIP Bolivia</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-black text-white flex flex-col items-center justify-center min-h-screen overflow-hidden">
-    <div class="text-center">
-      <img
-        src="https://source.unsplash.com/random/200x200?bingo"
-        alt="Logo Bingo VIP"
-        class="mx-auto w-32 h-32 mb-6 animate-pulse"
-      />
-      <h1 class="text-4xl md:text-6xl font-bold mb-8 animate-fade-in">BIENVENIDO</h1>
-      <div class="w-64 h-2 bg-gray-700 rounded-full overflow-hidden">
-        <div class="h-full bg-yellow-400 animate-loading-bar"></div>
-      </div>
-    </div>
-    <audio autoplay loop>
-      <source src="https://www.bensound.com/bensound-music/bensound-dreams.mp3" type="audio/mp3" />
-      Tu navegador no soporta audio HTML5.
-    </audio>
-    <script src="script.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bingo VIP Bolivia</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <audio src="musica.mp3" autoplay loop></audio>
+
+  <div class="container">
+    <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
+    <h1>BIENVENIDO</h1>
+    <div class="loader"><div class="bar"></div></div>
+  </div>
+</body>
 </html>
