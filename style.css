@@ -45,3 +45,13 @@ h1 {
   from { transform: translateX(-100%); }
   to { transform: translateX(100%); }
 }
+#mute-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
