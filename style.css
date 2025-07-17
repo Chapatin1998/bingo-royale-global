@@ -1,62 +1,81 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #000000, #1a1a1a);
+  background: #000;
   color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.overlay {
+  background: url('logo.png') no-repeat center center;
+  background-size: 300px;
+  opacity: 0.08;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
 }
 
 .container {
   text-align: center;
-}
-
-.logo {
-  max-width: 200px;
-  margin-bottom: 20px;
+  z-index: 1;
 }
 
 h1 {
-  font-size: 2.5rem;
-  letter-spacing: 8px;
+  font-size: 3rem;
+  letter-spacing: 10px;
   margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 #percentage {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+  font-size: 1.3rem;
+  margin-bottom: 12px;
 }
 
 .loader {
-  margin: 0 auto;
-  width: 200px;
-  height: 10px;
-  background: #444;
-  border-radius: 5px;
+  margin: 0 auto 20px;
+  width: 250px;
+  height: 14px;
+  background: #222;
+  border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 20px;
+  box-shadow: 0 0 5px #00ffcc;
 }
 
 .loader .bar {
   height: 100%;
   width: 0%;
-  background: #00ffcc;
-  transition: width 0.3s ease-in-out;
+  background: linear-gradient(90deg, #00ffcc, #00b8a9);
+  animation: shine 2s linear infinite;
+  transition: width 0.4s ease-in-out;
+}
+
+@keyframes shine {
+  0% { background-position: 0 0; }
+  100% { background-position: 250px 0; }
 }
 
 #continue-btn {
   background-color: #00ffcc;
   color: #000;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 25px;
   font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s ease;
+  box-shadow: 0 0 10px #00ffcc60;
 }
+
 #continue-btn:hover {
   background-color: #00e6b8;
 }
