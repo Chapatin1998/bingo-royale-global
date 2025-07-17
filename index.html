@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Música -->
   <audio id="bg-music" src="intro-music.mp3" autoplay loop></audio>
   <button id="mute-btn">🔊</button>
 
@@ -27,13 +28,14 @@
     const percentage = document.getElementById('percentage');
     const continueBtn = document.getElementById('continue-btn');
 
-    // Reproducir la música automáticamente (mejorado)
-    function tryPlayMusic() {
+    // Autoplay for all browsers (fallbacks included)
+    function forceAutoplay() {
       music.play().catch(() => {});
     }
 
-    document.addEventListener('DOMContentLoaded', tryPlayMusic);
-    document.addEventListener('visibilitychange', tryPlayMusic);
+    document.addEventListener('DOMContentLoaded', forceAutoplay);
+    document.addEventListener('click', forceAutoplay);
+    document.addEventListener('visibilitychange', forceAutoplay);
 
     muteBtn.addEventListener('click', () => {
       music.muted = !music.muted;
@@ -45,14 +47,15 @@
       progress++;
       percentage.textContent = `${progress}%`;
       bar.style.width = `${progress}%`;
+
       if (progress >= 100) {
         clearInterval(loading);
         continueBtn.style.display = 'inline-block';
       }
-    }, 40);
+    }, 35); // velocidad ajustada
 
     continueBtn.addEventListener('click', () => {
-      window.location.href = "home.html";
+      window.location.href = "home.html"; // cambiar luego si quieres otra página
     });
   </script>
 </body>
