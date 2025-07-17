@@ -13,7 +13,7 @@
   <div class="bg-effect"></div>
 
   <div class="container">
-    <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
+    <img src="logo.png" alt="Logo Bingo VIP" class="logo animate-logo" />
     <h1 class="title-glow">BIENVENIDO</h1>
     <div id="percentage">0%</div>
     <div class="loader">
@@ -51,7 +51,7 @@
         clearInterval(loading);
         continueBtn.style.display = 'inline-block';
       }
-    }, 40);
+    }, 70); // más lenta
 
     continueBtn.addEventListener('click', () => {
       window.location.href = "home.html";
