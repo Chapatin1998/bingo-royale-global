@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bingo VIP Bolivia</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-image: url('https://source.unsplash.com/1920x1080/?casino,poker');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .loader {
+      border: 8px solid #444;
+      border-top: 8px solid #00ffcc;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1.5s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .fade-in {
+      animation: fadeIn ease-in 2s;
+    }
+
+    @keyframes fadeIn {
+      0% {opacity:0;}
+      100% {opacity:1;}
+    }
+  </style>
+</head>
+<body class="text-white flex items-center justify-center h-screen fade-in relative">
+  <div class="overlay absolute inset-0 z-0"></div>
+
+  <!-- Contenedor principal -->
+  <div class="z-10 flex flex-col items-center text-center px-4">
+    <!-- Logo tipo avatar -->
+    <img src="https://source.unsplash.com/200x200/?avatar,man" alt="Logo Bingo VIP" class="rounded-full border-4 border-teal-400 shadow-lg mb-6" />
+
+    <!-- Nombre del proyecto -->
+    <h1 class="text-4xl md:text-6xl font-bold mb-2 text-teal-300 drop-shadow-lg">Bingo VIP Bolivia</h1>
+    <p class="text-lg md:text-xl text-gray-200 mb-8">¡Bienvenido al mejor entretenimiento en línea!</p>
+
+    <!-- Barra de carga animada -->
+    <div class="loader mb-4"></div>
+    <p class="text-sm text-gray-300">Cargando experiencia VIP...</p>
+  </div>
+
+  <!-- Música de fondo -->
+  <audio autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-jazzyfrenchy.mp3" type="audio/mp3">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+</body>
+</html>
