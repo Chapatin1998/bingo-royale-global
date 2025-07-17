@@ -1,0 +1,29 @@
+body {
+  animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes loadingBar {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-loading-bar {
+  animation: loadingBar 4s infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 2s ease-in-out;
+}
