@@ -2,17 +2,21 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body id="intro">
-  <img src="logo.png" alt="Logo Bingo VIP Bolivia" id="logo" />
-  <h1>Bienvenidos a Bingo VIP Bolivia</h1>
-  <p>Haz clic para comenzar</p>
-  <button id="startButton">Iniciar</button>
+<body>
+  <div class="sound-toggle" id="soundBtn">
+    🔊
+  </div>
 
-  <audio id="clickSound" src="click.wav" preload="auto"></audio>
+  <div class="container">
+    <img src="logo.png" alt="Bingo VIP Bolivia" class="logo-glow" />
+    <p class="slogan">Donde el juego se vuelve leyenda</p>
+    <button id="continueBtn">Continuar</button>
+  </div>
+
   <audio id="introMusic" src="intro-music.mp3" preload="auto" loop></audio>
 
   <script src="Intro.js"></script>
