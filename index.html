@@ -3,114 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bingo VIP Bolivia - Cargando</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #121212;
-      color: #fff;
-      font-family: sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .logo {
-      width: 180px;
-      margin-bottom: 30px;
-    }
-
-    .progress-bar {
-      width: 80%;
-      height: 10px;
-      background: #333;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 25px;
-    }
-
-    .progress {
-      width: 100%;
-      height: 100%;
-      background: #ffcc00;
-      animation: load 3s ease-in-out forwards;
-    }
-
-    @keyframes load {
-      0% { width: 0; }
-      100% { width: 100%; }
-    }
-
-    .start-btn {
-      padding: 12px 24px;
-      background: #ffcc00;
-      color: #000;
-      border: none;
-      border-radius: 8px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    .start-btn:hover {
-      background: #ffd633;
-    }
-
-    .music-toggle {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: transparent;
-      border: 2px solid #ffcc00;
-      color: #ffcc00;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    .music-toggle:hover {
-      background: #ffcc00;
-      color: #000;
-    }
-  </style>
+  <title>Bingo VIP Bolivia</title>
+  <link rel="stylesheet" href="estilo.css" />
 </head>
 <body>
-  <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
-  <div class="progress-bar">
-    <div class="progress"></div>
+  <div class="container">
+    <audio id="musicaFondo" autoplay loop>
+      <source src="musica.mp3" type="audio/mp3" />
+    </audio>
+
+    <div class="musica-toggle" onclick="toggleMusica()">
+      <span id="iconoMusica">🔊</span> Música
+    </div>
+
+    <div class="contenido">
+      <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
+      <p class="slogan">Donde el juego se vuelve leyenda</p>
+      <div class="barra-carga">
+        <div class="progreso"></div>
+      </div>
+      <button class="btn-iniciar" onclick="mostrarMensaje()">Iniciar</button>
+    </div>
   </div>
-  <button class="start-btn" onclick="location.href='index.html'">Iniciar</button>
-  <button class="music-toggle" onclick="toggleMusic()">🔊 Música</button>
 
-  <audio id="bg-music" loop>
-    <source src="music/intro.mp3" type="audio/mpeg" />
-  </audio>
-
-  <script>
-    const audio = document.getElementById('bg-music');
-    let musicPlaying = false;
-
-    function toggleMusic() {
-      if (musicPlaying) {
-        audio.pause();
-      } else {
-        audio.play();
-      }
-      musicPlaying = !musicPlaying;
-    }
-
-    // Auto play (según permisos del navegador)
-    window.addEventListener('click', () => {
-      if (!musicPlaying) {
-        audio.play();
-        musicPlaying = true;
-      }
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
