@@ -1,12 +1,13 @@
 body {
   margin: 0;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   background: #000;
-  overflow: hidden;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  overflow: hidden;
   position: relative;
 }
 
@@ -21,20 +22,29 @@ body {
 }
 
 button {
-  background: linear-gradient(to right, #00f2ff, #00c3ff);
-  color: #000;
+  background: linear-gradient(to right, #f40665, #ff5e8e);
+  color: #fff;
   font-size: 18px;
   padding: 12px 32px;
   border: none;
-  cursor: pointer;
   border-radius: 8px;
+  cursor: pointer;
   transition: background 0.3s ease;
-  font-weight: bold;
-  box-shadow: 0 0 10px #00eaff, 0 0 20px #00eaff;
 }
 
 button:hover {
-  background: linear-gradient(to right, #00d0ff, #00a3ff);
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+}
+
+#mute-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
 }
 
 .hidden {
@@ -45,25 +55,37 @@ button:hover {
   width: 300px;
   height: 20px;
   border: 2px solid #fff;
+  border-radius: 12px;
   margin: 20px auto;
   position: relative;
   overflow: hidden;
-  border-radius: 12px;
   background: #222;
 }
 
 .bar {
   height: 100%;
+  width: 0%;
   background: repeating-linear-gradient(
     45deg,
-    #0ff 0,
+    #00f,
     #0ff 10px,
     #00f 10px,
     #00f 20px
   );
   animation: lightning 1s linear infinite;
   transition: width 0.1s linear;
-  width: 0%;
+}
+
+.loading-text {
+  font-size: 18px;
+  color: #fff;
+}
+
+.welcome {
+  font-size: 20px;
+  color: #00ffff;
+  margin-top: 20px;
+  animation: fadeIn 1s ease forwards;
 }
 
 @keyframes lightning {
@@ -78,35 +100,25 @@ button:hover {
 @keyframes pulse {
   0% {
     transform: scale(1);
-    filter: drop-shadow(0 0 0px #0ff);
+    filter: drop-shadow(0 0 0px #ff0);
   }
   50% {
     transform: scale(1.05);
-    filter: drop-shadow(0 0 10px #0ff);
+    filter: drop-shadow(0 0 10px #ff0);
   }
   100% {
     transform: scale(1);
-    filter: drop-shadow(0 0 0px #0ff);
+    filter: drop-shadow(0 0 0px #ff0);
   }
 }
 
-.loading-text {
-  color: #0ff;
-  font-size: 18px;
-  margin-top: 10px;
-}
-
-#welcome-message {
-  color: #0ff;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.sound-toggle {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  color: #fff;
-  font-size: 24px;
-  cursor: pointer;
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
