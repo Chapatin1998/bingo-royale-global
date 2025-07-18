@@ -1,15 +1,54 @@
-<!-- Intro -->
-<div id="intro" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-  <div>
-    <img src="logo.png" alt="Logo" style="width: 200px;">
-    <button id="continue-button">Continuar</button>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bingo VIP Bolivia - Inicio</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body class="intro-screen">
+  <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo"/>
+
+  <h1>¡Bienvenido al juego!</h1>
+  <p>Elige una sala o comienza una partida</p>
+
+  <div class="buttons">
+    <button class="continue-btn" onclick="goToSala('sala1')">Sala Bs. 34</button>
+    <button class="continue-btn" onclick="goToSala('sala2')">Sala Bs. 68</button>
+    <button class="continue-btn" onclick="goToSala('torneos')">Torneos</button>
   </div>
-</div>
 
-<!-- Contenido principal oculto inicialmente -->
-<div id="main-content" style="display: none;">
-  <!-- Aquí va el contenido real de la app -->
-</div>
+  <button class="sound-button" id="toggleSound">🔊</button>
 
-<!-- Vincula tu JS -->
-<script src="Intro.js"></script>
+  <audio id="bgMusic" src="game-music.mp3" loop preload="auto"></audio>
+
+  <script>
+    const bgMusic = document.getElementById("bgMusic");
+    const toggleSoundBtn = document.getElementById("toggleSound");
+
+    let isSoundOn = localStorage.getItem("soundOn") === "true";
+
+    if (isSoundOn) {
+      bgMusic.play().catch(() => {});
+      toggleSoundBtn.classList.add("active");
+    }
+
+    toggleSoundBtn.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        toggleSoundBtn.classList.add("active");
+        localStorage.setItem("soundOn", "true");
+      } else {
+        bgMusic.pause();
+        toggleSoundBtn.classList.remove("active");
+        localStorage.setItem("soundOn", "false");
+      }
+    });
+
+    function goToSala(sala) {
+      // Redirige según la sala (puedes personalizar luego)
+      alert("Cargando " + sala + "...");
+    }
+  </script>
+</body>
+</html>
