@@ -7,27 +7,22 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Tap-to-start para activar audio -->
-  <div id="tap-to-start">Toca para comenzar</div>
-
-  <!-- Música de fondo -->
-  <audio id="bg-music" src="intro-music.mp3" loop></audio>
+  <audio id="bg-music" src="intro-music.mp3" autoplay loop></audio>
   <button id="mute-btn">🔊</button>
 
-  <!-- Contenido principal -->
   <div class="container">
     <img src="logo.png" alt="Bingo VIP Bolivia" class="logo" />
     <h1>BIENVENIDO</h1>
     <div id="percentage">0%</div>
-    <div class="loader"><div class="bar" id="bar"></div></div>
+    <div class="loader">
+      <div class="bar" id="bar"></div>
+    </div>
     <button id="continue-btn" style="display:none;">Continuar</button>
   </div>
 
-  <!-- JavaScript -->
   <script>
     const music = document.getElementById('bg-music');
     const muteBtn = document.getElementById('mute-btn');
-    const tapToStart = document.getElementById('tap-to-start');
     const bar = document.getElementById('bar');
     const percentage = document.getElementById('percentage');
     const continueBtn = document.getElementById('continue-btn');
@@ -37,16 +32,11 @@
       muteBtn.textContent = music.muted ? '🔇' : '🔊';
     });
 
-    tapToStart.addEventListener('click', () => {
-      tapToStart.style.display = 'none';
-      music.play().catch(() => {});
-    });
-
     let progress = 0;
     const loading = setInterval(() => {
-      progress++;
-      percentage.textContent = `${progress}%`;
-      bar.style.width = `${progress}%`;
+      progress += 1;
+      bar.style.width = progress + '%';
+      percentage.textContent = progress + '%';
       if (progress >= 100) {
         clearInterval(loading);
         continueBtn.style.display = 'inline-block';
@@ -54,11 +44,12 @@
     }, 50);
 
     continueBtn.addEventListener('click', () => {
-      document.body.style.transition = 'opacity 1s ease';
-      document.body.style.opacity = 0;
-      setTimeout(() => {
-        window.location.href = 'home.html';
-      }, 1000);
+      window.location.href = 'home.html';
+    });
+
+    // Autoplay fix on some devices
+    window.addEventListener('click', () => {
+      music.play().catch(() => {});
     });
   </script>
 </body>
