@@ -1,19 +1,110 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Bingo VIP Bolivia</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="container">
-      <img src="logo.png" alt="Logo" class="logo" />
-      <div class="progress-bar">
-        <div class="progress"></div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bingo VIP Bolivia</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Audios -->
+  <audio id="music" src="intro-music.mp3" preload="auto"></audio>
+  <audio id="click-sound" src="click.wav" preload="auto"></audio>
+
+  <!-- Botón activar sonido -->
+  <button id="sound-btn" class="sound-toggle">🔇</button>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <img src="logo.png" alt="Logo Bingo VIP" class="logo">
+    <h1 class="welcome-title">BIENVENIDO</h1>
+    <button id="continue-btn" class="continue-btn">Continuar</button>
+
+    <!-- Loader -->
+    <div id="loader" class="loader hidden">
+      <div class="bar-container">
+        <div class="bar"></div>
       </div>
-      <button id="continueBtn">Continuar</button>
-      <button id="soundToggleBtn">🔇 Apagar Música</button>
+      <div id="percentage">0%</div>
     </div>
-    <script src="Intro.js"></script>
-  </body>
+  </div>
+
+  <script>
+    // Fondo de partículas
+    const canvas = document.getElementById("particle-canvas");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    function resize() {
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+    }
+    window.onresize = resize;
+    resize();
+    function createParticles() {
+      const total = Math.floor((canvas.width + canvas.height) / 10);
+      particles = Array.from({ length: total }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        dx: (Math.random() - 0.5) * 0.6,
+        dy: (Math.random() - 0.5) * 0.6
+      }));
+    }
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(0,255,255,0.6)";
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+        p.x += p.dx; p.y += p.dy;
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    createParticles();
+    animateParticles();
+
+    // Interacción y carga
+    const music = document.getElementById("music");
+    const clickSound = document.getElementById("click-sound");
+    const continueBtn = document.getElementById("continue-btn");
+    const loader = document.getElementById("loader");
+    const bar = document.querySelector(".bar");
+    const percentage = document.getElementById("percentage");
+    const soundBtn = document.getElementById("sound-btn");
+
+    soundBtn.onclick = () => {
+      if (music.paused) {
+        music.play(); soundBtn.textContent = "🔊";
+      } else {
+        music.pause(); soundBtn.textContent = "🔇";
+      }
+    };
+
+    continueBtn.onclick = () => {
+      clickSound.currentTime = 0; clickSound.play();
+      if (music.paused) music.play();
+      continueBtn.classList.add("hidden");
+      soundBtn.classList.add("hidden");
+      setTimeout(() => {
+        loader.classList.remove("hidden");
+        let pct = 0;
+        const interval = setInterval(() => {
+          pct++;
+          bar.style.width = pct + "%";
+          percentage.textContent = pct + "%";
+          if (pct >= 100) {
+            clearInterval(interval);
+            window.location.href = "home.html";
+          }
+        }, 80);
+      }, 1500);
+    };
+  </script>
+</body>
 </html>
