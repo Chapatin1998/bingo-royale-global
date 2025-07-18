@@ -1,118 +1,75 @@
 body {
   margin: 0;
+  background: radial-gradient(circle at center, #000c2d, #010101);
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #000814, #001d3d);
   color: #fff;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   flex-direction: column;
-  position: relative;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
   overflow: hidden;
 }
 
-body::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  animation: twinkle 20s linear infinite;
-  z-index: 0;
-}
-
-#tap-to-start {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: #000;
-  color: #fff;
-  font-size: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-}
-
-.container {
-  position: relative;
-  text-align: center;
-  z-index: 2;
-}
-
 .logo {
-  max-width: 250px;
+  width: 200px;
   margin-bottom: 20px;
-  filter: drop-shadow(0 0 20px #00e6e6);
+  filter: drop-shadow(0 0 15px cyan);
 }
 
 h1 {
   font-size: 3rem;
-  margin-bottom: 10px;
-  color: white;
-  text-transform: uppercase;
   letter-spacing: 8px;
-  text-shadow: 0 0 20px #00eaff, 0 0 40px #00f0ff;
+  text-shadow: 0 0 15px cyan;
+  margin: 0;
 }
 
 #percentage {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+  font-size: 1.5rem;
+  margin: 15px 0;
 }
 
 .loader {
-  margin: 0 auto 20px;
-  width: 300px;
-  height: 14px;
+  width: 80%;
+  height: 20px;
   background: #333;
-  border-radius: 7px;
+  border-radius: 10px;
   overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 0 5px #00f2fe;
 }
 
 .loader .bar {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #00e6ff, #ff00ff);
-  border-radius: 7px;
-  transition: width 0.3s ease-in-out;
+  background: linear-gradient(90deg, #00f2fe, #a400ff);
+  transition: width 0.4s ease-in-out;
+  box-shadow: 0 0 10px #00f2fe;
 }
 
 #continue-btn {
-  padding: 12px 30px;
-  font-size: 1.2rem;
+  padding: 10px 25px;
+  font-size: 1.1rem;
+  color: white;
   background: transparent;
-  border: 2px solid #00e6ff;
-  color: #fff;
+  border: 2px solid cyan;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s;
-  animation: bounceIn 2s ease;
+  transition: all 0.3s ease;
 }
 
 #continue-btn:hover {
-  background: #00e6ff;
-  color: #000;
-}
-
-@keyframes bounceIn {
-  0% { transform: scale(0.8); opacity: 0; }
-  60% { transform: scale(1.05); opacity: 1; }
-  100% { transform: scale(1); }
+  background: cyan;
+  color: black;
 }
 
 #mute-btn {
   position: absolute;
-  top: 20px;
+  top: 15px;
   right: 20px;
+  font-size: 24px;
   background: transparent;
-  border: none;
-  font-size: 28px;
   color: white;
+  border: none;
   cursor: pointer;
-  z-index: 3;
-}
-
-@keyframes twinkle {
-  0% { background-position: 0 0; }
-  100% { background-position: 60px 60px; }
 }
