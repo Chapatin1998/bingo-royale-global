@@ -2,44 +2,75 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bingo Vip Bolivia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bingo VIP Bolivia</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <audio id="bg-music" src="intro-music.mp3" preload="auto"></audio>
-  <div class="container">
-    <img src="logo.png" alt="Logo" class="logo" />
-    <button id="startBtn">Continuar</button>
-    <div id="loadingContainer" class="hidden">
-      <div class="loading-text">CARGANDO...</div>
-      <div class="bar-container">
-        <div class="bar" id="progressBar"></div>
-      </div>
-    </div>
-  </div>
-  <script>
-    const btn = document.getElementById("startBtn");
-    const audio = document.getElementById("bg-music");
-    const loadingContainer = document.getElementById("loadingContainer");
-    const progressBar = document.getElementById("progressBar");
+  <!-- 🎥 Video de fondo -->
+  <video autoplay muted loop playsinline id="background-video">
+    <source src="fondo.mp4" type="video/mp4" />
+    Tu navegador no soporta video en HTML5.
+  </video>
 
-    btn.addEventListener("click", () => {
-      btn.style.display = "none";
-      loadingContainer.classList.remove("hidden");
-      audio.play();
+  <!-- 🎵 Música de fondo -->
+  <audio id="music" src="intro-music.mp3" autoplay loop></audio>
+
+  <!-- 🔔 Sonido click -->
+  <audio id="click-sound" src="click.wav" preload="auto"></audio>
+
+  <!-- 🔊 Botón sonido -->
+  <button class="sound-toggle" onclick="toggleSound()">🔊</button>
+
+  <!-- 🎯 Contenedor de bienvenida -->
+  <div class="container">
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
+    </div>
+    <h1 class="welcome-title">BIENVENIDO</h1>
+    <button id="continue-btn" class="continue-btn">Continuar</button>
+  </div>
+
+  <!-- ⏳ Barra de carga -->
+  <div id="loader" class="loader" style="display: none;">
+    <div class="bar"></div>
+    <div id="percentage">0%</div>
+  </div>
+
+  <script>
+    const music = document.getElementById("music");
+    const clickSound = document.getElementById("click-sound");
+    const continueBtn = document.getElementById("continue-btn");
+    const loader = document.getElementById("loader");
+    const percentage = document.getElementById("percentage");
+    const bar = document.querySelector(".bar");
+
+    function toggleSound() {
+      if (music.paused) {
+        music.play();
+      } else {
+        music.pause();
+      }
+    }
+
+    continueBtn.addEventListener("click", () => {
+      clickSound.currentTime = 0;
+      clickSound.play();
+
+      continueBtn.style.display = "none";
+      loader.style.display = "block";
+
       let progress = 0;
       const interval = setInterval(() => {
-        progress += 1;
-        progressBar.style.width = progress + "%";
+        progress++;
+        percentage.textContent = progress + "%";
+        bar.style.width = progress + "%";
+
         if (progress >= 100) {
           clearInterval(interval);
-          document.body.classList.add("fade-out");
-          setTimeout(() => {
-            window.location.href = "home.html";
-          }, 1000);
+          window.location.href = "home.html";
         }
-      }, 50);
+      }, 60); // Más lento para que se disfrute
     });
   </script>
 </body>
