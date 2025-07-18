@@ -7,75 +7,28 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Audios -->
   <audio id="click-sound" src="click.wav" preload="auto"></audio>
+  <audio id="bg-music" src="intro-music.mp3" preload="auto" loop></audio>
 
-<!-- Botón de mute -->
-<button id="mute-btn" aria-label="Silenciar música" style="position:absolute;top:20px;right:20px;">
-  🔊
-</button>
-  <audio id="bg-music" src="intro-music.mp3" autoplay loop></audio>
-  <audio id="click-sound" src="click.wav" preload="auto"></audio>
+  <!-- Botón mute -->
+  <button id="mute-btn" aria-label="Silenciar música">🔊</button>
 
-  <div class="sound-toggle" id="sound-toggle">🔊</div>
-
+  <!-- Pantalla principal -->
   <div class="container">
     <img src="logo.png" alt="Logo" class="logo" />
     <button id="continue-btn">Continuar</button>
 
     <div id="loader-container" class="hidden">
+      <div class="loading-text">Cargando...</div>
       <div class="bar-container">
         <div class="bar" id="progress-bar"></div>
       </div>
-      <div class="loading-text">Cargando...</div>
     </div>
 
-    <div id="welcome-message" class="hidden">¡Bienvenido a Bingo VIP Bolivia!</div>
+    <div id="welcome-message" class="welcome hidden">¡Bienvenido a Bingo VIP Bolivia!</div>
   </div>
 
-  <script>
-    const continueBtn = document.getElementById("continue-btn");
-    const loaderContainer = document.getElementById("loader-container");
-    const progressBar = document.getElementById("progress-bar");
-    const welcomeMessage = document.getElementById("welcome-message");
-    const clickSound = document.getElementById("click-sound");
-    const bgMusic = document.getElementById("bg-music");
-    const soundToggle = document.getElementById("sound-toggle");
-
-    soundToggle.addEventListener("click", () => {
-      if (bgMusic.paused) {
-        bgMusic.play();
-        soundToggle.textContent = "🔊";
-      } else {
-        bgMusic.pause();
-        soundToggle.textContent = "🔇";
-      }
-    });
-
-    continueBtn.addEventListener("touchstart", playGame);
-    continueBtn.addEventListener("click", playGame);
-
-    function playGame() {
-      clickSound.play();
-      continueBtn.disabled = true;
-      let width = 0;
-      loaderContainer.classList.remove("hidden");
-      continueBtn.style.display = "none";
-
-      const interval = setInterval(() => {
-        width += 1;
-        progressBar.style.width = width + "%";
-
-        if (width >= 100) {
-          clearInterval(interval);
-          loaderContainer.style.display = "none";
-          welcomeMessage.style.display = "block";
-
-          setTimeout(() => {
-            window.location.href = "home.html";
-          }, 2000);
-        }
-      }, 40);
-    }
-  </script>
+  <script src="intro.js"></script>
 </body>
 </html>
