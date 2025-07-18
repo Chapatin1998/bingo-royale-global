@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bingo Vip Bolivia</title>
+  <title>Bingo VIP Bolivia</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <audio id="bg-music" src="intro-music.mp3" preload="auto" loop></audio>
+  <audio id="bg-music" src="intro-music.mp3" autoplay loop></audio>
 
-  <div class="container" id="introScreen">
+  <div class="container">
     <img src="logo.png" alt="Logo" class="logo" />
     <button id="startBtn">Continuar</button>
     <div id="loadingContainer" class="hidden">
@@ -20,58 +20,31 @@
     </div>
   </div>
 
-  <!-- Pantalla intermedia -->
-  <div class="container hidden" id="welcomeScreen">
-    <div class="welcome-text">¡Bienvenido a Bingo VIP Bolivia!</div>
-  </div>
-
-  <!-- Botón de audio -->
-  <button id="toggleAudio" class="audio-button">🔊</button>
-
   <script>
     const btn = document.getElementById("startBtn");
     const audio = document.getElementById("bg-music");
     const loadingContainer = document.getElementById("loadingContainer");
     const progressBar = document.getElementById("progressBar");
-    const introScreen = document.getElementById("introScreen");
-    const welcomeScreen = document.getElementById("welcomeScreen");
-    const toggleAudio = document.getElementById("toggleAudio");
-
-    let audioMuted = false;
 
     btn.addEventListener("click", () => {
       btn.style.display = "none";
       loadingContainer.classList.remove("hidden");
       audio.play();
+
       let progress = 0;
       const interval = setInterval(() => {
         progress++;
         progressBar.style.width = progress + "%";
+
         if (progress >= 100) {
           clearInterval(interval);
-          introScreen.classList.add("fade-out");
-          setTimeout(() => {
-            introScreen.style.display = "none";
-            welcomeScreen.classList.remove("hidden");
-            welcomeScreen.classList.add("fade-in");
+          loadingContainer.classList.add("fade-out");
 
-            setTimeout(() => {
-              window.location.href = "home.html";
-            }, 3000);
+          setTimeout(() => {
+            window.location.href = "home.html";
           }, 1000);
         }
       }, 50);
-    });
-
-    toggleAudio.addEventListener("click", () => {
-      if (audioMuted) {
-        audio.play();
-        toggleAudio.textContent = "🔊";
-      } else {
-        audio.pause();
-        toggleAudio.textContent = "🔇";
-      }
-      audioMuted = !audioMuted;
     });
   </script>
 </body>
