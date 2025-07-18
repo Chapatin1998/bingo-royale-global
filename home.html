@@ -1,31 +1,15 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pantalla Principal</title>
-  <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 60px;
-    }
+<!-- Intro -->
+<div id="intro" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+  <div>
+    <img src="logo.png" alt="Logo" style="width: 200px;">
+    <button id="continue-button">Continuar</button>
+  </div>
+</div>
 
-    h1 {
-      font-size: 2rem;
-    }
+<!-- Contenido principal oculto inicialmente -->
+<div id="main-content" style="display: none;">
+  <!-- Aquí va el contenido real de la app -->
+</div>
 
-    a {
-      color: #ff0040;
-      text-decoration: none;
-    }
-  </style>
-</head>
-<body>
-  <h1>Bienvenido al juego</h1>
-  <p>Aquí irá la interfaz principal del Bingo VIP Bolivia.</p>
-  <a href="index.html">← Volver a la intro</a>
-</body>
-</html>
+<!-- Vincula tu JS -->
+<script src="Intro.js"></script>
