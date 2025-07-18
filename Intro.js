@@ -1,57 +1,44 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const continueBtn = document.getElementById("continue-btn");
-  const loaderContainer = document.getElementById("loader-container");
-  const progressBar = document.getElementById("progress-bar");
-  const welcomeMessage = document.getElementById("welcome-message");
-  const clickSound = document.getElementById("click-sound");
-  const bgMusic = document.getElementById("bg-music");
-  const muteBtn = document.getElementById("mute-btn");
+const continueBtn = document.getElementById('continue-btn');
+const muteBtn = document.getElementById('mute-btn');
+const bgMusic = document.getElementById('bg-music');
+const clickSound = document.getElementById('click-sound');
+const loader = document.getElementById('loader-container');
+const progressBar = document.getElementById('progress-bar');
+const welcomeMsg = document.getElementById('welcome-message');
 
-  let isMuted = false;
-  let hasStarted = false;
+let isMuted = false;
 
-  muteBtn.addEventListener("click", () => {
-    isMuted = !isMuted;
-    bgMusic.muted = isMuted;
-    muteBtn.textContent = isMuted ? "🔇" : "🔊";
-  });
+muteBtn.addEventListener('click', () => {
+  isMuted = !isMuted;
+  bgMusic.muted = isMuted;
+  clickSound.muted = isMuted;
+  muteBtn.innerHTML = `<i class="fas fa-volume-${isMuted ? 'mute' : 'up'}"></i>`;
+});
 
-  function startSequence() {
-    if (hasStarted) return;
-    hasStarted = true;
+continueBtn.addEventListener('touchstart', handleContinue, { passive: true });
+continueBtn.addEventListener('click', handleContinue);
 
-    if (!isMuted) {
-      clickSound.currentTime = 0;
-      clickSound.play();
-      bgMusic.play().catch(() => {
-        console.warn("Autoplay blocked");
-      });
-    }
-
-    continueBtn.disabled = true;
-    loaderContainer.classList.remove("hidden");
-
-    let width = 0;
-    const interval = setInterval(() => {
-      width += 1;
-      progressBar.style.width = width + "%";
-
-      if (width >= 100) {
-        clearInterval(interval);
-        loaderContainer.style.display = "none";
-        welcomeMessage.classList.remove("hidden");
-
-        setTimeout(() => {
-          window.location.href = "home.html";
-        }, 2000);
-      }
-    }, 30);
+function handleContinue() {
+  if (!isMuted) {
+    bgMusic.play();
+    clickSound.play();
   }
 
-  // Activar solo desde el botón
-  continueBtn.addEventListener("click", startSequence);
-  continueBtn.addEventListener("touchend", (e) => {
-    e.preventDefault();
-    startSequence();
-  });
-});
+  continueBtn.style.display = 'none';
+  loader.style.display = 'block';
+
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += 1;
+    progressBar.style.width = `${progress}%`;
+
+    if (progress >= 100) {
+      clearInterval(interval);
+      loader.style.display = 'none';
+      welcomeMsg.style.display = 'block';
+      setTimeout(() => {
+        window.location.href = 'home.html';
+      }, 2000);
+    }
+  }, 40);
+}
