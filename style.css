@@ -1,10 +1,9 @@
-/* Fondo general */
+/* Estilo general oscuro */
 body {
   margin: 0;
-  padding: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #0a0a0a;
-  color: #ffffff;
+  background: #0d0d0d;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,86 +12,82 @@ body {
 
 .intro-screen {
   text-align: center;
-  position: relative;
-  width: 90%;
-  max-width: 500px;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
 }
 
-/* Logo */
 .logo {
-  width: 80%;
-  max-width: 300px;
+  width: 200px;
   margin-bottom: 40px;
 }
 
-/* Barra de carga */
+/* Barra de progreso */
 .progress-container {
   margin-top: 20px;
 }
 
 .progress-bar {
   width: 100%;
-  background: #222;
-  border-radius: 20px;
+  height: 10px;
+  background: #333;
+  border-radius: 10px;
   overflow: hidden;
-  height: 20px;
-  box-shadow: 0 0 10px #007bff;
+  box-shadow: 0 0 10px #000;
 }
 
 .progress-fill {
-  width: 0%;
   height: 100%;
-  background: linear-gradient(90deg, #00f2ff, #007bff);
-  animation: glow 1s infinite alternate;
-}
-
-@keyframes glow {
-  0% { box-shadow: 0 0 10px #00f2ff; }
-  100% { box-shadow: 0 0 20px #00f2ff; }
+  width: 0%;
+  background: linear-gradient(to right, #00e6e6, #0099cc);
+  transition: width 0.3s ease;
 }
 
 .progress-text {
   margin-top: 10px;
-  font-size: 1.2rem;
-  letter-spacing: 2px;
-  color: #00f2ff;
-  text-shadow: 0 0 8px #007bff;
+  font-size: 14px;
+  color: #aaa;
 }
 
 /* Botón sonido */
 .sound-button {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 24px;
-  cursor: pointer;
-  background: #111;
+  top: 20px;
+  right: 20px;
+  background: #1e1e1e;
+  color: #0ff;
+  padding: 10px 14px;
+  font-size: 20px;
   border-radius: 50%;
-  padding: 10px;
-  transition: 0.3s;
-  box-shadow: 0 0 10px #007bff;
+  cursor: pointer;
+  box-shadow: 0 0 10px #00ffff88;
+  transition: transform 0.2s ease;
 }
+
+.sound-button:hover {
+  transform: scale(1.1);
+}
+
 .sound-button.active {
-  background: #007bff;
-  color: #fff;
-  box-shadow: 0 0 20px #00f2ff;
+  background: #0ff;
+  color: #000;
 }
 
 /* Botón continuar */
 .continue-btn {
-  margin-top: 40px;
-  padding: 12px 28px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #fff;
-  background: linear-gradient(45deg, #007bff, #00f2ff);
+  margin-top: 30px;
+  padding: 12px 24px;
+  font-size: 16px;
+  background: linear-gradient(to right, #00cccc, #0066cc);
   border: none;
   border-radius: 30px;
+  color: white;
   cursor: pointer;
-  box-shadow: 0 0 10px #00f2ff;
-  transition: all 0.3s ease;
+  box-shadow: 0 0 15px #00aaffaa;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
+
 .continue-btn:hover {
+  background: linear-gradient(to right, #00e6e6, #0055aa);
   transform: scale(1.05);
-  box-shadow: 0 0 20px #00f2ff;
 }
