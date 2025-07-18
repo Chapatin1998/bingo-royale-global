@@ -1,8 +1,8 @@
 body {
   margin: 0;
-  font-family: "Orbitron", sans-serif;
-  background: #000;
-  overflow: hidden;
+  background-color: #0a0a0a;
+  font-family: 'Segoe UI', sans-serif;
+  color: gold;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,126 +11,63 @@ body {
 
 .container {
   text-align: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
 }
 
 .logo {
-  width: 220px;
-  animation: pulse 2s infinite;
-  margin-bottom: 30px;
+  width: 180px;
+  margin: 30px auto 10px;
 }
 
-button {
-  background: linear-gradient(to right, #1f1c2c, #928dab);
-  color: #fff;
-  font-size: 18px;
-  padding: 12px 32px;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: background 0.3s ease;
-}
-button:hover {
-  background: linear-gradient(to right, #ff416c, #ff4b2b);
+.slogan {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
 }
 
-.hidden {
-  display: none;
-}
-
-.bar-container {
-  width: 300px;
-  height: 20px;
-  border: 2px solid #fff;
-  margin: 20px auto;
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-  background: #222;
-}
-
-.bar {
-  .progress-percent {
+.musica-toggle {
   position: absolute;
-  width: 100%;
-  text-align: center;
-  color: #0ff;
-  font-weight: bold;
-  font-size: 14px;
-  top: 0;
-  line-height: 20px; /* igual a la altura de .bar-container para centrar vertical */
-  pointer-events: none;
-  }
-  height: 100%;
-  background: repeating-linear-gradient(
-    45deg,
-    #0ff 0,
-    #0ff 10px,
-    #00f 10px,
-    #00f 20px
-  );
-  animation: lightning 1s linear infinite;
-  transition: width 0.1s linear;
-  width: 0%;
-}
-
-@keyframes lightning {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100px 0;
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 0px #0ff);
-  }
-  50% {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 10px #0ff);
-  }
-  100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 0px #0ff);
-  }
-}
-
-.loading-text {
-  color: #0ff;
-  font-size: 18px;
-  margin-bottom: 8px;
-}
-
-.fade-out {
-  animation: fadeZoomOut 1s ease forwards;
-}
-
-@keyframes fadeZoomOut {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.1);
-  }
-}
-#startBtn {
-  background: linear-gradient(to right, #00ffff, #00ccff);
-  color: #000;
-  font-weight: bold;
-  font-size: 18px;
-  padding: 12px 30px;
-  border: none;
-  border-radius: 8px;
+  top: 20px;
+  right: 20px;
+  border: 2px solid gold;
+  padding: 5px 10px;
+  border-radius: 10px;
+  color: gold;
   cursor: pointer;
-  box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-  transition: transform 0.2s ease-in-out;
 }
 
-#startBtn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #0ff, 0 0 30px #0ff;
+.barra-carga {
+  background: #333;
+  height: 10px;
+  width: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.progreso {
+  height: 100%;
+  width: 0%;
+  background: gold;
+  animation: cargar 3s linear forwards;
+}
+
+@keyframes cargar {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.btn-iniciar {
+  background: gold;
+  color: #000;
+  padding: 10px 25px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn-iniciar:hover {
+  background: #ffd700;
 }
