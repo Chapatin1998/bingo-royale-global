@@ -7,17 +7,20 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <audio id="bg-music" src="intro-music.mp3" autoplay loop></audio>
+  <audio id="bg-music" src="intro-music.mp3" loop></audio>
   <button id="mute-btn">🔊</button>
 
   <div class="container">
     <img src="logo.png" alt="Bingo VIP Bolivia" class="logo" />
     <h1 class="bienvenido">BIENVENIDO</h1>
+
+    <!-- Botón desde el inicio -->
+    <button id="continue-btn">Continuar</button>
+
     <div id="percentage">0%</div>
     <div class="loader">
       <div class="bar" id="bar"></div>
     </div>
-    <button id="continue-btn" style="display: none;">Continuar</button>
   </div>
 
   <script>
@@ -27,31 +30,29 @@
     const percentage = document.getElementById('percentage');
     const continueBtn = document.getElementById('continue-btn');
 
+    // Control de sonido
     muteBtn.addEventListener('click', () => {
       music.muted = !music.muted;
       muteBtn.textContent = music.muted ? '🔇' : '🔊';
     });
 
+    // Activar música al presionar
+    continueBtn.addEventListener('click', () => {
+      music.play().catch(() => {});
+    });
+
+    // Iniciar carga automáticamente al entrar
     let progress = 0;
     const loading = setInterval(() => {
       progress++;
       percentage.textContent = `${progress}%`;
       bar.style.width = `${progress}%`;
-
       if (progress >= 100) {
         clearInterval(loading);
-        continueBtn.style.display = 'inline-block';
+        // Redirige automáticamente al final
+        setTimeout(() => window.location.href = "home.html", 600);
       }
-    }, 60);
-
-    // Autoplay workaround for mobile
-    window.addEventListener('click', () => {
-      music.play().catch(() => {});
-    });
-
-    continueBtn.addEventListener('click', () => {
-      window.location.href = "home.html";
-    });
+    }, 90); // más lento
   </script>
 </body>
 </html>
