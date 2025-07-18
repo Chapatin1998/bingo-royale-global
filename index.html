@@ -2,33 +2,24 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Audios -->
-  <audio id="click-sound" src="click.wav" preload="auto"></audio>
-  <audio id="bg-music" src="intro-music.mp3" preload="auto" loop></audio>
-
-  <!-- Botón mute -->
-  <button id="mute-btn" aria-label="Silenciar música">🔊</button>
-
-  <!-- Pantalla principal -->
-  <div class="container">
-    <img src="logo.png" alt="Logo" class="logo" />
+  <div id="intro-screen">
+    <div id="logo">Bingo VIP Bolivia</div>
     <button id="continue-btn">Continuar</button>
-
-    <div id="loader-container" class="hidden">
-      <div class="loading-text">Cargando...</div>
-      <div class="bar-container">
-        <div class="bar" id="progress-bar"></div>
-      </div>
+    <div id="loader-container" style="display: none;">
+      <div id="progress-bar"></div>
     </div>
-
-    <div id="welcome-message" class="welcome hidden">¡Bienvenido a Bingo VIP Bolivia!</div>
+    <div id="welcome-message" style="display: none;">¡Bienvenido a Bingo VIP Bolivia!</div>
+    <button id="mute-btn"><i class="fas fa-volume-up"></i></button>
+    <audio id="bg-music" src="music.mp3" loop></audio>
+    <audio id="click-sound" src="click.wav"></audio>
   </div>
 
   <script src="intro.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
