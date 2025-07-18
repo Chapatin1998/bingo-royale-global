@@ -1,37 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bingo VIP Bolivia</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="logo.png" />
-  </head>
-  <body class="m-0 p-0 overflow-hidden">
-    <video autoplay muted loop playsinline id="bg-video">
-      <source src="Fondo.mp4" type="video/mp4" />
-      Tu navegador no soporta video HTML5.
-    </video>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bingo VIP Bolivia</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <!-- Fondo de video -->
+  <video id="bgVideo" autoplay muted loop playsinline>
+    <source src="Fondo.mp4" type="video/mp4">
+    Tu navegador no soporta video HTML5.
+  </video>
 
-    <div class="overlay">
-      <div class="text-center text-white px-4 py-12">
-        <img src="logo.png" alt="Logo Bingo VIP" class="mx-auto w-48 md:w-64" />
-        <h1 class="text-3xl md:text-5xl font-bold mt-6 neon-text">BIENVENIDO</h1>
-        <p class="text-xl md:text-2xl mt-4">Donde el juego se vuelve leyenda</p>
+  <!-- Contenido principal -->
+  <div class="container">
+    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
+    <div class="tagline">Donde el juego se vuelve leyenda</div>
+    <h1>BIENVENIDO</h1>
+    <button id="continueBtn">Continuar</button>
+  </div>
 
-        <div class="mt-8">
-          <button
-            id="continueBtn"
-            class="bg-gradient-to-r from-purple-600 to-pink-500 text-white py-2 px-6 rounded-lg text-xl hover:scale-105 transition transform duration-300 opacity-0 pointer-events-none"
-          >
-            Continuar
-          </button>
-        </div>
-      </div>
-    </div>
+  <!-- Audio -->
+  <audio id="introMusic" src="intro-music.mp3"></audio>
 
-    <audio id="introMusic" src="intro-music.mp3"></audio>
-    <script src="main.js"></script>
-  </body>
+  <!-- JS -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('continueBtn');
+      const music = document.getElementById('introMusic');
+
+      // Mostrar el botón después de 4 segundos
+      setTimeout(() => {
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+      }, 4000);
+
+      // Reproducir audio al hacer clic
+      btn.addEventListener('click', () => {
+        music.play();
+        btn.disabled = true;
+        // Redirige o cambia de pantalla si se desea
+        // window.location.href = "home.html";
+      });
+    });
+  </script>
+</body>
 </html>
