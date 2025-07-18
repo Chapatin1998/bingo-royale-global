@@ -5,6 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const bgMusic = document.getElementById("bg-music");
   const clickSound = document.getElementById("click-sound");
   const progressBar = document.getElementById("progress-bar");
+
+  // Debug logs para audio
+  bgMusic.onplay = () => console.log("ðŸŽµ MÃºsica de fondo reproducida");
+  clickSound.onplay = () => console.log("ðŸ”Š Sonido de clic reproducido");
+
+  bgMusic.onerror = () => console.error("âŒ Error al cargar la mÃºsica de fondo");
+  clickSound.onerror = () => console.error("âŒ Error al cargar el sonido de clic");
   const muteBtn = document.getElementById("mute-btn");
 
   let isMuted = false;
@@ -13,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     isMuted = !isMuted;
     bgMusic.muted = isMuted;
     clickSound.muted = isMuted;
-    muteBtn.textContent = isMuted ? "🔇" : "🔊";
+    muteBtn.textContent = isMuted ? "ðŸ”‡" : "ðŸ”Š";
   });
 
   continueBtn.addEventListener("touchstart", playIntro);
