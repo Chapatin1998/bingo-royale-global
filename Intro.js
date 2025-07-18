@@ -1,24 +1,16 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const continueButton = document.getElementById("continueBtn");
-  const progressBar = document.getElementById("progress-bar");
-  const music = new Audio("intro-music.mp3");
+document.addEventListener('DOMContentLoaded', function () {
+  const continueButton = document.getElementById('continue-btn');
+  const audio = new Audio('intro-music.mp3');
+  audio.loop = true;
 
-  continueButton.addEventListener("click", () => {
-    // Ocultar botón después de hacer clic
-    continueButton.style.display = "none";
+  continueButton.addEventListener('click', function () {
+    // Inicia la música cuando el usuario hace clic
+    audio.play().catch((error) => {
+      console.error("Error al reproducir la música:", error);
+    });
 
-    // Iniciar música
-    music.play();
-
-    // Simular barra de carga
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 1;
-      progressBar.style.width = progress + "%";
-      if (progress >= 100) {
-        clearInterval(interval);
-        window.location.href = "home.html";
-      }
-    }, 30);
+    // Oculta la pantalla de bienvenida y muestra el contenido principal
+    document.getElementById('intro').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
   });
 });
