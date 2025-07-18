@@ -3,26 +3,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const clickSound = document.getElementById("clickSound");
   const introMusic = document.getElementById("introMusic");
 
-  // Reproducir música automáticamente si el navegador lo permite
-  function tryPlayMusic() {
-    const playPromise = introMusic.play();
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          console.log("Música de introducción reproduciéndose.");
-        })
-        .catch((error) => {
-          console.warn("Reproducción automática bloqueada. Esperando interacción.");
-        });
-    }
-  }
-
-  // Al presionar el botón
-  startButton.addEventListener("click", () => {
-    clickSound.play();
-    introMusic.play();
-    window.location.href = "juego.html"; // Redirige al juego
+  // Iniciar música automáticamente (si el navegador lo permite)
+  introMusic.volume = 0.5;
+  introMusic.play().catch(() => {
+    console.warn("Esperando interacción del usuario para iniciar la música.");
   });
 
-  tryPlayMusic(); // Intentar reproducir al cargar
+  startButton.addEventListener("click", () => {
+    clickSound.play();
+    introMusic.pause();
+    window.location.href = "home.html"; // Puedes cambiar esto por otra pantalla
+  });
 });
