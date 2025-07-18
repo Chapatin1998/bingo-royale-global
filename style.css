@@ -1,108 +1,26 @@
-body {
-  margin: 0;
-  font-family: "Orbitron", sans-serif;
-  background: #000;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+.welcome-text {
+  font-size: 24px;
+  color: #00ffff;
+  text-shadow: 0 0 8px #00ffff;
+  animation: fadeIn 1s ease-in-out;
 }
 
-.container {
-  text-align: center;
-}
-
-.logo {
-  width: 220px;
-  animation: pulse 2s infinite;
-  margin-bottom: 30px;
-}
-
-button {
-  background: linear-gradient(to right, #1f1c2c, #928dab);
+.audio-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  background: none;
   color: #fff;
-  font-size: 18px;
-  padding: 12px 32px;
   border: none;
   cursor: pointer;
-  border-radius: 8px;
-  transition: background 0.3s ease;
-}
-button:hover {
-  background: linear-gradient(to right, #ff416c, #ff4b2b);
 }
 
-.hidden {
-  display: none;
+.fade-in {
+  animation: fadeIn 1s ease-in forwards;
 }
 
-.bar-container {
-  width: 300px;
-  height: 20px;
-  border: 2px solid #fff;
-  margin: 20px auto;
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-  background: #222;
-}
-
-.bar {
-  height: 100%;
-  background: repeating-linear-gradient(
-    45deg,
-    #0ff 0,
-    #0ff 10px,
-    #00f 10px,
-    #00f 20px
-  );
-  animation: lightning 1s linear infinite;
-  transition: width 0.1s linear;
-  width: 0%;
-}
-
-@keyframes lightning {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100px 0;
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 0px #0ff);
-  }
-  50% {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 10px #0ff);
-  }
-  100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 0px #0ff);
-  }
-}
-
-.loading-text {
-  color: #0ff;
-  font-size: 18px;
-  margin-bottom: 8px;
-}
-
-.fade-out {
-  animation: fadeZoomOut 1s ease forwards;
-}
-
-@keyframes fadeZoomOut {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.1);
-  }
+@keyframes fadeIn {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
 }
