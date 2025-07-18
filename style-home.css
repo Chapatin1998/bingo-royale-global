@@ -1,0 +1,159 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background: #000;
+  color: #fff;
+  overflow: hidden;
+}
+
+.background {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url('images/casino-bg.jpg') center center / cover no-repeat;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(5, 5, 5, 0.7);
+  z-index: 1;
+}
+
+.title {
+  position: absolute;
+  top: 2%;
+  width: 100%;
+  text-align: center;
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #ffe600;
+  z-index: 2;
+  text-shadow: 2px 2px 5px #000;
+}
+
+.avatars {
+  position: absolute;
+  bottom: 10%;
+  left: 5%;
+  z-index: 2;
+}
+
+.avatar {
+  width: 80px;
+  margin-right: 10px;
+  animation: bounce 2s infinite;
+  border-radius: 10px;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.balls-container {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  z-index: 2;
+}
+
+.ball {
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, #ffe600 40%, #ff0000);
+  border-radius: 50%;
+  color: black;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4em;
+  box-shadow: 0 0 15px #fff;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
+
+.tables {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  z-index: 2;
+  display: flex;
+  gap: 20px;
+}
+
+.table {
+  width: 120px;
+  height: auto;
+  filter: brightness(1.2);
+}
+
+.button-group {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+button {
+  padding: 12px 25px;
+  font-size: 1.1em;
+  background-color: #e600ff;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff007f;
+  transform: scale(1.05);
+}
+
+/* Adaptable a celulares */
+@media (max-width: 768px) {
+  .ball {
+    width: 40px;
+    height: 40px;
+    font-size: 1em;
+  }
+
+  .avatar {
+    width: 60px;
+  }
+
+  .table {
+    width: 80px;
+  }
+
+  .title {
+    font-size: 1.5em;
+  }
+
+  button {
+    font-size: 1em;
+    padding: 10px 20px;
+  }
+}
