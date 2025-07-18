@@ -5,147 +5,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bingo VIP Bolivia</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="logo.png" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body class="bg-black text-white overflow-hidden">
+<body>
+  <div class="container">
+    <!-- Música de fondo -->
+    <audio id="music" src="intro-music.mp3" autoplay loop></audio>
 
-  <!-- Fondo animado con estrellas -->
-  <div id="starfield"></div>
+    <!-- Sonido click -->
+    <audio id="click-sound" src="click.wav" preload="auto"></audio>
 
-  <!-- Botón de sonido -->
-  <button id="toggle-sound" class="absolute top-4 right-4 text-white text-xl z-50">
-    <i class="fas fa-volume-up"></i>
-  </button>
-<!-- Sonido al presionar Continuar -->
-<audio id="click-sound" src="click.mp3"></audio>
+    <!-- Botón para pausar/activar sonido -->
+    <button class="sound-toggle" onclick="toggleSound()">🔊</button>
 
-<button id="continue-btn">Continuar</button>
-<div id="loader" style="display:none;">
-  <div class="bar"></div>
-  <div id="percentage">0%</div>
-</div>
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
+    </div>
 
-<script>
-  const clickSound = document.getElementById('click-sound');
-  const btn = document.getElementById('continue-btn');
-  const loader = document.getElementById('loader');
-  const bar = loader.querySelector('.bar');
-  const percentage = document.getElementById('percentage');
+    <!-- Texto bienvenida -->
+    <h1 class="welcome-title">BIENVENIDO</h1>
 
-  btn.addEventListener('click', () => {
-    // reproducir sonido pequeño
-    clickSound.currentTime = 0;
-    clickSound.play();
+    <!-- Botón continuar -->
+    <button id="continue-btn" class="btn">Continuar</button>
 
-    // ocultar botón y mostrar loader
-    btn.style.display = 'none';
-    loader.style.display = 'block';
-
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 1;
-      percentage.textContent = progress + '%';
-      bar.style.width = progress + '%';
-
-      if (progress >= 100) {
-        clearInterval(interval);
-        window.location.href = 'home.html';
-      }
-    }, 50); // ajuste a velocidad lenta (100% en ~5 s)
-  });
-</script>
-  <!-- Contenedor principal -->
-  <div id="main" class="flex flex-col items-center justify-center h-screen text-center transition-opacity duration-1000 opacity-100">
-    <img src="logo.png" alt="Logo Bingo VIP" id="logo" class="w-56 mb-4 animate-float" />
-
-    <h1 class="text-4xl md:text-5xl font-bold text-cyan-100 glow">BIENVENIDO</h1>
-
-    <button id="continue-btn" class="mt-6 px-8 py-3 border-2 border-cyan-400 rounded-lg text-lg font-semibold hover:bg-cyan-400 hover:text-black transition duration-300 focus:outline-none glow">
-      Continuar
-    </button>
-  </div>
-
-  <!-- Barra de carga -->
-  <div id="loading-screen" class="hidden flex-col items-center justify-center h-screen text-center">
-    <img src="logo.png" alt="Logo" class="w-48 mb-6" />
-    <h2 class="text-3xl font-bold mb-4 glow text-cyan-100">BIENVENIDO</h2>
-    <p id="loading-percent" class="text-lg mb-2">0%</p>
-    <div class="w-64 h-4 bg-gray-700 rounded-full overflow-hidden">
-      <div id="loading-bar" class="h-full bg-gradient-to-r from-cyan-400 to-pink-500 transition-all duration-300" style="width: 0%;"></div>
+    <!-- Barra de carga (oculta al inicio) -->
+    <div id="loader" class="loader" style="display: none;">
+      <div class="bar"></div>
+      <div id="percentage">0%</div>
     </div>
   </div>
 
-  <!-- Segunda pantalla -->
-  <div id="next-screen" class="hidden h-screen flex flex-col justify-center items-center bg-black text-white text-center">
-    <h2 class="text-3xl md:text-4xl font-bold mb-4">Has iniciado la experiencia Bingo VIP 🎉</h2>
-    <p class="text-lg">Aquí empieza tu juego o contenido principal.</p>
-  </div>
-
-  <!-- Audio -->
-  <audio id="bg-music" src="intro-music.mp3" loop></audio>
-  <audio id="click-sound" src="click.mp3"></audio>
-
+  <!-- Script JavaScript -->
   <script>
-    const continueBtn = document.getElementById('continue-btn');
-    const main = document.getElementById('main');
-    const loading = document.getElementById('loading-screen');
-    const nextScreen = document.getElementById('next-screen');
-    const bgMusic = document.getElementById('bg-music');
-    const clickSound = document.getElementById('click-sound');
-    const toggleSound = document.getElementById('toggle-sound');
-    const loadingBar = document.getElementById('loading-bar');
-    const loadingPercent = document.getElementById('loading-percent');
+    const music = document.getElementById("music");
+    const clickSound = document.getElementById("click-sound");
+    const continueBtn = document.getElementById("continue-btn");
+    const loader = document.getElementById("loader");
+    const percentage = document.getElementById("percentage");
+    const bar = document.querySelector(".bar");
 
-    let musicPlaying = false;
+    function toggleSound() {
+      if (music.paused) {
+        music.play();
+      } else {
+        music.pause();
+      }
+    }
 
-    toggleSound.addEventListener('click', () => {
-      musicPlaying ? bgMusic.pause() : bgMusic.play();
-      musicPlaying = !musicPlaying;
-    });
-
-    continueBtn.addEventListener('click', () => {
+    continueBtn.addEventListener("click", () => {
+      clickSound.currentTime = 0;
       clickSound.play();
-      bgMusic.play();
-      musicPlaying = true;
 
-      main.classList.add('opacity-0');
-      setTimeout(() => {
-        main.classList.add('hidden');
-        loading.classList.remove('hidden');
-        simulateLoading();
-      }, 800);
-    });
+      continueBtn.style.display = "none";
+      loader.style.display = "block";
 
-    function simulateLoading() {
-      let percent = 0;
+      let progress = 0;
       const interval = setInterval(() => {
-        percent += 1;
-        loadingBar.style.width = percent + '%';
-        loadingPercent.textContent = percent + '%';
+        progress++;
+        percentage.textContent = progress + "%";
+        bar.style.width = progress + "%";
 
-        if (percent >= 100) {
+        if (progress >= 100) {
           clearInterval(interval);
-          loading.classList.add('opacity-0');
-          setTimeout(() => {
-            loading.classList.add('hidden');
-            nextScreen.classList.remove('hidden');
-          }, 800);
+          window.location.href = "home.html";
         }
-      }, 40); // velocidad del loading
-    }
-
-    // Fondo animado de estrellas
-    const starfield = document.getElementById('starfield');
-    for (let i = 0; i < 80; i++) {
-      const star = document.createElement('div');
-      star.className = 'star';
-      star.style.top = Math.random() * 100 + '%';
-      star.style.left = Math.random() * 100 + '%';
-      star.style.animationDuration = 2 + Math.random() * 3 + 's';
-      starfield.appendChild(star);
-    }
+      }, 50);
+    });
   </script>
 </body>
 </html>
