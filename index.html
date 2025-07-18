@@ -7,49 +7,23 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <audio id="click-sound" src="click.wav" preload="auto"></audio>
-
-  <div class="container">
-    <img src="logo.png" alt="Logo" class="logo" />
-    <button id="startBtn">Continuar</button>
-    <div id="loadingContainer" class="hidden">
-      <div class="loading-text">CARGANDO...</div>
-      <div class="bar-container">
-        <div class="bar" id="progressBar"></div>
+  <div id="loader-container">
+    <img src="logo.png" alt="Logo" id="logo" />
+    <button id="continue-btn">Continuar</button>
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar">
+        <div class="electric-effect"></div>
       </div>
     </div>
+    <p id="loading-text">Cargando...</p>
   </div>
 
-  <script>
-  const btn = document.getElementById("startBtn");
-  const audio = document.getElementById("bg-music");
-  const clickSound = document.getElementById("click-sound");
-  const loadingContainer = document.getElementById("loadingContainer");
-  const progressBar = document.getElementById("progressBar");
+  <div id="welcome-message" class="hidden">
+    <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
+  </div>
 
-  // Usamos touchstart además de click para mejorar en móviles
-  const eventName = 'ontouchstart' in window ? 'touchstart' : 'click';
+  <audio id="click-sound" src="click.wav" preload="auto"></audio>
 
-  btn.addEventListener(eventName, () => {
-    clickSound.play();
-    btn.style.display = "none";
-    loadingContainer.classList.remove("hidden");
-    audio.play();
-
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress++;
-      progressBar.style.width = progress + "%";
-
-      if (progress >= 100) {
-        clearInterval(interval);
-        loadingContainer.classList.add("fade-out");
-
-        setTimeout(() => {
-          window.location.href = "home.html";
-        }, 1000);
-      }
-    }, 50);
-  });
-  </script>
-    
+  <script src="intro.js"></script>
+</body>
+</html>
