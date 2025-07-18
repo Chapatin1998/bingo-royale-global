@@ -1,88 +1,93 @@
+/* reset y body */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: black;
-  color: white;
-  text-align: center;
+  background: #000814;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   overflow: hidden;
+  position: relative;
+  transition: background 0.5s;
 }
 
+/* Fade-out */
+body.fade-out {
+  animation: fadeOut 1s ease forwards;
+}
+@keyframes fadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.02); }
+}
+
+/* partículas fondo */
+#particle-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: -1;
+  width: 100%; height: 100%;
+}
+
+/* contenedor principal */
 .container {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  gap: 20px;
+  text-align: center;
   padding: 20px;
 }
 
+/* logo */
+.logo-container {
+  margin-bottom: 20px;
+}
 .logo {
-  width: 220px;
-  max-width: 80%;
+  max-width: 200px;
+  filter: drop-shadow(0 0 20px #05f);
+  animation: float 5s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
+/* título */
 .welcome-title {
-  font-size: 2.8rem;
-  color: #bdf9ff;
-  text-shadow: 0 0 15px #00ffff;
+  font-size: 2.5rem;
+  color: #bde0fe;
+  text-shadow: 0 0 10px #08f, 0 0 20px #08f;
+  margin-bottom: 20px;
 }
 
-.continue-btn {
-  padding: 12px 25px;
-  font-size: 1.2rem;
-  background: #00eaff;
-  color: black;
+/* botón */
+.btn {
+  background: #69f0ae;
   border: none;
-  border-radius: 8px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  border-radius: 30px;
+  color: #000;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  box-shadow: 0 0 15px #69f0ae;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px #69f0ae;
 }
 
+/* loader */
 .loader {
-  width: 80%;
-  max-width: 400px;
+  margin-top: 30px;
 }
-
 .bar {
-  height: 14px;
   width: 0;
-  background: linear-gradient(to right, #ff00cc, #3333ff);
-  border-radius: 10px;
-  margin: 10px 0;
+  height: 12px;
+  background: linear-gradient(90deg, #69f0ae, #00e5ff, #7c4dff);
+  border-radius: 6px;
   transition: width 0.1s ease;
 }
-
 #percentage {
-  font-size: 1.2rem;
-}
-
-.sound-toggle {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: white;
-  cursor: pointer;
-}
-
-.touch-effect {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(0,255,255,0.6);
-  transition: all 0.2s ease;
-}
-
-@media (max-width: 600px) {
-  .welcome-title {
-    font-size: 2rem;
-  }
-
-  .continue-btn {
-    font-size: 1rem;
-    padding: 10px 20px;
-  }
+  margin-top: 8px;
+  font-size: 1rem;
+  color: #b3e5fc;
 }
