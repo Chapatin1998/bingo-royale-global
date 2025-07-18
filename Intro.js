@@ -3,10 +3,24 @@ const loaderContainer = document.getElementById("loader-container");
 const progressBar = document.getElementById("progress-bar");
 const welcomeMessage = document.getElementById("welcome-message");
 const clickSound = document.getElementById("click-sound");
+const bgMusic = document.getElementById("bg-music");
+const muteBtn = document.getElementById("mute-btn");
 
-continueBtn.addEventListener("click", () => {
-  clickSound.play();
+let isMuted = false;
+
+muteBtn.addEventListener("click", () => {
+  isMuted = !isMuted;
+  bgMusic.muted = isMuted;
+  muteBtn.textContent = isMuted ? "🔇" : "🔊";
+});
+
+continueBtn.addEventListener("touchstart", () => {
+  if (!isMuted) {
+    clickSound.play();
+    bgMusic.play();
+  }
   continueBtn.disabled = true;
+  loaderContainer.classList.remove("hidden");
   let width = 0;
 
   const interval = setInterval(() => {
@@ -16,16 +30,11 @@ continueBtn.addEventListener("click", () => {
     if (width >= 100) {
       clearInterval(interval);
       loaderContainer.style.display = "none";
-      welcomeMessage.style.display = "block";
+      welcomeMessage.classList.remove("hidden");
 
       setTimeout(() => {
         window.location.href = "home.html";
       }, 2000);
     }
   }, 30);
-});
-
-// Para mejorar la respuesta táctil en móviles
-continueBtn.addEventListener("touchstart", () => {
-  clickSound.play();
 });
