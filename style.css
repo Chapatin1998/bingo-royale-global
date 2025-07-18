@@ -1,81 +1,76 @@
+/* Modo oscuro principal */
 body {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: radial-gradient(circle, #1a1a1a, #000000);
-  color: white;
+  padding: 0;
+  background-color: #0d0d0d;
+  color: #f2f2f2;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Pantalla de bienvenida */
+#intro {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  overflow: hidden;
-  flex-direction: column;
-}
-
-#welcome-screen {
+  background: linear-gradient(135deg, #111 0%, #222 100%);
   text-align: center;
-  animation: fadeIn 1.5s ease-in;
 }
 
-#welcome-screen .logo {
-  max-width: 200px;
+/* Logo */
+#logo {
+  width: 180px;
   margin-bottom: 20px;
+  filter: drop-shadow(0 0 10px #ffc107);
 }
 
-#welcome-screen h1, #welcome-screen h2 {
-  margin: 0;
-  color: gold;
-  text-shadow: 0 0 10px #ffd700;
-}
-
-#welcome-screen button {
-  margin-top: 30px;
-  padding: 10px 25px;
-  font-size: 18px;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(to right, #663399, #9966ff);
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 10px #9966ff;
-  transition: transform 0.2s;
-}
-
-#welcome-screen button:hover {
-  transform: scale(1.05);
-}
-
-#loader-container {
-  text-align: center;
-}
-
-.loading-text {
+/* Título */
+h1 {
+  font-size: 2.8rem;
   margin-bottom: 10px;
-  font-size: 20px;
-  color: #ffffff;
+  color: #ffd700;
+  text-shadow: 0 0 10px #ffdd57;
 }
 
-.bar-container {
-  width: 300px;
-  height: 25px;
-  background: #444;
-  border-radius: 15px;
-  overflow: hidden;
-  margin: auto;
-  box-shadow: 0 0 10px #9966ff;
+/* Subtítulo */
+p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #ccc;
 }
 
-.bar {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(to right, #00ff99, #00ccff);
-  transition: width 0.3s ease-in-out;
+/* Botón de inicio */
+#startButton {
+  padding: 15px 35px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background-color: #ffcc00;
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ffcc00;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 
-.hidden {
-  display: none;
+#startButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #ffe066;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to   { opacity: 1; transform: scale(1); }
+/* Responsive */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  #startButton {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
 }
