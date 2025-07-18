@@ -1,26 +1,33 @@
-const music = document.getElementById("music");
-const clickSound = document.getElementById("click-sound");
-const continueBtn = document.getElementById("continue-btn");
-const loader = document.getElementById("loader");
-const percentage = document.getElementById("percentage");
-const bar = document.querySelector(".bar");
+document.addEventListener('DOMContentLoaded', () => {
+  const audio = new Audio('intro-music.mp3');
+  audio.loop = true;
+  audio.volume = 0.6;
 
-continueBtn.addEventListener("click", () => {
-  clickSound.currentTime = 0;
-  clickSound.play();
+  const soundToggle = document.getElementById('soundToggle');
+  const continueButton = document.getElementById('continueButton');
 
-  continueBtn.style.display = "none";
-  loader.style.display = "block";
-  
-  let progress = 0;
-  const interval = setInterval(() => {
-    progress++;
-    percentage.textContent = progress + "%";
-    bar.style.width = progress + "%";
+  let isMuted = false;
 
-    if (progress >= 100) {
-      clearInterval(interval);
-      window.location.href = "home.html";
+  soundToggle.addEventListener('click', () => {
+    if (isMuted) {
+      audio.play();
+      soundToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+    } else {
+      audio.pause();
+      soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
     }
-  }, 50); // dura 5 segundos
+    isMuted = !isMuted;
+  });
+
+  continueButton.addEventListener('click', () => {
+    audio.play();
+    window.location.href = 'home.html'; // Asegúrate que home.html exista
+  });
+
+  // Autoplay workaround para móviles (primer toque)
+  document.body.addEventListener('click', () => {
+    if (!audio.played.length) {
+      audio.play().catch(() => {});
+    }
+  }, { once: true });
 });
