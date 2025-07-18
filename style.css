@@ -22,20 +22,38 @@ body {
 }
 
 .logo {
-  width: 200px;
+  width: 220px;
   margin-bottom: 20px;
-  filter: drop-shadow(0 0 10px #00f0ff);
-  background: none;
-  border: none;
-  border-radius: 0;
+  animation: pulse 2.5s infinite;
+  filter: drop-shadow(0 0 15px #00eaff);
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 15px #00eaff);
+  }
+  50% {
+    transform: scale(1.03);
+    filter: drop-shadow(0 0 25px #00ffff);
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 15px #00eaff);
+  }
+}
+
+
 h1 {
-  font-size: 2.8rem;
-  letter-spacing: 6px;
-  color: #00f0ff;
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  font-size: 3rem;
+  letter-spacing: 10px;
   margin-bottom: 20px;
+  color: white;
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #00f0ff,
+    0 0 20px #00eaff,
+    0 0 40px #00cfff;
 }
 
 .loader {
@@ -71,18 +89,20 @@ h1 {
 
 #continue-btn {
   background: transparent;
-  color: #fff;
-  padding: 10px 24px;
+  border: 2px solid #00ffff;
+  color: white;
+  padding: 12px 24px;
   font-size: 1rem;
-  border: 2px solid #00f0ff;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  border-radius: 12px;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 10px #00eaff;
 }
 
 #continue-btn:hover {
-  background-color: #00f0ff;
+  background: #00ffff;
   color: #000;
+  box-shadow: 0 0 20px #00ffff;
+  transform: scale(1.05);
 }
 
 #mute-btn {
