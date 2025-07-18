@@ -2,13 +2,14 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bingo Vip Bolivia</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <audio id="bg-music" src="intro-music.mp3" preload="auto"></audio>
-  <div class="container">
+  <audio id="bg-music" src="intro-music.mp3" preload="auto" loop></audio>
+
+  <div class="container" id="introScreen">
     <img src="logo.png" alt="Logo" class="logo" />
     <button id="startBtn">Continuar</button>
     <div id="loadingContainer" class="hidden">
@@ -18,11 +19,25 @@
       </div>
     </div>
   </div>
+
+  <!-- Pantalla intermedia -->
+  <div class="container hidden" id="welcomeScreen">
+    <div class="welcome-text">¡Bienvenido a Bingo VIP Bolivia!</div>
+  </div>
+
+  <!-- Botón de audio -->
+  <button id="toggleAudio" class="audio-button">🔊</button>
+
   <script>
     const btn = document.getElementById("startBtn");
     const audio = document.getElementById("bg-music");
     const loadingContainer = document.getElementById("loadingContainer");
     const progressBar = document.getElementById("progressBar");
+    const introScreen = document.getElementById("introScreen");
+    const welcomeScreen = document.getElementById("welcomeScreen");
+    const toggleAudio = document.getElementById("toggleAudio");
+
+    let audioMuted = false;
 
     btn.addEventListener("click", () => {
       btn.style.display = "none";
@@ -30,16 +45,33 @@
       audio.play();
       let progress = 0;
       const interval = setInterval(() => {
-        progress += 1;
+        progress++;
         progressBar.style.width = progress + "%";
         if (progress >= 100) {
           clearInterval(interval);
-          document.body.classList.add("fade-out");
+          introScreen.classList.add("fade-out");
           setTimeout(() => {
-            window.location.href = "home.html";
+            introScreen.style.display = "none";
+            welcomeScreen.classList.remove("hidden");
+            welcomeScreen.classList.add("fade-in");
+
+            setTimeout(() => {
+              window.location.href = "home.html";
+            }, 3000);
           }, 1000);
         }
       }, 50);
+    });
+
+    toggleAudio.addEventListener("click", () => {
+      if (audioMuted) {
+        audio.play();
+        toggleAudio.textContent = "🔊";
+      } else {
+        audio.pause();
+        toggleAudio.textContent = "🔇";
+      }
+      audioMuted = !audioMuted;
     });
   </script>
 </body>
