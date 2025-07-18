@@ -29,6 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
           } else {
             clearInterval(interval);
             // Aquí puedes redirigir o hacer otra acción
+          }if (progress >= 100) {
+  clearInterval(interval);
+  document.querySelector(".loading-text").textContent = "¡LISTO!";
+  // animación o redirección aquí
           }
         }, 50); // 5 segundos total
       })
