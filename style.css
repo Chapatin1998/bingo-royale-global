@@ -71,6 +71,7 @@ body {
   cursor: pointer;
   box-shadow: 0 0 10px #00f2fe;
   transition: background 0.3s, color 0.3s;
+  margin-bottom: 20px;
 }
 
 #continue-btn:hover {
