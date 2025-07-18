@@ -1,111 +1,112 @@
-/* 🌌 Fondo principal */
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: black;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-/* 🌀 Partículas animadas (si se usa canvas) */
+/* 🎆 Fondo de partículas */
 #particle-canvas {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -1;
   width: 100%;
   height: 100%;
   background: transparent;
+  z-index: -1;
 }
 
-/* 🔊 Botón de sonido */
+/* 🔊 Botón sonido */
 .sound-toggle {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
+  font-size: 22px;
   background: transparent;
-  border: none;
-  font-size: 24px;
   color: white;
+  border: none;
+  z-index: 10;
   cursor: pointer;
-  z-index: 5;
 }
 
-/* 🧩 Contenedor principal */
+/* 🎯 Contenedor */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  height: 100%;
+  background: black;
+  overflow: hidden;
+}
+
 .container {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
   z-index: 1;
+  position: relative;
+  text-align: center;
   color: white;
-  padding: 20px;
 }
 
 /* 👑 Logo animado */
 .logo {
-  width: 180px;
-  animation: float 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 15px gold);
+  width: 200px;
+  animation: float 3s ease-in-out infinite;
 }
 
-/* ✨ Efecto flotante */
+/* 🌊 Animación flotar */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-/* 🎉 Título principal */
+/* ✨ Texto bienvenida */
 .welcome-title {
-  font-size: 2.8rem;
+  font-size: 3rem;
   color: #00f0ff;
   text-shadow: 0 0 15px #00f0ff;
-  margin: 20px 0;
+  margin-top: 20px;
 }
 
-/* 🕹️ Botón Continuar */
+/* 🔘 Botón continuar */
 .continue-btn {
-  padding: 12px 35px;
+  margin-top: 20px;
+  padding: 12px 30px;
   font-size: 18px;
-  background: linear-gradient(45deg, #7e5bef, #5e50fa);
+  background: linear-gradient(45deg, #7e05bf, #5e50fa);
   color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 0 12px #5e50fa;
-  transition: transform 0.25s ease;
+  box-shadow: 0 0 10px #5e50fa;
+  transition: transform 0.3s ease;
 }
 
 .continue-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
-/* ⏳ Barra de carga */
+/* 📊 Barra de carga */
 .loader {
-  position: absolute;
-  bottom: 60px;
+  margin-top: 30px;
   width: 80%;
-  max-width: 450px;
-  height: 28px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 0 10px #00ffcc;
+  max-width: 400px;
   display: none;
+  flex-direction: column;
+  align-items: center;
 }
 
 .bar {
-  height: 100%;
+  height: 15px;
   width: 0%;
-  background: linear-gradient(90deg, #00ffcc, #00f0ff);
-  transition: width 0.25s ease;
+  background: linear-gradient(90deg, #0ff, #00f0ff);
+  border-radius: 10px;
+  box-shadow: 0 0 10px #0ff;
+  transition: width 0.3s ease;
 }
 
 #percentage {
   color: white;
-  font-size: 1.1rem;
-  margin-top: 10px;
-  text-align: center;
+  margin-top: 8px;
+  font-size: 1.2rem;
 }
