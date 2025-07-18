@@ -1,12 +1,26 @@
-/* 🎥 Video como fondo */
-#background-video {
+/* 🌌 Fondo principal */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: black;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* 🌀 Partículas animadas (si se usa canvas) */
+#particle-canvas {
   position: fixed;
   top: 0;
   left: 0;
-  min-width: 100%;
-  min-height: 100%;
-  object-fit: cover;
-  z-index: -2;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background: transparent;
 }
 
 /* 🔊 Botón de sonido */
@@ -18,58 +32,50 @@
   border: none;
   font-size: 24px;
   color: white;
-  z-index: 10;
   cursor: pointer;
+  z-index: 5;
 }
 
-/* 🎯 Contenido principal */
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: sans-serif;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background: black;
-}
-
+/* 🧩 Contenedor principal */
 .container {
   text-align: center;
-  color: white;
   z-index: 1;
+  color: white;
+  padding: 20px;
 }
 
+/* 👑 Logo animado */
 .logo {
-  width: 160px;
+  width: 180px;
   animation: float 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px gold);
 }
 
+/* ✨ Efecto flotante */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
 
+/* 🎉 Título principal */
 .welcome-title {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   color: #00f0ff;
-  text-shadow: 0 0 10px #00f0ff;
-  margin-top: 20px;
+  text-shadow: 0 0 15px #00f0ff;
+  margin: 20px 0;
 }
 
+/* 🕹️ Botón Continuar */
 .continue-btn {
-  margin-top: 20px;
-  padding: 12px 30px;
+  padding: 12px 35px;
   font-size: 18px;
   background: linear-gradient(45deg, #7e5bef, #5e50fa);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 0 10px #5e50fa;
-  transition: transform 0.2s ease;
+  box-shadow: 0 0 12px #5e50fa;
+  transition: transform 0.25s ease;
 }
 
 .continue-btn:hover {
@@ -81,23 +87,25 @@ body, html {
   position: absolute;
   bottom: 60px;
   width: 80%;
-  max-width: 400px;
-  height: 30px;
+  max-width: 450px;
+  height: 28px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
+  border-radius: 14px;
   overflow: hidden;
+  box-shadow: 0 0 10px #00ffcc;
+  display: none;
 }
 
 .bar {
   height: 100%;
   width: 0%;
-  background: #00ffcc;
-  transition: width 0.2s;
+  background: linear-gradient(90deg, #00ffcc, #00f0ff);
+  transition: width 0.25s ease;
 }
 
 #percentage {
-  margin-top: 10px;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  margin-top: 10px;
   text-align: center;
 }
