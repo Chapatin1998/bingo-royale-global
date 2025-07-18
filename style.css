@@ -1,82 +1,78 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body, html {
-  height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden;
-}
-
+/* Fondo de video cubriendo toda la pantalla */
 #background-video {
   position: fixed;
   top: 0;
   left: 0;
-  min-width: 100%;
-  min-height: 100%;
+  min-width: 100vw;
+  min-height: 100vh;
   object-fit: cover;
-  z-index: -2;
+  z-index: 0;
 }
 
-.container {
+/* Ajustes generales para asegurar que el contenido se vea bien sobre el video */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  background-color: black;
+  overflow: hidden;
+}
+
+/* Contenido centrado */
+main {
   position: relative;
-  z-index: 2;
-  height: 100%;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100vh;
   text-align: center;
   padding: 20px;
-  color: white;
-  background: rgba(0, 0, 0, 0.4);
 }
 
-.logo {
-  width: 180px;
-  margin-bottom: 20px;
-  filter: drop-shadow(0 0 10px white);
+/* Logo */
+main img {
+  width: 200px;
+  max-width: 90vw;
+  margin-bottom: 1.5rem;
 }
 
-.titulo {
+/* Título */
+main h1 {
   font-size: 2.5rem;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 8px black;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 10px #00ffff;
 }
 
-#continuar-btn {
-  padding: 12px 24px;
-  font-size: 18px;
-  border: none;
-  background: #ffcc00;
-  color: black;
-  cursor: pointer;
+/* Botón */
+#continueButton {
+  background: linear-gradient(to right, #7f00ff, #5e5eff);
+  color: white;
+  padding: 0.8rem 2rem;
+  font-size: 1.125rem;
   border-radius: 8px;
-  margin-bottom: 30px;
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 }
-#continuar-btn:hover {
+
+#continueButton:hover {
   transform: scale(1.05);
 }
 
-.progress-container {
-  width: 80%;
-  height: 24px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  width: 0%;
-  height: 100%;
-  background: #ffcc00;
-  transition: width 0.2s;
-}
-
-#porcentaje {
-  margin-top: 10px;
-  font-size: 16px;
+/* Icono de sonido */
+#soundToggle {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.75rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 20;
 }
