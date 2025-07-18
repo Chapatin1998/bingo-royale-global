@@ -1,17 +1,39 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const startButton = document.getElementById("startButton");
-  const clickSound = document.getElementById("clickSound");
-  const introMusic = document.getElementById("introMusic");
+  const music = document.getElementById("introMusic");
+  const continueBtn = document.getElementById("continueBtn");
+  const soundBtn = document.getElementById("soundBtn");
 
-  // Iniciar música automáticamente (si el navegador lo permite)
-  introMusic.volume = 0.5;
-  introMusic.play().catch(() => {
-    console.warn("Esperando interacción del usuario para iniciar la música.");
+  let isPlaying = false;
+
+  function playMusic() {
+    music.volume = 0.5;
+    music.play().then(() => {
+      isPlaying = true;
+    }).catch(err => {
+      console.warn("Autoplay bloqueado hasta que el usuario interactúe");
+    });
+  }
+
+  soundBtn.addEventListener("click", () => {
+    if (isPlaying) {
+      music.pause();
+      isPlaying = false;
+      soundBtn.textContent = "🔇";
+    } else {
+      playMusic();
+      soundBtn.textContent = "🔊";
+    }
   });
 
-  startButton.addEventListener("click", () => {
-    clickSound.play();
-    introMusic.pause();
-    window.location.href = "home.html"; // Puedes cambiar esto por otra pantalla
+  continueBtn.addEventListener("click", () => {
+    playMusic();
+    window.location.href = "juego.html"; // o lo que quieras cargar
   });
+
+  // Intentar reproducir cuando el usuario toca
+  document.body.addEventListener("click", () => {
+    if (!isPlaying) {
+      playMusic();
+    }
+  }, { once: true });
 });
