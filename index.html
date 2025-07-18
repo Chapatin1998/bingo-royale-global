@@ -7,16 +7,22 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <audio id="bg-music" src="intro-music.mp3" autoplay loop></audio>
-  <button id="mute-btn" title="Silenciar o activar sonido">🔊</button>
+  <!-- Tap-to-start overlay -->
+  <div id="tap-to-start">
+    Toca para comenzar
+  </div>
 
+  <!-- Música -->
+  <audio id="bg-music" src="intro-music.mp3" loop></audio>
+  <button id="mute-btn">🔊</button>
+
+  <!-- Contenido principal -->
   <div class="container">
     <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
     <h1>BIENVENIDO</h1>
-    <div class="loader">
-      <div class="bar" id="bar"><span id="percentage">0%</span></div>
-    </div>
-    <button id="continue-btn" style="display: none;">Continuar</button>
+    <div id="percentage">0%</div>
+    <div class="loader"><div class="bar" id="bar"></div></div>
+    <button id="continue-btn" style="display:none;">Continuar</button>
   </div>
 
   <script>
@@ -31,23 +37,31 @@
       muteBtn.textContent = music.muted ? '🔇' : '🔊';
     });
 
-    window.addEventListener('click', () => {
+    // Activar música al tocar
+    document.getElementById('tap-to-start').addEventListener('click', () => {
       music.play().catch(() => {});
+      document.getElementById('tap-to-start').style.display = 'none';
     });
 
+    // Barra de carga
     let progress = 0;
     const loading = setInterval(() => {
-      progress += 1;
+      progress++;
       percentage.textContent = `${progress}%`;
       bar.style.width = `${progress}%`;
       if (progress >= 100) {
         clearInterval(loading);
         continueBtn.style.display = 'inline-block';
       }
-    }, 60);
+    }, 50); // Más lenta y elegante
 
+    // Continuar con transición
     continueBtn.addEventListener('click', () => {
-      window.location.href = "home.html";
+      document.body.style.transition = 'opacity 1s ease';
+      document.body.style.opacity = 0;
+      setTimeout(() => {
+        window.location.href = "home.html"; // O ajusta la ruta
+      }, 1000);
     });
   </script>
 </body>
