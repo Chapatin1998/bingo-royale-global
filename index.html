@@ -24,13 +24,11 @@
     <button id="continue-btn" class="continue-btn" style="display: none;">Continuar</button>
   </div>
 
-  <!-- Música -->
-  <audio id="bg-music" src="intro-music.mp3" preload="auto" loop></audio>
-
   <script>
     const progressFill = document.getElementById('progress-fill');
     const progressText = document.getElementById('progress-text');
-    const bgMusic = document.getElementById('bg-music');
+    const bgMusic = new Audio('intro-music.mp3');
+bgMusic.loop = true;
     const soundBtn = document.getElementById('sound-btn');
     const continueBtn = document.getElementById('continue-btn');
 
