@@ -7,95 +7,86 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Fondo animado -->
   <canvas id="particle-canvas"></canvas>
 
-<script>
-  const canvas = document.getElementById('particle-canvas');
-  const ctx = canvas.getContext('2d');
-  let particles = [];
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  function createParticles() {
-    particles = [];
-    const total = Math.floor((canvas.width + canvas.height) / 15);
-    for (let i = 0; i < total; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 2 + 1,
-        dx: (Math.random() - 0.5) * 0.6,
-        dy: (Math.random() - 0.5) * 0.6
-      });
-    }
-  }
-
-  function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'rgba(0,255,255,0.6)';
-    particles.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fill();
-      p.x += p.dx;
-      p.y += p.dy;
-
-      if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-      if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-    });
-    requestAnimationFrame(animateParticles);
-  }
-
-  createParticles();
-  animateParticles();
-</script>
-
-<style>
-  #particle-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    background: transparent;
-    width: 100%;
-    height: 100%;
-  }
-</style>
+  <!-- Contenedor principal -->
   <div class="container">
+    
     <!-- Música de fondo -->
     <audio id="music" src="intro-music.mp3" autoplay loop></audio>
-
-    <!-- Sonido click -->
     <audio id="click-sound" src="click.wav" preload="auto"></audio>
 
-    <!-- Botón para pausar/activar sonido -->
+    <!-- Botón de sonido -->
     <button class="sound-toggle" onclick="toggleSound()">🔊</button>
 
     <!-- Logo -->
-    <div class="logo-container">
+    <div class="logo-container" id="logo">
       <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
     </div>
 
-    <!-- Texto bienvenida -->
+    <!-- Bienvenida -->
     <h1 class="welcome-title">BIENVENIDO</h1>
 
     <!-- Botón continuar -->
-    <button id="continue-btn" class="btn">Continuar</button>
+    <button id="continue-btn" class="continue-btn">Continuar</button>
 
-    <!-- Barra de carga (oculta al inicio) -->
+    <!-- Cargador -->
     <div id="loader" class="loader" style="display: none;">
       <div class="bar"></div>
       <div id="percentage">0%</div>
     </div>
   </div>
 
-  <!-- Script JavaScript -->
+  <!-- Fondo partículas -->
+  <script>
+    const canvas = document.getElementById("particle-canvas");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function createParticles() {
+      particles = [];
+      const total = Math.floor((canvas.width + canvas.height) / 15);
+      for (let i = 0; i < total; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 2 + 1,
+          dx: (Math.random() - 0.5) * 0.6,
+          dy: (Math.random() - 0.5) * 0.6,
+        });
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(0,255,255,0.6)";
+      particles.forEach((p) => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+      });
+      requestAnimationFrame(animateParticles);
+    }
+
+    createParticles();
+    animateParticles();
+  </script>
+
+  <!-- Interacción + Animación -->
   <script>
     const music = document.getElementById("music");
     const clickSound = document.getElementById("click-sound");
@@ -103,6 +94,7 @@
     const loader = document.getElementById("loader");
     const percentage = document.getElementById("percentage");
     const bar = document.querySelector(".bar");
+    const logo = document.getElementById("logo");
 
     function toggleSound() {
       if (music.paused) {
@@ -112,10 +104,21 @@
       }
     }
 
+    // Efecto visual al tocar logo
+    logo.addEventListener("touchstart", () => {
+      logo.classList.add("touch-effect");
+      setTimeout(() => logo.classList.remove("touch-effect"), 300);
+    });
+
+    // Efecto visual al tocar botón continuar
+    continueBtn.addEventListener("touchstart", () => {
+      continueBtn.classList.add("touch-effect");
+      setTimeout(() => continueBtn.classList.remove("touch-effect"), 300);
+    });
+
     continueBtn.addEventListener("click", () => {
       clickSound.currentTime = 0;
       clickSound.play();
-
       continueBtn.style.display = "none";
       loader.style.display = "block";
 
@@ -124,7 +127,6 @@
         progress++;
         percentage.textContent = progress + "%";
         bar.style.width = progress + "%";
-
         if (progress >= 100) {
           clearInterval(interval);
           window.location.href = "home.html";
