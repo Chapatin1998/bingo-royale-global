@@ -12,7 +12,6 @@ body {
   overflow: hidden;
 }
 
-/* Fondo de estrellas suaves */
 body::after {
   content: '';
   position: absolute;
@@ -23,7 +22,6 @@ body::after {
   z-index: 0;
 }
 
-/* Pantalla de toque */
 #tap-to-start {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -51,26 +49,10 @@ body::after {
 h1 {
   font-size: 3rem;
   margin-bottom: 10px;
-  position: relative;
   color: white;
   text-transform: uppercase;
   letter-spacing: 8px;
-}
-
-h1::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -75%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(120deg, rgba(255,255,255,0.1), rgba(255,255,255,0.8), rgba(255,255,255,0.1));
-  animation: shine 2s infinite;
-}
-
-@keyframes shine {
-  0% { left: -75%; }
-  100% { left: 125%; }
+  text-shadow: 0 0 20px #00eaff, 0 0 40px #00f0ff;
 }
 
 #percentage {
