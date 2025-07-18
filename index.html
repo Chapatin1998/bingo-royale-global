@@ -2,33 +2,19 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body id="intro">
+  <img src="logo.png" alt="Logo Bingo VIP Bolivia" id="logo" />
+  <h1>Bienvenidos a Bingo VIP Bolivia</h1>
+  <p>Haz clic para comenzar</p>
+  <button id="startButton">Iniciar</button>
 
-  <!-- Pantalla de bienvenida -->
-  <div id="welcome-screen">
-    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
-    <h1>Bienvenido a</h1>
-    <h2>Bingo VIP Bolivia 🎉</h2>
-    <button id="continue-btn">Continuar</button>
-  </div>
+  <audio id="clickSound" src="click.wav" preload="auto"></audio>
+  <audio id="introMusic" src="intro-music.mp3" preload="auto" loop></audio>
 
-  <!-- Barra de carga -->
-  <div id="loader-container" class="hidden">
-    <div class="loading-text">CARGANDO...</div>
-    <div class="bar-container">
-      <div class="bar" id="progress-bar"></div>
-    </div>
-  </div>
-
-  <!-- Sonidos -->
-  <audio id="bg-music" src="intro-music.mp3" preload="auto" loop></audio>
-  <audio id="click-sound" src="click.wav" preload="auto"></audio>
-
-  <!-- Scripts -->
   <script src="Intro.js"></script>
 </body>
 </html>
