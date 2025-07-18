@@ -1,33 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const continueBtn = document.getElementById("continue-btn");
-  const bgMusic = document.getElementById("bg-music");
-  const clickSound = document.getElementById("click-sound");
-  const welcomeScreen = document.getElementById("welcome-screen");
-  const loader = document.getElementById("loader-container");
-  const progressBar = document.getElementById("progress-bar");
+  const startButton = document.getElementById("startButton");
+  const clickSound = document.getElementById("clickSound");
+  const introMusic = document.getElementById("introMusic");
 
-  continueBtn.addEventListener("click", () => {
-    // Sonidos
+  // Reproducir música automáticamente si el navegador lo permite
+  function tryPlayMusic() {
+    const playPromise = introMusic.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          console.log("Música de introducción reproduciéndose.");
+        })
+        .catch((error) => {
+          console.warn("Reproducción automática bloqueada. Esperando interacción.");
+        });
+    }
+  }
+
+  // Al presionar el botón
+  startButton.addEventListener("click", () => {
     clickSound.play();
-    bgMusic.play().catch(err => {
-      console.warn("Autoplay bloqueado. Usuario debe interactuar:", err);
-    });
-
-    // Oculta pantalla bienvenida, muestra loader
-    welcomeScreen.classList.add("hidden");
-    loader.classList.remove("hidden");
-
-    // Simula progreso (puedes cambiar esto por tu lógica real)
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 2;
-      progressBar.style.width = `${progress}%`;
-
-      if (progress >= 100) {
-        clearInterval(interval);
-        // Aquí podrías cargar la siguiente parte del juego
-        alert("¡Listo para jugar! 🎲");
-      }
-    }, 100);
+    introMusic.play();
+    window.location.href = "juego.html"; // Redirige al juego
   });
+
+  tryPlayMusic(); // Intentar reproducir al cargar
 });
