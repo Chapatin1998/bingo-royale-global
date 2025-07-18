@@ -1,86 +1,56 @@
 body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  background-color: #000;
-  color: #fff;
-  overflow: hidden;
+  margin: 0; display: flex; justify-content: center; align-items: center;
+  height: 100vh; background: #000;
 }
 
-#intro-screen {
-  position: relative;
-  height: 100vh;
-  width: 100vw;
-  background: url('background.jpg') no-repeat center center/cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+.container { text-align: center; }
 
 #logo {
-  font-size: 48px;
-  font-weight: bold;
-  color: #FFD700; /* Color dorado llamativo */
-  text-shadow: 0 0 15px #FFD700, 0 0 30px #FF4500;
+  width: 220px;
+  filter: drop-shadow(0 0 10px #ffd700);
   margin-bottom: 30px;
-  animation: pulse 2s infinite;
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.8; }
+button {
+  background: linear-gradient(to right, #ffd700, #ffec8b);
+  color: #000; font-size: 18px; padding: 12px 32px;
+  border: none; border-radius: 8px; cursor: pointer;
+  filter: drop-shadow(0 0 8px #ffd700);
+  transition: background 0.3s ease;
 }
 
-#continue-btn {
-  background-color: #FFD700; /* Dorado brillante */
-  color: #000;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 12px 28px;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 0 0 12px #FFD700;
-  cursor: pointer;
-  transition: all 0.3s ease;
+button:hover {
+  background: linear-gradient(to right, #ffe066, #fff5cc);
 }
 
-#continue-btn:hover {
-  background-color: #FF4500;
-  box-shadow: 0 0 20px #FF4500;
-  color: #fff;
+.hidden { display: none; }
+
+.bar-container {
+  width: 300px; height: 20px; background: #222;
+  border: 2px solid #ffd700; border-radius: 12px;
+  margin: 20px auto; overflow: hidden;
 }
 
-#mute-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 24px;
-  background: none;
-  border: none;
-  color: #FFD700;
-  cursor: pointer;
-}
-
-#loader-container {
-  width: 80%;
-  height: 20px;
-  background: #222;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 30px;
-}
-
-#progress-bar {
+.bar {
   height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #FFD700, #FF4500, #FFD700);
-  box-shadow: 0 0 15px #FF4500;
-  transition: width 0.3s ease;
+  background: repeating-linear-gradient(
+    45deg,
+    #ffd700 0, #ffd700 10px,
+    #ffec8b 10px, #ffec8b 20px
+  );
+  animation: lightning 1s linear infinite;
+  width: 0;
+}
+
+.loading-text {
+  color: #ffd700; font-size: 16px; margin-bottom: 8px;
 }
 
 #welcome-message {
-  font-size: 28px;
-  font-weight: bold;
-  color: #FFD700;
-  margin-top: 20px;
+  color: #ffd700; font-size: 20px; margin-top: 20px;
+}
+
+@keyframes lightning {
+  0% { background-position: 0 0; }
+  100% { background-position: 100px 0; }
 }
