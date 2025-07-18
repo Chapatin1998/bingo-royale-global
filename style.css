@@ -1,63 +1,110 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body, html {
-  width: 100%; height: 100%;
-  font-family: sans-serif;
-  background: black;
+/* Video de fondo */
+#background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  z-index: -1;
 }
+
+/* Botón sonido */
+.sound-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+}
+
+/* Contenedor principal */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
 .container {
   position: relative;
-  width: 100%; height: 100%;
-  display: flex; align-items: center;
-  justify-content: center;
+  z-index: 1;
+  height: 100%;
+  display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  padding: 20px;
+  box-sizing: border-box;
 }
+
+/* Logo flotante */
 .logo {
-  width: 150px;
-  animation: float 4s ease-in-out infinite;
+  width: 200px;
+  animation: float 6s ease-in-out infinite;
 }
+
 @keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
 }
+
+/* Título */
 .welcome-title {
-  color: #00e0ff;
-  text-shadow: 0 0 10px #00e0ff;
-  font-size: 2.5rem;
-  margin-top: 20px;
+  font-size: 3rem;
+  text-shadow: 0 0 10px #00ffef;
+  margin: 20px 0;
 }
+
+/* Botón continuar */
 .continue-btn {
-  margin-top: 20px;
-  padding: 12px 30px;
+  padding: 14px 40px;
   font-size: 18px;
-  background: linear-gradient(45deg,#7e5bef,#5e50fa);
+  background: linear-gradient(45deg, #7e5bef, #5e50fa);
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 0 10px #5e50fa;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease;
 }
+
 .continue-btn:hover {
   transform: scale(1.05);
 }
+
+/* Loader */
 .loader {
-  position: relative;
+  margin-top: 20px;
   width: 80%;
   max-width: 400px;
-  height: 10px;
-  background: #222;
-  border-radius: 5px;
-  margin-top: 20px;
 }
+
 .bar {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(45deg,#7e5bef,#5e50fa);
-  border-radius: 5px;
+  height: 8px;
+  background: linear-gradient(90deg, #7e5bef, #5e50fa);
+  width: 0;
+  border-radius: 4px;
+  transition: width 0.05s ease;
 }
+
 #percentage {
-  position: absolute;
-  top: -25px; right: 0;
-  color: white;
-  font-size: 14px;
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+/* Responsivo para pantallas grandes */
+@media screen and (min-width: 1024px) {
+  .welcome-title { font-size: 4.5rem; }
+  .logo { width: 300px; }
+  .continue-btn { font-size: 20px; padding: 16px 50px; }
 }
