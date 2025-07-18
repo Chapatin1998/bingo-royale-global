@@ -1,75 +1,87 @@
 body {
   margin: 0;
-  background: radial-gradient(circle at center, #000c2d, #010101);
   font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #001a33, #000);
   color: #fff;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100vh;
+  flex-direction: column;
   overflow: hidden;
 }
 
-.logo {
-  width: 200px;
-  margin-bottom: 20px;
-  filter: drop-shadow(0 0 15px cyan);
+.container {
+  text-align: center;
 }
 
-h1 {
+.logo {
+  max-width: 220px;
+  margin-bottom: 20px;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    filter: drop-shadow(0 0 10px #0ff);
+  }
+  to {
+    filter: drop-shadow(0 0 25px #00f0ff);
+  }
+}
+
+.bienvenido {
   font-size: 3rem;
   letter-spacing: 8px;
-  text-shadow: 0 0 15px cyan;
-  margin: 0;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px #0ff;
 }
 
 #percentage {
   font-size: 1.5rem;
-  margin: 15px 0;
+  margin-bottom: 10px;
 }
 
 .loader {
+  margin: 0 auto 20px auto;
   width: 80%;
-  height: 20px;
+  height: 12px;
   background: #333;
-  border-radius: 10px;
+  border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 20px;
-  box-shadow: 0 0 5px #00f2fe;
 }
 
 .loader .bar {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #00f2fe, #a400ff);
-  transition: width 0.4s ease-in-out;
-  box-shadow: 0 0 10px #00f2fe;
+  background: linear-gradient(to right, #00f0ff, #ff00ff);
+  transition: width 0.3s ease;
+  border-radius: 8px;
 }
 
 #continue-btn {
-  padding: 10px 25px;
-  font-size: 1.1rem;
+  background-color: transparent;
+  border: 2px solid #0ff;
   color: white;
-  background: transparent;
-  border: 2px solid cyan;
+  padding: 10px 30px;
+  font-size: 1.1rem;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 #continue-btn:hover {
-  background: cyan;
-  color: black;
+  background-color: #0ff;
+  color: #000;
 }
 
 #mute-btn {
   position: absolute;
-  top: 15px;
+  top: 20px;
   right: 20px;
-  font-size: 24px;
   background: transparent;
-  color: white;
   border: none;
+  font-size: 24px;
+  color: white;
   cursor: pointer;
 }
