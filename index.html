@@ -2,109 +2,36 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bingo VIP Bolivia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bingo Vip Bolivia</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <canvas id="particle-canvas"></canvas>
-
-  <script>
-    const canvas = document.getElementById('particle-canvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    function createParticles() {
-      particles = [];
-      const total = Math.floor((canvas.width + canvas.height) / 15);
-      for (let i = 0; i < total; i++) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          radius: Math.random() * 2 + 1,
-          dx: (Math.random() - 0.5) * 0.6,
-          dy: (Math.random() - 0.5) * 0.6
-        });
-      }
-    }
-
-    function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'rgba(0,255,255,0.6)';
-      particles.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fill();
-        p.x += p.dx;
-        p.y += p.dy;
-
-        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-      });
-      requestAnimationFrame(animateParticles);
-    }
-
-    createParticles();
-    animateParticles();
-  </script>
-
+  <audio id="bg-music" src="intro-music.mp3" preload="auto"></audio>
   <div class="container">
-    <audio id="music" src="intro-music.mp3" autoplay loop></audio>
-    <audio id="click-sound" src="click.wav" preload="auto"></audio>
-
-    <button class="sound-toggle" onclick="toggleSound()">🔊</button>
-
-    <div class="logo-container">
-      <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
-    </div>
-
-    <h1 class="welcome-title">BIENVENIDO</h1>
-
-    <button id="continue-btn" class="continue-btn">Continuar</button>
-
-    <div id="loader" class="loader" style="display: none;">
-      <div class="bar"></div>
-      <div id="percentage">0%</div>
+    <img src="logo.png" alt="Logo" class="logo" />
+    <button id="startBtn">Continuar</button>
+    <div id="loadingContainer" class="hidden">
+      <div class="loading-text">CARGANDO...</div>
+      <div class="bar-container">
+        <div class="bar" id="progressBar"></div>
+      </div>
     </div>
   </div>
-
   <script>
-    const music = document.getElementById("music");
-    const clickSound = document.getElementById("click-sound");
-    const continueBtn = document.getElementById("continue-btn");
-    const loader = document.getElementById("loader");
-    const percentage = document.getElementById("percentage");
-    const bar = document.querySelector(".bar");
+    const btn = document.getElementById("startBtn");
+    const audio = document.getElementById("bg-music");
+    const loadingContainer = document.getElementById("loadingContainer");
+    const progressBar = document.getElementById("progressBar");
 
-    function toggleSound() {
-      if (music.paused) {
-        music.play();
-      } else {
-        music.pause();
-      }
-    }
-
-    continueBtn.addEventListener("click", () => {
-      clickSound.currentTime = 0;
-      clickSound.play();
-
-      continueBtn.style.display = "none";
-      loader.style.display = "block";
-
+    btn.addEventListener("click", () => {
+      btn.style.display = "none";
+      loadingContainer.classList.remove("hidden");
+      audio.play();
       let progress = 0;
       const interval = setInterval(() => {
-        progress++;
-        percentage.textContent = progress + "%";
-        bar.style.width = progress + "%";
-
+        progress += 1;
+        progressBar.style.width = progress + "%";
         if (progress >= 100) {
           clearInterval(interval);
           document.body.classList.add("fade-out");
@@ -112,7 +39,7 @@
             window.location.href = "home.html";
           }, 1000);
         }
-      }, 60);
+      }, 50);
     });
   </script>
 </body>
