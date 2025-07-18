@@ -1,15 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inicio - Bingo VIP Bolivia</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bingo VIP Bolivia - Lobby</title>
+  <link rel="stylesheet" href="style-home.css">
 </head>
-<body class="bg-black text-white flex justify-center items-center h-screen px-6">
-  <div class="text-center">
-    <h1 class="text-3xl md:text-5xl font-bold mb-4">🎉 Bienvenido otra vez a Bingo VIP</h1>
-    <p class="text-base md:text-lg text-gray-300">Aquí comienza tu experiencia de juego. ¡A divertirse!</p>
+<body>
+  <audio id="bg-music" autoplay loop>
+    <source src="music/lounge.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+
+  <div class="background">
+    <div class="overlay"></div>
+    <h1 class="title">🎉 Bienvenido a Bingo VIP Bolivia 🎉</h1>
+
+    <div class="avatars">
+      <img src="images/avatar1.png" class="avatar" alt="Jugador 1">
+      <img src="images/avatar2.png" class="avatar" alt="Jugador 2">
+    </div>
+
+    <div class="balls-container">
+      <div class="ball">7</div>
+      <div class="ball">14</div>
+      <div class="ball">22</div>
+      <div class="ball">31</div>
+      <div class="ball">48</div>
+    </div>
+
+    <div class="tables">
+      <img src="images/casino-table.png" alt="Mesa" class="table">
+      <img src="images/casino-table.png" alt="Mesa" class="table">
+    </div>
+
+    <div class="button-group">
+      <button onclick="goToGame()">Ir al Juego</button>
+      <button onclick="goToRegister()">Registrarse</button>
+    </div>
   </div>
+
+  <script src="home.js"></script>
 </body>
 </html>
