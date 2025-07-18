@@ -1,51 +1,51 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bingo Vip Bolivia</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <audio id="bg-music" src="intro-music.mp3" preload="auto"></audio>
-  <div class="container">
-    <img src="logo.png" alt="Logo" class="logo" />
-    <button id="startBtn">Iniciar</button>
-    <div id="loadingContainer" class="hidden">
-  <div class="loading-text">CARGANDO...</div>
-
-  <div class="bar-container">
-    <div class="bar" id="progressBar"></div>
-    <div class="progress-percent" id="progressPercent">0%</div>
+<div style="text-align: center; margin-top: 40px;">
+  <img src="logo.png" alt="Bingo VIP Bolivia" style="width: 180px; margin-bottom: 20px;" />
+  
+  <p style="color: #00ffff; font-size: 18px; margin-bottom: 10px;">CARGANDO...</p>
+  <div style="width: 80%; height: 20px; background-color: #222; border-radius: 15px; margin: 0 auto; overflow: hidden; border: 2px solid #00ffff;">
+    <div id="progressBar" style="height: 100%; width: 50%; background: repeating-linear-gradient(
+      -45deg,
+      #00ffff,
+      #00ffff 10px,
+      #000 10px,
+      #000 20px
+    ); animation: progressAnimation 2s linear infinite;"></div>
   </div>
-    
-      </div>
-    </div>
-  </div>
-  <script>
-    const percentText = document.getElementById("progressPercent");
-    const btn = document.getElementById("startBtn");
-    const audio = document.getElementById("bg-music");
-    const loadingContainer = document.getElementById("loadingContainer");
-    const progressBar = document.getElementById("progressBar");
 
-    btn.addEventListener("click", () => {
-      btn.style.display = "none";
-      loadingContainer.classList.remove("hidden");
-      audio.play();
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 1;
-        progressBar.style.width = progress + "%";
-        if (progress >= 100) {
-          clearInterval(interval);
-          document.body.classList.add("fade-out");
-          setTimeout(() => {
-            window.location.href = "home.html";
-          }, 1000);
-        }
-      }, 50);
-    });
-  </script>
-</body>
-</html>
+  <button onclick="startApp()" style="margin-top: 30px; padding: 10px 30px; font-size: 16px; color: black; background-color: #00ffff; border: none; border-radius: 10px; cursor: pointer;">
+    INICIAR
+  </button>
+
+  <div style="margin-top: 20px;">
+    <button onclick="toggleMusic()" style="background: none; border: 2px solid #00ffff; color: #00ffff; border-radius: 8px; padding: 5px 15px; cursor: pointer;">
+      🔊 Música
+    </button>
+  </div>
+</div>
+
+<style>
+@keyframes progressAnimation {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 0; }
+}
+</style>
+
+<script>
+function startApp() {
+  // Aquí va la redirección o carga de la app
+  window.location.href = 'inicio.html'; // ejemplo
+}
+
+let musicPlaying = true;
+function toggleMusic() {
+  const audio = document.getElementById("bgMusic");
+  if (musicPlaying) {
+    audio.pause();
+  } else {
+    audio.play();
+  }
+  musicPlaying = !musicPlaying;
+}
+</script>
+
+<audio id="bgMusic" src="musica/fondo.mp3" autoplay loop></audio>
