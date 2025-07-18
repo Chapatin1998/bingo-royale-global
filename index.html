@@ -7,32 +7,21 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Fondo de partículas -->
-  <canvas id="particle-canvas"></canvas>
-
-  <!-- Música de fondo y clic -->
-  <audio id="music" src="intro-music.mp3" autoplay loop preload="auto"></audio>
-  <audio id="click-sound" src="click.wav" preload="auto"></audio>
-
-  <!-- Botón sonido -->
-  <button class="sound-toggle" onclick="toggleSound()">🔊</button>
-
-  <!-- Contenido principal -->
   <div class="container">
-    <div class="logo-container">
-      <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
-    </div>
+    <audio id="music" src="intro-music.mp3" autoplay loop></audio>
+    <audio id="click-sound" src="click.wav" preload="auto"></audio>
+
+    <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
+
     <h1 class="welcome-title">BIENVENIDO</h1>
     <button id="continue-btn" class="continue-btn">Continuar</button>
 
-    <!-- Barra de carga -->
-    <div class="loader" id="loader">
+    <div id="loader" class="loader" style="display:none;">
       <div class="bar"></div>
       <div id="percentage">0%</div>
     </div>
   </div>
 
-  <script src="main.js" type="module"></script>
-  <script src="particles.js" type="module"></script>
+  <script src="main.js"></script>
 </body>
 </html>
