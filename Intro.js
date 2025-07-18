@@ -4,16 +4,28 @@ const progressBar = document.getElementById("progress-bar");
 const welcomeMessage = document.getElementById("welcome-message");
 const bgMusic = document.getElementById("bg-music");
 const clickSound = document.getElementById("click-sound");
+const muteBtn = document.getElementById("mute-btn");
+
+let isMuted = false;
+
+muteBtn.addEventListener("click", () => {
+  isMuted = !isMuted;
+  bgMusic.muted = isMuted;
+  muteBtn.textContent = isMuted ? "🔇" : "🔊";
+});
 
 function startLoading() {
   clickSound.currentTime = 0;
   clickSound.play();
 
+  if (!bgMusic.playing) {
+    bgMusic.currentTime = 0;
+    bgMusic.play();
+  }
+
   continueBtn.disabled = true;
   loaderContainer.classList.remove("hidden");
   let width = 0;
-
-  bgMusic.play();
 
   const interval = setInterval(() => {
     width += 1;
@@ -28,4 +40,7 @@ function startLoading() {
 }
 
 continueBtn.addEventListener("click", startLoading);
-continueBtn.addEventListener("touchstart", startLoading);
+continueBtn.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  startLoading();
+});
