@@ -7,63 +7,24 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- 👇 Video de fondo -->
-  <video id="background-video" src="fondo.mp4" autoplay muted loop playsinline></video>
+  <!-- Fondo de video -->
+  <video id="background-video" autoplay muted loop playsinline>
+    <source src="fondo/fondo.mp4" type="video/mp4" />
+    Tu navegador no soporta videos.
+  </video>
 
   <div class="container">
-    <!-- Botón para activar/desactivar sonido -->
-    <button class="sound-toggle" onclick="toggleSound()">🔊</button>
+    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
+    <h1 class="titulo">¡Bienvenido a Bingo VIP Bolivia!</h1>
+    <button id="continuar-btn">Continuar</button>
 
-    <!-- Logo animado -->
-    <div class="logo-container">
-      <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
-    </div>
-
-    <!-- Título de bienvenida -->
-    <h1 class="welcome-title">BIENVENIDO</h1>
-
-    <!-- Botón continuar -->
-    <button id="continue-btn" class="continue-btn">Continuar</button>
-
-    <!-- Audio click y loader -->
-    <audio id="click-sound" src="click.wav" preload="auto"></audio>
-    <div id="loader" class="loader" style="display:none;">
-      <div class="bar"></div>
-      <div id="percentage">0%</div>
+    <div id="barra-carga" class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+      <p id="porcentaje">0%</p>
     </div>
   </div>
 
-  <script>
-    const video = document.getElementById("background-video");
-    const clickSound = document.getElementById("click-sound");
-    const continueBtn = document.getElementById("continue-btn");
-    const loader = document.getElementById("loader");
-    const percentage = document.getElementById("percentage");
-    const bar = document.querySelector(".bar");
-
-    function toggleSound() {
-      video.muted = !video.muted;
-    }
-
-    continueBtn.addEventListener("click", () => {
-      clickSound.currentTime = 0;
-      clickSound.play();
-
-      continueBtn.style.display = "none";
-      loader.style.display = "block";
-
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress++;
-        percentage.textContent = progress + "%";
-        bar.style.width = progress + "%";
-
-        if (progress >= 100) {
-          clearInterval(interval);
-          window.location.href = "home.html";
-        }
-      }, 60); // barra cargando más lento (100 → 6 seg)
-    });
-  </script>
+  <audio id="musica-fondo" src="musica.mp3" loop></audio>
+  <script src="script.js"></script>
 </body>
 </html>
