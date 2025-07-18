@@ -7,71 +7,32 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- 🎥 Video de fondo -->
-  <video autoplay muted loop playsinline id="background-video">
-    <source src="fondo.mp4" type="video/mp4" />
-    Tu navegador no soporta video en HTML5.
-  </video>
+  <!-- Fondo de partículas -->
+  <canvas id="particle-canvas"></canvas>
 
-  <!-- 🎵 Música de fondo -->
-  <audio id="music" src="intro-music.mp3" autoplay loop></audio>
-
-  <!-- 🔔 Sonido click -->
+  <!-- Música de fondo y clic -->
+  <audio id="music" src="intro-music.mp3" autoplay loop preload="auto"></audio>
   <audio id="click-sound" src="click.wav" preload="auto"></audio>
 
-  <!-- 🔊 Botón sonido -->
+  <!-- Botón sonido -->
   <button class="sound-toggle" onclick="toggleSound()">🔊</button>
 
-  <!-- 🎯 Contenedor de bienvenida -->
+  <!-- Contenido principal -->
   <div class="container">
     <div class="logo-container">
       <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
     </div>
     <h1 class="welcome-title">BIENVENIDO</h1>
     <button id="continue-btn" class="continue-btn">Continuar</button>
+
+    <!-- Barra de carga -->
+    <div class="loader" id="loader">
+      <div class="bar"></div>
+      <div id="percentage">0%</div>
+    </div>
   </div>
 
-  <!-- ⏳ Barra de carga -->
-  <div id="loader" class="loader" style="display: none;">
-    <div class="bar"></div>
-    <div id="percentage">0%</div>
-  </div>
-
-  <script>
-    const music = document.getElementById("music");
-    const clickSound = document.getElementById("click-sound");
-    const continueBtn = document.getElementById("continue-btn");
-    const loader = document.getElementById("loader");
-    const percentage = document.getElementById("percentage");
-    const bar = document.querySelector(".bar");
-
-    function toggleSound() {
-      if (music.paused) {
-        music.play();
-      } else {
-        music.pause();
-      }
-    }
-
-    continueBtn.addEventListener("click", () => {
-      clickSound.currentTime = 0;
-      clickSound.play();
-
-      continueBtn.style.display = "none";
-      loader.style.display = "block";
-
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress++;
-        percentage.textContent = progress + "%";
-        bar.style.width = progress + "%";
-
-        if (progress >= 100) {
-          clearInterval(interval);
-          window.location.href = "home.html";
-        }
-      }, 60); // Más lento para que se disfrute
-    });
-  </script>
+  <script src="main.js" type="module"></script>
+  <script src="particles.js" type="module"></script>
 </body>
 </html>
