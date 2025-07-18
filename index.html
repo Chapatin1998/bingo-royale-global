@@ -34,22 +34,23 @@
 
     let progress = 0;
     const loading = setInterval(() => {
-      if (progress < 100) {
-        progress++;
-        percentage.textContent = `${progress}%`;
-        bar.style.width = `${progress}%`;
-      } else {
+      progress++;
+      percentage.textContent = `${progress}%`;
+      bar.style.width = `${progress}%`;
+
+      if (progress >= 100) {
         clearInterval(loading);
         continueBtn.style.display = 'inline-block';
       }
-    }, 50);
+    }, 60);
 
-    continueBtn.addEventListener('click', () => {
-      window.location.href = 'home.html';
-    });
-
+    // Autoplay workaround for mobile
     window.addEventListener('click', () => {
       music.play().catch(() => {});
+    });
+
+    continueBtn.addEventListener('click', () => {
+      window.location.href = "home.html";
     });
   </script>
 </body>
