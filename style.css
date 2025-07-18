@@ -1,108 +1,103 @@
-body {
+/* 🎥 Video como fondo */
+#background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+/* 🔊 Botón de sonido */
+.sound-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: white;
+  z-index: 10;
+  cursor: pointer;
+}
+
+/* 🎯 Contenido principal */
+body, html {
   margin: 0;
-  font-family: "Orbitron", sans-serif;
-  background: #000;
+  padding: 0;
+  height: 100%;
+  font-family: sans-serif;
   overflow: hidden;
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
+  justify-content: center;
+  flex-direction: column;
+  background: black;
 }
 
 .container {
   text-align: center;
+  color: white;
+  z-index: 1;
 }
 
 .logo {
-  width: 220px;
-  animation: pulse 2s infinite;
-  margin-bottom: 30px;
+  width: 160px;
+  animation: float 4s ease-in-out infinite;
 }
 
-button {
-  background: linear-gradient(to right, #1f1c2c, #928dab);
-  color: #fff;
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.welcome-title {
+  font-size: 2.5rem;
+  color: #00f0ff;
+  text-shadow: 0 0 10px #00f0ff;
+  margin-top: 20px;
+}
+
+.continue-btn {
+  margin-top: 20px;
+  padding: 12px 30px;
   font-size: 18px;
-  padding: 12px 32px;
+  background: linear-gradient(45deg, #7e5bef, #5e50fa);
+  color: white;
   border: none;
-  cursor: pointer;
   border-radius: 8px;
-  transition: background 0.3s ease;
-}
-button:hover {
-  background: linear-gradient(to right, #ff416c, #ff4b2b);
-}
-
-.hidden {
-  display: none;
+  cursor: pointer;
+  box-shadow: 0 0 10px #5e50fa;
+  transition: transform 0.2s ease;
 }
 
-.bar-container {
-  width: 300px;
-  height: 20px;
-  border: 2px solid #fff;
-  margin: 20px auto;
-  position: relative;
+.continue-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ⏳ Barra de carga */
+.loader {
+  position: absolute;
+  bottom: 60px;
+  width: 80%;
+  max-width: 400px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
   overflow: hidden;
-  border-radius: 12px;
-  background: #222;
 }
 
 .bar {
   height: 100%;
-  background: repeating-linear-gradient(
-    45deg,
-    #0ff 0,
-    #0ff 10px,
-    #00f 10px,
-    #00f 20px
-  );
-  animation: lightning 1s linear infinite;
-  transition: width 0.1s linear;
   width: 0%;
+  background: #00ffcc;
+  transition: width 0.2s;
 }
 
-@keyframes lightning {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 100px 0;
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 0px #0ff);
-  }
-  50% {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 10px #0ff);
-  }
-  100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 0px #0ff);
-  }
-}
-
-.loading-text {
-  color: #0ff;
-  font-size: 18px;
-  margin-bottom: 8px;
-}
-
-.fade-out {
-  animation: fadeZoomOut 1s ease forwards;
-}
-
-@keyframes fadeZoomOut {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.1);
-  }
+#percentage {
+  margin-top: 10px;
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
 }
