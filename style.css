@@ -1,117 +1,136 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #000000, #0b0f20);
+  background: linear-gradient(to bottom, #000814, #001d3d);
   color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   flex-direction: column;
+  position: relative;
   overflow: hidden;
+}
+
+/* Fondo de estrellas suaves */
+body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: twinkle 20s linear infinite;
+  z-index: 0;
+}
+
+/* Pantalla de toque */
+#tap-to-start {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #000;
+  color: #fff;
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
 }
 
 .container {
+  position: relative;
   text-align: center;
-  animation: fadeIn 1.2s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  z-index: 2;
 }
 
 .logo {
-  width: 220px;
+  max-width: 250px;
   margin-bottom: 20px;
-  animation: pulse 2.5s infinite;
-  filter: drop-shadow(0 0 15px #00eaff);
+  filter: drop-shadow(0 0 20px #00e6e6);
 }
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 15px #00eaff);
-  }
-  50% {
-    transform: scale(1.03);
-    filter: drop-shadow(0 0 25px #00ffff);
-  }
-  100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 15px #00eaff);
-  }
-}
-
 
 h1 {
   font-size: 3rem;
-  letter-spacing: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  position: relative;
   color: white;
-  text-shadow:
-    0 0 5px #fff,
-    0 0 10px #00f0ff,
-    0 0 20px #00eaff,
-    0 0 40px #00cfff;
+  text-transform: uppercase;
+  letter-spacing: 8px;
+}
+
+h1::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.1), rgba(255,255,255,0.8), rgba(255,255,255,0.1));
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  0% { left: -75%; }
+  100% { left: 125%; }
+}
+
+#percentage {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
 }
 
 .loader {
-  width: 260px;
-  height: 16px;
-  background: #222;
-  border-radius: 8px;
-  overflow: hidden;
-  position: relative;
   margin: 0 auto 20px;
-  box-shadow: 0 0 6px #00f0ff;
+  width: 300px;
+  height: 14px;
+  background: #333;
+  border-radius: 7px;
+  overflow: hidden;
 }
 
 .loader .bar {
   height: 100%;
-  width: 0;
-  background: linear-gradient(90deg, #00f0ff, #ff00ff);
-  transition: width 0.3s ease;
-  position: relative;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.loader .bar span {
-  position: absolute;
-  color: white;
-  font-size: 0.9rem;
-  font-weight: bold;
-  text-shadow: 0 0 5px #000;
+  width: 0%;
+  background: linear-gradient(90deg, #00e6ff, #ff00ff);
+  border-radius: 7px;
+  transition: width 0.3s ease-in-out;
 }
 
 #continue-btn {
+  padding: 12px 30px;
+  font-size: 1.2rem;
   background: transparent;
-  border: 2px solid #00ffff;
-  color: white;
-  padding: 12px 24px;
-  font-size: 1rem;
-  border-radius: 12px;
-  transition: 0.3s ease-in-out;
-  box-shadow: 0 0 10px #00eaff;
+  border: 2px solid #00e6ff;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  animation: bounceIn 2s ease;
 }
 
 #continue-btn:hover {
-  background: #00ffff;
+  background: #00e6ff;
   color: #000;
-  box-shadow: 0 0 20px #00ffff;
-  transform: scale(1.05);
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
 }
 
 #mute-btn {
   position: absolute;
-  top: 15px;
+  top: 20px;
   right: 20px;
   background: transparent;
   border: none;
-  font-size: 24px;
+  font-size: 28px;
   color: white;
   cursor: pointer;
+  z-index: 3;
+}
+
+@keyframes twinkle {
+  0% { background-position: 0 0; }
+  100% { background-position: 60px 60px; }
 }
