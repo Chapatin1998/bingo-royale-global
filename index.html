@@ -8,13 +8,12 @@
 </head>
 <body>
   <div class="container">
-    <!-- Logo -->
     <img src="logo.png" id="logo" alt="Bingo VIP Bolivia Logo" />
 
-    <!-- Botón continuar -->
+    <h1 class="title">Bingo VIP Bolivia</h1>
+
     <button id="continue-btn">Continuar</button>
 
-    <!-- Barra de carga -->
     <div id="loader-container" class="hidden">
       <div class="loading-text">CARGANDO...</div>
       <div class="bar-container">
@@ -22,8 +21,10 @@
       </div>
     </div>
 
-    <!-- Mensaje de bienvenida -->
     <div id="welcome-message" class="hidden">¡Bienvenido a Bingo VIP Bolivia!</div>
+
+    <!-- Botón para silenciar música -->
+    <button id="mute-btn" aria-label="Silenciar música">🔊</button>
   </div>
 
   <audio id="bg-music" src="music.mp3" preload="auto" loop></audio>
