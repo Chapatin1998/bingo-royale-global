@@ -1,122 +1,28 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: radial-gradient(ellipse at center, #000d1a 0%, #000000 100%);
-  color: white;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.container {
-  text-align: center;
-  padding: 20px;
-}
-
-.logo {
-  width: 220px;
-  margin-bottom: 10px;
-  filter: drop-shadow(0 0 20px cyan);
-}
-
-.bienvenido {
-  font-size: 2.5rem;
-  letter-spacing: 8px;
-  margin: 20px 0 10px;
-  color: white;
-  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-  animation: pulseGlow 2s infinite;
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    text-shadow: 0 0 10px #0ff;
-  }
-  50% {
-    text-shadow: 0 0 20px #0ff, 0 0 40px #0ff;
-  }
-}
-
-#percentage {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
-
-.loader {
-  margin: auto;
-  width: 300px;
-  height: 12px;
-  background: #333;
-  border-radius: 8px;
-
+  padding: 0;
   overflow: hidden;
-  margin-bottom: 20px;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.loader .bar {
-  height: 100%;
-  width: 0;
-  background: linear-gradient(to right, #00f2fe, #f0f);
-  border-radius: 8px;
-  transition: width 0.3s ease;
-}
-
-#continue-btn {
-  background: transparent;
-  border: 2px solid #00f2fe;
-  color: white;
-  padding: 12px 24px;
-  font-size: 1rem;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 0 10px #00f2fe;
-  transition: background 0.3s, color 0.3s;
-  margin-bottom: 20px;
-}
-
-#continue-btn:hover {
-  background: #00f2fe;
-  color: #000;
-}
-
-#mute-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  color: white;
-  cursor: pointer;
-}
-#backgroundCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  width: 100vw;
-  height: 100vh;
-  background: radial-gradient(ellipse at center, #000015 0%, #000010 100%);
-}
-main, header, .contenido {
-  position: relative;
-  z-index: 1;
-}
-/* Efecto al tocar el logo */
-.logo-container {
+.logo-container img {
+  filter: drop-shadow(0 0 20px #00ffff);
   transition: transform 0.3s ease, filter 0.3s ease;
 }
-.logo-container:active {
+
+.logo-container img:hover {
   transform: scale(1.05);
-  filter: drop-shadow(0 0 15px gold);
+  filter: drop-shadow(0 0 30px #00ffff);
 }
 
-/* Efecto botón presionado */
 .button-glow {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.button-glow:hover {
+  box-shadow: 0 0 20px cyan, 0 0 30px cyan;
+}
+
 .button-glow:active {
   transform: scale(0.95);
-  box-shadow: 0 0 20px cyan, inset 0 0 10px cyan;
 }
