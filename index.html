@@ -7,49 +7,37 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Fondo animado -->
   <canvas id="particle-canvas"></canvas>
 
-  <!-- Contenedor principal -->
+  <audio id="music" src="intro-music.mp3" autoplay loop></audio>
+  <audio id="click-sound" src="click.wav" preload="auto"></audio>
+
   <div class="container">
-    
-    <!-- Música de fondo -->
-    <audio id="music" src="intro-music.mp3" autoplay loop></audio>
-    <audio id="click-sound" src="click.wav" preload="auto"></audio>
-
-    <!-- Botón de sonido -->
-    <button class="sound-toggle" onclick="toggleSound()">🔊</button>
-
-    <!-- Logo -->
-    <div class="logo-container" id="logo">
+    <div class="logo-container">
       <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
     </div>
 
-    <!-- Bienvenida -->
     <h1 class="welcome-title">BIENVENIDO</h1>
 
-    <!-- Botón continuar -->
-    <button id="continue-btn" class="continue-btn">Continuar</button>
+    <button id="continue-btn" class="btn">Continuar</button>
 
-    <!-- Cargador -->
-    <div id="loader" class="loader" style="display: none;">
+    <div id="loader" class="loader" style="display:none;">
       <div class="bar"></div>
       <div id="percentage">0%</div>
     </div>
   </div>
 
-  <!-- Fondo partículas -->
   <script>
-    const canvas = document.getElementById("particle-canvas");
-    const ctx = canvas.getContext("2d");
+    // partículas fondo
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
     let particles = [];
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
-
-    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
     function createParticles() {
@@ -61,21 +49,20 @@
           y: Math.random() * canvas.height,
           r: Math.random() * 2 + 1,
           dx: (Math.random() - 0.5) * 0.6,
-          dy: (Math.random() - 0.5) * 0.6,
+          dy: (Math.random() - 0.5) * 0.6
         });
       }
     }
 
     function animateParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "rgba(0,255,255,0.6)";
-      particles.forEach((p) => {
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      particles.forEach(p => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
         p.x += p.dx;
         p.y += p.dy;
-
         if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
         if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
       });
@@ -84,54 +71,35 @@
 
     createParticles();
     animateParticles();
-  </script>
 
-  <!-- Interacción + Animación -->
-  <script>
-    const music = document.getElementById("music");
-    const clickSound = document.getElementById("click-sound");
-    const continueBtn = document.getElementById("continue-btn");
-    const loader = document.getElementById("loader");
-    const percentage = document.getElementById("percentage");
-    const bar = document.querySelector(".bar");
-    const logo = document.getElementById("logo");
+    // lógica principal
+    const music = document.getElementById('music');
+    const clickSound = document.getElementById('click-sound');
+    const continueBtn = document.getElementById('continue-btn');
+    const loader = document.getElementById('loader');
+    const percentage = document.getElementById('percentage');
+    const bar = document.querySelector('.bar');
 
-    function toggleSound() {
-      if (music.paused) {
-        music.play();
-      } else {
-        music.pause();
-      }
-    }
-
-    // Efecto visual al tocar logo
-    logo.addEventListener("touchstart", () => {
-      logo.classList.add("touch-effect");
-      setTimeout(() => logo.classList.remove("touch-effect"), 300);
-    });
-
-    // Efecto visual al tocar botón continuar
-    continueBtn.addEventListener("touchstart", () => {
-      continueBtn.classList.add("touch-effect");
-      setTimeout(() => continueBtn.classList.remove("touch-effect"), 300);
-    });
-
-    continueBtn.addEventListener("click", () => {
+    continueBtn.addEventListener('click', () => {
       clickSound.currentTime = 0;
       clickSound.play();
+
       continueBtn.style.display = "none";
       loader.style.display = "block";
+
+      document.body.classList.add("fade-out");
 
       let progress = 0;
       const interval = setInterval(() => {
         progress++;
         percentage.textContent = progress + "%";
         bar.style.width = progress + "%";
+
         if (progress >= 100) {
           clearInterval(interval);
           window.location.href = "home.html";
         }
-      }, 50);
+      }, 80); // más lento
     });
   </script>
 </body>
