@@ -7,19 +7,28 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="intro-screen">
-    <div id="logo">Bingo VIP Bolivia</div>
+  <div class="container">
+    <!-- Logo -->
+    <img src="logo.png" id="logo" alt="Bingo VIP Bolivia Logo" />
+
+    <!-- Botón continuar -->
     <button id="continue-btn">Continuar</button>
-    <div id="loader-container" style="display: none;">
-      <div id="progress-bar"></div>
+
+    <!-- Barra de carga -->
+    <div id="loader-container" class="hidden">
+      <div class="loading-text">CARGANDO...</div>
+      <div class="bar-container">
+        <div class="bar" id="progress-bar"></div>
+      </div>
     </div>
-    <div id="welcome-message" style="display: none;">¡Bienvenido a Bingo VIP Bolivia!</div>
-    <button id="mute-btn"><i class="fas fa-volume-up"></i></button>
-    <audio id="bg-music" src="music.mp3" loop></audio>
-    <audio id="click-sound" src="click.wav"></audio>
+
+    <!-- Mensaje de bienvenida -->
+    <div id="welcome-message" class="hidden">¡Bienvenido a Bingo VIP Bolivia!</div>
   </div>
 
-  <script src="intro.js"></script>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <audio id="bg-music" src="music.mp3" preload="auto" loop></audio>
+  <audio id="click-sound" src="click.wav" preload="auto"></audio>
+
+  <script src="Intro.js"></script>
 </body>
 </html>
