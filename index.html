@@ -5,11 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bingo VIP Bolivia</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body>
+<body class="bg-black text-white overflow-hidden">
   <canvas id="particle-canvas"></canvas>
 
-  <!-- Fondo animado -->
+  <!-- Música -->
+  <audio id="music" src="intro-music.mp3" preload="auto"></audio>
+  <audio id="click-sound" src="click.wav" preload="auto"></audio>
+
+  <!-- Botón sonido -->
+  <button id="sound-btn" class="fixed top-4 right-4 text-white text-2xl z-10">🔇</button>
+
+  <!-- Contenido principal -->
+  <div class="container relative z-10 min-h-screen flex flex-col justify-center items-center text-center px-4">
+    <img src="logo.png" alt="Logo Bingo VIP" class="logo mb-4 w-60 md:w-80 animate-pulse" />
+    <h1 class="text-4xl md:text-5xl font-bold text-cyan-300 drop-shadow-lg animate-glow mb-4">BIENVENIDO</h1>
+    <button id="continue-btn" class="bg-cyan-400 hover:bg-cyan-500 text-black font-semibold py-2 px-6 rounded shadow-lg transition-all text-lg md:text-xl">Continuar</button>
+
+    <!-- Loader oculto al inicio -->
+    <div id="loader" class="loader mt-6 hidden w-full max-w-sm mx-auto">
+      <div class="w-full bg-gray-800 rounded-full h-4">
+        <div class="bg-gradient-to-r from-pink-500 to-blue-500 h-4 rounded-full" id="bar" style="width: 0%"></div>
+      </div>
+      <div id="percentage" class="text-sm mt-2">0%</div>
+    </div>
+  </div>
+
   <script>
     const canvas = document.getElementById("particle-canvas");
     const ctx = canvas.getContext("2d");
@@ -25,14 +48,13 @@
 
     function createParticles() {
       particles = [];
-      const total = Math.floor((canvas.width + canvas.height) / 15);
+      const total = Math.floor((canvas.width + canvas.height) / 10);
       for (let i = 0; i < total; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          r: Math.random() * 2 + 1,
           dx: (Math.random() - 0.5) * 0.6,
-          dy: (Math.random() - 0.5) * 0.6,
+          dy: (Math.random() - 0.5) * 0.6
         });
       }
     }
@@ -40,10 +62,11 @@
     function animateParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "rgba(0,255,255,0.6)";
-      particles.forEach((p) => {
+      particles.forEach(p => {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
         ctx.fill();
+
         p.x += p.dx;
         p.y += p.dy;
 
@@ -55,64 +78,67 @@
 
     createParticles();
     animateParticles();
-  </script>
 
-  <!-- Música fondo -->
-  <audio id="music" src="intro-music.mp3" autoplay loop></audio>
-  <!-- Sonido de clic -->
-  <audio id="click-sound" src="click.wav" preload="auto"></audio>
-
-  <button class="sound-toggle" onclick="toggleSound()">🔊</button>
-
-  <div class="container">
-    <div class="logo-container">
-      <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
-    </div>
-    <h1 class="welcome-title">BIENVENIDO</h1>
-    <button id="continue-btn" class="continue-btn">Continuar</button>
-
-    <div id="loader" class="loader" style="display: none;">
-      <div class="bar-container">
-        <div class="bar"></div>
-      </div>
-      <div id="percentage">0%</div>
-    </div>
-  </div>
-
-  <script>
     const music = document.getElementById("music");
     const clickSound = document.getElementById("click-sound");
     const continueBtn = document.getElementById("continue-btn");
     const loader = document.getElementById("loader");
+    const bar = document.getElementById("bar");
     const percentage = document.getElementById("percentage");
-    const bar = document.querySelector(".bar");
+    const soundBtn = document.getElementById("sound-btn");
 
-    function toggleSound() {
-      if (music.paused) music.play();
-      else music.pause();
-    }
+    soundBtn.addEventListener("click", () => {
+      if (music.paused) {
+        music.play();
+        soundBtn.textContent = "🔊";
+      } else {
+        music.pause();
+        soundBtn.textContent = "🔇";
+      }
+    });
 
     continueBtn.addEventListener("click", () => {
       clickSound.currentTime = 0;
       clickSound.play();
+      if (music.paused) music.play();
 
       continueBtn.style.display = "none";
+      soundBtn.style.display = "none";
 
       setTimeout(() => {
-        loader.style.display = "block";
+        loader.classList.remove("hidden");
         let progress = 0;
         const interval = setInterval(() => {
           progress++;
-          percentage.textContent = progress + "%";
           bar.style.width = progress + "%";
-
+          percentage.textContent = progress + "%";
           if (progress >= 100) {
             clearInterval(interval);
             window.location.href = "home.html";
           }
-        }, 50);
-      }, 1500); // <-- Delay de 1.5 segundos antes de cargar
+        }, 80); // más lento
+      }, 1500); // más tiempo antes de empezar
     });
   </script>
+
+  <style>
+    .animate-glow {
+      animation: glow 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px cyan, 0 0 20px cyan; }
+      to { text-shadow: 0 0 20px cyan, 0 0 30px cyan; }
+    }
+
+    .logo {
+      animation: floatLogo 3s ease-in-out infinite;
+    }
+
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+  </style>
 </body>
 </html>
