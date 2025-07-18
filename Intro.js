@@ -1,19 +1,24 @@
-// Intro.js
-function showIntro() {
-  const introContainer = document.getElementById("intro");
-  const mainContent = document.getElementById("main-content");
-  const audio = new Audio("intro-music.mp3"); // Asegúrate que el archivo esté en raíz o carpeta pública
+document.addEventListener("DOMContentLoaded", function () {
+  const continueButton = document.getElementById("continueBtn");
+  const progressBar = document.getElementById("progress-bar");
+  const music = new Audio("intro-music.mp3");
 
-  // Mostrar intro
-  introContainer.style.display = "flex";
-  mainContent.style.display = "none";
+  continueButton.addEventListener("click", () => {
+    // Ocultar botón después de hacer clic
+    continueButton.style.display = "none";
 
-  // Al hacer clic en continuar, ocultar intro y mostrar contenido principal
-  document.getElementById("continue-button").addEventListener("click", () => {
-    introContainer.style.display = "none";
-    mainContent.style.display = "block";
-    audio.play(); // Reproduce la música al hacer clic
+    // Iniciar música
+    music.play();
+
+    // Simular barra de carga
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 1;
+      progressBar.style.width = progress + "%";
+      if (progress >= 100) {
+        clearInterval(interval);
+        window.location.href = "home.html";
+      }
+    }, 30);
   });
-}
-
-document.addEventListener("DOMContentLoaded", showIntro);
+});
