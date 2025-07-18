@@ -1,124 +1,130 @@
+/* Estilos generales */
 body {
   margin: 0;
-  padding: 0;
-  background: #000;
-  font-family: 'Segoe UI', sans-serif;
-  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #000;
   overflow: hidden;
 }
 
-canvas#particle-canvas {
+/* Contenedor principal */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Logo */
+.logo-container {
+  animation: float 4s ease-in-out infinite;
+  margin-bottom: 20px;
+}
+.logo {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+}
+
+/* Título */
+.welcome-title {
+  color: #affcff;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow: 0 0 15px #00ffff;
+  margin-bottom: 20px;
+}
+
+/* Botón continuar */
+.continue-btn {
+  background-color: #00eaff;
+  border: 2px solid #0088ff;
+  color: black;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+.continue-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #00ffff;
+}
+
+/* Barra de carga */
+.loader {
+  margin-top: 20px;
+}
+.bar {
+  width: 100%;
+  max-width: 300px;
+  height: 16px;
+  background-color: #111;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px auto;
+}
+.bar::before {
+  content: "";
+  display: block;
+  height: 100%;
+  background: linear-gradient(to right, #ff00ff, #00ffff);
+  width: var(--bar-width, 0%);
+  transition: width 0.3s ease-in-out;
+}
+#percentage {
+  color: white;
+  font-weight: bold;
+}
+
+/* Botón sonido */
+.sound-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Partículas */
+#particle-canvas {
   position: fixed;
   top: 0;
   left: 0;
   z-index: -1;
+  background: transparent;
   width: 100%;
   height: 100%;
-  background: transparent;
 }
 
-.container {
-  text-align: center;
-  padding: 20px;
-  max-width: 90%;
-  margin: 0 auto;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.logo {
-  width: 220px;
-  max-width: 90%;
-  margin-bottom: 20px;
-  animation: floatLogo 3s ease-in-out infinite;
-}
-
-@keyframes floatLogo {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0); }
-}
-
-.welcome-title {
-  font-size: 2.2rem;
-  margin-bottom: 25px;
-  color: #ccf4ff;
-  text-shadow: 0 0 18px #0ff;
-}
-
-.continue-btn {
-  padding: 12px 28px;
-  font-size: 1rem;
-  background-color: #00d4ff;
-  border: none;
-  color: #000;
-  border-radius: 8px;
-  box-shadow: 0 0 12px #00f0ff;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-.continue-btn:hover {
-  transform: scale(1.05);
-}
-
-.sound-toggle {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 20px;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-.loader {
-  margin-top: 40px;
-}
-
-.bar-container {
-  width: 80%;
-  background-color: #222;
-  border-radius: 20px;
-  margin: 0 auto;
-  height: 14px;
-  overflow: hidden;
-  box-shadow: inset 0 0 8px #000, 0 0 10px #00f0ff;
-}
-
-.bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #00f0ff, #ff00e0);
-  transition: width 0.1s linear;
-}
-
-#percentage {
-  margin-top: 10px;
-  font-size: 1.2rem;
-}
-
-/* 🎯 Adaptación para pantallas grandes */
-@media (min-width: 768px) {
-  .logo {
-    width: 320px;
+/* Flotación suave del logo */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
   }
+  50% {
+    transform: translateY(-10px);
+  }
+}
 
+/* Responsivo */
+@media (min-width: 768px) {
   .welcome-title {
-    font-size: 3rem;
+    font-size: 3.5rem;
   }
 
   .continue-btn {
-    font-size: 1.3rem;
-    padding: 14px 32px;
-  }
-
-  .container {
-    transform: scale(1.2) translateY(-50%);
-  }
-
-  #percentage {
     font-size: 1.5rem;
+    padding: 16px 32px;
+  }
+
+  .logo {
+    max-width: 400px;
   }
 }
