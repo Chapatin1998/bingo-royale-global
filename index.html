@@ -7,18 +7,40 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="sound-toggle" id="soundBtn">
-    🔊
+  <div class="intro-screen">
+    <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-text" id="progress-text">0%</div>
+    </div>
   </div>
 
-  <div class="container">
-    <img src="logo.png" alt="Bingo VIP Bolivia" class="logo-glow" />
-    <p class="slogan">Donde el juego se vuelve leyenda</p>
-    <button id="continueBtn">Continuar</button>
-  </div>
+  <audio id="bg-music" src="intro-music.mp3" loop></audio>
 
-  <audio id="introMusic" src="intro-music.mp3" preload="auto" loop></audio>
+  <script>
+    const progressFill = document.getElementById('progress-fill');
+    const progressText = document.getElementById('progress-text');
+    const bgMusic = document.getElementById('bg-music');
 
-  <script src="Intro.js"></script>
+    let progress = 0;
+    const interval = setInterval(() => {
+      if (progress < 100) {
+        progress += 1;
+        progressFill.style.width = progress + '%';
+        progressText.innerText = progress + '%';
+      } else {
+        clearInterval(interval);
+        window.location.href = 'home.html'; // o la siguiente pantalla
+      }
+    }, 30);
+
+    document.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+      }
+    });
+  </script>
 </body>
 </html>
