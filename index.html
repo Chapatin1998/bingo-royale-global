@@ -2,70 +2,21 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="intro-screen">
-    <img src="logo.png" alt="Logo Bingo VIP" class="logo" />
-    
-    <div class="progress-container">
-      <div class="progress-bar">
-        <div class="progress-fill" id="progress-fill"></div>
-      </div>
-      <div class="progress-text" id="progress-text">CARGANDO...</div>
+  <div class="container">
+    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
     </div>
-
-    <!-- Botón sonido -->
-    <div class="sound-button" id="sound-btn">🔊</div>
-
-    <!-- Botón continuar -->
-    <button id="continue-btn" class="continue-btn" style="display: none;">Continuar</button>
+    <button id="continueBtn">CONTINUAR</button>
   </div>
 
-  <script>
-    const progressFill = document.getElementById('progress-fill');
-    const progressText = document.getElementById('progress-text');
-    const bgMusic = new Audio('intro-music.mp3');
-    bgMusic.loop = true;
+  <audio id="introMusic" src="intro-music.mp3" preload="auto"></audio>
 
-    const soundBtn = document.getElementById('sound-btn');
-    const continueBtn = document.getElementById('continue-btn');
-
-    let progress = 0;
-    const interval = setInterval(() => {
-      if (progress >= 100) {
-        clearInterval(interval);
-        progressFill.style.width = '100%';
-        progressText.innerText = '✔️ 100%';
-        continueBtn.style.display = 'block';
-      } else {
-        progress += 1;
-        progressFill.style.width = progress + '%';
-        progressText.innerText = 'CARGANDO...';
-      }
-    }, 50); // Carga lenta
-
-    // Botón sonido
-    soundBtn.addEventListener('click', () => {
-      if (bgMusic.paused) {
-        bgMusic.play();
-        soundBtn.classList.add('active');
-      } else {
-        bgMusic.pause();
-        soundBtn.classList.remove('active');
-      }
-    });
-
-    // Botón continuar
-    continueBtn.addEventListener('click', () => {
-      if (bgMusic.paused) {
-        bgMusic.play();
-        soundBtn.classList.add('active');
-      }
-      window.location.href = 'home.html'; // Redirige
-    });
-  </script>
+  <script src="Intro.js"></script>
 </body>
 </html>
