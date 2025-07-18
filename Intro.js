@@ -1,47 +1,58 @@
-document.getElementById("continueBtn").addEventListener("click", function () {
-  const music = document.getElementById("introMusic");
-  music.play();
-document.addEventListener('DOMContentLoaded', function () {
-  const continueButton = document.getElementById('continue-btn');
-  const toggleSoundButton = document.getElementById('toggle-sound-btn');
-  const audio = new Audio('intro-music.mp3');
-  audio.loop = true;
+document.addEventListener("DOMContentLoaded", function () {
+  const continueButton = document.getElementById("continueBtn");
+  const toggleSoundButton = document.getElementById("toggle-sound-btn");
+  const progressBar = document.getElementById("progress");
+  const introSection = document.getElementById("intro");
+  const mainContent = document.getElementById("main-content");
+
+  let audio = new Audio("intro-music.mp3");
   let isPlaying = false;
 
-  continueButton.addEventListener('click', function () {
-    audio.play().then(() => {
-      isPlaying = true;
-      toggleSoundButton.style.display = 'inline-block';
-    }).catch((error) => {
-      console.error("Error al reproducir la música:", error);
-    });
+  // Cuando se hace clic en "Continuar"
+  continueButton.addEventListener("click", function () {
+    audio
+      .play()
+      .then(() => {
+        isPlaying = true;
+        toggleSoundButton.style.display = "inline-block"; // Mostrar botón de sonido
+        toggleSoundButton.textContent = "🔇 Apagar Música";
 
-    document.getElementById('intro').style.display = 'none';
-    document.getElementById('main-content').style.display = 'block';
+        introSection.style.display = "none";
+        mainContent.style.display = "block";
+
+        // Iniciar la animación de progreso
+        let progress = 0;
+        const interval = setInterval(() => {
+          if (progress < 100) {
+            progress++;
+            progressBar.style.width = progress + "%";
+          } else {
+            clearInterval(interval);
+            // Aquí puedes redirigir o hacer otra acción
+          }
+        }, 50); // 5 segundos total
+      })
+      .catch((error) => {
+        console.error("Error al reproducir la música:", error);
+      });
   });
 
-  toggleSoundButton.addEventListener('click', function () {
+  // Botón para encender o apagar la música
+  toggleSoundButton.addEventListener("click", function () {
     if (isPlaying) {
       audio.pause();
       isPlaying = false;
-      toggleSoundButton.textContent = '🔈 Encender Música';
+      toggleSoundButton.textContent = "🎵 Encender Música";
     } else {
-      audio.play().then(() => {
-        isPlaying = true;
-        toggleSoundButton.textContent = '🔇 Apagar Música';
-      });
+      audio
+        .play()
+        .then(() => {
+          isPlaying = true;
+          toggleSoundButton.textContent = "🔇 Apagar Música";
+        })
+        .catch((error) => {
+          console.error("Error al intentar reproducir la música:", error);
+        });
     }
   });
-});
-  let progress = 0;
-  const progressBar = document.getElementById("progress");
-  const interval = setInterval(() => {
-    if (progress < 100) {
-      progress += 1;
-      progressBar.style.width = progress + "%";
-    } else {
-      clearInterval(interval);
-      // Redirigir o hacer otra acción después de la carga si deseas
-    }
-  }, 50); // Duración total: 5 segundos
 });
