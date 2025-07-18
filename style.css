@@ -21,18 +21,20 @@ body {
 }
 
 button {
-  background: linear-gradient(to right, #f11c2c, #ff42db);
-  color: #fff;
+  background: linear-gradient(to right, #00f2ff, #00c3ff);
+  color: #000;
   font-size: 18px;
   padding: 12px 32px;
   border: none;
   cursor: pointer;
   border-radius: 8px;
   transition: background 0.3s ease;
+  font-weight: bold;
+  box-shadow: 0 0 10px #00eaff, 0 0 20px #00eaff;
 }
 
 button:hover {
-  background: linear-gradient(to right, #ff416c, #ff4b2b);
+  background: linear-gradient(to right, #00d0ff, #00a3ff);
 }
 
 .hidden {
