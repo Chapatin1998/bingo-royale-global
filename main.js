@@ -1,33 +1,20 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const audio = new Audio('intro-music.mp3');
-  audio.loop = true;
-  audio.volume = 0.6;
+document.addEventListener("DOMContentLoaded", () => {
+  const continueBtn = document.getElementById("continueBtn");
+  const introMusic = document.getElementById("introMusic");
 
-  const soundToggle = document.getElementById('soundToggle');
-  const continueButton = document.getElementById('continueButton');
+  // Mostrar botón después de 6 segundos
+  setTimeout(() => {
+    continueBtn.classList.remove("opacity-0", "pointer-events-none");
+  }, 6000);
 
-  let isMuted = false;
+  // Al hacer clic, reproducir música y redirigir
+  continueBtn.addEventListener("click", () => {
+    introMusic.play();
+    continueBtn.textContent = "Cargando...";
+    continueBtn.disabled = true;
 
-  soundToggle.addEventListener('click', () => {
-    if (isMuted) {
-      audio.play();
-      soundToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-    } else {
-      audio.pause();
-      soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-    }
-    isMuted = !isMuted;
+    setTimeout(() => {
+      window.location.href = "home.html";
+    }, 5000); // 5 segundos de música antes de ir a la siguiente página
   });
-
-  continueButton.addEventListener('click', () => {
-    audio.play();
-    window.location.href = 'home.html'; // Asegúrate que home.html exista
-  });
-
-  // Autoplay workaround para móviles (primer toque)
-  document.body.addEventListener('click', () => {
-    if (!audio.played.length) {
-      audio.play().catch(() => {});
-    }
-  }, { once: true });
 });
