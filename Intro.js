@@ -1,16 +1,16 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const continueButton = document.getElementById('continue-btn');
-  const audio = new Audio('intro-music.mp3');
-  audio.loop = true;
+document.getElementById("continueBtn").addEventListener("click", function () {
+  const music = document.getElementById("introMusic");
+  music.play();
 
-  continueButton.addEventListener('click', function () {
-    // Inicia la música cuando el usuario hace clic
-    audio.play().catch((error) => {
-      console.error("Error al reproducir la música:", error);
-    });
-
-    // Oculta la pantalla de bienvenida y muestra el contenido principal
-    document.getElementById('intro').style.display = 'none';
-    document.getElementById('main-content').style.display = 'block';
-  });
+  let progress = 0;
+  const progressBar = document.getElementById("progress");
+  const interval = setInterval(() => {
+    if (progress < 100) {
+      progress += 1;
+      progressBar.style.width = progress + "%";
+    } else {
+      clearInterval(interval);
+      // Redirigir o hacer otra acción después de la carga si deseas
+    }
+  }, 50); // Duración total: 5 segundos
 });
