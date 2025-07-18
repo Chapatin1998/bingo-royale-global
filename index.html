@@ -12,12 +12,12 @@
 
   <div class="container">
     <img src="logo.png" alt="Bingo VIP Bolivia" class="logo" />
-    <h1>BIENVENIDO</h1>
+    <h1 class="bienvenido">BIENVENIDO</h1>
     <div id="percentage">0%</div>
     <div class="loader">
       <div class="bar" id="bar"></div>
     </div>
-    <button id="continue-btn" style="display:none;">Continuar</button>
+    <button id="continue-btn" style="display: none;">Continuar</button>
   </div>
 
   <script>
@@ -34,10 +34,11 @@
 
     let progress = 0;
     const loading = setInterval(() => {
-      progress += 1;
-      bar.style.width = progress + '%';
-      percentage.textContent = progress + '%';
-      if (progress >= 100) {
+      if (progress < 100) {
+        progress++;
+        percentage.textContent = `${progress}%`;
+        bar.style.width = `${progress}%`;
+      } else {
         clearInterval(loading);
         continueBtn.style.display = 'inline-block';
       }
@@ -47,7 +48,7 @@
       window.location.href = 'home.html';
     });
 
-    // Autoplay fix on some devices
+    // Auto-play fallback for browsers
     window.addEventListener('click', () => {
       music.play().catch(() => {});
     });
