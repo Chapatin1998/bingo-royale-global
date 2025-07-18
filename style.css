@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #000000, #0a001f);
+  background: linear-gradient(to bottom, #000000, #0b0f20);
   color: #fff;
   display: flex;
   justify-content: center;
@@ -13,7 +13,7 @@ body {
 
 .container {
   text-align: center;
-  animation: fadeIn 1.5s ease-in-out;
+  animation: fadeIn 1.2s ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -22,66 +22,69 @@ body {
 }
 
 .logo {
-  max-width: 220px;
+  max-width: 200px;
   margin-bottom: 20px;
-  filter: drop-shadow(0 0 10px #00f0ff);
-  transition: transform 0.5s ease-in-out;
-}
-
-.logo:hover {
-  transform: scale(1.05);
+  filter: drop-shadow(0 0 6px #00f0ff);
 }
 
 h1 {
-  font-size: 3rem;
-  letter-spacing: 8px;
-  text-shadow: 0 0 15px #00f0ff;
-  margin-bottom: 10px;
-}
-
-#percentage {
-  font-size: 1.5rem;
-  color: #00ffcc;
-  margin-bottom: 10px;
+  font-size: 2.8rem;
+  letter-spacing: 6px;
+  color: #00f0ff;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  margin-bottom: 20px;
 }
 
 .loader {
-  margin: 0 auto 20px auto;
-  width: 250px;
-  height: 12px;
-  background: #333;
-  border-radius: 6px;
+  width: 260px;
+  height: 16px;
+  background: #222;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 0 10px #00f0ff;
+  position: relative;
+  margin: 0 auto 20px;
+  box-shadow: 0 0 6px #00f0ff;
 }
 
 .loader .bar {
   height: 100%;
   width: 0;
-  background: linear-gradient(to right, #00f0ff, #ff00ff);
-  transition: width 0.4s ease;
-  border-radius: 6px;
+  background: linear-gradient(90deg, #00f0ff, #ff00ff);
+  transition: width 0.3s ease;
+  position: relative;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader .bar span {
+  position: absolute;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-shadow: 0 0 5px #000;
 }
 
 #continue-btn {
-  background: linear-gradient(to right, #00f0ff, #ff00ff);
-  color: white;
-  padding: 12px 25px;
+  background: transparent;
+  color: #fff;
+  padding: 10px 24px;
   font-size: 1rem;
-  border: none;
+  border: 2px solid #00f0ff;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 0 15px #00f0ff;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 #continue-btn:hover {
-  background: linear-gradient(to right, #ff00ff, #00f0ff);
+  background-color: #00f0ff;
+  color: #000;
 }
 
 #mute-btn {
   position: absolute;
-  top: 20px;
+  top: 15px;
   right: 20px;
   background: transparent;
   border: none;
