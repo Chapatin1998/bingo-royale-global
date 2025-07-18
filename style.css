@@ -49,6 +49,17 @@ button:hover {
 }
 
 .bar {
+  .progress-percent {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  color: #0ff;
+  font-weight: bold;
+  font-size: 14px;
+  top: 0;
+  line-height: 20px; /* igual a la altura de .bar-container para centrar vertical */
+  pointer-events: none;
+  }
   height: 100%;
   background: repeating-linear-gradient(
     45deg,
