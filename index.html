@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <audio id="bg-music" src="intro-music.mp3" autoplay loop></audio>
+  <audio id="click-sound" src="click.wav" preload="auto"></audio>
 
   <div class="container">
     <img src="logo.png" alt="Logo" class="logo" />
@@ -21,31 +21,35 @@
   </div>
 
   <script>
-    const btn = document.getElementById("startBtn");
-    const audio = document.getElementById("bg-music");
-    const loadingContainer = document.getElementById("loadingContainer");
-    const progressBar = document.getElementById("progressBar");
+  const btn = document.getElementById("startBtn");
+  const audio = document.getElementById("bg-music");
+  const clickSound = document.getElementById("click-sound");
+  const loadingContainer = document.getElementById("loadingContainer");
+  const progressBar = document.getElementById("progressBar");
 
-    btn.addEventListener("click", () => {
-      btn.style.display = "none";
-      loadingContainer.classList.remove("hidden");
-      audio.play();
+  // Usamos touchstart además de click para mejorar en móviles
+  const eventName = 'ontouchstart' in window ? 'touchstart' : 'click';
 
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress++;
-        progressBar.style.width = progress + "%";
+  btn.addEventListener(eventName, () => {
+    clickSound.play();
+    btn.style.display = "none";
+    loadingContainer.classList.remove("hidden");
+    audio.play();
 
-        if (progress >= 100) {
-          clearInterval(interval);
-          loadingContainer.classList.add("fade-out");
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress++;
+      progressBar.style.width = progress + "%";
 
-          setTimeout(() => {
-            window.location.href = "home.html";
-          }, 1000);
-        }
-      }, 50);
-    });
+      if (progress >= 100) {
+        clearInterval(interval);
+        loadingContainer.classList.add("fade-out");
+
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 1000);
+      }
+    }, 50);
+  });
   </script>
-</body>
-</html>
+    
