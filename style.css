@@ -1,94 +1,88 @@
-/* Estilos generales */
 body {
   margin: 0;
-  padding: 0;
-  background-color: #000;
   font-family: 'Segoe UI', sans-serif;
+  background: black;
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  text-align: center;
   overflow: hidden;
 }
 
 .container {
-  text-align: center;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 20px;
   padding: 20px;
 }
 
-.logo-container {
-  margin-bottom: 20px;
-  animation: float 4s ease-in-out infinite;
-}
-
 .logo {
-  width: 200px;
-  height: auto;
-}
-
-/* Animación flotante para el logo */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  width: 220px;
+  max-width: 80%;
 }
 
 .welcome-title {
-  font-size: 36px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #baf0ff;
+  font-size: 2.8rem;
+  color: #bdf9ff;
   text-shadow: 0 0 15px #00ffff;
 }
 
-.btn {
-  background-color: #00d9ff;
-  color: #000;
-  padding: 15px 30px;
-  font-size: 18px;
-  font-weight: bold;
+.continue-btn {
+  padding: 12px 25px;
+  font-size: 1.2rem;
+  background: #00eaff;
+  color: black;
   border: none;
-  border-radius: 10px;
-  box-shadow: 0 0 15px #00e1ff;
+  border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.3s ease;
+  transition: transform 0.2s ease;
 }
 
-.btn:hover {
-  background-color: #00c0ff;
-  transform: scale(1.05);
-}
-
-/* Botón sonido */
-.sound-toggle {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 24px;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-/* Loader barra */
 .loader {
-  margin-top: 30px;
+  width: 80%;
+  max-width: 400px;
 }
 
 .bar {
-  width: 0%;
-  height: 15px;
-  background: linear-gradient(90deg, #00eaff, #ff00d4);
+  height: 14px;
+  width: 0;
+  background: linear-gradient(to right, #ff00cc, #3333ff);
   border-radius: 10px;
+  margin: 10px 0;
   transition: width 0.1s ease;
 }
 
 #percentage {
-  margin-top: 10px;
-  font-size: 18px;
+  font-size: 1.2rem;
+}
+
+.sound-toggle {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+
+.touch-effect {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(0,255,255,0.6);
+  transition: all 0.2s ease;
+}
+
+@media (max-width: 600px) {
+  .welcome-title {
+    font-size: 2rem;
+  }
+
+  .continue-btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
 }
