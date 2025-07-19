@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bingo VIP Bolivia</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #000;
+      color: #00f5ff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .logo {
+      width: 220px;
+      margin-bottom: 30px;
+    }
+    .lema {
+      color: gold;
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .barra {
+      width: 80%;
+      height: 20px;
+      background: #222;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .progreso {
+      height: 100%;
+      width: 0;
+      background: repeating-linear-gradient(45deg, #00f5ff, #00f5ff 10px, #0066ff 10px, #0066ff 20px);
+      border-radius: 15px;
+      animation: carga 5s linear forwards;
+    }
+    @keyframes carga {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+    .texto-cargando {
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      animation: parpadeo 1.2s infinite;
+    }
+    @keyframes parpadeo {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    #jugar {
+      display: none;
+      padding: 12px 30px;
+      background-color: gold;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <img src="logo.png" alt="Bingo VIP Bolivia" class="logo" />
+  <div class="lema">Donde el juego<br />se vuelve leyenda</div>
+  <div class="barra">
+    <div class="progreso" id="progreso"></div>
+  </div>
+  <div class="texto-cargando" id="texto">CARGANDO...</div>
+  <button id="jugar" onclick="irAJuego()">JUGAR AHORA</button>
+  <audio id="intro" autoplay>
+    <source src="musica/intro.mp3" type="audio/mpeg">
+  </audio>
+  <script>
+    setTimeout(() => {
+      document.getElementById("texto").style.display = "none";
+      document.getElementById("jugar").style.display = "block";
+    }, 5200);function irAJuego() {
+  window.location.href = "juego.html";
+}
+
+  </script>
+</body>
+</html>
