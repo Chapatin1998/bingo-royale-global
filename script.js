@@ -1,57 +1,35 @@
-const musicBtn = document.getElementById('musicBtn');
-const notifyBtn = document.getElementById('notifyBtn');
-const startBtn = document.getElementById('startBtn');
-const audio = document.getElementById('bgMusic');
-const bar = document.getElementById('bar');
-const percentText = document.getElementById('percentage');
-const logo = document.getElementById('logo');
-const buttons = document.querySelectorAll('.controls button');
-const loader = document.getElementById('loader');
+const musicBtn = document.getElementById("musicBtn");
+const notifBtn = document.getElementById("notifBtn");
+const startBtn = document.getElementById("startBtn");
+const music = document.getElementById("bgMusic");
+const progressBar = document.getElementById("progressBar");
 
-let musicOn = false;
+let isPlaying = false;
 
-musicBtn.addEventListener('click', () => {
-  if (!musicOn) {
-    audio.play();
-    musicOn = true;
-    toggleGlow(true);
-  } else {
-    audio.pause();
-    musicOn = false;
-    toggleGlow(false);
-  }
+musicBtn.addEventListener("click", () => {
+  isPlaying ? music.pause() : music.play();
+  isPlaying = !isPlaying;
 });
 
-notifyBtn.addEventListener('click', () => {
-  audio.pause();
-  musicOn = false;
-  toggleGlow(false);
+notifBtn.addEventListener("click", () => {
+  music.pause();
+  isPlaying = false;
+  alert("🔕 Notificaciones silenciadas");
 });
 
-function toggleGlow(active) {
-  if (active) {
-    logo.classList.add('glow');
-    loader.classList.add('glow');
-    buttons.forEach(btn => btn.classList.add('glow'));
-  } else {
-    logo.classList.remove('glow');
-    loader.classList.remove('glow');
-    buttons.forEach(btn => btn.classList.remove('glow'));
-  }
-}
+startBtn.addEventListener("click", () => {
+  music.play();
+  isPlaying = true;
+  startProgressBar();
+});
 
-startBtn.addEventListener('click', () => {
-  let count = 0;
+function startProgressBar() {
+  let progress = 0;
   const interval = setInterval(() => {
-    if (count >= 100) {
-      clearInterval(interval);
-      percentText.textContent = "100%";
-      // Simulamos redirección o continuar
-      // window.location.href = "registro.html";
-    } else {
-      count++;
-      bar.style.width = count + '%';
-      percentText.textContent = count + '%';
-    }
+    progress += 1;
+    progressBar.style.width = `${progress}%`;
+    progressBar.innerText = `${progress}%`;
+
+    if (progress >= 100) clearInterval(interval);
   }, 50);
-});
+}
