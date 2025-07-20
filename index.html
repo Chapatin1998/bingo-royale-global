@@ -1,132 +1,29 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <title>Bingo VIP Bolivia</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: black;
-      color: gold;
-      font-family: sans-serif;
-      text-align: center;
+<style>
+  .fade-in {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out forwards;
+  }
+
+  .fade-in-delay-1 {
+    animation-delay: 0.5s;
+  }
+
+  .fade-in-delay-2 {
+    animation-delay: 1s;
+  }
+
+  .fade-in-delay-3 {
+    animation-delay: 1.5s;
+  }
+
+  .fade-in-delay-4 {
+    animation-delay: 2s;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+      transform: none;
     }
-
-    .logo {
-      width: 60%;
-      max-width: 250px;
-      margin-top: 60px;
-    }
-
-    .lema {
-      margin: 20px 0;
-      font-size: 1.4rem;
-      font-weight: bold;
-    }
-
-    .barra {
-      width: 80%;
-      margin: auto;
-      background: #111;
-      border-radius: 30px;
-      height: 20px;
-      overflow: hidden;
-    }
-
-    .progreso {
-      width: 0%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        45deg,
-        cyan,
-        cyan 10px,
-        blue 10px,
-        blue 20px
-      );
-      animation: cargar 5s linear forwards;
-    }
-
-    @keyframes cargar {
-      0% { width: 0%; }
-      100% { width: 100%; }
-    }
-
-    #jugar {
-      display: none;
-      margin-top: 25px;
-      padding: 12px 30px;
-      background-color: gold;
-      border: none;
-      color: black;
-      font-weight: bold;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      cursor: pointer;
-    }
-
-    #musica-btn {
-      margin-top: 20px;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    .texto-cargando {
-      margin-top: 20px;
-    }
-  </style>
-</head>
-<body>
-  <!-- Logo del juego -->
-  <img src="logo.png" alt="Bingo VIP Bolivia" class="logo" />
-
-  <!-- Lema o slogan -->
-  <div class="lema">Donde el juego<br>se vuelve leyenda</div>
-
-  <!-- Barra de carga -->
-  <div class="barra">
-    <div class="progreso" id="progreso"></div>
-  </div>
-
-  <div class="texto-cargando" id="texto">CARGANDO...</div>
-
-  <!-- Botón JUGAR AHORA -->
-  <button id="jugar" onclick="irAJuego()">JUGAR AHORA</button>
-
-  <!-- Botón para activar/desactivar música -->
-  <button id="musica-btn" onclick="toggleMusica()">🔊 Activar/Desactivar Música</button>
-
-  <!-- Música de fondo -->
-  <audio id="intro" autoplay loop>
-    <source src="musica/intro.mp3" type="audio/mp3">
-    Tu navegador no soporta audio HTML5.
-  </audio>
-
-  <!-- Script JS -->
-  <script>
-    // Mostrar botón después de animación
-    setTimeout(() => {
-      document.getElementById("texto").style.display = "none";
-      document.getElementById("jugar").style.display = "inline-block";
-    }, 5200);
-
-    // Función para el botón JUGAR
-    function irAJuego() {
-      alert("Aquí irá la pantalla del juego más adelante.");
-    }
-
-    // Función para activar/desactivar música
-    function toggleMusica() {
-      const audio = document.getElementById("intro");
-      if (audio.paused) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
-    }
-  </script>
-</body>
-</html>
+  }
+</style>
