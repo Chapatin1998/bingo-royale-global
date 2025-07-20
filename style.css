@@ -1,75 +1,84 @@
+/* Fondo oscuro elegante */
 body {
   margin: 0;
-  background: #000;
-  color: #fff;
+  background: linear-gradient(180deg, #0d0d0d, #1a1a1a);
   font-family: 'Segoe UI', sans-serif;
-  text-align: center;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  flex-direction: column;
 }
 
 .container {
-  animation: fadeIn 2s ease-in;
-}
-
-.logo-glow {
-  max-width: 300px;
-  filter: drop-shadow(0 0 20px gold);
-  animation: glow 2s infinite alternate;
-}
-
-.slogan {
-  font-size: 1.2em;
-  color: gold;
-  margin-bottom: 1em;
-}
-
-.buttons button {
-  margin: 10px;
-  padding: 10px 20px;
-  border: none;
-  background: #222;
-  color: #fff;
-  font-size: 1em;
-  cursor: pointer;
-  border-radius: 8px;
-  box-shadow: 0 0 10px gold;
-  transition: 0.3s;
-}
-
-.buttons button:hover {
-  background: gold;
-  color: black;
-}
-
-.progress-bar-container {
-  width: 80%;
-  margin-top: 20px;
-  height: 20px;
-  background: #333;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, gold, orange);
   text-align: center;
-  color: black;
-  font-weight: bold;
-  transition: width 0.5s ease;
+  animation: fadeIn 2s ease-in-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes glow {
-  from { filter: drop-shadow(0 0 5px gold); }
-  to { filter: drop-shadow(0 0 25px gold); }
+.logo {
+  width: 250px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 15px gold);
+  transition: filter 0.3s;
+}
+
+.frase {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: gold;
+}
+
+.botones button {
+  margin: 10px 5px;
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.jugar {
+  background-color: #ffd700;
+  color: #000;
+  font-weight: bold;
+  box-shadow: 0 0 10px #ffd700;
+}
+
+.musica, .notificacion {
+  background-color: #333;
+  color: gold;
+  font-size: 1.2em;
+}
+
+.musica:hover, .notificacion:hover, .jugar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px gold;
+}
+
+.barra {
+  width: 80%;
+  height: 10px;
+  background-color: #333;
+  margin: 20px auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 10px gold inset;
+}
+
+.progreso {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, gold, orange);
+  transition: width 0.3s ease-in-out;
+}
+
+#porcentaje {
+  font-size: 1em;
+  color: #fff;
 }
