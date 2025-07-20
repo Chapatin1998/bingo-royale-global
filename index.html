@@ -2,36 +2,111 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      font-family: sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    img.logo {
+      width: 220px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin: 10px 0;
+    }
+
+    button#startBtn {
+      background: gold;
+      color: #111;
+      border: none;
+      padding: 12px 28px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s;
+    }
+
+    button#startBtn:hover {
+      background: #ffd700;
+    }
+
+    #loadingContainer {
+      width: 80%;
+      height: 20px;
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 40px;
+      display: none;
+    }
+
+    #loadingBar {
+      height: 100%;
+      width: 0%;
+      background: gold;
+      transition: width 0.2s;
+    }
+
+    #loadingText {
+      margin-top: 10px;
+      font-size: 16px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <img src="logo.png" alt="Bingo VIP Bolivia" class="logo" />
-    <h1 class="welcome">Donde el juego se vuelve leyenda</h1>
 
-    <!-- Botones de la parte superior -->
-    <div class="top-buttons">
-      <button id="music-toggle">🔊</button>
-      <button id="notifications">🔔</button>
-    </div>
+  <img src="logo.png" alt="Bingo VIP Bolivia" class="logo" />
 
-    <!-- Botón iniciar -->
-    <button id="start-btn">🎮 Iniciar Juego</button>
+  <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
 
-    <!-- Barra de carga -->
-    <div id="loader" class="loader hidden">
-      <div class="bar"></div>
-      <div class="percentage" id="percentage">0%</div>
-    </div>
+  <button id="startBtn">Iniciar juego</button>
+
+  <div id="loadingContainer">
+    <div id="loadingBar"></div>
   </div>
+  <div id="loadingText">Cargando... 0%</div>
 
-  <!-- Audio -->
-  <audio id="bg-music" loop autoplay>
-    <source src="intro-music.mp3" type="audio/mpeg" />
-  </audio>
+  <script>
+    const startBtn = document.getElementById('startBtn');
+    const loadingContainer = document.getElementById('loadingContainer');
+    const loadingBar = document.getElementById('loadingBar');
+    const loadingText = document.getElementById('loadingText');
 
-  <script src="script.js"></script>
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      loadingContainer.style.display = 'block';
+      loadingText.style.display = 'block';
+
+      let percent = 0;
+      const interval = setInterval(() => {
+        percent += 1;
+        loadingBar.style.width = percent + '%';
+        loadingText.textContent = `Cargando... ${percent}%`;
+
+        if (percent >= 100) {
+          clearInterval(interval);
+          loadingText.textContent = '¡Listo!';
+          // Aquí puedes redirigir o lanzar el juego:
+          // window.location.href = 'juego.html';
+        }
+      }, 30);
+    });
+  </script>
+
 </body>
 </html>
