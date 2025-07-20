@@ -4,31 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Audio -->
-  <audio id="intro-music" loop>
-    <source src="intro-music.mp3" type="audio/mpeg" />
-  </audio>
+  <div class="container">
+    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
+    <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
 
-  <!-- Loader -->
-  <div id="loader">
-    <img src="logo.png" alt="Logo" class="logo" />
-    <p id="loading-text">Cargando... 0%</p>
-    <div class="ray-bar"></div>
+    <button id="startBtn" class="btn efecto">🎮 Iniciar</button>
+    <button id="musicBtn" class="btn">🔊 Música</button>
+    <button id="notifyBtn" class="btn">🔔 Notificaciones</button>
+
+    <audio id="introMusic" src="intro-music.mp3" loop></audio>
   </div>
 
-  <!-- Pantalla principal -->
-  <div class="container" id="main-content">
-    <img src="logo.png" alt="Logo" class="logo" />
-    <h1 class="welcome-text">¡Bienvenido a Bingo VIP Bolivia!</h1>
-    <div class="buttons">
-      <button id="start-btn">🎮 Iniciar</button>
-      <button id="music-btn">🔇 Música</button>
-      <button id="notify-btn">🔔 Notificaciones</button>
-    </div>
-  </div>
+  <div id="loader" class="loader hidden"></div>
 
   <script src="script.js"></script>
 </body>
