@@ -6,38 +6,71 @@
   <title>Bingo VIP Bolivia</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="fade-in">
-  <div class="container">
+<body>
+
+  <!-- Pantalla de carga -->
+  <div id="loading-screen">
+    <div class="loader-bar">
+      <div class="lightning"></div>
+    </div>
+    <div id="loading-text">Cargando... 0%</div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container fade-in">
     <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
-    <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
+    <h1 class="welcome">🎉 Bienvenido a Bingo VIP Bolivia 🎉</h1>
+    
     <div class="buttons">
-      <button onclick="iniciarJuego()">Iniciar juego</button>
-      <button onclick="toggleMusica()">🔊</button>
-      <button onclick="apagarMusica()">🔔</button>
+      <button id="start-button">🎮 Iniciar juego</button>
+      <button id="music-toggle">🔊</button>
+      <button id="notification-button">🔔</button>
     </div>
   </div>
 
-  <audio id="musicaIntro" src="intro-music.mp3" autoplay loop></audio>
+  <!-- Música -->
+  <audio id="intro-music" src="intro-music.mp3" loop></audio>
 
   <script>
-    const musica = document.getElementById("musicaIntro");
+    const music = document.getElementById("intro-music");
+    const musicToggle = document.getElementById("music-toggle");
+    const startButton = document.getElementById("start-button");
+    const loadingScreen = document.getElementById("loading-screen");
+    const lightning = document.querySelector(".lightning");
+    const loadingText = document.getElementById("loading-text");
 
-    function toggleMusica() {
-      if (musica.paused) {
-        musica.play();
+    let musicPlaying = false;
+
+    musicToggle.addEventListener("click", () => {
+      if (musicPlaying) {
+        music.pause();
+        musicToggle.textContent = "🔊";
       } else {
-        musica.pause();
+        music.play();
+        musicToggle.textContent = "🔈";
       }
-    }
+      musicPlaying = !musicPlaying;
+    });
 
-    function apagarMusica() {
-      musica.pause();
-      musica.currentTime = 0;
-    }
+    startButton.addEventListener("click", () => {
+      loadingScreen.style.display = "flex";
+      lightning.style.width = "0%";
+      loadingText.textContent = "Cargando... 0%";
 
-    function iniciarJuego() {
-      alert("¡El juego comenzará pronto!");
-    }
+      let percent = 0;
+      const interval = setInterval(() => {
+        percent += 1;
+        lightning.style.width = percent + "%";
+        loadingText.textContent = `Cargando... ${percent}%`;
+        if (percent >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            loadingScreen.style.display = "none";
+          }, 500);
+        }
+      }, 30);
+    });
   </script>
+
 </body>
 </html>
