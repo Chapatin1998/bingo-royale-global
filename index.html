@@ -7,56 +7,41 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="intro-screen">
+  <div class="intro-container">
     <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
-    <h1 class="welcome">¡Bienvenido a Bingo VIP Bolivia!</h1>
 
-    <div class="loader">
-      <div class="lightning"></div>
-      <div class="bar">
-        <div class="progress" id="progress-bar"></div>
-      </div>
-      <div id="percentage">0%</div>
+    <h1 class="title">Cargando Bingo VIP Bolivia...</h1>
+
+    <div class="light-bar">
+      <div class="electricity" id="electricity"></div>
+      <div class="fill" id="fill"></div>
     </div>
 
-    <button id="start-btn" class="hidden">Iniciar juego</button>
+    <div class="percent" id="percent">0%</div>
 
-    <div class="icons">
-      <button id="music-btn">🔊</button>
-      <button id="notify-btn">🔔</button>
-    </div>
+    <button id="start-btn" disabled>Iniciar Juego</button>
 
     <audio id="intro-music" src="intro-music.mp3" autoplay loop></audio>
   </div>
 
   <script>
-    const progressBar = document.getElementById('progress-bar');
-    const percentage = document.getElementById('percentage');
-    const startBtn = document.getElementById('start-btn');
-    const musicBtn = document.getElementById('music-btn');
-    const music = document.getElementById('intro-music');
-
+    const percent = document.getElementById('percent');
+    const fill = document.getElementById('fill');
+    const btn = document.getElementById('start-btn');
     let progress = 0;
+
     const interval = setInterval(() => {
       if (progress < 100) {
         progress++;
-        progressBar.style.width = progress + '%';
-        percentage.textContent = progress + '%';
+        fill.style.width = progress + "%";
+        percent.innerText = progress + "%";
       } else {
         clearInterval(interval);
-        startBtn.classList.remove('hidden');
+        btn.disabled = false;
+        btn.classList.add('active');
+        percent.innerText = "¡Listo!";
       }
     }, 40);
-
-    musicBtn.onclick = () => {
-      if (music.paused) {
-        music.play();
-        musicBtn.textContent = '🔊';
-      } else {
-        music.pause();
-        musicBtn.textContent = '🔇';
-      }
-    };
   </script>
 </body>
 </html>
