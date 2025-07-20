@@ -1,39 +1,40 @@
-const inicioBtn = document.getElementById("inicioBtn");
-const barraCarga = document.getElementById("barra-carga");
-const barraCargaContainer = document.getElementById("barra-carga-container");
-const musicaBtn = document.getElementById("musicaBtn");
-const notificacionesBtn = document.getElementById("notificacionesBtn");
-const introAudio = document.getElementById("introAudio");
+const music = document.getElementById("backgroundMusic");
+const toggleMusicBtn = document.getElementById("toggleMusicBtn");
+const startBtn = document.getElementById("startBtn");
+const progressBar = document.getElementById("progressBar");
+const notifyBtn = document.getElementById("notifyBtn");
 
-let musicaActiva = true;
+let musicPlaying = true;
 
-inicioBtn.addEventListener("click", () => {
-  barraCargaContainer.style.display = "block";
-  barraCarga.style.width = "0%";
-  let progreso = 0;
-
-  const cargaInterval = setInterval(() => {
-    progreso += 10;
-    barraCarga.style.width = `${progreso}%`;
-
-    if (progreso >= 100) {
-      clearInterval(cargaInterval);
-      // Aquí podrías redirigir o hacer otra acción
-    }
-  }, 300);
-});
-
-musicaBtn.addEventListener("click", () => {
-  if (musicaActiva) {
-    introAudio.pause();
-    musicaBtn.textContent = "🔈 Música";
+toggleMusicBtn.addEventListener("click", () => {
+  if (musicPlaying) {
+    music.pause();
+    toggleMusicBtn.textContent = "🔈 Música";
   } else {
-    introAudio.play();
-    musicaBtn.textContent = "🔊 Música";
+    music.play();
+    toggleMusicBtn.textContent = "🔇 Música";
   }
-  musicaActiva = !musicaActiva;
+  musicPlaying = !musicPlaying;
 });
 
-notificacionesBtn.addEventListener("click", () => {
-  alert("Notificaciones activadas (simulado)");
+startBtn.addEventListener("click", () => {
+  progressBar.style.width = "100%";
+
+  startBtn.textContent = "Cargando...";
+  startBtn.disabled = true;
+
+  // Simular carga antes de ir a otra pantalla
+  setTimeout(() => {
+    startBtn.textContent = "INICIAR";
+    startBtn.disabled = false;
+    progressBar.style.width = "0%";
+    alert("¡Listo para comenzar el juego!");
+  }, 3000);
+});
+
+// Botón de notificaciones visual
+let notifyActive = true;
+notifyBtn.addEventListener("click", () => {
+  notifyActive = !notifyActive;
+  notifyBtn.textContent = notifyActive ? "🔔 Notificaciones" : "🔕 Notificaciones";
 });
