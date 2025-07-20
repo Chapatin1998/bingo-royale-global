@@ -17,7 +17,7 @@
     </div>
 
     <div class="botones">
-      <button id="botonMusica" class="btn-music">🔊</button>
+      <button id="botonMusica" class="btn-music">🎵</button>
       <button id="botonCampana" class="btn-bell">🔔</button>
       <button id="botonInicio" class="btn-iniciar">🎮 Iniciar juego</button>
     </div>
@@ -34,7 +34,6 @@
     const botonInicio = document.getElementById('botonInicio');
     const progreso = document.getElementById('progreso');
     const porcentaje = document.getElementById('porcentaje');
-
     let cargando = false;
 
     botonMusica.addEventListener('click', () => {
@@ -43,13 +42,13 @@
         botonMusica.textContent = '🔊';
       } else {
         musica.pause();
-        botonMusica.textContent = '🔈';
+        botonMusica.textContent = '🎵';
       }
     });
 
     botonCampana.addEventListener('click', () => {
       musica.pause();
-      botonMusica.textContent = '🔈';
+      botonMusica.textContent = '🎵';
     });
 
     botonInicio.addEventListener('click', () => {
@@ -67,11 +66,12 @@
         progresoActual++;
         progreso.style.width = progresoActual + '%';
         porcentaje.textContent = progresoActual + '%';
+
         if (progresoActual >= 100) {
           clearInterval(intervalo);
           cargando = false;
         }
-      }, 40);
+      }, 40); // Velocidad de carga
     }
   </script>
 </body>
