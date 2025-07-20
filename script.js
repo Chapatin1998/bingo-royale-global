@@ -1,54 +1,44 @@
-const startBtn = document.getElementById('startBtn');
-const musicBtn = document.getElementById('musicBtn');
-const notifBtn = document.getElementById('notifBtn');
-const music = document.getElementById('bgMusic');
-const progresoBar = document.getElementById('progresoBar');
-const porcentaje = document.getElementById('porcentaje');
-const logo = document.querySelector('.logo');
+const startBtn = document.getElementById("startBtn");
+const musicBtn = document.getElementById("musicBtn");
+const notifyBtn = document.getElementById("notifyBtn");
+const barra = document.querySelector(".barra");
+const progreso = document.getElementById("progreso");
+const mensaje = document.getElementById("mensaje");
+const musica = document.getElementById("musica");
 
-let musicOn = false;
-let cargando = false;
+let musicaActiva = false;
 
-// 🎮 Botón Iniciar
-startBtn.addEventListener('click', () => {
-  if (!cargando) {
-    // Barra de carga con efecto
-    let progreso = 0;
-    cargando = true;
-    logo.style.filter = "drop-shadow(0 0 10px #FFD700)";
-    progresoBar.style.boxShadow = "0 0 15px #FFD700";
-
-    const intervalo = setInterval(() => {
-      if (progreso >= 100) {
-        clearInterval(intervalo);
-        cargando = false;
-      } else {
-        progreso++;
-        progresoBar.style.width = `${progreso}%`;
-        porcentaje.innerText = `${progreso}%`;
-      }
-    }, 50);
-
-    // Música encendida si no estaba
-    if (!musicOn) {
-      music.play();
-      musicOn = true;
-    }
-  }
-});
-
-// 🎵 Botón Música
-musicBtn.addEventListener('click', () => {
-  if (music.paused) {
-    music.play();
-    musicOn = true;
+musicBtn.addEventListener("click", () => {
+  if (musicaActiva) {
+    musica.pause();
   } else {
-    music.pause();
-    musicOn = false;
+    musica.play();
   }
+  musicaActiva = !musicaActiva;
 });
 
-// 🔔 Botón Notificaciones
-notifBtn.addEventListener('click', () => {
-  alert("🔔 Recibirás notificaciones cuando el juego esté listo.");
+notifyBtn.addEventListener("click", () => {
+  Notification.requestPermission().then(permiso => {
+    if (permiso === "granted") {
+      new Notification("🔔 Te avisaremos cuando el juego empiece.");
+    }
+  });
+});
+
+startBtn.addEventListener("click", () => {
+  barra.style.display = "block";
+  mensaje.textContent = "Cargando juego...";
+  let progresoActual = 0;
+  const carga = setInterval(() => {
+    progresoActual += 1;
+    progreso.style.width = progresoActual + "%";
+    if (progresoActual >= 100) {
+      clearInterval(carga);
+      mensaje.textContent = "¡Juego listo! 🎉";
+    }
+  }, 30);
+
+  // Efecto visual opcional
+  startBtn.style.boxShadow = "0 0 15px #ffd700";
+  setTimeout(() => startBtn.style.boxShadow = "none", 2000);
 });
