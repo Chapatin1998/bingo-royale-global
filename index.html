@@ -7,70 +7,64 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- Pantalla de carga -->
-  <div id="loading-screen">
-    <div class="loader-bar">
-      <div class="lightning"></div>
-    </div>
-    <div id="loading-text">Cargando... 0%</div>
-  </div>
-
-  <!-- Contenido principal -->
-  <div class="container fade-in">
+  <div class="container">
     <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
-    <h1 class="welcome">🎉 Bienvenido a Bingo VIP Bolivia 🎉</h1>
-    
-    <div class="buttons">
-      <button id="start-button">🎮 Iniciar juego</button>
-      <button id="music-toggle">🔊</button>
-      <button id="notification-button">🔔</button>
-    </div>
-  </div>
 
-  <!-- Música -->
-  <audio id="intro-music" src="intro-music.mp3" loop></audio>
+    <h1 class="bienvenida">¡Bienvenido a Bingo VIP Bolivia!</h1>
+
+    <div class="botones">
+      <button id="startBtn">Iniciar juego</button>
+      <button id="musicBtn">🔊</button>
+      <button id="notifBtn">🔔</button>
+    </div>
+
+    <div class="loader-container" id="loaderContainer">
+      <div class="loader-background">
+        <div class="loader-bar" id="loaderBar"></div>
+        <div class="loader-text" id="loaderText">0%</div>
+      </div>
+    </div>
+
+    <audio id="introMusic" loop>
+      <source src="intro-music.mp3" type="audio/mp3" />
+    </audio>
+  </div>
 
   <script>
-    const music = document.getElementById("intro-music");
-    const musicToggle = document.getElementById("music-toggle");
-    const startButton = document.getElementById("start-button");
-    const loadingScreen = document.getElementById("loading-screen");
-    const lightning = document.querySelector(".lightning");
-    const loadingText = document.getElementById("loading-text");
+    const startBtn = document.getElementById("startBtn");
+    const musicBtn = document.getElementById("musicBtn");
+    const music = document.getElementById("introMusic");
+    const loaderContainer = document.getElementById("loaderContainer");
+    const loaderBar = document.getElementById("loaderBar");
+    const loaderText = document.getElementById("loaderText");
 
     let musicPlaying = false;
 
-    musicToggle.addEventListener("click", () => {
+    musicBtn.addEventListener("click", () => {
       if (musicPlaying) {
         music.pause();
-        musicToggle.textContent = "🔊";
+        musicBtn.textContent = "🔊";
       } else {
         music.play();
-        musicToggle.textContent = "🔈";
+        musicBtn.textContent = "🔈";
       }
       musicPlaying = !musicPlaying;
     });
 
-    startButton.addEventListener("click", () => {
-      loadingScreen.style.display = "flex";
-      lightning.style.width = "0%";
-      loadingText.textContent = "Cargando... 0%";
-
+    startBtn.addEventListener("click", () => {
+      loaderContainer.style.display = "block";
       let percent = 0;
+
       const interval = setInterval(() => {
-        percent += 1;
-        lightning.style.width = percent + "%";
-        loadingText.textContent = `Cargando... ${percent}%`;
+        percent++;
+        loaderBar.style.width = percent + "%";
+        loaderText.textContent = percent + "%";
+
         if (percent >= 100) {
           clearInterval(interval);
-          setTimeout(() => {
-            loadingScreen.style.display = "none";
-          }, 500);
         }
-      }, 30);
+      }, 25); // Velocidad de carga
     });
   </script>
-
 </body>
 </html>
