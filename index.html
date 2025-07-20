@@ -2,41 +2,76 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bingo VIP Bolivia</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="fade-in">
-  <div class="container">
-    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
-    <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
-    <div class="buttons">
-      <button onclick="iniciarJuego()">Iniciar juego</button>
-      <button onclick="toggleMusica()">🔊</button>
-      <button onclick="apagarMusica()">🔔</button>
+<body>
+  <div class="pantalla">
+    <img src="assets/logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
+    <h1 class="bienvenida">¡Bienvenido a Bingo VIP Bolivia!</h1>
+
+    <div class="barra-carga">
+      <div class="progreso" id="progreso"></div>
+      <span id="porcentaje">0%</span>
+    </div>
+
+    <div class="botones">
+      <button id="botonMusica" class="btn-music">🔊</button>
+      <button id="botonCampana" class="btn-bell">🔔</button>
+      <button id="botonInicio" class="btn-iniciar">🎮 Iniciar juego</button>
     </div>
   </div>
 
-  <audio id="musicaIntro" src="intro-music.mp3" autoplay loop></audio>
+  <audio id="musicaFondo" loop>
+    <source src="assets/intro-music.mp3" type="audio/mpeg" />
+  </audio>
 
   <script>
-    const musica = document.getElementById("musicaIntro");
+    const botonMusica = document.getElementById('botonMusica');
+    const botonCampana = document.getElementById('botonCampana');
+    const musica = document.getElementById('musicaFondo');
+    const botonInicio = document.getElementById('botonInicio');
+    const progreso = document.getElementById('progreso');
+    const porcentaje = document.getElementById('porcentaje');
 
-    function toggleMusica() {
+    let cargando = false;
+
+    botonMusica.addEventListener('click', () => {
       if (musica.paused) {
         musica.play();
+        botonMusica.textContent = '🔊';
       } else {
         musica.pause();
+        botonMusica.textContent = '🔈';
       }
-    }
+    });
 
-    function apagarMusica() {
+    botonCampana.addEventListener('click', () => {
       musica.pause();
-      musica.currentTime = 0;
-    }
+      botonMusica.textContent = '🔈';
+    });
 
-    function iniciarJuego() {
-      alert("¡El juego comenzará pronto!");
+    botonInicio.addEventListener('click', () => {
+      if (!cargando) {
+        musica.play();
+        botonMusica.textContent = '🔊';
+        iniciarCarga();
+      }
+    });
+
+    function iniciarCarga() {
+      cargando = true;
+      let progresoActual = 0;
+      const intervalo = setInterval(() => {
+        progresoActual++;
+        progreso.style.width = progresoActual + '%';
+        porcentaje.textContent = progresoActual + '%';
+        if (progresoActual >= 100) {
+          clearInterval(intervalo);
+          cargando = false;
+        }
+      }, 40);
     }
   </script>
 </body>
