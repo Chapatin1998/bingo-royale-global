@@ -1,94 +1,95 @@
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Segoe UI', sans-serif;
   background-color: #111;
   color: #fff;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
+  animation: fadeIn 2s ease-in;
 }
 
-.container {
+.pantalla {
   text-align: center;
-  padding: 20px;
-  max-width: 90%;
+  width: 90%;
+  max-width: 500px;
 }
 
 .logo {
-  max-width: 280px;
-  height: auto;
+  width: 180px;
   margin-bottom: 20px;
 }
 
-h1 {
+.bienvenida {
   font-size: 1.5rem;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
-.buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
+.botones {
+  margin-top: 30px;
 }
 
 button {
-  background-color: #ffc107;
-  border: none;
+  margin: 10px;
   padding: 12px 20px;
   font-size: 1rem;
-  border-radius: 10px;
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background 0.3s;
 }
 
-button:hover {
-  background-color: #ffb300;
+.btn-iniciar {
+  background-color: gold;
+  color: #000;
 }
 
-/* Animación suave de entrada */
-.fade-in {
-  animation: fadeIn 1s ease-in-out;
+.btn-music,
+.btn-bell {
+  background-color: #333;
+  color: #fff;
+  font-size: 1.2rem;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+}
+
+.btn-music:hover,
+.btn-bell:hover,
+.btn-iniciar:hover {
+  background-color: #555;
+}
+
+.barra-carga {
+  background: #333;
+  border-radius: 12px;
+  width: 100%;
+  height: 25px;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto 20px auto;
+}
+
+.progreso {
+  background: gold;
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+#porcentaje {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  line-height: 25px;
+  font-weight: bold;
+  color: #000;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-/* RESPONSIVE AJUSTES SEGÚN TAMAÑO DE PANTALLA */
-@media (min-width: 768px) {
-  .logo {
-    max-width: 350px;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  button {
-    font-size: 1.2rem;
-    padding: 14px 26px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container {
-    max-width: 700px;
-  }
-
-  .logo {
-    max-width: 400px;
-  }
-
-  h1 {
-    font-size: 2.5rem;
-  }
-
-  button {
-    font-size: 1.3rem;
-    padding: 16px 30px;
-  }
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
