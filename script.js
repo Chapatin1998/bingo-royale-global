@@ -1,57 +1,52 @@
-// Referencias
-const music = document.getElementById("background-music");
-const musicButton = document.getElementById("music-button");
-const startButton = document.getElementById("start-button");
-const notifyButton = document.getElementById("notify-button");
-const loadingScreen = document.getElementById("loading-screen");
-const loadingBar = document.getElementById("loading-bar");
-const loadingText = document.getElementById("loading-text");
+let music = document.getElementById("introMusic");
+let musicBtn = document.getElementById("musicBtn");
+let startBtn = document.getElementById("startBtn");
+let loader = document.getElementById("loader");
+let loadingText = document.getElementById("loading-text");
+let rayBar = document.querySelector(".ray-bar");
 
-let musicPlaying = false;
+let progress = 0;
+let loadingInterval = setInterval(() => {
+  progress += Math.floor(Math.random() * 5) + 2;
+  if (progress > 100) progress = 100;
+  loadingText.innerText = `Cargando... ${progress}%`;
+  rayBar.style.width = `${progress}%`;
 
-// Música ON/OFF
-musicButton.addEventListener("click", () => {
-  if (musicPlaying) {
+  if (progress >= 100) {
+    clearInterval(loadingInterval);
+    setTimeout(() => {
+      loader.style.display = "none";
+      document.getElementById("main-content").style.display = "flex";
+    }, 500);
+  }
+}, 100);
+
+// Botón de música
+let isPlaying = false;
+musicBtn.addEventListener("click", () => {
+  if (isPlaying) {
     music.pause();
-    musicPlaying = false;
-    musicButton.textContent = "🎵";
+    musicBtn.innerText = "🔇 Música";
   } else {
     music.play();
-    musicPlaying = true;
-    musicButton.textContent = "🔇";
+    musicBtn.innerText = "🔊 Música";
   }
+  isPlaying = !isPlaying;
 });
 
-// Notificaciones
-notifyButton.addEventListener("click", async () => {
-  if ("Notification" in window) {
-    let perm = await Notification.requestPermission();
-    if (perm === "granted") {
-      new Notification("¡Te avisaremos cuando empiece el próximo juego!");
+// Botón de iniciar juego
+startBtn.addEventListener("click", () => {
+  startBtn.innerText = "🎮 ¡Cargando Juego!";
+  startBtn.disabled = true;
+  startBtn.style.backgroundColor = "#aaa";
+  // Aquí puedes enlazar con la siguiente pantalla o juego
+});
+
+// Botón de notificaciones
+document.getElementById("notifyBtn").addEventListener("click", () => {
+  Notification.requestPermission().then(permission => {
+    if (permission === "granted") {
+      new Notification("✅ Notificaciones activadas para Bingo VIP Bolivia");
     }
-  } else {
-    alert("Tu navegador no admite notificaciones.");
-  }
+  });
 });
-
-// Botón iniciar: solo activa animaciones visuales
-startButton.addEventListener("click", () => {
-  // Iluminar logo y botones
-  document.getElementById("logo").style.filter = "drop-shadow(0 0 24px gold)";
-  startButton.style.boxShadow = "0 0 24px yellow";
-  musicButton.style.boxShadow = "0 0 12px yellow";
-  notifyButton.style.boxShadow = "0 0 12px yellow";
-});
-
-// Simulación de carga inicial (barra)
-let percent = 0;
-const fakeLoad = setInterval(() => {
-  if (percent >= 100) {
-    clearInterval(fakeLoad);
-    loadingScreen.style.display = "none";
-  } else {
-    percent += 1;
-    loadingBar.style.width = percent + "%";
-    loadingText.textContent = "Cargando... " + percent + "%";
-  }
-}, 40);
