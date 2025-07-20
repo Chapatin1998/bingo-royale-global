@@ -1,35 +1,54 @@
-const musicBtn = document.getElementById("musicBtn");
-const notifBtn = document.getElementById("notifBtn");
-const startBtn = document.getElementById("startBtn");
-const music = document.getElementById("bgMusic");
-const progressBar = document.getElementById("progressBar");
+const startBtn = document.getElementById('startBtn');
+const musicBtn = document.getElementById('musicBtn');
+const notifBtn = document.getElementById('notifBtn');
+const music = document.getElementById('bgMusic');
+const progresoBar = document.getElementById('progresoBar');
+const porcentaje = document.getElementById('porcentaje');
+const logo = document.querySelector('.logo');
 
-let isPlaying = false;
+let musicOn = false;
+let cargando = false;
 
-musicBtn.addEventListener("click", () => {
-  isPlaying ? music.pause() : music.play();
-  isPlaying = !isPlaying;
+// 🎮 Botón Iniciar
+startBtn.addEventListener('click', () => {
+  if (!cargando) {
+    // Barra de carga con efecto
+    let progreso = 0;
+    cargando = true;
+    logo.style.filter = "drop-shadow(0 0 10px #FFD700)";
+    progresoBar.style.boxShadow = "0 0 15px #FFD700";
+
+    const intervalo = setInterval(() => {
+      if (progreso >= 100) {
+        clearInterval(intervalo);
+        cargando = false;
+      } else {
+        progreso++;
+        progresoBar.style.width = `${progreso}%`;
+        porcentaje.innerText = `${progreso}%`;
+      }
+    }, 50);
+
+    // Música encendida si no estaba
+    if (!musicOn) {
+      music.play();
+      musicOn = true;
+    }
+  }
 });
 
-notifBtn.addEventListener("click", () => {
-  music.pause();
-  isPlaying = false;
-  alert("🔕 Notificaciones silenciadas");
+// 🎵 Botón Música
+musicBtn.addEventListener('click', () => {
+  if (music.paused) {
+    music.play();
+    musicOn = true;
+  } else {
+    music.pause();
+    musicOn = false;
+  }
 });
 
-startBtn.addEventListener("click", () => {
-  music.play();
-  isPlaying = true;
-  startProgressBar();
+// 🔔 Botón Notificaciones
+notifBtn.addEventListener('click', () => {
+  alert("🔔 Recibirás notificaciones cuando el juego esté listo.");
 });
-
-function startProgressBar() {
-  let progress = 0;
-  const interval = setInterval(() => {
-    progress += 1;
-    progressBar.style.width = `${progress}%`;
-    progressBar.innerText = `${progress}%`;
-
-    if (progress >= 100) clearInterval(interval);
-  }, 50);
-}
