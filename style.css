@@ -41,3 +41,21 @@ button {
 button:hover {
   background-color: #e6b800;
 }
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+
+  #logo {
+    width: 180px;
+  }
+
+  .bienvenida {
+    font-size: 1.2rem;
+  }
+
+  button {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
