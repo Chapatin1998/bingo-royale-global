@@ -1,35 +1,45 @@
-const music = document.getElementById('introMusic');
-const musicBtn = document.getElementById('musicBtn');
-const startBtn = document.getElementById('startBtn');
-const loader = document.getElementById('loader');
-let musicPlaying = false;
+document.addEventListener("DOMContentLoaded", () => {
+  const loader = document.getElementById("loader");
+  const bar = document.getElementById("loader-bar");
+  const main = document.getElementById("main");
+  const music = document.getElementById("intro-music");
+  const musicBtn = document.getElementById("music-btn");
+  const notifBtn = document.getElementById("notif-btn");
+  const startBtn = document.getElementById("start-btn");
 
-musicBtn.addEventListener('click', () => {
-  if (musicPlaying) {
-    music.pause();
-    musicPlaying = false;
-    musicBtn.innerHTML = '🔊 Música';
-  } else {
-    music.play();
-    musicPlaying = true;
-    musicBtn.innerHTML = '🔇 Música';
-  }
-});
-
-startBtn.addEventListener('click', () => {
-  loader.classList.remove('hidden');
-  setTimeout(() => {
-    loader.classList.add('hidden');
-    alert('¡El juego comenzará pronto!');
-  }, 3000);
-});
-
-document.getElementById('notifyBtn').addEventListener('click', () => {
-  Notification.requestPermission().then(permission => {
-    if (permission === 'granted') {
-      new Notification("🔔 Estás suscrito a notificaciones del juego.");
-    } else {
-      alert("Las notificaciones están bloqueadas.");
+  // Simulación de carga
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += 2;
+    bar.style.width = `${progress}%`;
+    if (progress >= 100) {
+      clearInterval(interval);
+      loader.style.display = "none";
+      main.classList.remove("hidden");
     }
+  }, 60);
+
+  // Botón de música independiente
+  let musicPlaying = false;
+  musicBtn.addEventListener("click", () => {
+    if (musicPlaying) {
+      music.pause();
+    } else {
+      music.play();
+    }
+    musicPlaying = !musicPlaying;
+    musicBtn.textContent = musicPlaying ? "🔈" : "🔊";
+  });
+
+  // Notificaciones (solo muestra alerta)
+  notifBtn.addEventListener("click", () => {
+    alert("Recibirás notificaciones del juego.");
+  });
+
+  // Botón de inicio (solo efectos visuales)
+  startBtn.addEventListener("click", () => {
+    startBtn.style.boxShadow = "0 0 15px #fff200";
+    startBtn.style.borderColor = "#fff200";
+    startBtn.style.color = "#fff200";
   });
 });
