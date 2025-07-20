@@ -2,45 +2,42 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <div class="container fade-in">
-    <div class="logo">
-      <img src="logo.png" alt="Logo Bingo VIP Bolivia" />
-    </div>
-
-    <h1 class="bienvenida">¡Bienvenido a Bingo VIP Bolivia!</h1>
-
-    <div class="botones">
-      <button id="startBtn">Iniciar juego</button>
-      <button id="musicToggle"><img src="https://img.icons8.com/ios-filled/24/000000/musical-notes.png"/></button>
-      <button id="notificaciones"><img src="https://img.icons8.com/ios-filled/24/000000/bell.png"/></button>
+<body class="fade-in">
+  <div class="container">
+    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
+    <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
+    <div class="buttons">
+      <button onclick="iniciarJuego()">Iniciar juego</button>
+      <button onclick="toggleMusica()">🔊</button>
+      <button onclick="apagarMusica()">🔔</button>
     </div>
   </div>
 
-  <audio id="introMusic" src="intro-music.mp3" autoplay loop></audio>
+  <audio id="musicaIntro" src="intro-music.mp3" autoplay loop></audio>
 
   <script>
-    const music = document.getElementById("introMusic");
-    const toggleBtn = document.getElementById("musicToggle");
+    const musica = document.getElementById("musicaIntro");
 
-    toggleBtn.addEventListener("click", () => {
-      if (music.paused) {
-        music.play();
-        toggleBtn.innerHTML = '<img src="https://img.icons8.com/ios-filled/24/000000/musical-notes.png"/>';
+    function toggleMusica() {
+      if (musica.paused) {
+        musica.play();
       } else {
-        music.pause();
-        toggleBtn.innerHTML = '<img src="https://img.icons8.com/ios-glyphs/24/000000/mute.png"/>';
+        musica.pause();
       }
-    });
+    }
 
-    document.getElementById("startBtn").addEventListener("click", () => {
-      alert("Iniciando el juego...");
-      // Aquí puedes redirigir o mostrar otra sección.
-    });
+    function apagarMusica() {
+      musica.pause();
+      musica.currentTime = 0;
+    }
+
+    function iniciarJuego() {
+      alert("¡El juego comenzará pronto!");
+    }
   </script>
 </body>
 </html>
