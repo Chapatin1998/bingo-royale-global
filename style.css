@@ -1,8 +1,7 @@
 body {
   margin: 0;
-  padding: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #121212;
+  background-color: #0f0f0f;
   color: #fff;
   display: flex;
   justify-content: center;
@@ -11,96 +10,61 @@ body {
   overflow: hidden;
 }
 
-.container {
+.pantalla-inicio {
   text-align: center;
-  animation: fadeIn 2s ease-in-out;
   position: relative;
+  max-width: 90%;
 }
 
 .logo {
   width: 200px;
   margin-bottom: 20px;
+  animation: fade-in 1.5s ease-out;
 }
 
-.welcome {
-  font-size: 1.5rem;
+.bienvenida {
+  font-size: 1.6rem;
   margin-bottom: 30px;
-  color: gold;
+  animation: fade-in 2s ease-out;
 }
 
-#start-btn {
-  padding: 15px 40px;
-  font-size: 1.2rem;
+.boton-iniciar {
   background-color: gold;
+  color: #000;
+  padding: 15px 30px;
+  font-size: 1.2rem;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  color: #000;
-  margin-top: 20px;
+  animation: fade-in 2.5s ease-out;
+  transition: background-color 0.3s;
 }
 
-#start-btn:hover {
-  background-color: #f0c000;
+.boton-iniciar:hover {
+  background-color: #ffd700;
 }
 
-.top-buttons {
+.botones-superiores {
   position: absolute;
-  top: 20px;
+  top: 15px;
   right: 20px;
+  display: flex;
+  gap: 10px;
 }
 
-.top-buttons button {
-  background: none;
-  border: none;
+.icono {
   font-size: 1.5rem;
+  background: transparent;
+  border: none;
   color: white;
-  margin-left: 10px;
   cursor: pointer;
 }
 
-.loader {
-  margin-top: 40px;
-  position: relative;
-  width: 80%;
-  max-width: 400px;
-  height: 25px;
-  border-radius: 30px;
-  border: 2px solid gold;
-  background-color: #333;
-  overflow: hidden;
-  margin-left: auto;
-  margin-right: auto;
+.fade-in {
+  animation: fade-in 1s ease-out;
 }
 
-.loader .bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, gold, #ffeb3b, gold);
-  animation: lightning 1s infinite linear;
-}
-
-.loader .percentage {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 100%;
-  line-height: 25px;
-  font-weight: bold;
-  color: gold;
-}
-
-.hidden {
-  display: none;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes lightning {
-  0% { filter: brightness(1); }
-  50% { filter: brightness(1.5); }
-  100% { filter: brightness(1); }
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
