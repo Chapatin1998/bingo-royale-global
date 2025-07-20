@@ -4,63 +4,141 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0d0d0d;
+      font-family: 'Segoe UI', sans-serif;
+      color: gold;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    img {
+      max-width: 300px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      color: #FFD700;
+    }
+
+    .frase {
+      font-size: 1.2rem;
+      text-align: center;
+      margin: 10px 0 30px;
+      color: #f2c94c;
+    }
+
+    .botones {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #FFD700;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #fff2a8;
+    }
+
+    .porcentaje {
+      font-size: 1rem;
+      color: white;
+      margin-bottom: 5px;
+    }
+
+    .barra {
+      width: 80%;
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .progreso {
+      width: 0%;
+      height: 15px;
+      background: gold;
+      transition: width 0.3s;
+    }
+
+    audio {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      img {
+        max-width: 200px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <img src="logo.png" alt="Bingo VIP Bolivia" class="logo" />
+  <img src="logo.png" alt="Logo Bingo VIP Bolivia">
+  <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
+  <div class="frase">Donde el juego se vuelve leyenda</div>
 
-    <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
-
-    <div class="progress-container">
-      <div class="progress-bar" id="progressBar">
-        <span id="progressText">0%</span>
-      </div>
-    </div>
-
-    <div class="buttons">
-      <button id="soundOn">🔊</button>
-      <button id="soundOff">🔔</button>
-      <button id="startBtn">🎮 Iniciar juego</button>
-    </div>
+  <div class="porcentaje" id="porcentaje">0%</div>
+  <div class="barra">
+    <div class="progreso" id="progreso"></div>
   </div>
 
-  <audio id="introMusic" loop>
-    <source src="intro-music.mp3" type="audio/mpeg" />
-  </audio>
+  <div class="botones">
+    <button onclick="iniciarCarga()">🎮 Iniciar juego</button>
+    <button onclick="toggleMusica()">🔔 Campana</button>
+  </div>
+
+  <audio id="musica" src="intro-music.mp3" loop></audio>
 
   <script>
-    const startBtn = document.getElementById("startBtn");
-    const soundOn = document.getElementById("soundOn");
-    const soundOff = document.getElementById("soundOff");
-    const music = document.getElementById("introMusic");
-    const progressBar = document.getElementById("progressBar");
-    const progressText = document.getElementById("progressText");
+    const progreso = document.getElementById("progreso");
+    const porcentaje = document.getElementById("porcentaje");
+    const musica = document.getElementById("musica");
+    let intervalo = null;
 
-    let progress = 0;
-    let interval;
-
-    startBtn.addEventListener("click", () => {
-      if (interval) return;
-      music.play();
-      interval = setInterval(() => {
-        if (progress >= 100) {
-          clearInterval(interval);
-          return;
+    function iniciarCarga() {
+      let carga = 0;
+      clearInterval(intervalo);
+      intervalo = setInterval(() => {
+        if (carga >= 100) {
+          clearInterval(intervalo);
+        } else {
+          carga++;
+          porcentaje.textContent = carga + "%";
+          progreso.style.width = carga + "%";
         }
-        progress++;
-        progressBar.style.width = progress + "%";
-        progressText.textContent = progress + "%";
-      }, 40); // velocidad
-    });
+      }, 50); // velocidad de carga simulada
 
-    soundOn.addEventListener("click", () => {
-      music.play();
-    });
+      if (musica.paused) {
+        musica.play();
+      }
+    }
 
-    soundOff.addEventListener("click", () => {
-      music.pause();
-    });
+    function toggleMusica() {
+      if (musica.paused) {
+        musica.play();
+      } else {
+        musica.pause();
+      }
+    }
   </script>
 </body>
 </html>
