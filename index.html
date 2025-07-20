@@ -3,93 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pantalla de Inicio - Bingo VIP Bolivia</title>
+  <title>Bingo VIP Bolivia</title>
   <style>
     body {
-      background-color: #0d0d0d;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 80px;
+      margin: 0;
+      padding: 0;
+      background-color: #0f0f0f; /* Fondo oscuro elegante */
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    img.logo {
+    #logo {
       width: 180px;
       margin-bottom: 20px;
     }
 
     h1 {
       font-size: 28px;
-      margin-bottom: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease-in-out;
     }
 
-    p {
-      font-size: 18px;
-      margin-top: 0;
-      color: #ccc;
-    }
-
-    .btn-iniciar {
-      margin-top: 30px;
-      padding: 12px 28px;
-      font-size: 18px;
-      background-color: #ffd700;
-      color: #000;
+    button {
+      padding: 12px 24px;
+      margin: 10px;
       border: none;
       border-radius: 8px;
+      background-color: #f1c40f;
+      color: #000;
+      font-size: 18px;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
 
-    .btn-iniciar:hover {
-      background-color: #e6c200;
+    button:hover {
+      background-color: #d4ac0d;
     }
 
-    .music-btn {
+    #musicToggle {
       position: absolute;
       top: 20px;
       right: 20px;
       font-size: 24px;
       background: none;
       border: none;
-      color: white;
+      color: #fff;
       cursor: pointer;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
-  <!-- BOTÓN MÚSICA -->
-  <button class="music-btn" onclick="toggleMusic()">🎵</button>
+  <!-- Ícono musical para apagar/encender música -->
+  <button id="musicToggle" onclick="toggleMusic()">🔊</button>
 
-  <!-- LOGO -->
-  <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo">
+  <!-- Logo principal -->
+  <img id="logo" src="logo-bingo-vip.png" alt="Bingo VIP Bolivia Logo">
 
-  <!-- FRASE DE BIENVENIDA -->
+  <!-- Frase bienvenida -->
   <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
-  <p>El juego de bingo más emocionante de Bolivia, con premios reales y diversión sin límites.</p>
 
-  <!-- BOTÓN INICIAR JUEGO -->
-  <button class="btn-iniciar">🎮 Iniciar juego</button>
+  <!-- Botón Iniciar juego -->
+  <button id="iniciarJuego" onclick="iniciarJuego()">Iniciar juego</button>
 
-  <!-- AUDIO -->
+  <!-- Audio -->
   <audio id="musicaFondo" loop>
-    <source src="musica.mp3" type="audio/mpeg">
+    <source src="intro-music.mp3" type="audio/mpeg">
     Tu navegador no soporta audio HTML5.
   </audio>
 
-  <!-- SCRIPT -->
   <script>
     const musica = document.getElementById("musicaFondo");
     let isPlaying = false;
 
+    function iniciarJuego() {
+      musica.play().then(() => {
+        isPlaying = true;
+        console.log("🎵 Música iniciada.");
+      }).catch(err => {
+        console.log("Error al reproducir música:", err);
+      });
+
+      // Aquí puedes continuar con lógica del juego...
+      console.log("🎮 Juego iniciado");
+    }
+
     function toggleMusic() {
       if (isPlaying) {
         musica.pause();
+        isPlaying = false;
       } else {
-        musica.play();
+        musica.play().then(() => {
+          isPlaying = true;
+        }).catch(err => {
+          console.log("Autoplay bloqueado:", err);
+        });
       }
-      isPlaying = !isPlaying;
     }
   </script>
 
