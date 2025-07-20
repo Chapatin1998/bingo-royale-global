@@ -1,87 +1,91 @@
 body {
   margin: 0;
-  padding: 0;
-  background-color: #0a0a0a;
-  color: #ffd700;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0b0b0b;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  overflow: hidden;
 }
 
 .container {
   text-align: center;
-  width: 90%;
-  max-width: 400px;
+  animation: fadeIn 2s ease-in;
 }
 
 .logo {
-  width: 150px;
-  margin-bottom: 20px;
+  width: 180px;
+  filter: drop-shadow(0 0 15px gold);
+  animation: brilloLogo 2s infinite alternate;
 }
 
-.lema {
-  font-size: 1.2em;
-  margin-bottom: 30px;
+.bienvenida {
+  font-size: 1.8rem;
+  color: gold;
+  margin: 20px 0;
+  text-shadow: 0 0 10px #ffcc00;
+  animation: brilloTexto 3s infinite alternate;
 }
 
-.barra-carga {
-  width: 100%;
-  height: 15px;
-  background-color: #333;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  border: 2px solid #ffd700;
+.botones {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
 }
 
-.relleno {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to right, #ffd700, #ffcc00, #ffd700);
-  animation: brillar 3s infinite linear;
-}
-
-@keyframes brillar {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-.boton-iniciar {
-  background-color: orange;
-  color: #fff;
-  border: none;
-  padding: 12px 30px;
-  font-size: 1.1em;
+.boton, .icono {
+  background: #222;
+  color: gold;
+  border: 2px solid gold;
+  padding: 10px 20px;
+  font-size: 1rem;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 0 15px gold;
-  margin-bottom: 20px;
+  transition: 0.3s;
+  box-shadow: 0 0 10px gold;
 }
 
-.boton-iniciar:hover {
-  background-color: #ff9900;
+.boton:hover, .icono:hover {
+  background: gold;
+  color: #111;
 }
 
-.botones-secundarios {
-  display: flex;
-  justify-content: space-around;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.boton-secundario {
-  background-color: #1a1a1a;
-  color: white;
-  border: none;
-  padding: 10px 20px;
+#barraCarga {
+  margin-top: 40px;
+  width: 80%;
+  height: 20px;
+  border: 2px solid gold;
   border-radius: 10px;
-  cursor: pointer;
-  font-size: 1em;
-  box-shadow: 0 0 5px #ffd700;
+  overflow: hidden;
+  background: #1c1c1c;
+  box-shadow: 0 0 10px gold;
 }
 
-.boton-secundario:hover {
-  background-color: #333;
+.progreso {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, gold, orange);
+  transition: width 0.5s;
+}
+
+.barra-oculta {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes brilloLogo {
+  from { filter: drop-shadow(0 0 10px gold); }
+  to { filter: drop-shadow(0 0 25px yellow); }
+}
+
+@keyframes brilloTexto {
+  from { text-shadow: 0 0 5px #ffcc00; }
+  to { text-shadow: 0 0 15px #ffff66; }
 }
