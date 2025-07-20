@@ -4,26 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-
-  <div class="contenedor">
+  <div class="container">
     <img src="logo.png" alt="Logo" class="logo" />
 
-    <div id="barra-carga-container" class="barra-carga-container">
-      <div id="barra-carga" class="barra-carga"></div>
+    <div class="slogan">
+      <p>Donde el juego<br>se vuelve leyenda</p>
     </div>
 
-    <button id="inicioBtn" class="btn-principal">INICIAR</button>
+    <div id="progressBarContainer">
+      <div id="progressBar"></div>
+    </div>
 
-    <div class="botones-secundarios">
-      <button id="musicaBtn" class="btn-secundario">🔊 Música</button>
-      <button id="notificacionesBtn" class="btn-secundario">🔔 Notificaciones</button>
+    <button id="startBtn">INICIAR</button>
+
+    <div class="controls">
+      <button id="toggleMusicBtn">🔇 Música</button>
+      <button id="notifyBtn">🔔 Notificaciones</button>
     </div>
   </div>
 
-  <audio id="introAudio" src="intro-music.mp3" loop></audio>
+  <audio id="backgroundMusic" src="intro-music.mp3" loop autoplay></audio>
   <script src="script.js"></script>
 </body>
 </html>
