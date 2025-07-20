@@ -1,49 +1,35 @@
-const loader = document.getElementById("loader");
-const loadingText = document.getElementById("loading-text");
-const music = document.getElementById("intro-music");
-const startBtn = document.getElementById("start-btn");
-const musicBtn = document.getElementById("music-btn");
-const notifyBtn = document.getElementById("notify-btn");
+const music = document.getElementById('introMusic');
+const musicBtn = document.getElementById('musicBtn');
+const startBtn = document.getElementById('startBtn');
+const loader = document.getElementById('loader');
+let musicPlaying = false;
 
-let progress = 0;
-let isPlaying = false;
-
-const loadingInterval = setInterval(() => {
-  progress += 2;
-  loadingText.innerText = `Cargando... ${progress}%`;
-
-  if (progress >= 100) {
-    clearInterval(loadingInterval);
-    setTimeout(() => {
-      loader.style.display = "none";
-      document.getElementById("main-content").style.display = "flex";
-      music.play();
-      isPlaying = true;
-      musicBtn.innerText = "🔊 Música";
-    }, 500);
-  }
-}, 100);
-
-musicBtn.addEventListener("click", () => {
-  if (isPlaying) {
+musicBtn.addEventListener('click', () => {
+  if (musicPlaying) {
     music.pause();
-    isPlaying = false;
-    musicBtn.innerText = "🔇 Música";
+    musicPlaying = false;
+    musicBtn.innerHTML = '🔊 Música';
   } else {
     music.play();
-    isPlaying = true;
-    musicBtn.innerText = "🔊 Música";
+    musicPlaying = true;
+    musicBtn.innerHTML = '🔇 Música';
   }
 });
 
-notifyBtn.addEventListener("click", () => {
-  Notification.requestPermission().then(permission => {
-    if (permission === "granted") {
-      new Notification("🔔 Bingo VIP Bolivia activó tus notificaciones.");
-    }
-  });
+startBtn.addEventListener('click', () => {
+  loader.classList.remove('hidden');
+  setTimeout(() => {
+    loader.classList.add('hidden');
+    alert('¡El juego comenzará pronto!');
+  }, 3000);
 });
 
-startBtn.addEventListener("click", () => {
-  alert("¡Juego iniciado! (aquí iría la siguiente pantalla)");
+document.getElementById('notifyBtn').addEventListener('click', () => {
+  Notification.requestPermission().then(permission => {
+    if (permission === 'granted') {
+      new Notification("🔔 Estás suscrito a notificaciones del juego.");
+    } else {
+      alert("Las notificaciones están bloqueadas.");
+    }
+  });
 });
