@@ -2,69 +2,61 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bingo VIP Bolivia</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
+  <div class="intro-screen">
     <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
+    <h1 class="welcome">¡Bienvenido a Bingo VIP Bolivia!</h1>
 
-    <h1 class="bienvenida">¡Bienvenido a Bingo VIP Bolivia!</h1>
-
-    <div class="botones">
-      <button id="startBtn">Iniciar juego</button>
-      <button id="musicBtn">🔊</button>
-      <button id="notifBtn">🔔</button>
-    </div>
-
-    <div class="loader-container" id="loaderContainer">
-      <div class="loader-background">
-        <div class="loader-bar" id="loaderBar"></div>
-        <div class="loader-text" id="loaderText">0%</div>
+    <div class="loader">
+      <div class="lightning"></div>
+      <div class="bar">
+        <div class="progress" id="progress-bar"></div>
       </div>
+      <div id="percentage">0%</div>
     </div>
 
-    <audio id="introMusic" loop>
-      <source src="intro-music.mp3" type="audio/mp3" />
-    </audio>
+    <button id="start-btn" class="hidden">Iniciar juego</button>
+
+    <div class="icons">
+      <button id="music-btn">🔊</button>
+      <button id="notify-btn">🔔</button>
+    </div>
+
+    <audio id="intro-music" src="intro-music.mp3" autoplay loop></audio>
   </div>
 
   <script>
-    const startBtn = document.getElementById("startBtn");
-    const musicBtn = document.getElementById("musicBtn");
-    const music = document.getElementById("introMusic");
-    const loaderContainer = document.getElementById("loaderContainer");
-    const loaderBar = document.getElementById("loaderBar");
-    const loaderText = document.getElementById("loaderText");
+    const progressBar = document.getElementById('progress-bar');
+    const percentage = document.getElementById('percentage');
+    const startBtn = document.getElementById('start-btn');
+    const musicBtn = document.getElementById('music-btn');
+    const music = document.getElementById('intro-music');
 
-    let musicPlaying = false;
-
-    musicBtn.addEventListener("click", () => {
-      if (musicPlaying) {
-        music.pause();
-        musicBtn.textContent = "🔊";
+    let progress = 0;
+    const interval = setInterval(() => {
+      if (progress < 100) {
+        progress++;
+        progressBar.style.width = progress + '%';
+        percentage.textContent = progress + '%';
       } else {
-        music.play();
-        musicBtn.textContent = "🔈";
+        clearInterval(interval);
+        startBtn.classList.remove('hidden');
       }
-      musicPlaying = !musicPlaying;
-    });
+    }, 40);
 
-    startBtn.addEventListener("click", () => {
-      loaderContainer.style.display = "block";
-      let percent = 0;
-
-      const interval = setInterval(() => {
-        percent++;
-        loaderBar.style.width = percent + "%";
-        loaderText.textContent = percent + "%";
-
-        if (percent >= 100) {
-          clearInterval(interval);
-        }
-      }, 25); // Velocidad de carga
-    });
+    musicBtn.onclick = () => {
+      if (music.paused) {
+        music.play();
+        musicBtn.textContent = '🔊';
+      } else {
+        music.pause();
+        musicBtn.textContent = '🔇';
+      }
+    };
   </script>
 </body>
 </html>
