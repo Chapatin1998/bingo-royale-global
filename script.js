@@ -1,45 +1,48 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const loader = document.getElementById("loader");
-  const bar = document.getElementById("loader-bar");
-  const main = document.getElementById("main");
-  const music = document.getElementById("intro-music");
-  const musicBtn = document.getElementById("music-btn");
-  const notifBtn = document.getElementById("notif-btn");
-  const startBtn = document.getElementById("start-btn");
+const startBtn = document.getElementById("startBtn");
+const musicToggle = document.getElementById("musicToggle");
+const notifyBtn = document.getElementById("notifyBtn");
+const music = document.getElementById("backgroundMusic");
 
-  // Simulación de carga
-  let progress = 0;
-  const interval = setInterval(() => {
-    progress += 2;
-    bar.style.width = `${progress}%`;
-    if (progress >= 100) {
-      clearInterval(interval);
-      loader.style.display = "none";
-      main.classList.remove("hidden");
-    }
-  }, 60);
+let isMusicPlaying = false;
 
-  // Botón de música independiente
-  let musicPlaying = false;
-  musicBtn.addEventListener("click", () => {
-    if (musicPlaying) {
-      music.pause();
-    } else {
-      music.play();
-    }
-    musicPlaying = !musicPlaying;
-    musicBtn.textContent = musicPlaying ? "🔈" : "🔊";
-  });
+// Cargar con barra
+let progress = 0;
+const fill = document.querySelector(".progress-fill");
+const loader = document.getElementById("loader");
+const main = document.getElementById("main");
 
-  // Notificaciones (solo muestra alerta)
-  notifBtn.addEventListener("click", () => {
-    alert("Recibirás notificaciones del juego.");
-  });
+const loading = setInterval(() => {
+  if (progress >= 100) {
+    clearInterval(loading);
+    loader.style.display = "none";
+    main.classList.remove("hidden");
+  } else {
+    progress += 1;
+    fill.style.width = progress + "%";
+  }
+}, 30);
 
-  // Botón de inicio (solo efectos visuales)
-  startBtn.addEventListener("click", () => {
-    startBtn.style.boxShadow = "0 0 15px #fff200";
-    startBtn.style.borderColor = "#fff200";
-    startBtn.style.color = "#fff200";
-  });
+// Botón de música
+musicToggle.addEventListener("click", () => {
+  if (isMusicPlaying) {
+    music.pause();
+    isMusicPlaying = false;
+    musicToggle.textContent = "🔊";
+  } else {
+    music.play();
+    isMusicPlaying = true;
+    musicToggle.textContent = "🔈";
+  }
+});
+
+// Botón de notificación
+notifyBtn.addEventListener("click", () => {
+  alert("Recibirás notificaciones del juego cuando estén disponibles.");
+});
+
+// Botón iniciar (efectos visuales)
+startBtn.addEventListener("click", () => {
+  startBtn.style.boxShadow = "0 0 30px #00ffcc";
+  document.body.style.backgroundColor = "#000000";
+  alert("Juego iniciado 🎲 (interfaz en desarrollo)");
 });
