@@ -1,88 +1,95 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #000;
-  color: #ffd700;
-  text-align: center;
+  background-color: #0b0b0b;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .container {
-  padding-top: 100px;
-  animation: fadein 2s ease-in;
+  text-align: center;
+  max-width: 90%;
+}
+
+.fade-in {
+  animation: fadeIn 2s ease-in;
 }
 
 .logo {
-  width: 200px;
+  width: 220px;
   margin-bottom: 20px;
-  animation: glow 2s infinite alternate;
+  transition: 0.3s ease-in-out;
+  filter: drop-shadow(0 0 10px #ffcc00);
 }
 
-.frase {
-  font-size: 1.5rem;
-  margin-bottom: 40px;
+.logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 20px #ffd700);
 }
 
-.botones button {
-  font-size: 1.1rem;
-  margin: 0 10px;
-  padding: 10px 20px;
-  background: transparent;
-  border: 2px solid #ffd700;
-  color: #ffd700;
-  border-radius: 10px;
+.bienvenida {
+  font-size: 1.6rem;
+  margin-bottom: 25px;
+}
+
+.btn {
+  padding: 12px 24px;
+  margin: 10px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(45deg, #ffc107, #ff8c00);
+  color: #000;
+  font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
+  box-shadow: 0 0 12px #ffd700;
   transition: 0.3s;
 }
 
-.botones button:hover {
-  background-color: #ffd700;
-  color: #000;
+.btn:hover {
+  background: linear-gradient(45deg, #ffe066, #ffa500);
+  box-shadow: 0 0 20px #ffff33;
 }
 
 .barra-container {
+  margin-top: 25px;
   width: 80%;
-  height: 15px;
-  margin: 20px auto;
-  background: #222;
+  height: 18px;
+  border: 2px solid #fff;
   border-radius: 10px;
-  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
   display: none;
-  box-shadow: 0 0 10px gold;
+  overflow: hidden;
 }
 
-.barra-carga {
-  width: 0%;
+.barra {
   height: 100%;
-  background: linear-gradient(to right, gold, #ff0);
-  animation: rayos 1s infinite linear;
+  width: 0%;
+  background: linear-gradient(90deg, #ffcc00, #ff9900, #ffcc00);
+  animation: rayo 1s infinite linear;
 }
 
-@keyframes fadein {
-  from { opacity: 0; transform: translateY(-20px); }
+.botones {
+  margin-top: 25px;
+}
+
+.icono {
+  font-size: 22px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes glow {
-  from { filter: drop-shadow(0 0 5px gold); }
-  to { filter: drop-shadow(0 0 20px gold); }
-}
-
-@keyframes rayos {
-  0% { background-position: 0 0; }
-  100% { background-position: 100% 0; }
-}
-
-@media (max-width: 600px) {
-  .logo {
-    width: 150px;
-  }
-
-  .frase {
-    font-size: 1.2rem;
-  }
-
-  .botones button {
-    font-size: 1rem;
-    padding: 8px 15px;
-  }
+@keyframes rayo {
+  0% { background-position: 0% }
+  100% { background-position: 100% }
 }
