@@ -2,128 +2,65 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bingo VIP Bolivia</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: #111;
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-    }
-    img {
-      width: 200px;
-      margin-bottom: 20px;
-    }
-    h1 {
-      font-size: 1.8em;
-      margin: 10px 0;
-    }
-    .progress-container {
-      width: 80%;
-      background: #333;
-      border-radius: 30px;
-      margin: 20px 0;
-      overflow: hidden;
-    }
-    .progress-bar {
-      height: 30px;
-      background: gold;
-      width: 0%;
-      color: black;
-      font-weight: bold;
-      line-height: 30px;
-      transition: width 0.2s;
-    }
-    .buttons {
-      display: flex;
-      gap: 15px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    button {
-      border: none;
-      border-radius: 15px;
-      padding: 10px 20px;
-      font-size: 1em;
-      cursor: pointer;
-    }
-    .music-btn, .notif-btn {
-      background: #333;
-      color: white;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      font-size: 24px;
-    }
-    .start-btn {
-      background: gold;
-      color: black;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="container">
+    <img src="logo.png" alt="Bingo VIP Bolivia" class="logo" />
 
-  <img src="logo.png" alt="Logo Bingo VIP Bolivia" />
-  <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
+    <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
 
-  <div class="progress-container">
-    <div class="progress-bar" id="progressBar">0%</div>
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar">
+        <span id="progressText">0%</span>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button id="soundOn">🔊</button>
+      <button id="soundOff">🔔</button>
+      <button id="startBtn">🎮 Iniciar juego</button>
+    </div>
   </div>
 
-  <div class="buttons">
-    <button class="music-btn" onclick="toggleMusic()">🔈</button>
-    <button class="notif-btn" onclick="stopMusic()">🔔</button>
-    <button class="start-btn" onclick="startGame()">🎮 Iniciar juego</button>
-  </div>
-
-  <audio id="bgMusic" src="intro-music.mp3" loop></audio>
+  <audio id="introMusic" loop>
+    <source src="intro-music.mp3" type="audio/mpeg" />
+  </audio>
 
   <script>
-    const music = document.getElementById('bgMusic');
-    const progressBar = document.getElementById('progressBar');
-    let musicPlaying = false;
+    const startBtn = document.getElementById("startBtn");
+    const soundOn = document.getElementById("soundOn");
+    const soundOff = document.getElementById("soundOff");
+    const music = document.getElementById("introMusic");
+    const progressBar = document.getElementById("progressBar");
+    const progressText = document.getElementById("progressText");
 
-    function toggleMusic() {
-      if (!musicPlaying) {
-        music.play();
-        musicPlaying = true;
-      } else {
-        music.pause();
-        musicPlaying = false;
-      }
-    }
+    let progress = 0;
+    let interval;
 
-    function stopMusic() {
-      music.pause();
-      music.currentTime = 0;
-      musicPlaying = false;
-    }
-
-    function startGame() {
-      toggleMusic();
-      let progress = 0;
-      const interval = setInterval(() => {
+    startBtn.addEventListener("click", () => {
+      if (interval) return;
+      music.play();
+      interval = setInterval(() => {
         if (progress >= 100) {
           clearInterval(interval);
-        } else {
-          progress++;
-          progressBar.style.width = progress + "%";
-          progressBar.textContent = progress + "%";
+          return;
         }
-      }, 50); // duración: 5 segundos total
-    }
-  </script>
+        progress++;
+        progressBar.style.width = progress + "%";
+        progressText.textContent = progress + "%";
+      }, 40); // velocidad
+    });
 
+    soundOn.addEventListener("click", () => {
+      music.play();
+    });
+
+    soundOff.addEventListener("click", () => {
+      music.pause();
+    });
+  </script>
 </body>
 </html>
