@@ -1,81 +1,64 @@
 body {
   margin: 0;
   padding: 0;
+  background: #000;
+  color: #ffd700;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #0f0f0f;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  text-align: center;
 }
 
 .container {
-  text-align: center;
-  padding: 20px;
-}
-
-.fade-in {
-  animation: fadeIn 1.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  padding: 30px 20px;
 }
 
 .logo {
-  width: 180px;
-  margin-bottom: 20px;
-  transition: filter 0.5s ease;
+  width: 200px;
+  margin-top: 30px;
 }
 
-.bienvenida {
-  font-size: 24px;
-  margin-bottom: 30px;
+.lema {
+  font-size: 22px;
+  margin-top: 10px;
+  color: #ffd700;
 }
 
-.botones button {
-  background-color: #FFD700;
-  color: #000;
-  border: none;
-  padding: 12px 20px;
-  margin: 10px;
-  font-size: 18px;
+.botones {
+  margin-top: 30px;
+}
+
+button {
+  background: #111;
+  border: 2px solid #ffd700;
+  color: #ffd700;
+  padding: 10px 16px;
+  margin: 5px;
   border-radius: 10px;
+  font-size: 16px;
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.botones button:hover {
-  background-color: #fff56d;
-  transform: scale(1.05);
+button:hover {
+  background-color: #222;
 }
 
-.barra-carga {
+.barra {
   width: 80%;
-  margin: 30px auto 0;
+  height: 20px;
   background: #333;
-  border-radius: 15px;
-  height: 30px;
-  position: relative;
+  border-radius: 10px;
+  margin: 20px auto;
   overflow: hidden;
-  box-shadow: 0 0 15px #FFD70088;
+  display: none;
 }
 
 .progreso {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #FFD700, #fff56d);
-  transition: width 0.2s ease;
-  box-shadow: inset 0 0 10px #fff;
+  background: #ffd700;
+  transition: width 0.3s ease;
 }
 
-#porcentaje {
-  position: absolute;
-  top: 4px;
-  width: 100%;
-  color: #fff;
-  font-weight: bold;
-  font-size: 14px;
+.bienvenida {
+  margin-top: 20px;
+  font-size: 18px;
 }
