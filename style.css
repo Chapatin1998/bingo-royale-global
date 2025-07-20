@@ -1,105 +1,21 @@
-body {
-  margin: 0;
-  padding: 0;
-  background: #0d0d0d;
-  color: #fff;
-  font-family: 'Arial', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+startBtn.addEventListener('click', () => {
+  // Encender música si aún no está activa
+  if (!musicOn) {
+    audio.play();
+    musicOn = true;
+    toggleGlow(true);
+  }
 
-.fade-in {
-  animation: fadeIn 2s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.container {
-  text-align: center;
-}
-
-.logo {
-  width: 200px;
-  transition: filter 0.3s ease;
-}
-
-.welcome {
-  font-size: 1.6rem;
-  margin: 20px 0;
-}
-
-.controls button {
-  margin: 10px;
-  padding: 12px 18px;
-  font-size: 1rem;
-  background: #222;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  color: #fff;
-  transition: box-shadow 0.3s ease, filter 0.3s ease;
-}
-
-.controls button:hover {
-  box-shadow: 0 0 10px gold;
-}
-
-.loader-container {
-  margin-top: 30px;
-}
-
-#loader {
-  position: relative;
-  width: 300px;
-  height: 30px;
-  background: #333;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 0 10px #ffd700;
-}
-
-#bar {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(to right, gold, #ffcc00);
-  transition: width 0.3s ease;
-  border-radius: 20px;
-}
-
-.percentage {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  height: 100%;
-  text-align: center;
-  line-height: 30px;
-  color: #000;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.lightning-effect {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.3), transparent);
-  animation: lightning 2s infinite;
-  z-index: 1;
-}
-
-@keyframes lightning {
-  0%, 100% { opacity: 0.1; }
-  50% { opacity: 0.5; }
-}
-
-.glow {
-  filter: drop-shadow(0 0 8px gold);
-}
+  let count = 0;
+  const interval = setInterval(() => {
+    if (count >= 100) {
+      clearInterval(interval);
+      percentText.textContent = "100%";
+      // Aquí podrías agregar redirección si luego quieres ir a otra pantalla
+    } else {
+      count++;
+      bar.style.width = count + '%';
+      percentText.textContent = count + '%';
+    }
+  }, 50);
+});
