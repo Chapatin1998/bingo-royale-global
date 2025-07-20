@@ -1,44 +1,44 @@
-const startBtn = document.getElementById("startBtn");
-const musicBtn = document.getElementById("musicBtn");
-const notifyBtn = document.getElementById("notifyBtn");
-const barra = document.querySelector(".barra");
-const progreso = document.getElementById("progreso");
-const mensaje = document.getElementById("mensaje");
-const musica = document.getElementById("musica");
+const btnJugar = document.getElementById("btn-jugar");
+const btnMusica = document.getElementById("btn-musica");
+const btnNotificaciones = document.getElementById("btn-notificaciones");
+const barra = document.getElementById("barra-carga");
+const contenedorBarra = document.getElementById("barra-container");
+const musica = document.getElementById("musica-fondo");
 
-let musicaActiva = false;
+let musicaEncendida = false;
 
-musicBtn.addEventListener("click", () => {
-  if (musicaActiva) {
-    musica.pause();
-  } else {
+// Botón de música independiente
+btnMusica.addEventListener("click", () => {
+  if (musica.paused) {
     musica.play();
+    musicaEncendida = true;
+    btnMusica.textContent = "🔊";
+  } else {
+    musica.pause();
+    musicaEncendida = false;
+    btnMusica.textContent = "🎵";
   }
-  musicaActiva = !musicaActiva;
 });
 
-notifyBtn.addEventListener("click", () => {
-  Notification.requestPermission().then(permiso => {
-    if (permiso === "granted") {
-      new Notification("🔔 Te avisaremos cuando el juego empiece.");
+// Botón jugar con barra de carga
+btnJugar.addEventListener("click", () => {
+  contenedorBarra.style.display = "block";
+  barra.style.width = "0%";
+
+  let progreso = 0;
+  const intervalo = setInterval(() => {
+    if (progreso >= 100) {
+      clearInterval(intervalo);
+      alert("¡Bienvenido al juego!");
+      // Aquí podrías redirigir: window.location.href = "menu.html";
+    } else {
+      progreso++;
+      barra.style.width = progreso + "%";
     }
-  });
+  }, 20);
 });
 
-startBtn.addEventListener("click", () => {
-  barra.style.display = "block";
-  mensaje.textContent = "Cargando juego...";
-  let progresoActual = 0;
-  const carga = setInterval(() => {
-    progresoActual += 1;
-    progreso.style.width = progresoActual + "%";
-    if (progresoActual >= 100) {
-      clearInterval(carga);
-      mensaje.textContent = "¡Juego listo! 🎉";
-    }
-  }, 30);
-
-  // Efecto visual opcional
-  startBtn.style.boxShadow = "0 0 15px #ffd700";
-  setTimeout(() => startBtn.style.boxShadow = "none", 2000);
+// Botón notificaciones (placeholder)
+btnNotificaciones.addEventListener("click", () => {
+  alert("Activarás notificaciones del juego cuando estén disponibles.");
 });
