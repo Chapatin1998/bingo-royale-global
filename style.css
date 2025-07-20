@@ -1,86 +1,96 @@
 body {
   margin: 0;
-  font-family: sans-serif;
+  padding: 0;
   background-color: #000;
-  color: gold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.container {
+  color: #FFD700;
+  font-family: 'Segoe UI', sans-serif;
   text-align: center;
 }
 
+.container {
+  margin-top: 15vh;
+  padding: 20px;
+}
+
 .logo {
-  width: 200px;
-  margin-bottom: 20px;
+  width: 180px;
+  animation: fadeIn 2s ease-in-out;
 }
 
-.welcome {
-  font-size: 20px;
-  margin: 20px 0;
+.bienvenida {
+  margin: 25px 0 10px;
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 
-button {
-  padding: 12px 24px;
-  font-size: 16px;
-  border: none;
-  border-radius: 10px;
-  background-color: gold;
+.barra-contenedor {
+  position: relative;
+  width: 80%;
+  height: 25px;
+  margin: 0 auto;
+  background: #333;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 0 20px yellow;
+}
+
+.barra {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #ffff00, #ffa500, #ffff00);
+  animation: rayo 1s infinite linear;
+}
+
+.porcentaje {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 0;
   color: black;
+  font-weight: bold;
+  line-height: 25px;
+  font-size: 14px;
+}
+
+#estado {
+  margin-top: 15px;
+  font-size: 1.2rem;
+}
+
+#botonInicio {
+  margin-top: 20px;
+  padding: 12px 30px;
+  font-size: 1rem;
+  border: none;
+  background-color: #FFD700;
+  color: #000;
+  border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 0 10px gold;
-  transition: background 0.3s ease;
 }
 
-button:hover {
-  background-color: #ffd700;
+#botonInicio:disabled {
+  background-color: gray;
+  cursor: not-allowed;
 }
 
-.hidden {
-  display: none;
-}
-
-.music-btn {
+#musicaBtn {
   position: absolute;
   top: 20px;
   right: 20px;
-  background: none;
-  color: gold;
   font-size: 24px;
+  background: none;
   border: none;
+  color: #FFD700;
   cursor: pointer;
 }
 
-/* ⚡ Lightning-style loading bar */
-.lightning-bar-container {
-  position: relative;
-  width: 80%;
-  max-width: 400px;
-  height: 20px;
-  background: #333;
-  border-radius: 12px;
-  overflow: hidden;
-  margin: 0 auto;
-  box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+/* Animación barra rayo */
+@keyframes rayo {
+  0% { background-position: 0 0; }
+  100% { background-position: 100% 0; }
 }
 
-.lightning-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #fff700, #ffd000, #fff700);
-  box-shadow: 0 0 20px 5px yellow;
-  animation: flicker 0.3s infinite alternate;
-  border-radius: 12px;
-}
-
-@keyframes flicker {
-  from {
-    box-shadow: 0 0 10px 3px #fff700;
-  }
-  to {
-    box-shadow: 0 0 20px 6px #ffd000;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
