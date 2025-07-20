@@ -4,30 +4,158 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="logo.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background-color: #000;
+      color: gold;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    img.logo {
+      width: 150px;
+      animation: glow 3s infinite ease-in-out;
+    }
+
+    @keyframes glow {
+      0% { filter: drop-shadow(0 0 5px gold); }
+      50% { filter: drop-shadow(0 0 20px gold); }
+      100% { filter: drop-shadow(0 0 5px gold); }
+    }
+
+    h1, h2 {
+      margin: 10px 0;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      color: gold;
+    }
+
+    h2 {
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    .botones {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+
+    button {
+      background: transparent;
+      border: 2px solid gold;
+      border-radius: 12px;
+      padding: 10px 20px;
+      color: gold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: gold;
+      color: black;
+    }
+
+    .barra-carga {
+      width: 80%;
+      height: 12px;
+      background: #222;
+      border: 1px solid gold;
+      border-radius: 10px;
+      margin-top: 20px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .progreso {
+      height: 100%;
+      background: gold;
+      width: 0%;
+      transition: width 0.1s;
+    }
+
+    .mensaje {
+      margin-top: 10px;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <img src="logo.png" alt="Bingo VIP Bolivia" class="logo"/>
-    <h2 class="lema">Donde el juego se vuelve leyenda</h2>
 
-    <div class="botones">
-      <button id="startBtn">🎮 Iniciar juego</button>
-      <button id="musicBtn">🎵</button>
-      <button id="notifyBtn">🔔</button>
-    </div>
+  <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo">
+  <h1>Donde el juego se vuelve leyenda</h1>
 
-    <div class="barra">
-      <div class="progreso" id="progreso"></div>
-    </div>
-
-    <p class="bienvenida" id="mensaje">¡Bienvenido a Bingo VIP Bolivia!</p>
-
-    <audio id="musica" loop>
-      <source src="musica.mp3" type="audio/mp3">
-    </audio>
+  <div class="botones">
+    <button onclick="iniciarJuego()">🎮 Iniciar juego</button>
+    <button onclick="toggleMusica()">🎵</button>
+    <button onclick="activarNotificaciones()">🔔</button>
   </div>
 
-  <script src="script.js"></script>
+  <div class="barra-carga" id="barraCarga">
+    <div class="progreso" id="progreso"></div>
+  </div>
+
+  <div class="mensaje" id="mensajeFinal"></div>
+
+  <audio id="musica" loop>
+    <source src="musica.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    let musicaActiva = false;
+
+    function iniciarJuego() {
+      const barra = document.getElementById('barraCarga');
+      const progreso = document.getElementById('progreso');
+      const mensaje = document.getElementById('mensajeFinal');
+      let porcentaje = 0;
+
+      barra.style.display = 'block';
+      mensaje.textContent = '';
+
+      const intervalo = setInterval(() => {
+        porcentaje += 1;
+        progreso.style.width = porcentaje + '%';
+
+        if (porcentaje >= 100) {
+          clearInterval(intervalo);
+          mensaje.textContent = '¡Juego iniciado con éxito!';
+        }
+      }, 30);
+    }
+
+    function toggleMusica() {
+      const audio = document.getElementById('musica');
+      if (musicaActiva) {
+        audio.pause();
+        musicaActiva = false;
+      } else {
+        audio.play();
+        musicaActiva = true;
+      }
+    }
+
+    function activarNotificaciones() {
+      Notification.requestPermission().then(permiso => {
+        if (permiso === "granted") {
+          new Notification("✅ Notificaciones activadas para Bingo VIP Bolivia");
+        }
+      });
+    }
+  </script>
+
 </body>
 </html>
