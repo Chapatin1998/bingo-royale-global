@@ -2,143 +2,32 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #0d0d0d;
-      font-family: 'Segoe UI', sans-serif;
-      color: gold;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    img {
-      max-width: 300px;
-      height: auto;
-      margin-bottom: 10px;
-    }
-
-    h1 {
-      font-size: 2rem;
-      text-align: center;
-      color: #FFD700;
-    }
-
-    .frase {
-      font-size: 1.2rem;
-      text-align: center;
-      margin: 10px 0 30px;
-      color: #f2c94c;
-    }
-
-    .botones {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      background-color: #FFD700;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background-color: #fff2a8;
-    }
-
-    .porcentaje {
-      font-size: 1rem;
-      color: white;
-      margin-bottom: 5px;
-    }
-
-    .barra {
-      width: 80%;
-      background: #333;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-
-    .progreso {
-      width: 0%;
-      height: 15px;
-      background: gold;
-      transition: width 0.3s;
-    }
-
-    audio {
-      display: none;
-    }
-
-    @media (max-width: 600px) {
-      img {
-        max-width: 200px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <img src="logo.png" alt="Logo Bingo VIP Bolivia">
-  <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
-  <div class="frase">Donde el juego se vuelve leyenda</div>
+  <div class="container fade-in">
+    <img src="logo.png" alt="Logo" class="logo" id="logo" />
+    <p class="welcome">¡Bienvenido a Bingo VIP Bolivia!</p>
 
-  <div class="porcentaje" id="porcentaje">0%</div>
-  <div class="barra">
-    <div class="progreso" id="progreso"></div>
+    <div class="controls">
+      <button id="startBtn">🎮 Iniciar juego</button>
+      <button id="musicBtn">🎵</button>
+      <button id="notifyBtn">🔔</button>
+    </div>
+
+    <div class="loader-container">
+      <div id="loader">
+        <div class="lightning-effect"></div>
+        <div class="bar" id="bar"></div>
+        <div class="percentage" id="percentage">0%</div>
+      </div>
+    </div>
   </div>
 
-  <div class="botones">
-    <button onclick="iniciarCarga()">🎮 Iniciar juego</button>
-    <button onclick="toggleMusica()">🔔 Campana</button>
-  </div>
+  <audio id="bgMusic" src="intro-music.mp3" loop></audio>
 
-  <audio id="musica" src="intro-music.mp3" loop></audio>
-
-  <script>
-    const progreso = document.getElementById("progreso");
-    const porcentaje = document.getElementById("porcentaje");
-    const musica = document.getElementById("musica");
-    let intervalo = null;
-
-    function iniciarCarga() {
-      let carga = 0;
-      clearInterval(intervalo);
-      intervalo = setInterval(() => {
-        if (carga >= 100) {
-          clearInterval(intervalo);
-        } else {
-          carga++;
-          porcentaje.textContent = carga + "%";
-          progreso.style.width = carga + "%";
-        }
-      }, 50); // velocidad de carga simulada
-
-      if (musica.paused) {
-        musica.play();
-      }
-    }
-
-    function toggleMusica() {
-      if (musica.paused) {
-        musica.play();
-      } else {
-        musica.pause();
-      }
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
