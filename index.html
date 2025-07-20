@@ -2,46 +2,51 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="intro-container">
-    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
+  <div class="container">
+    <img src="logo.png" alt="Bingo VIP Bolivia" class="logo" />
+    <p class="welcome">Cargando Bingo VIP Bolivia...</p>
 
-    <h1 class="title">Cargando Bingo VIP Bolivia...</h1>
-
-    <div class="light-bar">
-      <div class="electricity" id="electricity"></div>
-      <div class="fill" id="fill"></div>
+    <div class="lightning-bar-container">
+      <div class="lightning-bar" id="lightningBar"></div>
     </div>
+    <p class="welcome" id="loadingText">0%</p>
 
-    <div class="percent" id="percent">0%</div>
+    <button id="startButton" class="hidden">Iniciar Juego</button>
 
-    <button id="start-btn" disabled>Iniciar Juego</button>
-
-    <audio id="intro-music" src="intro-music.mp3" autoplay loop></audio>
+    <audio id="introMusic" src="intro-music.mp3" autoplay loop></audio>
+    <button class="music-btn" onclick="toggleMusic()">🔊</button>
   </div>
 
   <script>
-    const percent = document.getElementById('percent');
-    const fill = document.getElementById('fill');
-    const btn = document.getElementById('start-btn');
-    let progress = 0;
+    const lightningBar = document.getElementById("lightningBar");
+    const loadingText = document.getElementById("loadingText");
+    const startButton = document.getElementById("startButton");
+    const audio = document.getElementById("introMusic");
 
+    let percent = 0;
     const interval = setInterval(() => {
-      if (progress < 100) {
-        progress++;
-        fill.style.width = progress + "%";
-        percent.innerText = progress + "%";
-      } else {
+      percent++;
+      lightningBar.style.width = percent + "%";
+      loadingText.textContent = percent + "%";
+      if (percent >= 100) {
         clearInterval(interval);
-        btn.disabled = false;
-        btn.classList.add('active');
-        percent.innerText = "¡Listo!";
+        loadingText.textContent = "¡Listo!";
+        startButton.classList.remove("hidden");
       }
-    }, 40);
+    }, 50);
+
+    function toggleMusic() {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
   </script>
 </body>
 </html>
