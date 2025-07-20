@@ -4,46 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <div class="pantalla-inicio fade-in">
-    <img src="logo.png" alt="Bingo VIP Bolivia" class="logo" />
-    <h1 class="bienvenida">¡Bienvenido a Bingo VIP Bolivia!</h1>
-
-    <div class="botones-superiores">
-      <button class="icono musica" id="btnMusica">🔊</button>
-      <button class="icono notificaciones">🔔</button>
+<body class="fade-in">
+  <div class="container">
+    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
+    <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
+    <div class="buttons">
+      <button onclick="iniciarJuego()">Iniciar juego</button>
+      <button onclick="toggleMusica()">🔊</button>
+      <button onclick="apagarMusica()">🔔</button>
     </div>
-
-    <button id="btnIniciar" class="boton-iniciar">Iniciar juego ▶️</button>
   </div>
 
-  <audio id="introMusic" loop>
-    <source src="intro-music.mp3" type="audio/mp3" />
-  </audio>
+  <audio id="musicaIntro" src="intro-music.mp3" autoplay loop></audio>
 
   <script>
-    const btnMusica = document.getElementById("btnMusica");
-    const audio = document.getElementById("introMusic");
-    let musicaActiva = true;
-    audio.play();
+    const musica = document.getElementById("musicaIntro");
 
-    btnMusica.addEventListener("click", () => {
-      if (musicaActiva) {
-        audio.pause();
-        btnMusica.textContent = "🔇";
+    function toggleMusica() {
+      if (musica.paused) {
+        musica.play();
       } else {
-        audio.play();
-        btnMusica.textContent = "🔊";
+        musica.pause();
       }
-      musicaActiva = !musicaActiva;
-    });
+    }
 
-    const btnIniciar = document.getElementById("btnIniciar");
-    btnIniciar.addEventListener("click", () => {
-      alert("Aquí comenzará el juego o pasará a la siguiente pantalla...");
-    });
+    function apagarMusica() {
+      musica.pause();
+      musica.currentTime = 0;
+    }
+
+    function iniciarJuego() {
+      alert("¡El juego comenzará pronto!");
+    }
   </script>
 </body>
 </html>
