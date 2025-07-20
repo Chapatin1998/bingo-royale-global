@@ -1,52 +1,49 @@
-let music = document.getElementById("introMusic");
-let musicBtn = document.getElementById("musicBtn");
-let startBtn = document.getElementById("startBtn");
-let loader = document.getElementById("loader");
-let loadingText = document.getElementById("loading-text");
-let rayBar = document.querySelector(".ray-bar");
+const loader = document.getElementById("loader");
+const loadingText = document.getElementById("loading-text");
+const music = document.getElementById("intro-music");
+const startBtn = document.getElementById("start-btn");
+const musicBtn = document.getElementById("music-btn");
+const notifyBtn = document.getElementById("notify-btn");
 
 let progress = 0;
-let loadingInterval = setInterval(() => {
-  progress += Math.floor(Math.random() * 5) + 2;
-  if (progress > 100) progress = 100;
+let isPlaying = false;
+
+const loadingInterval = setInterval(() => {
+  progress += 2;
   loadingText.innerText = `Cargando... ${progress}%`;
-  rayBar.style.width = `${progress}%`;
 
   if (progress >= 100) {
     clearInterval(loadingInterval);
     setTimeout(() => {
       loader.style.display = "none";
       document.getElementById("main-content").style.display = "flex";
+      music.play();
+      isPlaying = true;
+      musicBtn.innerText = "🔊 Música";
     }, 500);
   }
 }, 100);
 
-// Botón de música
-let isPlaying = false;
 musicBtn.addEventListener("click", () => {
   if (isPlaying) {
     music.pause();
+    isPlaying = false;
     musicBtn.innerText = "🔇 Música";
   } else {
     music.play();
+    isPlaying = true;
     musicBtn.innerText = "🔊 Música";
   }
-  isPlaying = !isPlaying;
 });
 
-// Botón de iniciar juego
-startBtn.addEventListener("click", () => {
-  startBtn.innerText = "🎮 ¡Cargando Juego!";
-  startBtn.disabled = true;
-  startBtn.style.backgroundColor = "#aaa";
-  // Aquí puedes enlazar con la siguiente pantalla o juego
-});
-
-// Botón de notificaciones
-document.getElementById("notifyBtn").addEventListener("click", () => {
+notifyBtn.addEventListener("click", () => {
   Notification.requestPermission().then(permission => {
     if (permission === "granted") {
-      new Notification("✅ Notificaciones activadas para Bingo VIP Bolivia");
+      new Notification("🔔 Bingo VIP Bolivia activó tus notificaciones.");
     }
   });
+});
+
+startBtn.addEventListener("click", () => {
+  alert("¡Juego iniciado! (aquí iría la siguiente pantalla)");
 });
