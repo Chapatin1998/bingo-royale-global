@@ -1,21 +1,75 @@
-startBtn.addEventListener('click', () => {
-  // Encender música si aún no está activa
-  if (!musicOn) {
-    audio.play();
-    musicOn = true;
-    toggleGlow(true);
-  }
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+}
 
-  let count = 0;
-  const interval = setInterval(() => {
-    if (count >= 100) {
-      clearInterval(interval);
-      percentText.textContent = "100%";
-      // Aquí podrías agregar redirección si luego quieres ir a otra pantalla
-    } else {
-      count++;
-      bar.style.width = count + '%';
-      percentText.textContent = count + '%';
-    }
-  }, 50);
-});
+.container {
+  animation: fadeIn 2s ease-in;
+}
+
+.logo-glow {
+  max-width: 300px;
+  filter: drop-shadow(0 0 20px gold);
+  animation: glow 2s infinite alternate;
+}
+
+.slogan {
+  font-size: 1.2em;
+  color: gold;
+  margin-bottom: 1em;
+}
+
+.buttons button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  background: #222;
+  color: #fff;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0 0 10px gold;
+  transition: 0.3s;
+}
+
+.buttons button:hover {
+  background: gold;
+  color: black;
+}
+
+.progress-bar-container {
+  width: 80%;
+  margin-top: 20px;
+  height: 20px;
+  background: #333;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, gold, orange);
+  text-align: center;
+  color: black;
+  font-weight: bold;
+  transition: width 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes glow {
+  from { filter: drop-shadow(0 0 5px gold); }
+  to { filter: drop-shadow(0 0 25px gold); }
+}
