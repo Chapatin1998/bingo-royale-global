@@ -2,60 +2,36 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="container">
-    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
-    <h2 class="bienvenida">Cargando Bingo VIP Bolivia...</h2>
-    
-    <div class="barra-contenedor">
-      <div class="barra" id="barra"></div>
-      <div class="porcentaje" id="porcentaje">0%</div>
+    <img src="logo.png" alt="Bingo VIP Bolivia" class="logo" />
+    <h1 class="welcome">Donde el juego se vuelve leyenda</h1>
+
+    <!-- Botones de la parte superior -->
+    <div class="top-buttons">
+      <button id="music-toggle">🔊</button>
+      <button id="notifications">🔔</button>
     </div>
 
-    <h3 id="estado">Cargando...</h3>
+    <!-- Botón iniciar -->
+    <button id="start-btn">🎮 Iniciar Juego</button>
 
-    <button id="botonInicio" onclick="iniciarJuego()" disabled>Iniciar Juego</button>
-    
-    <audio id="introMusic" src="intro-music.mp3" autoplay loop></audio>
-    <button id="musicaBtn" onclick="toggleMusica()">🔊</button>
+    <!-- Barra de carga -->
+    <div id="loader" class="loader hidden">
+      <div class="bar"></div>
+      <div class="percentage" id="percentage">0%</div>
+    </div>
   </div>
 
-  <script>
-    const barra = document.getElementById('barra');
-    const porcentaje = document.getElementById('porcentaje');
-    const estado = document.getElementById('estado');
-    const boton = document.getElementById('botonInicio');
-    const musica = document.getElementById('introMusic');
+  <!-- Audio -->
+  <audio id="bg-music" loop autoplay>
+    <source src="intro-music.mp3" type="audio/mpeg" />
+  </audio>
 
-    let progreso = 0;
-    let intervalo = setInterval(() => {
-      if (progreso >= 100) {
-        clearInterval(intervalo);
-        estado.innerText = "¡Listo!";
-        boton.disabled = false;
-      } else {
-        progreso++;
-        barra.style.width = progreso + "%";
-        porcentaje.innerText = progreso + "%";
-      }
-    }, 40);
-
-    function iniciarJuego() {
-      alert("¡Bienvenido a Bingo VIP Bolivia!");
-    }
-
-    function toggleMusica() {
-      if (musica.paused) {
-        musica.play();
-      } else {
-        musica.pause();
-      }
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
