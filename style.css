@@ -1,0 +1,16 @@
+/* Fondo oscuro elegante */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: linear-gradient(145deg, #0f0f0f, #1c1c1c);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.pantalla-inicio {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
