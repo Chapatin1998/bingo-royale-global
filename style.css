@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #121212; /* Fondo oscuro elegante */
+  background-color: #121212;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: white;
   display: flex;
@@ -12,5 +12,19 @@ body {
 
 .pantalla-inicio {
   text-align: center;
-  font-size: 24px;
+}
+
+.logo {
+  width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 20px;
 }
