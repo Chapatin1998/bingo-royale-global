@@ -4,145 +4,50 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bingo VIP Bolivia</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #0f0f0f;
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    #logo {
-      width: 180px;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 28px;
-      text-align: center;
-      margin-bottom: 20px;
-      animation: fadeIn 2s ease-in-out;
-    }
-
-    button {
-      padding: 12px 24px;
-      margin: 10px;
-      border: none;
-      border-radius: 8px;
-      background-color: #ffc40f;
-      color: #000;
-      font-size: 18px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #d4ac0d;
-    }
-
-    #musicToggle,
-    #notifyToggle {
-      position: absolute;
-      top: 20px;
-      font-size: 24px;
-      background: none;
-      border: none;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    #musicToggle {
-      right: 60px;
-    }
-
-    #notifyToggle {
-      right: 20px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    #notificacion {
-      position: fixed;
-      top: 80px;
-      background-color: #222;
-      padding: 12px 24px;
-      border-radius: 10px;
-      border: 1px solid #ffc40f;
-      font-size: 16px;
-      display: none;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="container">
+    <img id="logo" src="logo.png" alt="Bingo VIP Bolivia Logo" />
+    <h1 class="bienvenida">¡Bienvenido a Bingo VIP Bolivia!</h1>
+    <button id="iniciarBtn">🎮 Iniciar juego</button>
+    <button id="musicaBtn">🔊 Música</button>
+  </div>
 
-  <!-- Botón musical -->
-  <button id="musicToggle" onclick="toggleMusic()">🎵</button>
-
-  <!-- Botón notificación -->
-  <button id="notifyToggle" onclick="mostrarNotificacion()">🔔</button>
-
-  <!-- Logo -->
-  <img id="logo" src="logo-bingo-vip.png" alt="Bingo VIP Bolivia Logo" />
-
-  <!-- Frase bienvenida -->
-  <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
-
-  <!-- Botón Iniciar -->
-  <button id="iniciarJuego" onclick="iniciarJuego()">Iniciar juego</button>
-
-  <!-- Notificación -->
-  <div id="notificacion">🔔 ¡Tienes nuevas promociones!</div>
-
-  <!-- Música -->
-  <audio id="musicaFondo" loop>
-    <source src="intro-musica.mp3" type="audio/mpeg" />
-    Tu navegador no soporta audio HTML5.
-  </audio>
+  <audio id="musica" src="intro-music.mp3" loop></audio>
 
   <script>
-    const musica = document.getElementById("musicaFondo");
+    const iniciarBtn = document.getElementById("iniciarBtn");
+    const musica = document.getElementById("musica");
+    const musicaBtn = document.getElementById("musicaBtn");
+
     let isPlaying = false;
 
+    iniciarBtn.addEventListener("click", iniciarJuego);
+    musicaBtn.addEventListener("click", toggleMusica);
+
     function iniciarJuego() {
+      musica.load(); // ✅ Prepara la música
       musica.play().then(() => {
         isPlaying = true;
         console.log("🎵 Música iniciada.");
       }).catch(err => {
-        console.log("Error al reproducir música:", err);
+        console.log("⚠️ Error al reproducir música:", err);
       });
 
       console.log("▶️ Juego iniciado");
     }
 
-    function toggleMusic() {
+    function toggleMusica() {
       if (isPlaying) {
         musica.pause();
         isPlaying = false;
+        musicaBtn.textContent = "🔇 Música";
       } else {
-        musica.play().then(() => {
-          isPlaying = true;
-        }).catch(err => {
-          console.log("Autoplay bloqueado:", err);
-        });
+        musica.play();
+        isPlaying = true;
+        musicaBtn.textContent = "🔊 Música";
       }
-    }
-
-    function mostrarNotificacion() {
-      const noti = document.getElementById("notificacion");
-      noti.style.display = "block";
-      setTimeout(() => {
-        noti.style.display = "none";
-      }, 3000);
     }
   </script>
 </body>
