@@ -1,40 +1,38 @@
-const music = document.getElementById("backgroundMusic");
-const toggleMusicBtn = document.getElementById("toggleMusicBtn");
+const music = document.getElementById("introMusic");
+const musicBtn = document.getElementById("musicBtn");
 const startBtn = document.getElementById("startBtn");
-const progressBar = document.getElementById("progressBar");
-const notifyBtn = document.getElementById("notifyBtn");
+const progressBar = document.getElementById("progress-bar");
+let isMusicMuted = true;
 
-let musicPlaying = true;
-
-toggleMusicBtn.addEventListener("click", () => {
-  if (musicPlaying) {
-    music.pause();
-    toggleMusicBtn.textContent = "🔈 Música";
-  } else {
+// Control independiente de música
+musicBtn.addEventListener("click", () => {
+  if (isMusicMuted) {
     music.play();
-    toggleMusicBtn.textContent = "🔇 Música";
+    isMusicMuted = false;
+    musicBtn.textContent = "🎵 Música";
+  } else {
+    music.pause();
+    isMusicMuted = true;
+    musicBtn.textContent = "🔇 Música";
   }
-  musicPlaying = !musicPlaying;
 });
 
+// Simular activación desde el botón de INICIAR
 startBtn.addEventListener("click", () => {
   progressBar.style.width = "100%";
+  progressBar.classList.add("anim");
+  
+  // Solo activar música si no está silenciada
+  if (!isMusicMuted && music.paused) {
+    music.play();
+  }
 
-  startBtn.textContent = "Cargando...";
-  startBtn.disabled = true;
-
-  // Simular carga antes de ir a otra pantalla
-  setTimeout(() => {
-    startBtn.textContent = "INICIAR";
-    startBtn.disabled = false;
-    progressBar.style.width = "0%";
-    alert("¡Listo para comenzar el juego!");
-  }, 3000);
+  // Opcional: efecto al botón
+  startBtn.style.transform = "scale(0.95)";
+  setTimeout(() => startBtn.style.transform = "scale(1)", 150);
 });
 
-// Botón de notificaciones visual
-let notifyActive = true;
-notifyBtn.addEventListener("click", () => {
-  notifyActive = !notifyActive;
-  notifyBtn.textContent = notifyActive ? "🔔 Notificaciones" : "🔕 Notificaciones";
+// Notificaciones (simulado)
+document.getElementById("notifyBtn").addEventListener("click", () => {
+  alert("🔔 Notificaciones activadas para Bingo VIP Bolivia");
 });
