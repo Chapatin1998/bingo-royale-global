@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bingo VIP Bolivia</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background-color: #0f0f0f; /* Fondo oscuro elegante */
+      background-color: #0f0f0f;
       color: #fff;
       font-family: 'Segoe UI', sans-serif;
       display: flex;
@@ -36,7 +36,7 @@
       margin: 10px;
       border: none;
       border-radius: 8px;
-      background-color: #f1c40f;
+      background-color: #ffc40f;
       color: #000;
       font-size: 18px;
       cursor: pointer;
@@ -47,10 +47,10 @@
       background-color: #d4ac0d;
     }
 
-    #musicToggle {
+    #musicToggle,
+    #notifyToggle {
       position: absolute;
       top: 20px;
-      right: 20px;
       font-size: 24px;
       background: none;
       border: none;
@@ -58,29 +58,54 @@
       cursor: pointer;
     }
 
+    #musicToggle {
+      right: 60px;
+    }
+
+    #notifyToggle {
+      right: 20px;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    #notificacion {
+      position: fixed;
+      top: 80px;
+      background-color: #222;
+      padding: 12px 24px;
+      border-radius: 10px;
+      border: 1px solid #ffc40f;
+      font-size: 16px;
+      display: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- Ícono musical para apagar/encender música -->
-  <button id="musicToggle" onclick="toggleMusic()">🔊</button>
+  <!-- Botón musical -->
+  <button id="musicToggle" onclick="toggleMusic()">🎵</button>
 
-  <!-- Logo principal -->
-  <img id="logo" src="logo-bingo-vip.png" alt="Bingo VIP Bolivia Logo">
+  <!-- Botón notificación -->
+  <button id="notifyToggle" onclick="mostrarNotificacion()">🔔</button>
+
+  <!-- Logo -->
+  <img id="logo" src="logo-bingo-vip.png" alt="Bingo VIP Bolivia Logo" />
 
   <!-- Frase bienvenida -->
   <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
 
-  <!-- Botón Iniciar juego -->
+  <!-- Botón Iniciar -->
   <button id="iniciarJuego" onclick="iniciarJuego()">Iniciar juego</button>
 
-  <!-- Audio -->
+  <!-- Notificación -->
+  <div id="notificacion">🔔 ¡Tienes nuevas promociones!</div>
+
+  <!-- Música -->
   <audio id="musicaFondo" loop>
-    <source src="intro-music.mp3" type="audio/mpeg">
+    <source src="intro-musica.mp3" type="audio/mpeg" />
     Tu navegador no soporta audio HTML5.
   </audio>
 
@@ -96,8 +121,7 @@
         console.log("Error al reproducir música:", err);
       });
 
-      // Aquí puedes continuar con lógica del juego...
-      console.log("🎮 Juego iniciado");
+      console.log("▶️ Juego iniciado");
     }
 
     function toggleMusic() {
@@ -112,7 +136,14 @@
         });
       }
     }
-  </script>
 
+    function mostrarNotificacion() {
+      const noti = document.getElementById("notificacion");
+      noti.style.display = "block";
+      setTimeout(() => {
+        noti.style.display = "none";
+      }, 3000);
+    }
+  </script>
 </body>
 </html>
