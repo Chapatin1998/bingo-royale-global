@@ -1,84 +1,94 @@
-/* Fondo oscuro elegante */
 body {
   margin: 0;
-  background: linear-gradient(180deg, #0d0d0d, #1a1a1a);
   font-family: 'Segoe UI', sans-serif;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  background: #fff;
+  color: #333;
+  text-align: center;
 }
 
 .container {
-  text-align: center;
-  animation: fadeIn 2s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  padding: 2rem;
 }
 
 .logo {
-  width: 250px;
-  margin-bottom: 20px;
-  filter: drop-shadow(0 0 15px gold);
-  transition: filter 0.3s;
+  width: 180px;
+  margin-top: 20px;
 }
 
-.frase {
-  font-size: 1.2em;
-  margin-bottom: 20px;
-  color: gold;
+h1 {
+  color: #b8860b;
+  font-size: 2.5rem;
+  margin: 1rem 0 0;
 }
 
-.botones button {
-  margin: 10px 5px;
-  padding: 10px 20px;
-  font-size: 1em;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.jugar {
-  background-color: #ffd700;
-  color: #000;
+h1 span {
   font-weight: bold;
-  box-shadow: 0 0 10px #ffd700;
 }
 
-.musica, .notificacion {
-  background-color: #333;
-  color: gold;
-  font-size: 1.2em;
+.lema {
+  font-size: 1.2rem;
+  color: #b8860b;
+  margin-bottom: 2rem;
 }
 
-.musica:hover, .notificacion:hover, .jugar:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px gold;
+.botones {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
 }
 
-.barra {
+button {
+  background: #b8860b;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #a0700a;
+}
+
+.mensaje-bienvenida {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+#cargando {
+  margin: 2rem auto;
   width: 80%;
-  height: 10px;
-  background-color: #333;
-  margin: 20px auto;
-  border-radius: 20px;
+  max-width: 300px;
+  height: 15px;
+  background: #ddd;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 0 10px gold inset;
 }
 
-.progreso {
+.barra-progreso {
   height: 100%;
-  width: 0%;
-  background: linear-gradient(to right, gold, orange);
-  transition: width 0.3s ease-in-out;
+  width: 100%;
+  background: linear-gradient(to right, #ffc107, #ff9800);
+  animation: progreso 3s linear forwards;
 }
 
-#porcentaje {
-  font-size: 1em;
-  color: #fff;
+.oculto {
+  display: none;
+}
+
+.activo {
+  display: block;
+}
+
+@keyframes progreso {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
