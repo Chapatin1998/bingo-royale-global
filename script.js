@@ -1,22 +1,43 @@
-const audio = document.getElementById("introMusic");
-const toggleMusic = document.getElementById("toggleMusic");
+const btnIniciar = document.getElementById('btnIniciar');
+const btnMusica = document.getElementById('btnMusica');
+const btnNotificaciones = document.getElementById('btnNotificaciones');
+const musica = document.getElementById('musica');
+const barra = document.getElementById('barraCarga');
+const progreso = document.getElementById('progresoBarra');
 
 let musicaActiva = false;
 
-// Botón música: independiente del botón INICIAR
-toggleMusic.addEventListener("click", () => {
-  if (musicaActiva) {
-    audio.pause();
-    toggleMusic.textContent = "🔇 Música";
+btnMusica.addEventListener('click', () => {
+  if (!musicaActiva) {
+    musica.play();
+    btnMusica.textContent = '🔇';
+    musicaActiva = true;
   } else {
-    audio.play();
-    toggleMusic.textContent = "🔊 Música";
+    musica.pause();
+    btnMusica.textContent = '🔊';
+    musicaActiva = false;
   }
-  musicaActiva = !musicaActiva;
 });
 
-// Botón INICIAR (efecto visual de carga, pero no toca la música)
-document.getElementById("startButton").addEventListener("click", () => {
-  document.getElementById("barraRelleno").style.animation = "brillar 3s infinite linear";
-  alert("¡Bienvenido a Bingo VIP Bolivia!");
+btnNotificaciones.addEventListener('click', async () => {
+  if ("Notification" in window) {
+    const permiso = await Notification.requestPermission();
+    if (permiso === "granted") {
+      new Notification("🔔 Notificaciones activadas para Bingo VIP Bolivia");
+    }
+  }
+});
+
+btnIniciar.addEventListener('click', () => {
+  barra.style.display = 'block';
+  let porcentaje = 0;
+
+  const cargar = setInterval(() => {
+    porcentaje += 5;
+    progreso.style.width = porcentaje + "%";
+
+    if (porcentaje >= 100) {
+      clearInterval(cargar);
+    }
+  }, 100);
 });
