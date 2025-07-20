@@ -1,29 +1,22 @@
-const music = document.getElementById("introMusic");
-const musicBtn = document.getElementById("musicBtn");
-const progressBar = document.getElementById("progress-bar");
-let isMusicMuted = true;
+const audio = document.getElementById("introMusic");
+const toggleMusic = document.getElementById("toggleMusic");
 
-// Música: control independiente
-musicBtn.addEventListener("click", () => {
-  if (isMusicMuted) {
-    music.play();
-    isMusicMuted = false;
-    musicBtn.textContent = "🎵 Música";
+let musicaActiva = false;
+
+// Botón música: independiente del botón INICIAR
+toggleMusic.addEventListener("click", () => {
+  if (musicaActiva) {
+    audio.pause();
+    toggleMusic.textContent = "🔇 Música";
   } else {
-    music.pause();
-    isMusicMuted = true;
-    musicBtn.textContent = "🔇 Música";
+    audio.play();
+    toggleMusic.textContent = "🔊 Música";
   }
+  musicaActiva = !musicaActiva;
 });
 
-// Notificaciones (simulado)
-document.getElementById("notifyBtn").addEventListener("click", () => {
-  alert("🔔 Notificaciones activadas para Bingo VIP Bolivia");
-});
-
-// Barra de progreso automática al cargar
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    progressBar.style.width = "100%";
-  }, 300);
+// Botón INICIAR (efecto visual de carga, pero no toca la música)
+document.getElementById("startButton").addEventListener("click", () => {
+  document.getElementById("barraRelleno").style.animation = "brillar 3s infinite linear";
+  alert("¡Bienvenido a Bingo VIP Bolivia!");
 });
