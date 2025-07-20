@@ -1,10 +1,9 @@
-
 body {
   margin: 0;
   padding: 0;
   background-color: #111;
   color: #fff;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,66 +15,44 @@ body {
   padding: 20px;
 }
 
-.logo img {
-  max-width: 200px;
+.logo {
+  max-width: 220px;
   height: auto;
   margin-bottom: 20px;
 }
 
-.bienvenida {
-  font-size: 1.5em;
+h1 {
+  font-size: 24px;
   margin-bottom: 20px;
 }
 
-.botones {
+.buttons {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
   justify-content: center;
-  gap: 15px;
 }
 
 button {
   background-color: #ffc107;
   border: none;
-  color: #000;
-  padding: 12px 20px;
+  padding: 10px 18px;
   font-size: 16px;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #e6b100;
+  background-color: #ffb300;
 }
 
+/* Animación suave de entrada */
 .fade-in {
-  animation: fadeIn 1.5s ease-in-out;
+  animation: fadeIn 1s ease-in-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 600px) {
-  .logo img {
-    max-width: 150px;
-  }
-
-  .bienvenida {
-    font-size: 1.2em;
-  }
-
-  button {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .botones {
-    flex-direction: column;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
