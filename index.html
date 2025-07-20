@@ -44,9 +44,23 @@
     .btn-iniciar:hover {
       background-color: #e6c200;
     }
+
+    .music-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
+
+  <!-- BOTÓN MÚSICA -->
+  <button class="music-btn" onclick="toggleMusic()">🎵</button>
 
   <!-- LOGO -->
   <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo">
@@ -57,6 +71,27 @@
 
   <!-- BOTÓN INICIAR JUEGO -->
   <button class="btn-iniciar">🎮 Iniciar juego</button>
+
+  <!-- AUDIO -->
+  <audio id="musicaFondo" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+
+  <!-- SCRIPT -->
+  <script>
+    const musica = document.getElementById("musicaFondo");
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        musica.pause();
+      } else {
+        musica.play();
+      }
+      isPlaying = !isPlaying;
+    }
+  </script>
 
 </body>
 </html>
