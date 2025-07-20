@@ -5,65 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bingo VIP Bolivia</title>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="logo.png" type="image/png">
 </head>
 <body>
   <div class="container">
-    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
-    <h1>BINGO <span>VIP</span> BOLIVIA</h1>
-    <p class="lema">Donde el juego se vuelve leyenda</p>
-
-    <div class="botones">
-      <button id="startBtn">Iniciar juego</button>
-      <button id="toggleMusicBtn">🔊 Música</button>
-      <button id="notificacionesBtn">🔔 Notificaciones</button>
+    <!-- Barra de carga -->
+    <div id="loading-screen">
+      <div id="loading-bar-container">
+        <div id="loading-bar"></div>
+      </div>
+      <p id="loading-text">Cargando... 0%</p>
     </div>
 
-    <div id="cargando" class="oculto">
-      <div class="barra-progreso"></div>
-    </div>
+    <!-- Logo + efectos -->
+    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" id="logo" />
 
-    <p class="mensaje-bienvenida">¡Bienvenido a Bingo VIP Bolivia!</p>
+    <!-- Frase de bienvenida -->
+    <h1 class="welcome-text">¡Bienvenido a Bingo VIP Bolivia!</h1>
 
-    <audio id="introMusic" src="intro-music.mp3" loop></audio>
+    <!-- Botón iniciar -->
+    <button id="start-button" class="button">🎲 Iniciar juego</button>
+
+    <!-- Botón música -->
+    <button id="music-button" class="icon-button">🎵</button>
+
+    <!-- Botón notificaciones -->
+    <button id="notify-button" class="icon-button">🔔</button>
   </div>
 
-  <script>
-    const startBtn = document.getElementById('startBtn');
-    const musicBtn = document.getElementById('toggleMusicBtn');
-    const notificacionesBtn = document.getElementById('notificacionesBtn');
-    const introMusic = document.getElementById('introMusic');
-    const cargando = document.getElementById('cargando');
+  <audio id="background-music" src="intro-music.mp3" loop></audio>
 
-    let musicaActiva = false;
-
-    musicBtn.addEventListener('click', () => {
-      if (musicaActiva) {
-        introMusic.pause();
-        musicBtn.textContent = '🔇 Música';
-      } else {
-        introMusic.play();
-        musicBtn.textContent = '🔊 Música';
-      }
-      musicaActiva = !musicaActiva;
-    });
-
-    startBtn.addEventListener('click', () => {
-      cargando.classList.remove('oculto');
-      cargando.classList.add('activo');
-      setTimeout(() => {
-        // Aquí iría la redirección o inicio real del juego
-        alert("¡Juego iniciado!");
-      }, 3000);
-    });
-
-    notificacionesBtn.addEventListener('click', () => {
-      Notification.requestPermission().then(result => {
-        if (result === 'granted') {
-          new Notification('✅ Notificaciones activadas para Bingo VIP Bolivia');
-        }
-      });
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
