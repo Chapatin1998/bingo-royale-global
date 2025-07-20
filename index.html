@@ -2,77 +2,128 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      background-color: #111;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    img {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 1.8em;
+      margin: 10px 0;
+    }
+    .progress-container {
+      width: 80%;
+      background: #333;
+      border-radius: 30px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 30px;
+      background: gold;
+      width: 0%;
+      color: black;
+      font-weight: bold;
+      line-height: 30px;
+      transition: width 0.2s;
+    }
+    .buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    button {
+      border: none;
+      border-radius: 15px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .music-btn, .notif-btn {
+      background: #333;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-size: 24px;
+    }
+    .start-btn {
+      background: gold;
+      color: black;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
 </head>
 <body>
-  <div class="pantalla">
-    <img src="assets/logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
-    <h1 class="bienvenida">¡Bienvenido a Bingo VIP Bolivia!</h1>
 
-    <div class="barra-carga">
-      <div class="progreso" id="progreso"></div>
-      <span id="porcentaje">0%</span>
-    </div>
+  <img src="logo.png" alt="Logo Bingo VIP Bolivia" />
+  <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
 
-    <div class="botones">
-      <button id="botonMusica" class="btn-music">🎵</button>
-      <button id="botonCampana" class="btn-bell">🔔</button>
-      <button id="botonInicio" class="btn-iniciar">🎮 Iniciar juego</button>
-    </div>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar">0%</div>
   </div>
 
-  <audio id="musicaFondo" loop>
-    <source src="assets/intro-music.mp3" type="audio/mpeg" />
-  </audio>
+  <div class="buttons">
+    <button class="music-btn" onclick="toggleMusic()">🔈</button>
+    <button class="notif-btn" onclick="stopMusic()">🔔</button>
+    <button class="start-btn" onclick="startGame()">🎮 Iniciar juego</button>
+  </div>
+
+  <audio id="bgMusic" src="intro-music.mp3" loop></audio>
 
   <script>
-    const botonMusica = document.getElementById('botonMusica');
-    const botonCampana = document.getElementById('botonCampana');
-    const musica = document.getElementById('musicaFondo');
-    const botonInicio = document.getElementById('botonInicio');
-    const progreso = document.getElementById('progreso');
-    const porcentaje = document.getElementById('porcentaje');
-    let cargando = false;
+    const music = document.getElementById('bgMusic');
+    const progressBar = document.getElementById('progressBar');
+    let musicPlaying = false;
 
-    botonMusica.addEventListener('click', () => {
-      if (musica.paused) {
-        musica.play();
-        botonMusica.textContent = '🔊';
+    function toggleMusic() {
+      if (!musicPlaying) {
+        music.play();
+        musicPlaying = true;
       } else {
-        musica.pause();
-        botonMusica.textContent = '🎵';
+        music.pause();
+        musicPlaying = false;
       }
-    });
+    }
 
-    botonCampana.addEventListener('click', () => {
-      musica.pause();
-      botonMusica.textContent = '🎵';
-    });
+    function stopMusic() {
+      music.pause();
+      music.currentTime = 0;
+      musicPlaying = false;
+    }
 
-    botonInicio.addEventListener('click', () => {
-      if (!cargando) {
-        musica.play();
-        botonMusica.textContent = '🔊';
-        iniciarCarga();
-      }
-    });
-
-    function iniciarCarga() {
-      cargando = true;
-      let progresoActual = 0;
-      const intervalo = setInterval(() => {
-        progresoActual++;
-        progreso.style.width = progresoActual + '%';
-        porcentaje.textContent = progresoActual + '%';
-
-        if (progresoActual >= 100) {
-          clearInterval(intervalo);
-          cargando = false;
+    function startGame() {
+      toggleMusic();
+      let progress = 0;
+      const interval = setInterval(() => {
+        if (progress >= 100) {
+          clearInterval(interval);
+        } else {
+          progress++;
+          progressBar.style.width = progress + "%";
+          progressBar.textContent = progress + "%";
         }
-      }, 40); // Velocidad de carga
+      }, 50); // duración: 5 segundos total
     }
   </script>
+
 </body>
 </html>
