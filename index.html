@@ -4,33 +4,166 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <div class="container">
-    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
-
-    <h1 class="bienvenida">¡Bienvenido a Bingo VIP Bolivia!</h1>
-
+    <img src="logo.png" alt="Bingo VIP Bolivia" class="logo" />
+    <p class="frase">¡Bienvenido a Bingo VIP Bolivia!</p>
+    
     <div class="botones">
-      <button id="btnIniciar" class="boton">INICIAR JUEGO</button>
-      <button id="btnMusica" class="icono">
-        🔊
-      </button>
-      <button id="btnNotificaciones" class="icono">
-        🔔
-      </button>
+      <button class="btn-iniciar" onclick="iniciarJuego()">🎮 Iniciar juego</button>
+      <button class="btn-music" onclick="toggleMusica()">🎵</button>
+      <button class="btn-noti" onclick="toggleNotificaciones()">🔔</button>
     </div>
 
-    <div id="barraCarga" class="barra-oculta">
-      <div class="progreso" id="progresoBarra"></div>
+    <div class="barra-carga">
+      <div class="progreso" id="progreso"></div>
     </div>
+    <p id="porcentaje">0%</p>
+    
+    <audio id="musica" src="intro-music.mp3" autoplay loop></audio>
   </div>
 
-  <audio id="musica" loop>
-    <source src="intro-music.mp3" type="audio/mp3" />
-  </audio>
+  <script>
+    // Música
+    const musica = document.getElementById('musica');
+    let musicaActiva = true;
 
-  <script src="script.js"></script>
+    function toggleMusica() {
+      musicaActiva = !musicaActiva;
+      if (musicaActiva) {
+        musica.play();
+      } else {
+        musica.pause();
+      }
+    }
+
+    // Notificaciones (simulado)
+    function toggleNotificaciones() {
+      alert("🔔 Notificaciones activadas/desactivadas");
+    }
+
+    // Barra de carga
+    const progreso = document.getElementById("progreso");
+    const porcentaje = document.getElementById("porcentaje");
+    let carga = 0;
+
+    function animarBarra() {
+      const intervalo = setInterval(() => {
+        if (carga >= 100) {
+          clearInterval(intervalo);
+        } else {
+          carga++;
+          progreso.style.width = carga + "%";
+          porcentaje.innerText = carga + "%";
+        }
+      }, 30); // velocidad de carga
+    }
+
+    // Carga automática al abrir
+    window.onload = () => {
+      animarBarra();
+    };
+
+    // Acción del botón iniciar juego
+    function iniciarJuego() {
+      alert("🎮 ¡Pronto entrarás al juego!");
+    }
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: gold;
+      font-family: sans-serif;
+      text-align: center;
+    }
+
+    .container {
+      padding: 30px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .logo {
+      width: 220px;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease-in;
+    }
+
+    .frase {
+      font-size: 1.3em;
+      margin-bottom: 20px;
+    }
+
+    .botones {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .btn-iniciar, .btn-music, .btn-noti {
+      border: none;
+      padding: 12px 20px;
+      font-size: 1em;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-iniciar {
+      background: gold;
+      color: #000;
+      box-shadow: 0 0 20px gold;
+    }
+
+    .btn-music, .btn-noti {
+      background: #222;
+      color: violet;
+    }
+
+    .btn-noti {
+      color: gold;
+    }
+
+    .barra-carga {
+      width: 80%;
+      height: 10px;
+      background: #333;
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 10px auto;
+      box-shadow: 0 0 8px gold;
+    }
+
+    .progreso {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, yellow, orange);
+      transition: width 0.2s ease-in-out;
+    }
+
+    #porcentaje {
+      font-size: 1.2em;
+      color: white;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @media (max-width: 600px) {
+      .btn-iniciar, .btn-music, .btn-noti {
+        padding: 10px;
+        font-size: 0.9em;
+      }
+    }
+  </style>
 </body>
 </html>
