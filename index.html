@@ -2,98 +2,53 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bingo VIP Bolivia</title>
-  <link rel="icon" href="./assets/images/logo.png" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-in {
-      animation: fadeIn 1.5s ease-out forwards;
-    }
-    @keyframes grow {
-      0% { width: 0%; }
-      100% { width: 100%; }
-    }
-    .animate-grow {
-      animation: grow 4s ease-in-out forwards;
-    }
-  </style>
+  <link rel="stylesheet" href="estilos.css">
 </head>
-<body class="bg-black text-white overflow-hidden relative">
+<body class="fondo-oscuro">
 
-  <!-- Fondo con imagen de bolas de bingo -->
-  <img src="./assets/images/bing.png" alt="Fondo bolas" class="absolute inset-0 w-full h-full object-cover opacity-70 z-0" />
-  <div class="absolute inset-0 bg-black bg-opacity-70 z-10"></div>
-
-  <!-- Contenido principal -->
-  <div class="relative z-20 flex flex-col items-center justify-center min-h-screen text-center px-4 space-y-6 fade-in">
-
-    <!-- Logo -->
-    <img src="./assets/images/logo.png" alt="Logo" class="w-28 md:w-36 animate-pulse" />
-
-    <!-- Frase de bienvenida -->
-    <h1 class="text-2xl md:text-4xl font-bold text-yellow-400">¡Bienvenido a Bingo VIP Bolivia!</h1>
-
-    <!-- Botón iniciar -->
-    <button onclick="iniciarJuego()"
-      class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-full shadow-lg transition duration-300">
-      Iniciar juego
-    </button>
-
-    <!-- Barra de carga -->
-    <div class="relative w-full max-w-md h-24 rounded-xl overflow-hidden shadow-xl">
-      <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm rounded-xl"></div>
-      <div class="absolute bottom-6 left-4 right-4 h-6 bg-gray-800 rounded-full overflow-hidden">
-        <div id="progress-bar"
-          class="h-full bg-gradient-to-r from-yellow-400 to-pink-500 w-0 animate-grow rounded-full shadow-inner">
-        </div>
-      </div>
-      <div id="progress-text"
-        class="absolute top-4 left-1/2 transform -translate-x-1/2 text-white font-bold text-lg">
-        0%
-      </div>
+  <!-- Barra de carga -->
+  <div class="barra-carga-container">
+    <div class="barra-carga">
+      <div class="progreso" id="progreso"></div>
     </div>
-
-    <!-- Íconos de música y notificación -->
-    <div class="flex gap-6 pt-4">
-      <!-- Música -->
-      <button onclick="toggleMusica()" class="text-yellow-400 hover:text-white transition text-xl">
-        🔊
-      </button>
-      <!-- Notificaciones -->
-      <button onclick="mostrarNotificaciones()" class="text-yellow-400 hover:text-white transition text-xl">
-        🔔
-      </button>
-    </div>
+    <div class="porcentaje" id="porcentaje">0%</div>
   </div>
 
-  <!-- Audio -->
-  <audio id="musicaFondo" loop autoplay>
-    <source src="./assets/music/bingo.mp3" type="audio/mpeg" />
+  <!-- Logo principal -->
+  <div class="logo">
+    <img src="assets/logo-bingo.png" alt="Logo Bingo VIP Bolivia" />
+  </div>
+
+  <!-- Frase de bienvenida -->
+  <h1 class="bienvenida">¡Bienvenido a Bingo VIP Bolivia!</h1>
+
+  <!-- Imagen de bolas de bingo -->
+  <div class="bolas-container">
+    <img src="assets/bolas-bingo.png" alt="Bolas de Bingo" />
+  </div>
+
+  <!-- Botones principales -->
+  <div class="botones">
+    <button class="btn-jugar" onclick="iniciarJuego()">🎮 Iniciar Juego</button>
+    <button class="btn-musica" onclick="toggleMusica()">🔊</button>
+    <button class="btn-notificaciones">🔔</button>
+  </div>
+
+  <!-- Música de fondo -->
+  <audio id="musicaFondo" loop>
+    <source src="assets/musica-bingo.mp3" type="audio/mpeg">
   </audio>
 
-  <script>
-    // Barra de carga
-    let progress = 0;
-    const bar = document.getElementById("progress-bar");
-    const text = document.getElementById("progress-text");
-    const intervalo = setInterval(() => {
-      if (progress >= 100) {
-        clearInterval(intervalo);
-      } else {
-        progress += 1;
-        bar.style.width = progress + "%";
-        text.textContent = progress + "%";
-      }
-    }, 40);
+  <!-- Animación Fade-In -->
+  <div class="animacion-inicial"></div>
 
+  <script>
     // Música
     const musica = document.getElementById("musicaFondo");
     let musicaActiva = true;
+
     function toggleMusica() {
       if (musicaActiva) {
         musica.pause();
@@ -103,15 +58,28 @@
       musicaActiva = !musicaActiva;
     }
 
-    // Notificaciones
-    function mostrarNotificaciones() {
-      alert("¡Pronto activaremos las notificaciones personalizadas!");
-    }
+    // Barra de carga
+    let porcentaje = 0;
+    const progreso = document.getElementById("progreso");
+    const porcentajeTexto = document.getElementById("porcentaje");
+
+    const intervalo = setInterval(() => {
+      if (porcentaje >= 100) {
+        clearInterval(intervalo);
+        document.querySelector(".barra-carga-container").style.display = "none";
+      } else {
+        porcentaje++;
+        progreso.style.width = porcentaje + "%";
+        porcentajeTexto.textContent = porcentaje + "%";
+      }
+    }, 30);
 
     // Iniciar juego
     function iniciarJuego() {
-      alert("Cargando juego... 🎮");
+      alert("¡Bienvenido al juego!");
+      // Aquí iría la redirección o carga del juego real
     }
   </script>
+
 </body>
 </html>
