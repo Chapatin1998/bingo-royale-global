@@ -2,84 +2,17 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="estilos.css">
+  <title>Prueba Bingo VIP</title>
 </head>
-<body class="fondo-oscuro">
+<body style="background: #111; color: #fff; text-align: center; font-family: sans-serif">
 
-  <!-- Barra de carga -->
-  <div class="barra-carga-container">
-    <div class="barra-carga">
-      <div class="progreso" id="progreso"></div>
-    </div>
-    <div class="porcentaje" id="porcentaje">0%</div>
-  </div>
+  <h1>Prueba Bingo VIP Bolivia</h1>
 
-  <!-- Logo principal -->
-  <div class="logo">
-    <img src="assets/logo-bingo.png" alt="Logo Bingo VIP Bolivia" />
-  </div>
+  <img src="assets/logo-bingo.png" alt="Logo" style="width: 200px; margin: 20px;" />
 
-  <!-- Frase de bienvenida -->
-  <h1 class="bienvenida">¡Bienvenido a Bingo VIP Bolivia!</h1>
+  <img src="assets/bolas-bingo.png" alt="Bolas de bingo" style="width: 300px;" />
 
-  <!-- Imagen de bolas de bingo -->
-  <div class="bolas-container">
-    <img src="assets/bolas-bingo.png" alt="Bolas de Bingo" />
-  </div>
-
-  <!-- Botones principales -->
-  <div class="botones">
-    <button class="btn-jugar" onclick="iniciarJuego()">🎮 Iniciar Juego</button>
-    <button class="btn-musica" onclick="toggleMusica()">🔊</button>
-    <button class="btn-notificaciones">🔔</button>
-  </div>
-
-  <!-- Música de fondo -->
-  <audio id="musicaFondo" loop>
-    <source src="assets/musica-bingo.mp3" type="audio/mpeg">
-  </audio>
-
-  <!-- Animación Fade-In -->
-  <div class="animacion-inicial"></div>
-
-  <script>
-    // Música
-    const musica = document.getElementById("musicaFondo");
-    let musicaActiva = true;
-
-    function toggleMusica() {
-      if (musicaActiva) {
-        musica.pause();
-      } else {
-        musica.play();
-      }
-      musicaActiva = !musicaActiva;
-    }
-
-    // Barra de carga
-    let porcentaje = 0;
-    const progreso = document.getElementById("progreso");
-    const porcentajeTexto = document.getElementById("porcentaje");
-
-    const intervalo = setInterval(() => {
-      if (porcentaje >= 100) {
-        clearInterval(intervalo);
-        document.querySelector(".barra-carga-container").style.display = "none";
-      } else {
-        porcentaje++;
-        progreso.style.width = porcentaje + "%";
-        porcentajeTexto.textContent = porcentaje + "%";
-      }
-    }, 30);
-
-    // Iniciar juego
-    function iniciarJuego() {
-      alert("¡Bienvenido al juego!");
-      // Aquí iría la redirección o carga del juego real
-    }
-  </script>
+  <p>¿Se ve el logo y las bolas?</p>
 
 </body>
 </html>
