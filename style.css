@@ -1,84 +1,151 @@
-/* Fondo oscuro elegante */
+/* Estilos generales del cuerpo */
 body {
-  margin: 0;
-  background: linear-gradient(180deg, #0d0d0d, #1a1a1a);
-  font-family: 'Segoe UI', sans-serif;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #000; /* Fondo oscuro elegante */
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Asegura que ocupe toda la altura de la vista */
+    overflow: hidden; /* Evita barras de desplazamiento innecesarias */
 }
 
-.container {
-  text-align: center;
-  animation: fadeIn 2s ease-in-out;
+/* Contenedor principal para centrar los elementos */
+.contenedor-principal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    max-width: 90%; /* Ajuste para responsividad */
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Logo principal */
+.logo-principal {
+    width: 200px; /* O el tamaño que necesites */
+    height: auto;
+    margin-bottom: 30px;
+    animation: fadeIn 2s ease-in-out; /* Animación de entrada suave */
 }
 
-.logo {
-  width: 250px;
-  margin-bottom: 20px;
-  filter: drop-shadow(0 0 15px gold);
-  transition: filter 0.3s;
+/* Frase de bienvenida */
+.frase-bienvenida {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    color: #ffd700; /* Dorado para la frase */
+    animation: fadeIn 2.5s ease-in-out;
 }
 
-.frase {
-  font-size: 1.2em;
-  margin-bottom: 20px;
-  color: gold;
+/* Contenedor de botones */
+.contenedor-botones {
+    display: flex;
+    gap: 15px; /* Espacio entre botones */
+    margin-bottom: 40px;
 }
 
-.botones button {
-  margin: 10px 5px;
-  padding: 10px 20px;
-  font-size: 1em;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s;
+/* Estilos de botones */
+.boton-juego, .boton-musica, .boton-notificaciones {
+    background-color: #ffd700; /* Fondo dorado */
+    color: #000;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espacio entre texto e ícono */
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.jugar {
-  background-color: #ffd700;
-  color: #000;
-  font-weight: bold;
-  box-shadow: 0 0 10px #ffd700;
+.boton-juego:hover, .boton-musica:hover, .boton-notificaciones:hover {
+    background-color: #e6b800; /* Dorado más oscuro al pasar el ratón */
+    transform: translateY(-3px);
 }
 
-.musica, .notificacion {
-  background-color: #333;
-  color: gold;
-  font-size: 1.2em;
+.boton-musica, .boton-notificaciones {
+    padding: 15px; /* Para hacerlos cuadrados si solo tienen ícono */
+    border-radius: 50%; /* Para hacerlos redondos */
 }
 
-.musica:hover, .notificacion:hover, .jugar:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px gold;
-}
-
+/* Barra de carga */
 .barra {
-  width: 80%;
-  height: 10px;
-  background-color: #333;
-  margin: 20px auto;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 0 10px gold inset;
+    width: 80%; /* Ancho de la barra, ajusta según necesites */
+    max-width: 400px;
+    background-color: #333;
+    border-radius: 5px;
+    height: 10px;
+    margin-top: 20px;
+    position: relative; /* Necesario para posicionar el progreso */
+    overflow: hidden; /* Oculta el desbordamiento del rayo */
 }
 
 .progreso {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(to right, gold, orange);
-  transition: width 0.3s ease-in-out;
+    height: 100%;
+    background-color: #fdd835; /* Un amarillo dorado más vibrante para el progreso */
+    width: 0%; /* Iniciará en 0 y crecerá con JS */
+    border-radius: 5px;
+    position: relative; /* Para el pseudo-elemento del rayo */
+    overflow: hidden; /* Asegura que el rayo no se salga de la barra de progreso */
 }
 
-#porcentaje {
-  font-size: 1em;
-  color: #fff;
+/* Efecto de rayo dentro de la barra de progreso */
+.progreso::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%; /* Empieza fuera del lado izquierdo */
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent); /* Destello blanco */
+    width: 30%; /* Ancho del "rayo" */
+    height: 100%;
+    transform: skewX(-20deg); /* Inclinar el rayo para un efecto más dinámico */
+    animation: animarRayo 2s linear infinite; /* Animación del rayo */
+}
+
+@keyframes animarRayo {
+    0% {
+        left: -50%;
+    }
+    100% {
+        left: 150%; /* Se mueve completamente a la derecha */
+    }
+}
+
+/* Porcentaje de carga */
+.porcentaje-carga {
+    margin-top: 10px;
+    font-size: 1.1em;
+    color: #fff;
+}
+
+/* Animación de entrada general */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Media Queries para responsividad (ejemplo básico) */
+@media (max-width: 768px) {
+    .logo-principal {
+        width: 150px;
+    }
+    .frase-bienvenida {
+        font-size: 1em;
+    }
+    .contenedor-botones {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .boton-juego, .boton-musica, .boton-notificaciones {
+        width: 100%; /* Ocupan todo el ancho disponible */
+        padding: 12px 20px;
+    }
+    .boton-musica, .boton-notificaciones {
+        border-radius: 30px; /* Dejar de ser redondos en móviles si se alinean verticalmente */
+    }
+    .barra {
+        width: 90%;
+    }
 }
