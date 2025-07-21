@@ -2,17 +2,60 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Prueba Bingo VIP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bingo VIP Bolivia</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body style="background: #111; color: #fff; text-align: center; font-family: sans-serif">
+<body>
+  <div class="container">
+    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
+    <h1 class="frase">¡Bienvenido a Bingo VIP Bolivia!</h1>
+    <div class="botones">
+      <button class="jugar">🎮 Iniciar juego</button>
+      <button class="musica" onclick="toggleMusic()">🎵</button>
+      <button class="notificacion" onclick="toggleNotificaciones()">🔔</button>
+    </div>
+    <div class="barra">
+      <div class="progreso" id="progreso"></div>
+    </div>
+    <p id="porcentaje">0%</p>
+    <audio id="musica" loop>
+      <source src="intro-music.mp3" type="audio/mpeg" />
+    </audio>
+  </div>
 
-  <h1>Prueba Bingo VIP Bolivia</h1>
+  <script>
+    // Música
+    const musica = document.getElementById('musica');
+    let musicaEncendida = false;
+    function toggleMusic() {
+      musicaEncendida = !musicaEncendida;
+      if (musicaEncendida) {
+        musica.play();
+      } else {
+        musica.pause();
+      }
+    }
 
-  <img src="assets/logo-bingo.png" alt="Logo" style="width: 200px; margin: 20px;" />
+    // Simular barra de carga
+    let progreso = 0;
+    const barra = document.getElementById('progreso');
+    const porcentajeTexto = document.getElementById('porcentaje');
 
-  <img src="assets/bolas-bingo.png" alt="Bolas de bingo" style="width: 300px;" />
+    const intervalo = setInterval(() => {
+      if (progreso < 100) {
+        progreso++;
+        barra.style.width = progreso + '%';
+        porcentajeTexto.textContent = progreso + '%';
+      } else {
+        clearInterval(intervalo);
+      }
+    }, 30);
 
-  <p>¿Se ve el logo y las bolas?</p>
-
+    // Simulación de notificación (puede adaptarse después)
+    function toggleNotificaciones() {
+      alert("🔔 Notificaciones activadas");
+    }
+  </script>
 </body>
 </html>
