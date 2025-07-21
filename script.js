@@ -1,11 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const barraProgreso = document.getElementById('barraProgreso');
-    const porcentajeCarga = document.getElementById('porcentajeCarga');
-    const contenedorPrincipal = document.querySelector('.contenedor-principal'); // Para la animación de entrada
+    // Referencias a elementos del DOM
+    const barraProgreso = document.getElementById('progreso'); // ID corregido
+    const porcentajeCarga = document.getElementById('porcentaje'); // ID corregido
+    const botonIniciarJuego = document.getElementById('btnIniciar'); // ID original de tu HTML
+    const musicaFondo = document.getElementById('musicaFondo'); // Referencia al elemento de audio
+    const botonMusica = document.getElementById('botonMusica'); // Referencia al botón de música
+    const botonNotificaciones = document.getElementById('botonNotificaciones'); // Referencia al botón de notificaciones
+    const fraseBienvenidaAdicional = document.querySelector('.frase-bienvenida-adicional');
 
     let progreso = 0;
     const duracionCarga = 3000; // 3 segundos para simular la carga
     const intervalo = duracionCarga / 100; // Actualizar cada 1%
+
+    // Deshabilitar el botón de iniciar juego y botones de música/notificaciones al principio
+    botonIniciarJuego.setAttribute('disabled', true);
+    botonMusica.setAttribute('disabled', true);
+    botonNotificaciones.setAttribute('disabled', true);
+
+    // Ocultar la frase de bienvenida adicional al principio
+    if (fraseBienvenidaAdicional) {
+        fraseBienvenidaAdicional.style.opacity = '0';
+    }
+
 
     // Función para simular el progreso de la carga
     function simularCarga() {
@@ -15,36 +31,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 barraProgreso.style.width = progreso + '%';
                 porcentajeCarga.textContent = progreso + '%';
             } else {
-                clearInterval(cargaInterval);
-                // Cuando la carga termina, puedes decidir qué hacer:
-                // Por ejemplo, ocultar la barra de carga y mostrar el contenido principal
-                // O redirigir a otra página.
-                // Aquí, simplemente mostraremos el contenido principal si estaba oculto.
-                
-                // Si tienes una pantalla de carga separada que quieres ocultar:
-                // document.querySelector('.pantalla-carga').style.display = 'none';
-                
-                // Si la página ya está visible y solo la barra progresa:
-                // console.log("Carga completa, ¡listo para jugar!");
-                
-                // Animación de desvanecimiento de la barra de carga (opcional)
+                clearInterval(cargaInterval); // Detener la simulación de carga
+
+                // Ocultar la barra de carga y el porcentaje suavemente
                 barraProgreso.style.opacity = '0';
                 porcentajeCarga.style.opacity = '0';
                 barraProgreso.style.transition = 'opacity 0.5s ease-out';
                 porcentajeCarga.style.transition = 'opacity 0.5s ease-out';
                 
-                // Opcional: Desactivar la animación de rayo después de la carga
-                barraProgreso.querySelector('::before').style.animation = 'none';
-
-                // Una vez que la carga finaliza, puedes habilitar el botón "Iniciar Juego"
-                const botonIniciarJuego = document.querySelector('.boton-juego');
-                if (botonIniciarJuego) {
-                    botonIniciarJuego.removeAttribute('disabled'); // Asegúrate de que no esté deshabilitado inicialmente en HTML
-                    botonIniciarJuego.style.cursor = 'pointer';
-                    // Aquí podrías añadir una animación final o un efecto al botón
+                // Asegurarse de que la animación del rayo se detenga (opcional pero bueno para rendimiento)
+                const rayoElement = barraProgreso.querySelector('::before');
+                if (rayoElement) { // Verifica si el pseudo-elemento existe
+                   // rayoElement.style.animation = 'none'; // Desactiva la animación
                 }
 
-                // Aquí podrías redirigir al juego o mostrar la interfaz principal del juego
+
+                // Habilitar los botones
+                botonIniciarJuego.removeAttribute('disabled');
+                botonMusica.removeAttribute('disabled');
+                botonNotificaciones.removeAttribute('disabled');
+
+                botonIniciarJuego.style.cursor = 'pointer';
+                botonMusica.style.cursor = 'pointer';
+                botonNotificaciones.style.cursor = 'pointer';
+
+                // Mostrar la frase de bienvenida adicional
+                if (fraseBienvenidaAdicional) {
+                    fraseBienvenidaAdicional.style.opacity = '1';
+                    fraseBienvenidaAdicional.style.transition = 'opacity 1s ease-in-out';
+                }
+
+                // Iniciar la música automáticamente si es el comportamiento deseado
+                if (musicaFondo && !musicaFondo.paused) { // Solo si ya estaba reproduciéndose o quieres que inicie
+                    // Si la música debe iniciar al final de la carga
+                     musicaFondo.play().catch(error => {
+                        console.log("La reproducción automática de audio fue bloqueada:", error);
+                        // Informar al usuario que necesita interactuar para activar el audio
+                        // Por ejemplo, mostrar un botón de "Activar Sonido"
+                    });
+                }
+                
+                // Opcional: Redirigir o mostrar contenido principal del juego
+                // console.log("Carga completa, ¡listo para jugar!");
                 // window.location.href = 'pagina-del-juego.html'; 
             }
         }, intervalo);
@@ -53,44 +81,59 @@ document.addEventListener('DOMContentLoaded', () => {
     // Iniciar la simulación de carga cuando la página se carga
     simularCarga();
 
-    // Funcionalidad de los botones (ejemplo)
-    const botonMusica = document.querySelector('.boton-musica');
-    if (botonMusica) {
-        let musicaEncendida = true; // Estado inicial
+    // --- Funcionalidad de los botones ---
+
+    // Botón Iniciar Juego
+    if (botonIniciarJuego) {
+        botonIniciarJuego.addEventListener('click', () => {
+            // alert('¡Iniciando el juego de Bingo!');
+            // Aquí iría la lógica para cargar el juego o redirigir
+            // Ya tenías un setTimeout para redirigir, lo puedes usar aquí:
+            setTimeout(() => {
+                 window.location.href = 'main.html'; // Cambia esto al archivo real del juego
+            }, 300); // Pequeño retraso para una transición suave
+        });
+    }
+
+    // Botón de Música
+    if (botonMusica && musicaFondo) {
+        let musicaActiva = false; // Estado inicial, asumiendo que empieza pausada
+        
+        // Intentar reproducir automáticamente (puede ser bloqueado por el navegador)
+        musicaFondo.play().then(() => {
+            musicaActiva = true;
+            botonMusica.querySelector('.fas').classList.remove('fa-volume-mute');
+            botonMusica.querySelector('.fas').classList.add('fa-music');
+        }).catch(error => {
+            console.log("Autoplay de música bloqueado. El usuario debe interactuar.", error);
+            musicaActiva = false; // Asegurar que el estado es "pausado"
+            botonMusica.querySelector('.fas').classList.remove('fa-music');
+            botonMusica.querySelector('.fas').classList.add('fa-volume-mute');
+        });
+
         botonMusica.addEventListener('click', () => {
-            musicaEncendida = !musicaEncendida;
-            const iconoMusica = botonMusica.querySelector('.fas');
-            if (musicaEncendida) {
-                iconoMusica.classList.remove('fa-volume-mute');
-                iconoMusica.classList.add('fa-music');
-                console.log('Música encendida');
-                // Aquí iría la lógica para reproducir música
+            if (musicaActiva) {
+                musicaFondo.pause();
+                botonMusica.querySelector('.fas').classList.remove('fa-music');
+                botonMusica.querySelector('.fas').classList.add('fa-volume-mute');
+                musicaActiva = false;
             } else {
-                iconoMusica.classList.remove('fa-music');
-                iconoMusica.classList.add('fa-volume-mute');
-                console.log('Música apagada');
-                // Aquí iría la lógica para pausar música
+                musicaFondo.play().catch(error => {
+                    console.log("Error al intentar reproducir música por interacción del usuario:", error);
+                    // Podrías mostrar un mensaje al usuario aquí
+                });
+                botonMusica.querySelector('.fas').classList.remove('fa-volume-mute');
+                botonMusica.querySelector('.fas').classList.add('fa-music');
+                musicaActiva = true;
             }
         });
     }
 
-    const botonNotificaciones = document.querySelector('.boton-notificaciones');
+    // Botón de Notificaciones
     if (botonNotificaciones) {
         botonNotificaciones.addEventListener('click', () => {
             alert('¡Nuevas notificaciones o alertas aquí!');
-            // Aquí iría la lógica para mostrar notificaciones reales
-        });
-    }
-
-    // Funcionalidad del botón Iniciar Juego (una vez que la carga termina)
-    const botonIniciarJuego = document.querySelector('.boton-juego');
-    if (botonIniciarJuego) {
-        // Inicialmente, podrías deshabilitarlo en tu HTML: <button class="boton-juego" disabled>
-        // Y lo habilitas cuando la carga termina en la función simularCarga()
-        botonIniciarJuego.addEventListener('click', () => {
-            alert('¡Iniciando el juego de Bingo!');
-            // Aquí iría la lógica para cargar el juego o redirigir
-            // window.location.href = 'juego-de-bingo.html';
+            // Aquí iría la lógica real para mostrar notificaciones, como un modal o un toast
         });
     }
 });
