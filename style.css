@@ -1,74 +1,104 @@
-/* Estilos generales del cuerpo */
+/* General Body Styles */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #000; /* Fondo oscuro elegante */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Tu fuente original */
+    background-image: linear-gradient(180deg, #000000, #1a1a1a); /* Tu gradiente de fondo */
     color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Asegura que ocupe toda la altura de la vista */
-    overflow: hidden; /* Evita barras de desplazamiento innecesarias */
+    min-height: 100vh;
+    overflow: hidden; /* Prevent unwanted scrollbars */
 }
 
-/* Contenedor principal para centrar los elementos */
-.contenedor-principal {
+/* Main Container (tu original) */
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     padding: 20px;
-    max-width: 90%; /* Ajuste para responsividad */
+    width: 90%; /* Responsive adjustment */
+    max-width: 600px; /* Max width for larger screens */
+    animation: fadeIn 1s ease-in-out forwards; /* Initial animation */
 }
 
-/* Logo principal */
-.logo-principal {
-    width: 200px; /* O el tamaño que necesites */
+/* Logo Styles (tu original) */
+.logo {
+    width: 250px; /* Your original size */
     height: auto;
-    margin-bottom: 30px;
-    animation: fadeIn 2s ease-in-out; /* Animación de entrada suave */
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 10px gold); /* Tu sombra dorada */
+    transition: filter 0.3s ease;
 }
 
-/* Frase de bienvenida */
-.frase-bienvenida {
+/* Frase debajo del logo (tu original) */
+.frase {
     font-size: 1.2em;
-    margin-bottom: 40px;
-    color: #ffd700; /* Dorado para la frase */
-    animation: fadeIn 2.5s ease-in-out;
+    margin-bottom: 20px;
+    color: gold; /* Tu color dorado */
 }
 
-/* Contenedor de botones */
-.contenedor-botones {
+/* Frase de Bienvenida Adicional (la que apareció en la imagen) */
+.frase-bienvenida-adicional {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #fff; /* Blanco para contraste */
+    margin-bottom: 30px;
+    opacity: 0; /* Oculta inicialmente para aparecer después del logo */
+    animation: fadeIn 1s ease-in-out forwards;
+    animation-delay: 1s; /* Aparece después del logo */
+}
+
+/* Contenedor de botones (para flexbox) */
+.botones-container {
     display: flex;
     gap: 15px; /* Espacio entre botones */
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
-/* Estilos de botones */
-.boton-juego, .boton-musica, .boton-notificaciones {
-    background-color: #ffd700; /* Fondo dorado */
+/* Botón "Iniciar Juego" (tu original) */
+.boton-jugar {
+    background-color: #ffd700; /* Tu color dorado original */
     color: #000;
     border: none;
     padding: 15px 30px;
-    border-radius: 30px;
+    border-radius: 30px; /* Redondeado */
     cursor: pointer;
-    font-size: 1em;
+    font-size: 1.2em; /* Texto más grande */
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* Espacio entre texto e ícono */
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    gap: 10px; /* Espacio entre ícono y texto */
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7); /* Tu sombra dorada */
+    transition: all 0.3s ease;
 }
 
-.boton-juego:hover, .boton-musica:hover, .boton-notificaciones:hover {
+.boton-jugar:hover {
     background-color: #e6b800; /* Dorado más oscuro al pasar el ratón */
     transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.9);
 }
 
-.boton-musica, .boton-notificaciones {
-    padding: 15px; /* Para hacerlos cuadrados si solo tienen ícono */
-    border-radius: 50%; /* Para hacerlos redondos */
+/* Botones de Música y Notificación */
+.boton-musica-notificacion {
+    background-color: #333; /* Color oscuro para que resalten sobre el fondo */
+    color: #fff;
+    border: none;
+    padding: 15px; /* Para que sean cuadrados */
+    border-radius: 50%; /* Redondos */
+    cursor: pointer;
+    font-size: 1.2em;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
 }
+
+.boton-musica-notificacion:hover {
+    background-color: #555;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.7);
+}
+
 
 /* Barra de carga */
 .barra {
@@ -80,6 +110,7 @@ body {
     margin-top: 20px;
     position: relative; /* Necesario para posicionar el progreso */
     overflow: hidden; /* Oculta el desbordamiento del rayo */
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5) inset; /* Sombra interna dorada */
 }
 
 .progreso {
@@ -114,36 +145,41 @@ body {
 }
 
 /* Porcentaje de carga */
-.porcentaje-carga {
+.porcentaje {
     margin-top: 10px;
     font-size: 1.1em;
     color: #fff;
 }
 
-/* Animación de entrada general */
+/* Animación de entrada general (tu original) */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Media Queries para responsividad (ejemplo básico) */
+/* Media Queries para responsividad (basado en tu estructura) */
 @media (max-width: 768px) {
-    .logo-principal {
-        width: 150px;
+    .logo {
+        width: 180px; /* Ajuste para móviles */
     }
-    .frase-bienvenida {
+    .frase {
         font-size: 1em;
     }
-    .contenedor-botones {
-        flex-direction: column;
+    .frase-bienvenida-adicional {
+        font-size: 1.2em;
+    }
+    .botones-container {
+        flex-direction: column; /* Apilar botones verticalmente en móviles */
         gap: 10px;
-    }
-    .boton-juego, .boton-musica, .boton-notificaciones {
         width: 100%; /* Ocupan todo el ancho disponible */
-        padding: 12px 20px;
     }
-    .boton-musica, .boton-notificaciones {
-        border-radius: 30px; /* Dejar de ser redondos en móviles si se alinean verticalmente */
+    .boton-jugar, .boton-musica-notificacion {
+        width: 80%; /* Ajuste de ancho para los botones apilados */
+        margin: 0 auto; /* Centrar los botones apilados */
+    }
+    .boton-musica-notificacion {
+        border-radius: 30px; /* Hacerlos rectangulares como el de jugar */
+        padding: 15px 30px; /* Restaurar padding */
     }
     .barra {
         width: 90%;
