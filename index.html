@@ -1,61 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo VIP Bolivia</title>
+    <link rel="stylesheet" href="style.css">
+    </head>
 <body>
-  <div class="container">
-    <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo" />
-    <h1 class="frase">¡Bienvenido a Bingo VIP Bolivia!</h1>
-    <div class="botones">
-      <button class="jugar">🎮 Iniciar juego</button>
-      <button class="musica" onclick="toggleMusic()">🎵</button>
-      <button class="notificacion" onclick="toggleNotificaciones()">🔔</button>
+    <div class="contenedor-principal">
+        <img src="tu_ruta_al_logo.png" alt="Logo Bingo VIP Bolivia" class="logo-principal">
+        
+        <p class="frase-bienvenida">Tu destino para la diversión del bingo</p>
+        
+        <div class="contenedor-botones">
+            <button class="boton-juego">
+                <i class="fas fa-gamepad"></i> Iniciar juego
+            </button>
+            <button class="boton-musica">
+                <i class="fas fa-music"></i>
+            </button>
+            <button class="boton-notificaciones">
+                <i class="fas fa-bell"></i>
+            </button>
+        </div>
+
+        <div class="barra">
+            <div class="progreso" id="barraProgreso"></div>
+        </div>
+        <p class="porcentaje-carga" id="porcentajeCarga">0%</p>
+
     </div>
-    <div class="barra">
-      <div class="progreso" id="progreso"></div>
-    </div>
-    <p id="porcentaje">0%</p>
-    <audio id="musica" loop>
-      <source src="intro-music.mp3" type="audio/mpeg" />
-    </audio>
-  </div>
 
-  <script>
-    // Música
-    const musica = document.getElementById('musica');
-    let musicaEncendida = false;
-    function toggleMusic() {
-      musicaEncendida = !musicaEncendida;
-      if (musicaEncendida) {
-        musica.play();
-      } else {
-        musica.pause();
-      }
-    }
-
-    // Simular barra de carga
-    let progreso = 0;
-    const barra = document.getElementById('progreso');
-    const porcentajeTexto = document.getElementById('porcentaje');
-
-    const intervalo = setInterval(() => {
-      if (progreso < 100) {
-        progreso++;
-        barra.style.width = progreso + '%';
-        porcentajeTexto.textContent = progreso + '%';
-      } else {
-        clearInterval(intervalo);
-      }
-    }, 30);
-
-    // Simulación de notificación (puede adaptarse después)
-    function toggleNotificaciones() {
-      alert("🔔 Notificaciones activadas");
-    }
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>
