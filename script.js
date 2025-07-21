@@ -1,27 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Referencias a elementos del DOM
-    const barraProgreso = document.getElementById('progreso'); // ID corregido
-    const porcentajeCarga = document.getElementById('porcentaje'); // ID corregido
-    const botonIniciarJuego = document.getElementById('btnIniciar'); // ID original de tu HTML
-    const musicaFondo = document.getElementById('musicaFondo'); // Referencia al elemento de audio
-    const botonMusica = document.getElementById('botonMusica'); // Referencia al botón de música
-    const botonNotificaciones = document.getElementById('botonNotificaciones'); // Referencia al botón de notificaciones
-    const fraseBienvenidaAdicional = document.querySelector('.frase-bienvenida-adicional');
+    const barraProgreso = document.getElementById('progreso');
+    const porcentajeCarga = document.getElementById('porcentaje');
+    const btnIniciar = document.getElementById('btnIniciar'); // Botón "Iniciar Sesión"
+    const btnRegistrar = document.getElementById('btnRegistrar'); // Nuevo botón "Registrarse"
+    const linkSoporte = document.getElementById('linkSoporte'); // Enlace "Contacta con soporte"
+    const musicaFondo = document.getElementById('musicaFondo');
+    const botonMusica = document.getElementById('botonMusica');
+    const botonNotificaciones = document.getElementById('botonNotificaciones');
+    const fraseBienvenidaPrincipal = document.querySelector('.frase-bienvenida-principal');
+    const logoElement = document.querySelector('.logo'); // Para el efecto de logo
 
     let progreso = 0;
     const duracionCarga = 3000; // 3 segundos para simular la carga
     const intervalo = duracionCarga / 100; // Actualizar cada 1%
 
-    // Deshabilitar el botón de iniciar juego y botones de música/notificaciones al principio
-    botonIniciarJuego.setAttribute('disabled', true);
+    // Deshabilitar botones y ocultar elementos al principio
+    btnIniciar.setAttribute('disabled', true);
+    btnRegistrar.setAttribute('disabled', true);
     botonMusica.setAttribute('disabled', true);
     botonNotificaciones.setAttribute('disabled', true);
-
-    // Ocultar la frase de bienvenida adicional al principio
-    if (fraseBienvenidaAdicional) {
-        fraseBienvenidaAdicional.style.opacity = '0';
+    if (fraseBienvenidaPrincipal) {
+        fraseBienvenidaPrincipal.style.opacity = '0';
     }
-
+    // Ocultar la barra de carga y el porcentaje al inicio si quieres que aparezcan con la animación
+    // barraProgreso.style.opacity = '0';
+    // porcentajeCarga.style.opacity = '0';
 
     // Función para simular el progreso de la carga
     function simularCarga() {
@@ -31,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 barraProgreso.style.width = progreso + '%';
                 porcentajeCarga.textContent = progreso + '%';
             } else {
-                clearInterval(cargaInterval); // Detener la simulación de carga
+                clearInterval(cargaInterval);
 
                 // Ocultar la barra de carga y el porcentaje suavemente
                 barraProgreso.style.opacity = '0';
@@ -39,41 +43,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 barraProgreso.style.transition = 'opacity 0.5s ease-out';
                 porcentajeCarga.style.transition = 'opacity 0.5s ease-out';
                 
-                // Asegurarse de que la animación del rayo se detenga (opcional pero bueno para rendimiento)
-                const rayoElement = barraProgreso.querySelector('::before');
-                if (rayoElement) { // Verifica si el pseudo-elemento existe
-                   // rayoElement.style.animation = 'none'; // Desactiva la animación
-                }
-
-
                 // Habilitar los botones
-                botonIniciarJuego.removeAttribute('disabled');
+                btnIniciar.removeAttribute('disabled');
+                btnRegistrar.removeAttribute('disabled');
                 botonMusica.removeAttribute('disabled');
                 botonNotificaciones.removeAttribute('disabled');
 
-                botonIniciarJuego.style.cursor = 'pointer';
+                btnIniciar.style.cursor = 'pointer';
+                btnRegistrar.style.cursor = 'pointer';
                 botonMusica.style.cursor = 'pointer';
                 botonNotificaciones.style.cursor = 'pointer';
 
-                // Mostrar la frase de bienvenida adicional
-                if (fraseBienvenidaAdicional) {
-                    fraseBienvenidaAdicional.style.opacity = '1';
-                    fraseBienvenidaAdicional.style.transition = 'opacity 1s ease-in-out';
+                // Mostrar la frase de bienvenida principal
+                if (fraseBienvenidaPrincipal) {
+                    fraseBienvenidaPrincipal.style.opacity = '1';
+                    fraseBienvenidaPrincipal.style.transition = 'opacity 1s ease-in-out';
                 }
 
-                // Iniciar la música automáticamente si es el comportamiento deseado
-                if (musicaFondo && !musicaFondo.paused) { // Solo si ya estaba reproduciéndose o quieres que inicie
-                    // Si la música debe iniciar al final de la carga
-                     musicaFondo.play().catch(error => {
-                        console.log("La reproducción automática de audio fue bloqueada:", error);
-                        // Informar al usuario que necesita interactuar para activar el audio
-                        // Por ejemplo, mostrar un botón de "Activar Sonido"
+                // Intentar reproducir la música automáticamente
+                if (musicaFondo) {
+                    musicaFondo.play().then(() => {
+                        console.log("Música reproduciéndose automáticamente.");
+                        // Actualizar ícono a "música" si se reproduce
+                        botonMusica.querySelector('.fas').classList.remove('fa-volume-mute');
+                        botonMusica.querySelector('.fas').classList.add('fa-music');
+                    }).catch(error => {
+                        console.log("La reproducción automática de audio fue bloqueada por el navegador:", error);
+                        console.log("El usuario deberá interactuar con la página (ej. hacer clic en el botón de música) para que el audio se reproduzca.");
+                        // Actualizar ícono a "mute" si no se reproduce
+                        botonMusica.querySelector('.fas').classList.remove('fa-music');
+                        botonMusica.querySelector('.fas').classList.add('fa-volume-mute');
                     });
                 }
-                
-                // Opcional: Redirigir o mostrar contenido principal del juego
-                // console.log("Carga completa, ¡listo para jugar!");
-                // window.location.href = 'pagina-del-juego.html'; 
             }
         }, intervalo);
     }
@@ -83,48 +84,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Funcionalidad de los botones ---
 
-    // Botón Iniciar Juego
-    if (botonIniciarJuego) {
-        botonIniciarJuego.addEventListener('click', () => {
-            // alert('¡Iniciando el juego de Bingo!');
-            // Aquí iría la lógica para cargar el juego o redirigir
-            // Ya tenías un setTimeout para redirigir, lo puedes usar aquí:
-            setTimeout(() => {
-                 window.location.href = 'main.html'; // Cambia esto al archivo real del juego
-            }, 300); // Pequeño retraso para una transición suave
+    // Botón "Iniciar Sesión"
+    if (btnIniciar) {
+        btnIniciar.addEventListener('click', () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            if (email && password) {
+                alert(`Intentando iniciar sesión con: ${email} / ${password}`);
+                // Aquí iría la lógica de autenticación real
+                // Si la autenticación es exitosa, redirigir:
+                // setTimeout(() => {
+                //      window.location.href = 'main.html';
+                // }, 300);
+            } else {
+                alert('Por favor, ingresa tu correo y contraseña.');
+            }
+        });
+    }
+
+    // Botón "Registrarse"
+    if (btnRegistrar) {
+        btnRegistrar.addEventListener('click', () => {
+            alert('Redirigiendo a la página de registro...');
+            // Aquí iría la lógica para redirigir a la página de registro
+            // window.location.href = 'registro.html';
+        });
+    }
+
+    // Enlace "Contacta con soporte"
+    if (linkSoporte) {
+        linkSoporte.addEventListener('click', (e) => {
+            e.preventDefault(); // Previene la acción por defecto del enlace
+            alert('Redirigiendo a la página de soporte o abriendo chat de ayuda...');
+            // Aquí iría la lógica para redirigir a la página de soporte o abrir un widget de chat
+            // window.location.href = 'soporte.html';
         });
     }
 
     // Botón de Música
     if (botonMusica && musicaFondo) {
-        let musicaActiva = false; // Estado inicial, asumiendo que empieza pausada
-        
-        // Intentar reproducir automáticamente (puede ser bloqueado por el navegador)
-        musicaFondo.play().then(() => {
-            musicaActiva = true;
-            botonMusica.querySelector('.fas').classList.remove('fa-volume-mute');
-            botonMusica.querySelector('.fas').classList.add('fa-music');
-        }).catch(error => {
-            console.log("Autoplay de música bloqueado. El usuario debe interactuar.", error);
-            musicaActiva = false; // Asegurar que el estado es "pausado"
-            botonMusica.querySelector('.fas').classList.remove('fa-music');
-            botonMusica.querySelector('.fas').classList.add('fa-volume-mute');
-        });
+        let musicaActiva = false; // Estado inicial, se actualizará al intentar autoplay
 
         botonMusica.addEventListener('click', () => {
-            if (musicaActiva) {
+            if (musicaFondo.paused) {
+                musicaFondo.play().then(() => {
+                    botonMusica.querySelector('.fas').classList.remove('fa-volume-mute');
+                    botonMusica.querySelector('.fas').classList.add('fa-music');
+                    musicaActiva = true;
+                }).catch(error => {
+                    console.log("Error al reproducir música por interacción:", error);
+                    alert("No se pudo reproducir la música. Asegúrate de que tu navegador lo permita.");
+                });
+            } else {
                 musicaFondo.pause();
                 botonMusica.querySelector('.fas').classList.remove('fa-music');
                 botonMusica.querySelector('.fas').classList.add('fa-volume-mute');
                 musicaActiva = false;
-            } else {
-                musicaFondo.play().catch(error => {
-                    console.log("Error al intentar reproducir música por interacción del usuario:", error);
-                    // Podrías mostrar un mensaje al usuario aquí
-                });
-                botonMusica.querySelector('.fas').classList.remove('fa-volume-mute');
-                botonMusica.querySelector('.fas').classList.add('fa-music');
-                musicaActiva = true;
             }
         });
     }
