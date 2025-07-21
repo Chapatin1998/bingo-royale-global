@@ -1,125 +1,208 @@
 /* General Body Styles */
 body {
     margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Tu fuente original */
-    background-image: linear-gradient(180deg, #000000, #1a1a1a); /* Tu gradiente de fondo */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     overflow: hidden; /* Prevent unwanted scrollbars */
+    position: relative; /* Para posicionar el background-container */
 }
 
-/* Main Container (tu original) */
+/* Background Video/Image Container */
+.background-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1; /* Asegura que esté detrás del contenido */
+}
+
+.background-container video,
+.background-container img {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover; /* Asegura que cubra todo el espacio */
+    filter: brightness(0.4) blur(3px); /* Oscurece y desenfoca el fondo para que el contenido resalte */
+}
+
+/* Main Container */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     padding: 20px;
-    width: 90%; /* Responsive adjustment */
-    max-width: 600px; /* Max width for larger screens */
-    animation: fadeIn 1s ease-in-out forwards; /* Initial animation */
+    width: 90%;
+    max-width: 450px; /* Ajustado para los campos de entrada */
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente para el contenido */
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    animation: fadeInContainer 1s ease-in-out forwards;
 }
 
-/* Logo Styles (tu original) */
+/* Animación de entrada del contenedor */
+@keyframes fadeInContainer {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Frase de bienvenida principal (arriba) */
+.frase-bienvenida-principal {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #ffd700; /* Dorado brillante */
+    margin-bottom: 25px;
+    opacity: 0; /* Oculto inicialmente */
+    animation: fadeIn 1s ease-in-out forwards;
+    animation-delay: 0.5s; /* Aparece un poco después del contenedor */
+}
+
+/* Logo Styles */
 .logo {
-    width: 250px; /* Your original size */
+    width: 200px; /* Tamaño ajustado */
     height: auto;
     margin-bottom: 20px;
-    filter: drop-shadow(0 0 10px gold); /* Tu sombra dorada */
-    transition: filter 0.3s ease;
+    filter: drop-shadow(0 0 15px gold);
+    animation: pulseGlow 2s infinite alternate; /* Efecto de pulso y brillo */
 }
 
-/* Frase debajo del logo (tu original) */
+/* Efecto de pulso y brillo para el logo */
+@keyframes pulseGlow {
+    0% { transform: scale(1); filter: drop-shadow(0 0 15px gold); }
+    100% { transform: scale(1.03); filter: drop-shadow(0 0 25px gold); }
+}
+
+/* Frase debajo del logo */
 .frase {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-    color: gold; /* Tu color dorado */
-}
-
-/* Frase de Bienvenida Adicional (la que apareció en la imagen) */
-.frase-bienvenida-adicional {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #fff; /* Blanco para contraste */
+    font-size: 1.1em;
     margin-bottom: 30px;
-    opacity: 0; /* Oculta inicialmente para aparecer después del logo */
-    animation: fadeIn 1s ease-in-out forwards;
-    animation-delay: 1s; /* Aparece después del logo */
+    color: #ccc; /* Gris claro para contraste */
 }
 
-/* Contenedor de botones (para flexbox) */
+/* Input Group for Email/Password */
+.input-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.input-group input {
+    width: calc(100% - 30px); /* Ajuste para padding */
+    padding: 15px;
+    border: 1px solid #555;
+    border-radius: 8px;
+    background-color: #222;
+    color: #fff;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+/* Contenedor de botones de acción */
 .botones-container {
     display: flex;
-    gap: 15px; /* Espacio entre botones */
+    flex-direction: column; /* Apilados por defecto */
+    gap: 15px;
+    width: 100%;
     margin-bottom: 30px;
 }
 
-/* Botón "Iniciar Juego" (tu original) */
-.boton-jugar {
-    background-color: #ffd700; /* Tu color dorado original */
-    color: #000;
+/* Estilos de botones de acción (Iniciar Sesión, Registrarse) */
+.boton-accion {
+    width: 100%; /* Ocupa todo el ancho disponible */
     border: none;
-    padding: 15px 30px;
-    border-radius: 30px; /* Redondeado */
+    padding: 15px 25px;
+    border-radius: 30px;
     cursor: pointer;
-    font-size: 1.2em; /* Texto más grande */
+    font-size: 1.1em;
+    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px; /* Espacio entre ícono y texto */
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7); /* Tu sombra dorada */
-    transition: all 0.3s ease;
+    gap: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-.boton-jugar:hover {
-    background-color: #e6b800; /* Dorado más oscuro al pasar el ratón */
+.boton-accion.primary {
+    background-color: #ffd700; /* Dorado principal */
+    color: #000;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+}
+
+.boton-accion.primary:hover {
+    background-color: #e6b800;
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.9);
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
 }
 
-/* Botones de Música y Notificación */
-.boton-musica-notificacion {
-    background-color: #333; /* Color oscuro para que resalten sobre el fondo */
+.boton-accion.secondary {
+    background-color: #444; /* Gris oscuro secundario */
     color: #fff;
-    border: none;
-    padding: 15px; /* Para que sean cuadrados */
-    border-radius: 50%; /* Redondos */
-    cursor: pointer;
-    font-size: 1.2em;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.boton-musica-notificacion:hover {
-    background-color: #555;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.7);
+.boton-accion.secondary:hover {
+    background-color: #666;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
+/* Sección de Ayuda y Soporte */
+.ayuda-soporte {
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    color: #aaa;
+}
+
+.ayuda-soporte a {
+    color: #ffd700; /* Enlace dorado */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.ayuda-soporte a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
 
 /* Barra de carga */
 .barra {
-    width: 80%; /* Ancho de la barra, ajusta según necesites */
-    max-width: 400px;
+    width: 80%;
+    max-width: 300px; /* Ajuste de tamaño para la barra */
     background-color: #333;
     border-radius: 5px;
     height: 10px;
     margin-top: 20px;
-    position: relative; /* Necesario para posicionar el progreso */
-    overflow: hidden; /* Oculta el desbordamiento del rayo */
-    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5) inset; /* Sombra interna dorada */
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5) inset;
 }
 
 .progreso {
     height: 100%;
-    background-color: #fdd835; /* Un amarillo dorado más vibrante para el progreso */
-    width: 0%; /* Iniciará en 0 y crecerá con JS */
+    background-color: #fdd835;
+    width: 0%;
     border-radius: 5px;
-    position: relative; /* Para el pseudo-elemento del rayo */
-    overflow: hidden; /* Asegura que el rayo no se salga de la barra de progreso */
+    position: relative;
+    overflow: hidden;
 }
 
 /* Efecto de rayo dentro de la barra de progreso */
@@ -127,21 +210,17 @@ body {
     content: '';
     position: absolute;
     top: 0;
-    left: -50%; /* Empieza fuera del lado izquierdo */
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent); /* Destello blanco */
-    width: 30%; /* Ancho del "rayo" */
+    left: -50%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+    width: 30%;
     height: 100%;
-    transform: skewX(-20deg); /* Inclinar el rayo para un efecto más dinámico */
-    animation: animarRayo 2s linear infinite; /* Animación del rayo */
+    transform: skewX(-20deg);
+    animation: animarRayo 2s linear infinite;
 }
 
 @keyframes animarRayo {
-    0% {
-        left: -50%;
-    }
-    100% {
-        left: 150%; /* Se mueve completamente a la derecha */
-    }
+    0% { left: -50%; }
+    100% { left: 150%; }
 }
 
 /* Porcentaje de carga */
@@ -151,37 +230,76 @@ body {
     color: #fff;
 }
 
-/* Animación de entrada general (tu original) */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Botones flotantes de música y notificaciones */
+.botones-flotantes {
+    position: absolute;
+    bottom: 20px; /* Posición desde abajo */
+    right: 20px; /* Posición desde la derecha */
+    display: flex;
+    gap: 10px;
+    z-index: 10; /* Asegura que estén por encima de otros elementos */
 }
 
-/* Media Queries para responsividad (basado en tu estructura) */
+.boton-musica-notificacion {
+    background-color: rgba(51, 51, 51, 0.8); /* Fondo semi-transparente */
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.boton-musica-notificacion:hover {
+    background-color: rgba(85, 85, 85, 0.9);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+}
+
+/* Animación de entrada general */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Media Queries para responsividad */
 @media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        max-width: 95%;
+    }
+    .frase-bienvenida-principal {
+        font-size: 1.4em;
+    }
     .logo {
-        width: 180px; /* Ajuste para móviles */
+        width: 150px;
     }
     .frase {
+        font-size: 0.9em;
+    }
+    .input-group input {
+        padding: 12px;
+        font-size: 0.9em;
+    }
+    .boton-accion {
         font-size: 1em;
+        padding: 12px 20px;
     }
-    .frase-bienvenida-adicional {
-        font-size: 1.2em;
-    }
-    .botones-container {
-        flex-direction: column; /* Apilar botones verticalmente en móviles */
-        gap: 10px;
-        width: 100%; /* Ocupan todo el ancho disponible */
-    }
-    .boton-jugar, .boton-musica-notificacion {
-        width: 80%; /* Ajuste de ancho para los botones apilados */
-        margin: 0 auto; /* Centrar los botones apilados */
-    }
-    .boton-musica-notificacion {
-        border-radius: 30px; /* Hacerlos rectangulares como el de jugar */
-        padding: 15px 30px; /* Restaurar padding */
+    .ayuda-soporte {
+        font-size: 0.8em;
     }
     .barra {
         width: 90%;
+    }
+    .botones-flotantes {
+        bottom: 10px;
+        right: 10px;
+        gap: 8px;
+    }
+    .boton-musica-notificacion {
+        padding: 12px;
+        font-size: 1em;
     }
 }
