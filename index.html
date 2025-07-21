@@ -1,30 +1,53 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bingo VIP Bolivia</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+<div class="flex items-center justify-center h-screen bg-black">
+  <div class="relative w-full max-w-md h-24 rounded-xl overflow-hidden shadow-lg">
+    
+    <!-- Fondo con tu imagen de bolas -->
+    <img src="./assets/images/bing.png" alt="Fondo de bolas" class="absolute inset-0 w-full h-full object-cover opacity-80" />
+    
+    <!-- Capa oscura encima para contraste -->
+    <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm"></div>
 
-  <!-- Pantalla de bienvenida -->
-  <div class="pantalla-inicio">
-    <h1 class="titulo">🎉 Bienvenido a Bingo VIP Bolivia 🎉</h1>
-    <p class="descripcion">¡Tu sala de bingo preferida con premios reales!</p>
-    <button id="btnIniciar" class="boton-iniciar">INICIAR JUEGO</button>
-  </div>
-
-  <!-- Pantalla de transición con bolas girando -->
-  <div id="pantallaTransicion" class="transicion-oculta">
-    <div class="contenedor-bolas">
-      <img src="img/bola1.png" class="bola girando" />
-      <img src="img/bola2.png" class="bola girando" />
-      <img src="img/bola3.png" class="bola girando" />
+    <!-- Barra de progreso (rayo elegante) -->
+    <div class="absolute bottom-6 left-4 right-4 h-6 bg-gray-800 rounded-full overflow-hidden">
+      <div id="progress-bar"
+        class="h-full bg-gradient-to-r from-yellow-400 to-pink-500 w-0 animate-grow rounded-full shadow-inner">
+      </div>
     </div>
-    <p class="texto-transicion">Cargando tu sala VIP...</p>
-  </div>
 
-  <script src="script.js"></script>
-</body>
-</html>
+    <!-- Porcentaje de carga -->
+    <div id="progress-text" class="absolute top-4 left-1/2 transform -translate-x-1/2 text-white font-bold text-lg">
+      0%
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes grow {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-grow {
+  animation: grow 4s ease-in-out forwards;
+}
+</style>
+
+<script>
+let progress = 0;
+const bar = document.getElementById("progress-bar");
+const text = document.getElementById("progress-text");
+
+const interval = setInterval(() => {
+  if (progress >= 100) {
+    clearInterval(interval);
+  } else {
+    progress += 1;
+    bar.style.width = progress + "%";
+    text.textContent = progress + "%";
+  }
+}, 40);
+</script>
