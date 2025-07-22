@@ -334,6 +334,184 @@ body {
     margin-right: 5px;
     color: #ff9900; /* Naranja para el ícono */
 }
+/* Estilos para el Lobby (lobby.html) */
+.lobby-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px; /* Un poco más ancho para el lobby */
+    background-color: rgba(0, 0, 0, 0.75); /* Fondo más oscuro para el lobby */
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+    box-sizing: border-box;
+    margin-bottom: 70px; /* Espacio para la advertencia inferior */
+}
+
+.lobby-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3); /* Línea divisoria dorada */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #ffd700; /* Borde dorado para el avatar */
+    object-fit: cover;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.user-name {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.user-balance {
+    font-size: 1.1em;
+    color: #ffd700; /* Dorado para el saldo */
+    font-weight: bold;
+}
+
+.logout-btn {
+    background-color: rgba(255, 0, 0, 0.7); /* Rojo para cerrar sesión */
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+}
+
+.logout-btn:hover {
+    background-color: rgba(255, 0, 0, 0.9);
+    transform: scale(1.05);
+}
+
+.lobby-buttons {
+    display: grid; /* Usamos grid para una disposición más flexible */
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas por defecto */
+    gap: 20px; /* Espacio entre los botones */
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.lobby-btn {
+    background-color: rgba(51, 51, 51, 0.8); /* Gris oscuro semi-transparente */
+    color: #fff;
+    border: none;
+    padding: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.lobby-btn i {
+    font-size: 2em; /* Íconos más grandes */
+    color: #ffd700; /* Íconos dorados */
+}
+
+.lobby-btn:hover {
+    background-color: rgba(85, 85, 85, 0.9);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.lobby-btn.primary {
+    background-color: #ffd700; /* Botón "Jugar" en dorado */
+    color: #000;
+}
+.lobby-btn.primary i {
+    color: #000; /* Ícono negro en botón dorado */
+}
+.lobby-btn.primary:hover {
+    background-color: #e6b800;
+}
+
+.lobby-info {
+    font-size: 0.9em;
+    color: #aaa;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Media Queries para el Lobby */
+@media (max-width: 768px) {
+    .lobby-container {
+        padding: 20px;
+        max-width: 95%;
+        margin-bottom: 90px; /* Para la advertencia inferior */
+    }
+    .lobby-header {
+        flex-direction: column; /* Apila el usuario y el botón cerrar sesión */
+        gap: 15px;
+    }
+    .user-info {
+        flex-direction: column; /* Apila avatar y detalles */
+        gap: 8px;
+    }
+    .user-name {
+        font-size: 1.2em;
+    }
+    .user-balance {
+        font-size: 1em;
+    }
+    .logout-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1em;
+    }
+    .lobby-buttons {
+        grid-template-columns: 1fr; /* Una columna en móviles */
+        gap: 15px;
+    }
+    .lobby-btn {
+        padding: 15px;
+        font-size: 1em;
+    }
+    .lobby-btn i {
+        font-size: 1.8em;
+    }
+}
+
 
 
 /* Media Queries para responsividad */
