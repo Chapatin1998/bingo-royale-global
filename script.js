@@ -97,10 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     const user = userCredential.user;
                     alert('¡Inicio de sesión exitoso! Bienvenido de nuevo.');
                     console.log("Usuario logueado:", user);
-                    // Redirigir al usuario al lobby o la página del juego
-                    // setTimeout(() => {
-                    //      window.location.href = 'main.html'; // O la página del lobby
-                    // }, 300);
+                    // Redirigir al usuario al lobby
+                    setTimeout(() => {
+                         window.location.href = 'lobby.html'; 
+                    }, 300); // Pequeño retraso para una transición suave
                 })
                 .catch((error) => {
                     console.error("Error al iniciar sesión:", error.code, error.message);
