@@ -36,8 +36,8 @@ body {
     filter: brightness(0.4) blur(3px); /* Oscurece y desenfoca el fondo para que el contenido resalte */
 }
 
-/* Main Container */
-.container {
+/* Main Container (usado en index.html y registro.html) */
+.container, .register-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -49,6 +49,7 @@ body {
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     animation: fadeInContainer 1s ease-in-out forwards;
+    box-sizing: border-box; /* Incluye padding en el width */
 }
 
 /* Animación de entrada del contenedor */
@@ -71,7 +72,7 @@ body {
 
 /* Logo Styles */
 .logo {
-    width: 200px;
+    width: 200px; /* Tamaño ajustado */
     height: auto;
     margin-bottom: 20px;
     filter: drop-shadow(0 0 15px gold);
@@ -85,8 +86,7 @@ body {
 }
 
 /* Frase debajo del logo (ha sido eliminada del HTML) */
-/* Si la volvieras a poner, este estilo no aplicaría o deberías re-evaluarlo. */
-.frase {
+.frase { /* Por si se reutiliza esta clase en el futuro */
     font-size: 1.1em;
     margin-bottom: 30px;
     color: #ccc;
@@ -101,8 +101,8 @@ body {
     margin-bottom: 30px;
 }
 
-.input-group input {
-    width: calc(100% - 30px);
+.input-group input, .input-group select { /* También aplica a select para el avatar */
+    width: calc(100% - 30px); /* Ajuste para padding */
     padding: 15px;
     border: 1px solid #555;
     border-radius: 8px;
@@ -111,9 +111,10 @@ body {
     font-size: 1em;
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Incluye padding en el width */
 }
 
-.input-group input:focus {
+.input-group input:focus, .input-group select:focus {
     border-color: #ffd700;
     box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
 }
@@ -121,7 +122,7 @@ body {
 /* Contenedor de botones de acción */
 .botones-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Apilados por defecto */
     gap: 15px;
     width: 100%;
     margin-bottom: 30px;
@@ -129,7 +130,7 @@ body {
 
 /* Estilos de botones de acción (Iniciar Sesión, Registrarse) */
 .boton-accion {
-    width: 100%;
+    width: 100%; /* Ocupa todo el ancho disponible */
     border: none;
     padding: 15px 25px;
     border-radius: 30px;
@@ -144,7 +145,7 @@ body {
 }
 
 .boton-accion.primary {
-    background-color: #ffd700;
+    background-color: #ffd700; /* Dorado principal */
     color: #000;
     box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
 }
@@ -156,7 +157,7 @@ body {
 }
 
 .boton-accion.secondary {
-    background-color: #444;
+    background-color: #444; /* Gris oscuro secundario */
     color: #fff;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
@@ -175,7 +176,7 @@ body {
 }
 
 .ayuda-soporte a {
-    color: #ffd700;
+    color: #ffd700; /* Enlace dorado */
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -188,7 +189,7 @@ body {
 /* Barra de carga */
 .barra {
     width: 80%;
-    max-width: 300px;
+    max-width: 300px; /* Ajuste de tamaño para la barra */
     background-color: #333;
     border-radius: 5px;
     height: 10px;
@@ -266,9 +267,45 @@ body {
     to { opacity: 1; }
 }
 
+/* Estilos específicos para registro.html */
+.register-container {
+    padding: 30px; /* Un poco más de padding */
+}
+.register-container h2 {
+    color: #ffd700;
+    margin-bottom: 25px;
+    font-size: 2em;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+.register-form .input-group {
+    margin-bottom: 20px;
+}
+.register-form .input-group input, .register-form .input-group select {
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: #fff;
+}
+.register-form .boton-accion {
+    margin-top: 20px;
+}
+.register-container .link-volver {
+    margin-top: 25px;
+    font-size: 0.95em;
+}
+.register-container .link-volver a {
+    color: #ffd700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.register-container .link-volver a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+
 /* Media Queries para responsividad */
 @media (max-width: 768px) {
-    .container {
+    .container, .register-container {
         padding: 15px;
         max-width: 95%;
     }
@@ -282,7 +319,7 @@ body {
     .frase { /* Aunque eliminada, la dejo por si se necesita en el futuro */
         font-size: 0.9em;
     }
-    .input-group input {
+    .input-group input, .input-group select {
         padding: 12px;
         font-size: 0.9em;
     }
