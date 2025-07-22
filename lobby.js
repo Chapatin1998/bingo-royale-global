@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } else {
                 // No hay usuario logueado, redirigir a la página de inicio de sesión
-                console.log("Usuario no logueado, redirigiendo a index.html");
+                console.log("No hay usuario logueado, redirigiendo a index.html");
                 // alert("No has iniciado sesión o tu sesión ha expirado. Por favor, inicia sesión."); // Opcional
                 window.location.href = 'index.html';
             }
