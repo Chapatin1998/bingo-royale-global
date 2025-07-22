@@ -8,7 +8,7 @@ body {
     align-items: center;
     min-height: 100vh;
     overflow: hidden; /* Prevent unwanted scrollbars */
-    position: relative; /* Para posicionar el background-container */
+    position: relative; /* Para posicionar el background-container y la advertencia */
 }
 
 /* Background Video/Image Container */
@@ -50,6 +50,7 @@ body {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     animation: fadeInContainer 1s ease-in-out forwards;
     box-sizing: border-box; /* Incluye padding en el width */
+    margin-bottom: 70px; /* Espacio para la advertencia fija en la parte inferior */
 }
 
 /* Animación de entrada del contenedor */
@@ -168,11 +169,17 @@ body {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Sección de Ayuda y Soporte */
+/* Sección de Ayuda y Soporte (ahora independiente, si se usa fuera de .container) */
 .ayuda-soporte {
-    margin-bottom: 20px;
+    /* Si lo dejas dentro del .container, este margin-bottom está bien */
+    /* Si lo mueves fuera, podría necesitar position: absolute o similar */
+    margin-bottom: 20px; 
     font-size: 0.9em;
     color: #aaa;
+}
+
+.ayuda-soporte p { /* Asegura que los márgenes de los párrafos sean pequeños */
+    margin: 5px 0;
 }
 
 .ayuda-soporte a {
@@ -303,11 +310,39 @@ body {
 }
 
 
+/* Estilos para la Advertencia Legal (Posición Fija Abajo) */
+.advertencia-legal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente para mejor contraste */
+    color: #ffcc00; /* Dorado suave para el texto */
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.75em;
+    z-index: 100; /* Asegura que esté por encima de otros elementos */
+    border-top: 1px solid rgba(255, 204, 0, 0.3); /* Borde superior sutil */
+    box-sizing: border-box; /* Incluye padding en el width */
+}
+
+.advertencia-legal p {
+    margin: 3px 0;
+}
+
+.advertencia-legal .fas {
+    margin-right: 5px;
+    color: #ff9900; /* Naranja para el ícono */
+}
+
+
 /* Media Queries para responsividad */
 @media (max-width: 768px) {
     .container, .register-container {
         padding: 15px;
         max-width: 95%;
+        /* Ajuste de margin-bottom para móviles si la advertencia es más alta */
+        margin-bottom: 90px; /* Asegura espacio si el texto se envuelve */
     }
     .frase-bienvenida-principal {
         font-size: 1.6em; /* Ajuste para móviles */
@@ -342,37 +377,8 @@ body {
         padding: 12px;
         font-size: 1em;
     }
-}
-/* Estilos para la Advertencia Legal */
-.advertencia-legal {
-    margin-top: 25px;
-    margin-bottom: 20px; /* Espacio antes de la barra de carga/soporte */
-    font-size: 0.85em;
-    color: #ffcc00; /* Un dorado más suave para el texto */
-    background-color: rgba(255, 255, 0, 0.1); /* Fondo ligeramente amarillo transparente */
-    border: 1px solid rgba(255, 255, 0, 0.3);
-    border-radius: 8px;
-    padding: 15px;
-    text-align: center;
-    line-height: 1.4;
-    box-shadow: 0 0 10px rgba(255, 255, 0, 0.2);
-}
-
-.advertencia-legal p {
-    margin: 5px 0;
-}
-
-.advertencia-legal .fas {
-    margin-right: 8px;
-    color: #ff9900; /* Naranja para el ícono de advertencia */
-}
-
-/* Media Query para la advertencia en pantallas pequeñas */
-@media (max-width: 768px) {
     .advertencia-legal {
-        font-size: 0.75em;
-        padding: 10px;
+        font-size: 0.65em;
+        padding: 8px 0;
     }
 }
-
-
