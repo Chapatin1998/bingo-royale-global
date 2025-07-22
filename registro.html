@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Bingo VIP Bolivia</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Tus credenciales de Firebase (¡No las compartas públicamente en un repositorio!)
+        const firebaseConfig = {
+          apiKey: "AIzaSyD3rdp_uMIhbfe_WHo7RbDh5IoRuYOangE",
+          authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
+          projectId: "bingo-vip-bolivia-df2db",
+          storageBucket: "bingo-vip-bolivia-df2db.firebasestorage.app",
+          messagingSenderId: "310290230955",
+          appId: "1:310290230955:web:3526c26c2800b43ffcd1ee",
+          measurementId: "G-VRR7JSHY5G"
+        };
+
+        // Inicializa Firebase
+        const app = initializeApp(firebaseConfig);
+        
+        // Exporta servicios de Firebase para usarlos en el script de esta página
+        window.auth = getAuth(app);
+        window.db = getFirestore(app);
+
+        // Hace que las funciones específicas de Firebase Authentication y Firestore estén disponibles
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.collection = collection;
+        window.doc = doc;
+        window.setDoc = setDoc;
+    </script>
+    </head>
+<body>
+    <div class="background-container">
+        <video autoplay muted loop id="video-fondo">
+            <source src="video-bingo-inicio.mp4" type="video/mp4">
+            Tu navegador no soporta el video.
+        </video>
+    </div>
+
+    <div class="register-container">
+        <h2>Regístrate en Bingo VIP</h2>
+        <form id="registroForm" class="register-form">
+            <div class="input-group">
+                <input type="text" id="nombreCompleto" placeholder="Nombre completo" required>
+            </div>
+            <div class="input-group">
+                <input type="email" id="emailRegistro" placeholder="Correo electrónico" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="passwordRegistro" placeholder="Contraseña" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="confirmPasswordRegistro" placeholder="Confirmar contraseña" required>
+            </div>
+            <div class="input-group">
+                <label for="avatarSelect" style="color:#ccc; display: block; margin-bottom: 10px; text-align: left; font-size: 0.9em;">Selecciona tu avatar inicial:</label>
+                <select id="avatarSelect">
+                    <option value="hombre-basico">Hombre Básico</option>
+                    <option value="mujer-basica">Mujer Básica</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="boton-accion primary">
+                <i class="fas fa-user-plus"></i> Crear Cuenta
+            </button>
+        </form>
+        <p class="link-volver">¿Ya tienes una cuenta? <a href="index.html" id="linkIniciarSesion">Iniciar Sesión</a></p>
+    </div>
+
+    <script>
+        // Lógica de registro para registro.html
+        document.addEventListener('DOMContentLoaded', () => {
+            const registroForm = document.getElementById('registroForm');
+
+            registroForm.addEventListener('submit', async (e) => {
+                e.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+
+                const nombreCompleto = document.getElementById('nombreCompleto').value;
+                const email = document.getElementById('emailRegistro').value;
+                const password = document.getElementById('passwordRegistro').value;
+                const confirmPassword = document.getElementById('confirmPasswordRegistro').value;
+                const avatar = document.getElementById('avatarSelect').value;
+
+                if (password !== confirmPassword) {
+                    alert('Las contraseñas no coinciden. Por favor, inténtalo de nuevo.');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    alert('La contraseña debe tener al menos 6 caracteres.');
+                    return;
+                }
+
+                try {
+                    // Usar Firebase Authentication para crear el usuario
+                    const userCredential = await window.createUserWithEmailAndPassword(window.auth, email, password);
+                    const user = userCredential.user;
+
+                    // Guardar información adicional en Firestore (base de datos)
+                    await window.setDoc(window.doc(window.db, "users", user.uid), {
+                        nombreCompleto: nombreCompleto,
+                        email: email,
+                        avatar: avatar,
+                        createdAt: new Date()
+                    });
+
+                    alert('¡Registro exitoso! ¡Bienvenido a Bingo VIP Bolivia!');
+                    // Opcional: Redirigir al usuario a la página de inicio de sesión o al lobby
+                    window.location.href = 'index.html'; // Redirige a la página de inicio para que inicie sesión
+                    
+                } catch (error) {
+                    console.error("Error al registrar el usuario:", error.code, error.message);
+                    let errorMessage = "Ocurrió un error al registrarte.";
+                    if (error.code === 'auth/email-already-in-use') {
+                        errorMessage = "El correo electrónico ya está en uso. Por favor, usa otro o inicia sesión.";
+                    } else if (error.code === 'auth/invalid-email') {
+                        errorMessage = "El formato del correo electrónico es inválido.";
+                    } else if (error.code === 'auth/weak-password') {
+                        errorMessage = "La contraseña es demasiado débil. Usa al menos 6 caracteres.";
+                    }
+                    alert(errorMessage);
+                }
+            });
+
+            // Redirigir al hacer clic en "Iniciar Sesión"
+            const linkIniciarSesion = document.getElementById('linkIniciarSesion');
+            if (linkIniciarSesion) {
+                linkIniciarSesion.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = 'index.html'; // Volvemos a la página principal (login)
+                });
+            }
+        });
+    </script>
+</body>
+</html>
