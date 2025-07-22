@@ -4,9 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo VIP Bolivia</title>
-    <link rel="stylesheet" href="style.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
+    
+    <link rel="stylesheet" href="style.css">
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"; // Para autenticación
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"; // Para base de datos
+
+        // Tus credenciales de Firebase (¡No las compartas públicamente en un repositorio!)
+        const firebaseConfig = {
+          apiKey: "AIzaSyD3rdp_uMIhbfe_WHo7RbDh5IoRuYOangE",
+          authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
+          projectId: "bingo-vip-bolivia-df2db",
+          storageBucket: "bingo-vip-bolivia-df2db.firebasestorage.app",
+          messagingSenderId: "310290230955",
+          appId: "1:310290230955:web:3526c26c2800b43ffcd1ee",
+          measurementId: "G-VRR7JSHY5G"
+        };
+
+        // Inicializa Firebase
+        const app = initializeApp(firebaseConfig);
+        
+        // Exporta servicios de Firebase para usarlos en script.js
+        window.auth = getAuth(app);
+        window.db = getFirestore(app);
+        // Si usas Analytics, también lo puedes inicializar aquí
+        // import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+        // window.analytics = getAnalytics(app); 
+    </script>
+    </head>
 <body>
     <div class="background-container">
         <video autoplay muted loop id="video-fondo">
