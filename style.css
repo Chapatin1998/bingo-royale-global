@@ -1,168 +1,115 @@
-/* Estilos Específicos para la Página de Selección de Juego */
-.selection-container {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-    text-align: center;
-    width: 95%;
-    max-width: 1000px; /* Más ancho para la cuadrícula de niveles */
-    box-sizing: border-box;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.selection-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
-}
-
-.selection-header h2 {
+/* Estilos Generales y Reseteo */
+body {
     margin: 0;
-    font-size: 1.8em;
-    color: #FFD700; /* Dorado para el título principal */
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
-    flex-grow: 1; /* Permite que el título ocupe el espacio disponible */
-}
-
-.back-button {
-    background-color: #FF6347; /* Rojo */
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: 'Arial', sans-serif;
+    color: #fff; /* Texto blanco por defecto */
+    overflow: hidden; /* Evita barras de desplazamiento */
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 8px;
-    white-space: nowrap; /* Evita que el texto se rompa */
+    min-height: 100vh; /* Asegura que ocupe al menos el alto de la ventana */
+    background-color: #000; /* Fondo negro si el video no carga */
 }
 
-.back-button:hover {
-    background-color: #E65337;
-    transform: translateY(-2px);
-}
-
-.user-balance-display {
-    background-color: rgba(0, 255, 255, 0.2);
-    border: 1px solid #00FFFF;
-    border-radius: 8px;
-    padding: 8px 12px;
-    color: #00FFFF;
-    font-size: 1.1em;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    white-space: nowrap;
-}
-
-.user-balance-display i {
-    color: #FFD700; /* Icono de dólar dorado */
-}
-
-.levels-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Cuadrícula adaptable */
-    gap: 25px; /* Espacio entre las tarjetas de nivel */
-    padding: 10px;
-    overflow-y: auto; /* Permite desplazamiento si hay muchos niveles */
-    max-height: 70vh; /* Altura máxima para la cuadrícula */
-    scrollbar-width: thin; /* Para navegadores que lo soportan */
-    scrollbar-color: #00FFFF rgba(0, 0, 0, 0.5); /* Para navegadores que lo soportan */
-}
-
-/* Estilo de la barra de desplazamiento para Webkit (Chrome, Safari) */
-.levels-grid::-webkit-scrollbar {
-    width: 8px;
-}
-
-.levels-grid::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-}
-
-.levels-grid::-webkit-scrollbar-thumb {
-    background-color: #00FFFF;
-    border-radius: 10px;
-    border: 2px solid rgba(0, 0, 0, 0.7);
-}
-
-
-.level-card {
-    background-color: rgba(0, 0, 0, 0.8);
-    border: 2px solid #00FFFF; /* Borde cian por defecto */
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-}
-
-.level-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 25px rgba(0, 255, 255, 0.7);
-}
-
-.level-header {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Centrar contenido */
-    gap: 15px;
-    margin-bottom: 15px;
+/* Contenedor de fondo para video o imagen */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1; /* Asegura que esté detrás de todo */
 }
 
-.level-header h3 {
-    margin: 0;
-    font-size: 1.4em;
-    color: #FFD700; /* Título de nivel dorado */
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
-    flex-grow: 1; /* Permite que el título ocupe espacio */
+#video-fondo, #imagen-fondo {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover; /* Asegura que el video/imagen cubra el contenedor */
+    filter: brightness(30%); /* AJUSTADO: Más oscuro para que el contenido resalte mejor */
 }
 
-.locutor-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid #FFD700;
-    object-fit: cover;
-    flex-shrink: 0; /* Evita que se encoja */
+/* Contenedor principal para login/registro */
+.container, .register-container, .lobby-container {
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); /* Sombra brillante */
+    text-align: center;
+    width: 90%; /* Ancho adaptable */
+    max-width: 400px; /* Ancho máximo */
+    box-sizing: border-box; /* Incluye padding en el ancho */
+    position: relative; /* Para botones flotantes */
+    z-index: 1; /* Asegura que esté por encima del fondo */
 }
 
-.level-card p {
-    margin: 8px 0;
-    font-size: 1.1em;
+/* Títulos */
+h2 {
+    color: #00FFFF; /* Cian brillante */
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+/* Frase de bienvenida principal */
+.frase-bienvenida-principal {
+    color: #FFD700; /* Dorado */
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+}
+
+/* Logo */
+.logo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8)); /* Resplandor al logo */
+}
+
+/* Grupos de entrada */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group input, .input-group select {
+    width: calc(100% - 20px); /* Ancho completo menos padding */
+    padding: 12px 10px;
+    border: 1px solid #00FFFF; /* Borde cian */
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
     color: #fff;
+    font-size: 1em;
+    outline: none; /* Quita el contorno al enfocar */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.level-card .costo {
-    color: #FF6347; /* Rojo para el costo */
-    font-weight: bold;
+.input-group input:focus, .input-group select:focus {
+    border-color: #FFD700; /* Borde dorado al enfocar */
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7); /* Sombra dorada al enfocar */
 }
 
-.level-card .premio {
-    color: #32CD32; /* Verde para el premio */
-    font-weight: bold;
+/* Placeholder styling */
+.input-group input::placeholder {
+    color: #ccc;
+    opacity: 0.8;
 }
 
-.play-level-btn {
-    background-color: #00FFFF; /* Cian */
-    color: #000;
+/* Botones de acción */
+.botones-container {
+    margin-top: 30px;
+}
+
+.boton-accion, .lobby-btn {
+    width: 100%;
+    padding: 12px;
     border: none;
-    padding: 12px 25px;
     border-radius: 8px;
     font-size: 1.1em;
     cursor: pointer;
@@ -170,68 +117,307 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-    width: 90%; /* Ancho del botón */
+    gap: 10px; /* Espacio entre icono y texto */
+    margin-bottom: 15px; /* Espacio entre botones */
+}
+
+.boton-accion.primary {
+    background-color: #00FFFF; /* Cian */
+    color: #000;
     font-weight: bold;
 }
 
-.play-level-btn i {
-    color: #000; /* Icono negro */
+.boton-accion.primary:hover {
+    background-color: #00E6E6; /* Cian más oscuro */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.5);
 }
 
-.play-level-btn:hover {
-    background-color: #00E6E6;
+.boton-accion.secondary {
+    background-color: #FFD700; /* Dorado */
+    color: #000;
+    font-weight: bold;
+}
+
+.boton-accion.secondary:hover {
+    background-color: #E6C200; /* Dorado más oscuro */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
+}
+
+/* Links */
+a {
+    color: #00FFFF;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #FFD700;
+    text-decoration: underline;
+}
+
+.link-volver {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+/* Barra de carga */
+.barra {
+    width: 80%;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    margin: 20px auto 10px auto;
+    overflow: hidden;
+}
+
+.progreso {
+    height: 100%;
+    width: 0%;
+    background-color: #00FFFF;
+    border-radius: 5px;
+    transition: width 0.3s ease-out;
+}
+
+.porcentaje {
+    font-size: 0.9em;
+    color: #00FFFF;
+}
+
+/* Botones flotantes (música, notificaciones) */
+.botones-flotantes {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 10; /* Asegura que estén por encima de todo */
+}
+
+.boton-musica-notificacion {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #00FFFF;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #00FFFF;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton-musica-notificacion:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+    transform: scale(1.05);
+}
+
+/* AÑADIDO: Estilos para la animación de pulsación */
+.boton-musica-notificacion.pulsando {
+    animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+
+/* Advertencia Legal */
+.advertencia-legal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #FF6347; /* Rojo tomate para advertencia */
+    font-size: 0.8em;
+    padding: 10px 0;
+    text-align: center;
+    z-index: 100; /* Asegura que esté en la parte superior */
+    border-top: 1px solid #FF6347;
+}
+
+.advertencia-legal p {
+    margin: 3px 0;
+}
+
+/* Estilos específicos para el Lobby */
+.lobby-container {
+    max-width: 600px; /* Un poco más ancho para el lobby */
+    padding: 25px;
+}
+
+.lobby-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #FFD700; /* Borde dorado para el avatar */
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.user-name {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #00FFFF;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.user-balance {
+    font-size: 1.1em;
+    color: #FFD700;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.logout-btn {
+    background-color: #FF6347; /* Rojo */
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logout-btn:hover {
+    background-color: #E65337;
+    transform: translateY(-2px);
+}
+
+.lobby-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Columnas adaptables */
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.lobby-btn {
+    padding: 15px 10px;
+    font-size: 1em;
+    background-color: rgba(0, 255, 255, 0.2); /* Fondo cian semi-transparente */
+    color: #00FFFF;
+    border: 1px solid #00FFFF;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.lobby-btn i {
+    font-size: 1.8em;
+    color: #FFD700; /* Iconos dorados */
+}
+
+.lobby-btn:hover {
+    background-color: rgba(0, 255, 255, 0.4);
     transform: translateY(-3px);
-    box-shadow: 0 5px 20px rgba(0, 255, 255, 0.7);
+    box-shadow: 0 8px 20px rgba(0, 255, 255, 0.6);
 }
 
-/* Estilos para los diferentes "estilos de casino" de cada nivel */
-.level-card.casino-clasico { border-color: #FFD700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); } /* Dorado */
-.level-card.las-vegas { border-color: #FF00FF; box-shadow: 0 0 15px rgba(255, 0, 255, 0.3); } /* Magenta */
-.level-card.hollywood { border-color: #FFFF00; box-shadow: 0 0 15px rgba(255, 255, 0, 0.3); } /* Amarillo */
-.level-card.tropical { border-color: #32CD32; box-shadow: 0 0 15px rgba(50, 205, 50, 0.3); } /* Verde lima */
-.level-card.oriental { border-color: #FF4500; box-shadow: 0 0 15px rgba(255, 69, 0, 0.3); } /* Naranja rojizo */
-.level-card.salvaje { border-color: #8B4513; box-shadow: 0 0 15px rgba(139, 69, 19, 0.3); } /* Marrón */
-.level-card.cibernetico { border-color: #00BFFF; box-shadow: 0 0 15px rgba(0, 191, 255, 0.3); } /* Azul cielo */
-.level-card.medieval { border-color: #A9A9A9; box-shadow: 0 0 15px rgba(169, 169, 169, 0.3); } /* Gris oscuro */
-.level-card.espacio { border-color: #8A2BE2; box-shadow: 0 0 15px rgba(138, 43, 226, 0.3); } /* Azul violeta */
-.level-card.antiguo { border-color: #DAA520; box-shadow: 0 0 15px rgba(218, 165, 32, 0.3); } /* Dorado oscuro */
+.lobby-btn.primary {
+    background-color: #00FFFF; /* Botón principal de jugar */
+    color: #000;
+    font-weight: bold;
+    border-color: #00FFFF;
+}
+
+.lobby-btn.primary i {
+    color: #000; /* Icono negro en botón primario */
+}
+
+.lobby-btn.primary:hover {
+    background-color: #00E6E6;
+    box-shadow: 0 8px 20px rgba(0, 255, 255, 0.8);
+}
+
+.lobby-info {
+    background-color: rgba(255, 215, 0, 0.1); /* Fondo dorado semi-transparente */
+    border: 1px solid #FFD700;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 0.9em;
+    color: #FFD700;
+    text-align: center;
+}
 
 
-/* Media Queries para responsividad en la selección de juego */
+/* Media Queries para responsividad */
 @media (max-width: 768px) {
-    .selection-header {
+    .container, .register-container, .lobby-container {
+        padding: 20px;
+    }
+
+    .logo {
+        width: 120px;
+    }
+
+    .boton-accion, .lobby-btn {
+        font-size: 1em;
+        padding: 10px;
+    }
+
+    .lobby-header {
         flex-direction: column;
         gap: 15px;
     }
 
-    .selection-header h2 {
-        font-size: 1.5em;
-        text-align: center;
-    }
-
-    .back-button, .user-balance-display {
+    .logout-btn {
         width: 100%;
         justify-content: center;
     }
 
-    .levels-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
+    .lobby-buttons {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     }
 
-    .level-card {
-        padding: 15px;
+    .lobby-btn i {
+        font-size: 1.5em;
     }
 
-    .level-header h3 {
-        font-size: 1.2em;
+    .botones-flotantes {
+        top: 10px;
+        right: 10px;
     }
 
-    .play-level-btn {
+    .boton-musica-notificacion {
+        width: 40px;
+        height: 40px;
         font-size: 1em;
-        padding: 10px 15px;
     }
 }
 
@@ -255,5 +441,19 @@
 
     .level-header h3 {
         font-size: 1.1em;
+    }
+
+    .input-group input, .input-group select {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    .boton-accion, .lobby-btn {
+        font-size: 0.9em;
+        padding: 8px;
+    }
+
+    .lobby-btn i {
+        font-size: 1.3em;
     }
 }
