@@ -122,6 +122,16 @@
                 } catch (error) {
                     console.error("Error al registrar el usuario:", error.code, error.message);
                     let errorMessage = "Ocurrió un error al registrarte.";
+                    
+                    // *** NUEVAS LÍNEAS CLAVE PARA DEPURACIÓN ***
+                    // Esto mostrará el mensaje detallado del error de Firebase
+                    errorMessage += "\n\nDetalle del error: " + error.message; 
+                    // Si el error tiene un 'code', también lo mostramos
+                    if (error.code) {
+                        errorMessage += "\nCódigo del error: " + error.code;
+                    }
+                    // *****************************************
+
                     if (error.code === 'auth/email-already-in-use') {
                         errorMessage = "El correo electrónico ya está en uso. Por favor, usa otro o inicia sesión.";
                     } else if (error.code === 'auth/invalid-email') {
