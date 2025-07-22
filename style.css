@@ -343,3 +343,36 @@ body {
         font-size: 1em;
     }
 }
+/* Estilos para la Advertencia Legal */
+.advertencia-legal {
+    margin-top: 25px;
+    margin-bottom: 20px; /* Espacio antes de la barra de carga/soporte */
+    font-size: 0.85em;
+    color: #ffcc00; /* Un dorado más suave para el texto */
+    background-color: rgba(255, 255, 0, 0.1); /* Fondo ligeramente amarillo transparente */
+    border: 1px solid rgba(255, 255, 0, 0.3);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    line-height: 1.4;
+    box-shadow: 0 0 10px rgba(255, 255, 0, 0.2);
+}
+
+.advertencia-legal p {
+    margin: 5px 0;
+}
+
+.advertencia-legal .fas {
+    margin-right: 8px;
+    color: #ff9900; /* Naranja para el ícono de advertencia */
+}
+
+/* Media Query para la advertencia en pantallas pequeñas */
+@media (max-width: 768px) {
+    .advertencia-legal {
+        font-size: 0.75em;
+        padding: 10px;
+    }
+}
+
+
