@@ -58,6 +58,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Lógica para el botón de Iniciar Sesión
     if (btnIniciar) {
         btnIniciar.addEventListener('click', async () => {
+            // AÑADIDO: Efecto de animación en el botón de música
+            if (botonMusica) {
+                botonMusica.classList.add('pulsando');
+                setTimeout(() => {
+                    botonMusica.classList.remove('pulsando');
+                }, 500); // Elimina la clase después de medio segundo
+            }
+
             const email = emailInput.value;
             const password = passwordInput.value;
 
