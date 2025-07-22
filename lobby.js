@@ -18,15 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (docSnap.exists()) {
                 const userData = docSnap.data();
                 userName.textContent = userData.nombreCompleto || user.email; // Muestra nombre completo o email
-                // Aquí, el saldo es un placeholder. Necesitarías añadirlo a Firestore si quieres que sea real.
-                userBalance.innerHTML = `<i class="fas fa-dollar-sign"></i> 0.00`; // Placeholder, se actualizará con lógica de saldo
+                userBalance.innerHTML = `<i class="fas fa-dollar-sign"></i> ${userData.balance ? userData.balance.toFixed(2) : '0.00'}`; // Muestra saldo
                 userAvatar.src = userData.avatar || "https://via.placeholder.com/60/FFD700/000000?text=AV"; // URL real de avatar
             } else {
                 console.log("No se encontraron datos adicionales del usuario en Firestore.");
                 userName.textContent = user.email;
+                userBalance.innerHTML = `<i class="fas fa-dollar-sign"></i> 0.00`;
             }
 
-            // Intentar reproducir música
+            // Intentar reproducir música del lobby (puede ser bloqueado por el navegador)
             musicaLobby.play().catch(error => {
                 console.log("Autoplay de música en lobby bloqueado:", error);
                 // Si el autoplay es bloqueado, puedes mostrar un icono de volumen muteado
@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Usuario NO está logueado, redirigir a la página de inicio (login)
             console.log("Usuario no logueado, redirigiendo a index.html");
+            alert("No has iniciado sesión o tu sesión ha expirado. Por favor, inicia sesión.");
             window.location.href = 'index.html';
         }
     });
