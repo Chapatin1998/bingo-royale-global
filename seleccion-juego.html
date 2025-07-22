@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleccionar Nivel - Bingo VIP Bolivia</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Tus credenciales de Firebase (¡La misma API Key de siempre!)
+        const firebaseConfig = {
+          apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI", // <--- ¡TU ÚLTIMA API KEY AQUÍ!
+          authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
+          projectId: "bingo-vip-bolivia-df2db",
+          storageBucket: "bingo-vip-bolivia-df2db.firebasestorage.app",
+          messagingSenderId: "310290230955",
+          appId: "1:310290230955:web:3526c26c2800b43ffcd1ee",
+          measurementId: "G-VRR7JSHY5G"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        window.auth = getAuth(app);
+        window.db = getFirestore(app);
+        window.onAuthStateChanged = onAuthStateChanged; // Exporta para usar en el script de esta página
+        window.doc = doc; // Exporta para usar en el script de esta página
+        window.getDoc = getDoc; // Exporta para usar en el script de esta página
+    </script>
+</head>
+<body>
+    <div class="background-container">
+        <video autoplay muted loop id="video-fondo">
+            <source src="video-bingo-inicio.mp4" type="video/mp4">
+            Tu navegador no soporta el video.
+        </video>
+    </div>
+
+    <div class="selection-container">
+        <div class="selection-header">
+            <button class="back-button" onclick="window.location.href='lobby.html'">
+                <i class="fas fa-arrow-left"></i> Volver al Lobby
+            </button>
+            <h2>Selecciona tu Nivel de Juego</h2>
+            <div class="user-balance-display">
+                <i class="fas fa-dollar-sign"></i> <span id="currentBalance">0.00</span>
+            </div>
+        </div>
+
+        <div class="levels-grid" id="levelsGrid">
+            </div>
+    </div>
+
+    <div class="advertencia-legal">
+        <p><i class="fas fa-exclamation-triangle"></i> Advertencia:</p>
+        <p>Este juego es solo para mayores de 18 años. Una sola cuenta por persona.</p>
+        <p>Juega con responsabilidad.</p>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const levelsGrid = document.getElementById('levelsGrid');
+            const currentBalanceSpan = document.getElementById('currentBalance');
+            let userCurrentBalance = 0; // Para guardar el balance del usuario
+
+            // Definición de los niveles (puedes añadir más o modificarlos)
+            const levels = [
+                { id: 1, name: "Casino Clásico", style: "casino-clasico", locutorAvatar: "https://via.placeholder.com/50/FFD700/000000?text=L1", entryCost: 1.00, estimatedPrize: 10.00 },
+                { id: 2, name: "Noches de Las Vegas", style: "las-vegas", locutorAvatar: "https://via.placeholder.com/50/00FFFF/000000?text=L2", entryCost: 2.50, estimatedPrize: 25.00 },
+                { id: 3, name: "Glamour de Hollywood", style: "hollywood", locutorAvatar: "https://via.placeholder.com/50/FF00FF/000000?text=L3", entryCost: 5.00, estimatedPrize: 50.00 },
+                { id: 4, name: "Fiesta Tropical", style: "tropical", locutorAvatar: "https://via.placeholder.com/50/32CD32/000000?text=L4", entryCost: 7.50, estimatedPrize: 75.00 },
+                { id: 5, name: "Misterio Oriental", style: "oriental", locutorAvatar: "https://via.placeholder.com/50/FF4500/000000?text=L5", entryCost: 10.00, estimatedPrize: 100.00 },
+                { id: 6, name: "Aventura Salvaje", style: "salvaje", locutorAvatar: "https://via.placeholder.com/50/8B4513/000000?text=L6", entryCost: 15.00, estimatedPrize: 150.00 },
+                { id: 7, name: "Futuro Cibernético", style: "cibernetico", locutorAvatar: "https://via.placeholder.com/50/00BFFF/000000?text=L7", entryCost: 20.00, estimatedPrize: 200.00 },
+                { id: 8, name: "Época Medieval", style: "medieval", locutorAvatar: "https://via.placeholder.com/50/A9A9A9/000000?text=L8", entryCost: 25.00, estimatedPrize: 250.00 },
+                { id: 9, name: "Espacio Exterior", style: "espacio", locutorAvatar: "https://via.placeholder.com/50/8A2BE2/000000?text=L9", entryCost: 30.00, estimatedPrize: 300.00 },
+                { id: 10, name: "Leyendas Antiguas", style: "antiguo", locutorAvatar: "https://via.placeholder.com/50/DAA520/000000?text=L10", entryCost: 40.00, estimatedPrize: 400.00 }
+            ];
+
+            // Función para cargar los niveles en la cuadrícula
+            function loadLevels() {
+                levelsGrid.innerHTML = ''; // Limpiar cualquier contenido existente
+                levels.forEach(level => {
+                    const levelCard = document.createElement('div');
+                    levelCard.classList.add('level-card', level.style); // Añade la clase de estilo del casino
+                    levelCard.innerHTML = `
+                        <div class="level-header">
+                            <h3>Nivel ${level.id}: ${level.name}</h3>
+                            <img src="${level.locutorAvatar}" alt="Avatar Locutor ${level.id}" class="locutor-avatar">
+                        </div>
+                        <p>Entrada: <span class="costo"><i class="fas fa-dollar-sign"></i> ${level.entryCost.toFixed(2)}</span></p>
+                        <p>Premio Est.: <span class="premio"><i class="fas fa-trophy"></i> ${level.estimatedPrize.toFixed(2)}</span></p>
+                        <button class="play-level-btn" data-level="${level.id}" data-cost="${level.entryCost}">
+                            <i class="fas fa-play"></i> Jugar Nivel ${level.id}
+                        </button>
+                    `;
+                    levelsGrid.appendChild(levelCard);
+                });
+
+                // Añadir event listeners a los botones de jugar
+                document.querySelectorAll('.play-level-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const levelId = event.currentTarget.dataset.level;
+                        const entryCost = parseFloat(event.currentTarget.dataset.cost);
+                        handlePlayLevel(levelId, entryCost);
+                    });
+                });
+            }
+
+            // Manejar el clic en "Jugar Nivel"
+            async function handlePlayLevel(levelId, entryCost) {
+                if (userCurrentBalance >= entryCost) {
+                    alert(`¡Entrando al Nivel ${levelId}! Costo: $${entryCost.toFixed(2)}. Redirigiendo a la pantalla de juego...`);
+                    // Aquí iría la lógica para deducir el costo del balance del usuario en Firestore
+                    // y luego redirigir a la página del juego real (ej: juego.html?level=1)
+                    // Por ahora, solo una alerta y simulación
+                    console.log(`Usuario quiere jugar Nivel ${levelId} con costo ${entryCost}`);
+                    // window.location.href = `juego.html?level=${levelId}`; // Descomentar cuando tengas juego.html
+                } else {
+                    alert(`¡Saldo insuficiente! Necesitas $${entryCost.toFixed(2)} para jugar el Nivel ${levelId}. Tu saldo actual es $${userCurrentBalance.toFixed(2)}.`);
+                }
+            }
+
+            // Verificar autenticación y cargar datos del usuario
+            if (window.onAuthStateChanged && window.auth && window.db) {
+                window.onAuthStateChanged(window.auth, async (user) => {
+                    if (user) {
+                        // Usuario logueado
+                        try {
+                            const userDocRef = window.doc(window.db, "users", user.uid);
+                            const userDocSnap = await window.getDoc(userDocRef);
+
+                            if (userDocSnap.exists()) {
+                                const userData = userDocSnap.data();
+                                userCurrentBalance = userData.balance || 0;
+                                currentBalanceSpan.textContent = userCurrentBalance.toFixed(2);
+                            } else {
+                                console.log("No se encontraron datos de usuario en Firestore para el balance.");
+                                currentBalanceSpan.textContent = '0.00';
+                            }
+                        } catch (error) {
+                            console.error("Error al obtener balance de usuario:", error);
+                            currentBalanceSpan.textContent = '0.00';
+                        }
+                        loadLevels(); // Cargar los niveles una vez que el usuario está autenticado
+                    } else {
+                        // No hay usuario logueado, redirigir a la página de inicio de sesión
+                        console.log("No hay usuario logueado, redirigiendo a index.html");
+                        window.location.href = 'index.html';
+                    }
+                });
+            } else {
+                console.error("Firebase no está inicializado correctamente en seleccion-juego.html");
+                alert("Error de inicialización. Por favor, recarga la página.");
+                window.location.href = 'index.html'; // Fallback seguro
+            }
+        });
+    </script>
+</body>
+</html>
