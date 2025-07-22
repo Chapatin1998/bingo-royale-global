@@ -6,8 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const userBalanceElement = document.getElementById('userBalance');
     const userAvatarElement = document.getElementById('userAvatar');
     const logoutBtn = document.getElementById('logoutBtn');
+    const musicaLobby = document.getElementById('musicaLobby'); // Asumiendo que el audio está en lobby.html
 
-    // Escucha los cambios en el estado de autenticación
+    // Escucha los cambios en el estado de autenticación de Firebase
     if (window.onAuthStateChanged && window.auth && window.db) {
         window.onAuthStateChanged(window.auth, async (user) => {
             if (user) {
@@ -34,13 +35,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     userNameElement.textContent = user.email;
                     userBalanceElement.innerHTML = `<i class="fas fa-dollar-sign"></i> 0.00`;
                 }
+
+                // Intentar reproducir música del lobby (puede ser bloqueado por el navegador)
+                if (musicaLobby) {
+                    musicaLobby.play().catch(error => {
+                        console.log("Autoplay de música en lobby bloqueado:", error);
+                        // Si el autoplay es bloqueado, puedes mostrar un icono de volumen muteado
+                    });
+                }
+
+
             } else {
                 // No hay usuario logueado, redirigir a la página de inicio de sesión
-                console.log("No hay usuario logueado, redirigiendo a index.html");
+                console.log("Usuario no logueado, redirigiendo a index.html");
+                // alert("No has iniciado sesión o tu sesión ha expirado. Por favor, inicia sesión."); // Opcional
                 window.location.href = 'index.html';
             }
         });
+    } else {
+        console.error("Firebase no está inicializado correctamente o elementos esenciales faltan en lobby.html");
+        // alert("Error de inicialización. Por favor, recarga la página."); // Opcional
+        // window.location.href = 'index.html'; // Fallback seguro
     }
+
 
     // Lógica para el botón de cerrar sesión
     if (logoutBtn && window.signOut && window.auth) {
@@ -56,12 +73,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Lógica para los botones del lobby (ejemplo)
-    const lobbyButtons = document.querySelectorAll('.lobby-btn');
-    lobbyButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Puedes añadir lógica específica para cada botón aquí
-            // Por ejemplo: alert(`Hiciste clic en ${button.textContent.trim()}`);
+    // Lógica para el botón "Jugar" (principal)
+    const playButton = document.querySelector('.lobby-btn.primary'); 
+    if (playButton) {
+        playButton.addEventListener('click', () => {
+            window.location.href = 'seleccion-juego.html'; // Redirige a la nueva página de selección de juego
         });
-    });
+    }
+
+    // Lógica para otros botones del lobby (puedes añadir aquí más adelante)
+    // Ejemplo:
+    // const tiendaButton = document.querySelector('.lobby-btn:nth-child(2)'); // Selector si es el segundo botón
+    // if (tiendaButton) {
+    //     tiendaButton.addEventListener('click', () => {
+    //         alert('Abriendo la Tienda...');
+    //         // window.location.href = 'tienda.html';
+    //     });
+    // }
+    // ... y así para los demás botones
 });
