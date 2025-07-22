@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     fraseBienvenidaPrincipal.style.transition = 'opacity 1s ease-in-out';
                 }
 
-                // Intentar reproducir la música automáticamente
+                // Intentar reproducir la música automáticamente (puede ser bloqueado por el navegador)
                 if (musicaFondo) {
                     musicaFondo.play().then(() => {
                         console.log("Música reproduciéndose automáticamente.");
@@ -89,25 +89,38 @@ document.addEventListener('DOMContentLoaded', () => {
         btnIniciar.addEventListener('click', () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            if (email && password) {
-                alert(`Intentando iniciar sesión con: ${email} / ${password}`);
-                // Aquí iría la lógica de autenticación real
-                // Si la autenticación es exitosa, redirigir:
-                // setTimeout(() => {
-                //      window.location.href = 'main.html';
-                // }, 300);
-            } else {
-                alert('Por favor, ingresa tu correo y contraseña.');
-            }
+            
+            // Usar Firebase Authentication para iniciar sesión
+            window.auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Inicio de sesión exitoso
+                    const user = userCredential.user;
+                    alert('¡Inicio de sesión exitoso! Bienvenido de nuevo.');
+                    console.log("Usuario logueado:", user);
+                    // Redirigir al usuario al lobby o la página del juego
+                    // setTimeout(() => {
+                    //      window.location.href = 'main.html'; // O la página del lobby
+                    // }, 300);
+                })
+                .catch((error) => {
+                    console.error("Error al iniciar sesión:", error.code, error.message);
+                    let errorMessage = "Error al iniciar sesión. Verifica tu correo y contraseña.";
+                    if (error.code === 'auth/user-not-found') {
+                        errorMessage = "No hay cuenta registrada con ese correo.";
+                    } else if (error.code === 'auth/wrong-password') {
+                        errorMessage = "Contraseña incorrecta.";
+                    } else if (error.code === 'auth/invalid-email') {
+                        errorMessage = "Formato de correo electrónico inválido.";
+                    }
+                    alert(errorMessage);
+                });
         });
     }
 
     // Botón "Registrarse"
     if (btnRegistrar) {
         btnRegistrar.addEventListener('click', () => {
-            alert('Redirigiendo a la página de registro...');
-            // Aquí iría la lógica para redirigir a la página de registro
-            // window.location.href = 'registro.html';
+            window.location.href = 'registro.html'; // Redirige a la nueva página de registro
         });
     }
 
