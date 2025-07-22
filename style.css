@@ -57,20 +57,21 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Frase de bienvenida principal (arriba) */
+/* Frase de bienvenida principal (arriba, con MÁS ESTILO) */
 .frase-bienvenida-principal {
-    font-size: 1.8em;
+    font-size: 2.2em; /* Tamaño de fuente más grande */
     font-weight: bold;
     color: #ffd700; /* Dorado brillante */
-    margin-bottom: 25px;
-    opacity: 0; /* Oculto inicialmente */
+    margin-bottom: 30px; /* Un poco más de espacio abajo */
+    opacity: 0;
     animation: fadeIn 1s ease-in-out forwards;
-    animation-delay: 0.5s; /* Aparece un poco después del contenedor */
+    animation-delay: 0.5s;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6); /* Sombra de texto brillante */
 }
 
 /* Logo Styles */
 .logo {
-    width: 200px; /* Tamaño ajustado */
+    width: 200px;
     height: auto;
     margin-bottom: 20px;
     filter: drop-shadow(0 0 15px gold);
@@ -83,11 +84,12 @@ body {
     100% { transform: scale(1.03); filter: drop-shadow(0 0 25px gold); }
 }
 
-/* Frase debajo del logo */
+/* Frase debajo del logo (ha sido eliminada del HTML) */
+/* Si la volvieras a poner, este estilo no aplicaría o deberías re-evaluarlo. */
 .frase {
     font-size: 1.1em;
     margin-bottom: 30px;
-    color: #ccc; /* Gris claro para contraste */
+    color: #ccc;
 }
 
 /* Input Group for Email/Password */
@@ -100,7 +102,7 @@ body {
 }
 
 .input-group input {
-    width: calc(100% - 30px); /* Ajuste para padding */
+    width: calc(100% - 30px);
     padding: 15px;
     border: 1px solid #555;
     border-radius: 8px;
@@ -119,7 +121,7 @@ body {
 /* Contenedor de botones de acción */
 .botones-container {
     display: flex;
-    flex-direction: column; /* Apilados por defecto */
+    flex-direction: column;
     gap: 15px;
     width: 100%;
     margin-bottom: 30px;
@@ -127,7 +129,7 @@ body {
 
 /* Estilos de botones de acción (Iniciar Sesión, Registrarse) */
 .boton-accion {
-    width: 100%; /* Ocupa todo el ancho disponible */
+    width: 100%;
     border: none;
     padding: 15px 25px;
     border-radius: 30px;
@@ -142,7 +144,7 @@ body {
 }
 
 .boton-accion.primary {
-    background-color: #ffd700; /* Dorado principal */
+    background-color: #ffd700;
     color: #000;
     box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
 }
@@ -154,7 +156,7 @@ body {
 }
 
 .boton-accion.secondary {
-    background-color: #444; /* Gris oscuro secundario */
+    background-color: #444;
     color: #fff;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
@@ -173,7 +175,7 @@ body {
 }
 
 .ayuda-soporte a {
-    color: #ffd700; /* Enlace dorado */
+    color: #ffd700;
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -186,7 +188,7 @@ body {
 /* Barra de carga */
 .barra {
     width: 80%;
-    max-width: 300px; /* Ajuste de tamaño para la barra */
+    max-width: 300px;
     background-color: #333;
     border-radius: 5px;
     height: 10px;
@@ -233,15 +235,15 @@ body {
 /* Botones flotantes de música y notificaciones */
 .botones-flotantes {
     position: absolute;
-    bottom: 20px; /* Posición desde abajo */
-    right: 20px; /* Posición desde la derecha */
+    bottom: 20px;
+    right: 20px;
     display: flex;
     gap: 10px;
-    z-index: 10; /* Asegura que estén por encima de otros elementos */
+    z-index: 10;
 }
 
 .boton-musica-notificacion {
-    background-color: rgba(51, 51, 51, 0.8); /* Fondo semi-transparente */
+    background-color: rgba(51, 51, 51, 0.8);
     color: #fff;
     border: none;
     padding: 15px;
@@ -271,12 +273,13 @@ body {
         max-width: 95%;
     }
     .frase-bienvenida-principal {
-        font-size: 1.4em;
+        font-size: 1.6em; /* Ajuste para móviles */
+        margin-bottom: 20px;
     }
     .logo {
         width: 150px;
     }
-    .frase {
+    .frase { /* Aunque eliminada, la dejo por si se necesita en el futuro */
         font-size: 0.9em;
     }
     .input-group input {
