@@ -10,10 +10,9 @@
     <link rel="stylesheet" href="style.css">
 
     <script type="module">
-        // Importa las funciones necesarias directamente aquí
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { initializeApp } = "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } = "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc } = "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         // Tus credenciales de Firebase (¡Ahora están seguras en tu repo privado!)
         const firebaseConfig = {
@@ -26,12 +25,60 @@
           measurementId: "G-VRR7JSHY5G"
         };
 
-        // Inicializa Firebase y obtiene las instancias de auth y db
+        // Inicializa Firebase
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        
+        // Exporta servicios de Firebase para usarlos en el script de esta página
+        window.auth = getAuth(app);
+        window.db = getFirestore(app);
 
-        // Lógica de registro (¡Ahora dentro de este mismo módulo!)
+        // Hace que las funciones específicas de Firebase Authentication y Firestore estén disponibles
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.collection = collection;
+        window.doc = doc;
+        window.setDoc = setDoc;
+    </script>
+    </head>
+<body>
+    <div class="background-container">
+        <video autoplay muted loop id="video-fondo">
+            <source src="video-bingo-inicio.mp4" type="video/mp4">
+            Tu navegador no soporta el video.
+        </video>
+    </div>
+
+    <div class="register-container">
+        <h2>Regístrate en Bingo VIP</h2>
+        <form id="registroForm" class="register-form">
+            <div class="input-group">
+                <input type="text" id="nombreCompleto" placeholder="Nombre completo" required>
+            </div>
+            <div class="input-group">
+                <input type="email" id="emailRegistro" placeholder="Correo electrónico" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="passwordRegistro" placeholder="Contraseña" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="confirmPasswordRegistro" placeholder="Confirmar contraseña" required>
+            </div>
+            <div class="input-group">
+                <label for="avatarSelect" style="color:#ccc; display: block; margin-bottom: 10px; text-align: left; font-size: 0.9em;">Selecciona tu avatar inicial:</label>
+                <select id="avatarSelect">
+                    <option value="hombre-basico">Hombre Básico</option>
+                    <option value="mujer-basica">Mujer Básica</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="boton-accion primary">
+                <i class="fas fa-user-plus"></i> Crear Cuenta
+            </button>
+        </form>
+        <p class="link-volver">¿Ya tienes una cuenta? <a href="index.html" id="linkIniciarSesion">Iniciar Sesión</a></p>
+    </div>
+
+    <script>
+        // Lógica de registro para registro.html
         document.addEventListener('DOMContentLoaded', () => {
             const registroForm = document.getElementById('registroForm');
 
@@ -57,7 +104,7 @@
 
                     try {
                         // Usar Firebase Authentication para crear el usuario (directamente con la instancia 'auth')
-                        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                        const userCredential = await createUserWithEmailAndPassword(window.auth, email, password);
                         const user = userCredential.user;
 
                         // Guardar información adicional en Firestore (directamente con la instancia 'db')
@@ -104,44 +151,5 @@
             }
         });
     </script>
-</head>
-<body>
-    <div class="background-container">
-        <video autoplay muted loop id="video-fondo">
-            <source src="video-bingo-inicio.mp4" type="video/mp4">
-            Tu navegador no soporta el video.
-        </video>
-    </div>
-
-    <div class="register-container">
-        <h2>Regístrate en Bingo VIP</h2>
-        <form id="registroForm" class="register-form">
-            <div class="input-group">
-                <input type="text" id="nombreCompleto" placeholder="Nombre completo" required>
-            </div>
-            <div class="input-group">
-                <input type="email" id="emailRegistro" placeholder="Correo electrónico" required>
-            </div>
-            <div class="input-group">
-                <input type="password" id="passwordRegistro" placeholder="Contraseña" required>
-            </div>
-            <div class="input-group">
-                <input type="password" id="confirmPasswordRegistro" placeholder="Confirmar contraseña" required>
-            </div>
-            <div class="input-group">
-                <label for="avatarSelect" style="color:#ccc; display: block; margin-bottom: 10px; text-align: left; font-size: 0.9em;">Selecciona tu avatar inicial:</label>
-                <select id="avatarSelect">
-                    <option value="hombre-basico">Hombre Básico</option>
-                    <option value="mujer-basica">Mujer Básica</option>
-                </select>
-            </div>
-            
-            <button type="submit" class="boton-accion primary">
-                <i class="fas fa-user-plus"></i> Crear Cuenta
-            </button>
-        </form>
-        <p class="link-volver">¿Ya tienes una cuenta? <a href="index.html" id="linkIniciarSesion">Iniciar Sesión</a></p>
-    </div>
-
-    </body>
+</body>
 </html>
