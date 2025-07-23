@@ -1,71 +1,47 @@
-// Asegúrate de que Firebase auth y db estén disponibles desde el módulo en index.html
-// window.auth y window.db se exportan desde el script type="module" en index.html
+// script.js
+
+// Importa las instancias de auth y db desde firebase-config.js
+import { auth, db } from './firebase-config.js';
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 
 document.addEventListener('DOMContentLoaded', () => {
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
     const btnIniciar = document.getElementById('btnIniciar');
     const btnRegistrar = document.getElementById('btnRegistrar');
-    const linkSoporte = document.getElementById('linkSoporte');
-    const musicaFondo = document.getElementById('musicaFondo');
-    const botonMusica = document.getElementById('botonMusica');
-    const botonNotificaciones = document.getElementById('botonNotificaciones');
-    const progresoBar = document.getElementById('progreso');
-    const porcentajeText = document.getElementById('porcentaje');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
 
-    let musicaReproduciendo = false; // Estado inicial de la música
+    // Opcional: Lógica de barra de progreso si la tienes en tu CSS/HTML
+    const progressBarContainer = document.getElementById('progress-bar-container');
+    const progressBar = document.getElementById('progress-bar');
 
-    // Simulación de carga
-    let progreso = 0;
-    const intervaloCarga = setInterval(() => {
-        progreso += 10;
-        if (progreso <= 100) {
-            progresoBar.style.width = `${progreso}%`;
-            porcentajeText.textContent = `${progreso}%`;
+    // Función para mostrar la barra de progreso
+    function showProgressBar() {
+        if (progressBarContainer) {
+            progressBarContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                } else {
+                    width++;
+                    progressBar.style.width = width + '%';
+                }
+            }, 10); // Ajusta la velocidad si es necesario
         }
-        if (progreso >= 100) {
-            clearInterval(intervaloCarga);
-            porcentajeText.textContent = '¡Listo!';
-            // Opcional: Ocultar la barra de carga después de un tiempo
-            setTimeout(() => {
-                document.querySelector('.barra').style.display = 'none';
-                porcentajeText.style.display = 'none';
-            }, 500);
-        }
-    }, 100);
-
-    // Lógica del botón de música
-    if (botonMusica && musicaFondo) {
-        botonMusica.addEventListener('click', () => {
-            if (musicaReproduciendo) {
-                musicaFondo.pause();
-                botonMusica.innerHTML = '<i class="fas fa-volume-mute"></i>'; // Icono de mute
-            } else {
-                musicaFondo.play().catch(e => console.error("Error al reproducir música:", e));
-                botonMusica.innerHTML = '<i class="fas fa-music"></i>'; // Icono de música
-            }
-            musicaReproduciendo = !musicaReproduciendo;
-        });
     }
 
-    // Lógica del botón de notificaciones (ejemplo simple)
-    if (botonNotificaciones) {
-        botonNotificaciones.addEventListener('click', () => {
-            alert('No tienes notificaciones nuevas por ahora.');
-        });
+    // Función para ocultar la barra de progreso
+    function hideProgressBar() {
+        if (progressBarContainer) {
+            progressBarContainer.style.display = 'none';
+            progressBar.style.width = '0%';
+        }
     }
 
-    // Lógica para el botón de Iniciar Sesión
     if (btnIniciar) {
         btnIniciar.addEventListener('click', async () => {
-            // AÑADIDO: Efecto de animación en el botón de música
-            if (botonMusica) {
-                botonMusica.classList.add('pulsando');
-                setTimeout(() => {
-                    botonMusica.classList.remove('pulsando');
-                }, 500); // Elimina la clase después de medio segundo
-            }
-
             const email = emailInput.value;
             const password = passwordInput.value;
 
@@ -74,49 +50,47 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            showProgressBar(); // Muestra la barra al iniciar sesión
+
             try {
-                // Importa signInWithEmailAndPassword aquí para asegurar su disponibilidad
-                const { signInWithEmailAndPassword } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
-                
-                // Usa la instancia de auth que se exportó globalmente desde el módulo en index.html
-                const userCredential = await signInWithEmailAndPassword(window.auth, email, password);
-                const user = userCredential.user;
-                console.log("Usuario ha iniciado sesión:", user.email);
-                alert('¡Inicio de sesión exitoso! ¡Bienvenido de nuevo!');
+                await signInWithEmailAndPassword(auth, email, password);
+                alert('Inicio de sesión exitoso!');
                 window.location.href = 'lobby.html'; // Redirige al lobby
             } catch (error) {
-                console.error("Error al iniciar sesión:", error.code, error.message);
-                let errorMessage = "Ocurrió un error al iniciar sesión.";
-                
-                errorMessage += "\n\nDetalle del error: " + error.message; 
-                if (error.code) {
-                    errorMessage += "\nCódigo del error: " + error.code;
-                }
-
-                if (error.code === 'auth/invalid-email') {
-                    errorMessage = "El formato del correo electrónico es inválido.";
-                } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-                    errorMessage = "Credenciales incorrectas. Verifica tu correo y contraseña.";
+                console.error("Error al iniciar sesión:", error);
+                let errorMessage = "Error al iniciar sesión. Por favor, intenta de nuevo.";
+                if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'Usuario no encontrado. Por favor, regístrate.';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Contraseña incorrecta.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Correo electrónico inválido.';
                 } else if (error.code === 'auth/too-many-requests') {
-                    errorMessage = "Demasiados intentos de inicio de sesión fallidos. Inténtalo de nuevo más tarde.";
+                    errorMessage = 'Demasiados intentos fallidos. Intenta más tarde.';
                 }
                 alert(errorMessage);
+            } finally {
+                hideProgressBar(); // Oculta la barra al finalizar
             }
         });
     }
 
-    // Lógica para el botón de Registrarse
     if (btnRegistrar) {
         btnRegistrar.addEventListener('click', () => {
             window.location.href = 'registro.html'; // Redirige a la página de registro
         });
     }
 
-    // Lógica para el link de Soporte
-    if (linkSoporte) {
-        linkSoporte.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Para soporte, por favor envía un correo a soporte@bingovipbolivia.com');
-        });
-    }
+    // Opcional: Verificar estado de autenticación al cargar la página
+    // Esto es útil para redirigir automáticamente si el usuario ya está logueado
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            // Usuario ya autenticado, redirigir al lobby
+            // console.log("Usuario ya autenticado:", user.email);
+            // window.location.href = 'lobby.html';
+        } else {
+            // Usuario no autenticado, mostrar la interfaz de login/registro
+            // console.log("Usuario no autenticado.");
+        }
+    });
 });
