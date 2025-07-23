@@ -1,7 +1,7 @@
 /* --- Estilos Generales para el Lobby --- */
 body {
     font-family: 'Arial', sans-serif; /* Puedes usar una fuente más elegante si tienes una */
-    background-color: #1a1a2e; /* Fondo oscuro principal */
+    background-color: #1a1a2e; /* Fondo oscuro principal por si el video no carga */
     color: #fff;
     margin: 0;
     padding: 0;
@@ -10,43 +10,257 @@ body {
     align-items: flex-start; /* Alinea al inicio para que el header esté arriba */
     min-height: 100vh;
     overflow-y: auto; /* Permite scroll si hay muchas salas */
-    
-    /* >>>>>> INICIO DE LA ACTUALIZACIÓN DE FONDO A VIDEO <<<<<< */
-    /* REMPLAZA LA IMAGEN DE PROGRESIÓN POR EL VIDEO DE FONDO */
-    /* Para el video, necesitarás un HTML que lo contenga. Este CSS es para un fondo general */
-    /* Si quieres el VIDEO como fondo del BODY, necesitarás esta estructura en tu HTML: */
-    /*
-    <video autoplay muted loop id="background-video">
-        <source src="bingo-inicio.mp4" type="video/mp4">
-        Tu navegador no soporta el tag de video.
-    </video>
-    */
-    /* Y el CSS para ese video sería: */
-    /*
-    #background-video {
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-        z-index: -100;
-        background-size: cover;
-        filter: brightness(0.4) grayscale(0.2); // Para que el texto sea legible
-    }
-    */
-    /* Si solo quieres un color o una imagen estática simple de fondo para el body sin video: */
-    /* background-image: none; /* Elimina la imagen si usas un video en HTML */
-    /* background-color: #1a1a2e; /* O el color de fondo principal */
-    /* >>>>>> FIN DE LA ACTUALIZACIÓN DE FONDO A VIDEO <<<<<< */
-
-    /* Si NO VAS A USAR VIDEO en el BODY, y la 'progression_niveles_bingo_final.jpg' NO va aquí,
-       simplemente quita background-image y pon un color.
-       Para este código CSS, dejaremos la configuración para si usas el video en el HTML */
+    /* Elimina cualquier background-image o background-color previo aquí si usas el video */
 }
 
-/* El resto del CSS se mantiene igual */
+/* Estilos para el video de fondo */
+#background-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100; /* Asegura que el video esté detrás de todo */
+    background-size: cover;
+    filter: brightness(0.4) grayscale(0.2); /* Para que el contenido sea legible */
+}
+
+.lobby-container {
+    width: 100%;
+    max-width: 1200px; 
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    position: relative; /* Asegura que esté por encima del video */
+    z-index: 1; /* Asegura que esté por encima del video */
+}
+
+.lobby-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.back-button {
+    background-color: #ffc107; /* Amarillo */
+    color: #1a1a2e;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #e0a800; /* Amarillo más oscuro al pasar el ratón */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 8px 15px;
+    border-radius: 25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 2px solid #ffc107;
+}
+
+.saldo-display {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ffc107; /* Amarillo para el saldo */
+    margin-right: 10px;
+}
+
+.add-funds-button {
+    background-color: #28a745; /* Verde */
+    color: #fff;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-funds-button:hover {
+    background-color: #218838; /* Verde más oscuro */
+}
+
+.screen-title {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+    color: #ffc107;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.salas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    justify-content: center;
+    width: 100%;
+}
+
+.sala-card {
+    background-color: #2a2a4a; /* Fondo más oscuro para las tarjetas */
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 450px; /* Altura fija para las tarjetas */
+}
+
+.sala-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7);
+}
+
+.sala-card-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%; /* La imagen de fondo ocupa la mitad superior de la tarjeta */
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.6) grayscale(0.2); /* Oscurece y desatura un poco la imagen */
+    transition: filter 0.3s ease;
+    border-bottom: 2px solid rgba(255, 215, 0, 0.3); /* Línea dorada sutil */
+}
+
+.sala-card:hover .sala-card-background {
+    filter: brightness(0.8) grayscale(0); /* Más brillante y a color al pasar el ratón */
+}
+
+.sala-card-content {
+    position: relative;
+    z-index: 2; /* Asegura que el contenido esté sobre la imagen de fondo */
+    padding: 20px;
+    padding-top: calc(50% + 10px); /* Empieza el contenido debajo de la imagen de fondo */
+    text-align: center;
+    flex-grow: 1; /* Permite que el contenido ocupe el espacio restante */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sala-level {
+    background-color: #ffc107;
+    color: #1a1a2e;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9em;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 3; /* Para que esté sobre la imagen y el contenido */
+}
+
+.sala-name {
+    font-size: 1.8em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #ffc107;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+.sala-description {
+    font-size: 0.9em;
+    color: #bbb;
+    margin-bottom: 15px;
+    flex-grow: 1; /* Permite que la descripción ocupe espacio */
+}
+
+.sala-details p {
+    margin: 5px 0;
+    font-size: 1em;
+}
+
+.sala-details .costo,
+.sala-details .premio {
+    font-weight: bold;
+    color: #28a745; /* Verde para premios/costos */
+}
+
+.btn-jugar {
+    background-color: #007bff; /* Azul */
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%; /* Ocupa todo el ancho disponible */
+}
+
+.btn-jugar:hover {
+    background-color: #0056b3; /* Azul más oscuro */
+    transform: translateY(-2px);
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+    .lobby-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .user-info {
+        margin-top: 15px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .salas-grid {
+        grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+    }
+
+    .screen-title {
+        font-size: 2em;
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .lobby-container {
+        padding: 10px;
+    }
+
+    .screen-title {
+        font-size: 1.8em;
+    }
+
+    .sala-name {
+        font-size: 1.5em;
+    }
+}
+
 
 .lobby-container {
     width: 100%;
