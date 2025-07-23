@@ -1,19 +1,23 @@
 // IMPORTANTE: Asegúrate de que las librerías de Firebase estén cargadas en tu lobby.html
 // y que la aplicación de Firebase esté inicializada.
-// Por ejemplo, si usas <script src="firebase-app.js"></script> y <script src="firebase-auth.js"></script>
-// y <script src="firebase-firestore.js"></script> en lobby.html, y tu firebase-config.js inicializa la app:
+// Por ejemplo, si usas <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+// y <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+// y <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script> en lobby.html,
+// y tu firebase-config.js inicializa la app con: const app = firebase.initializeApp(firebaseConfig);
 
-// const auth = firebase.auth(); // Asumiendo que 'firebase' está globalmente disponible
-// const db = firebase.firestore(); // Asumiendo que 'firebase' está globalmente disponible
+// Descomenta estas líneas si no estás usando un sistema de módulos
+// const auth = firebase.auth(); 
+// const db = firebase.firestore(); 
 
 document.addEventListener('DOMContentLoaded', async () => {
     const saldoActualElement = document.getElementById('saldo-actual-lobby');
     const userAvatarElement = document.getElementById('user-avatar');
 
-    // --- Lógica de carga de usuario y saldo con Firebase (Descomentar y adaptar) ---
+    // --- Lógica de carga de usuario y saldo con Firebase (DESCOMENTAR Y ADAPTAR PARA PRODUCCIÓN) ---
     // if (typeof firebase !== 'undefined' && firebase.auth && firebase.firestore) {
     //     firebase.auth().onAuthStateChanged(async (user) => {
     //         if (user) {
+    //             // Usuario logueado
     //             const userRef = firebase.firestore().doc("users", user.uid);
     //             try {
     //                 const userSnap = await userRef.get();
@@ -23,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     //                     userAvatarElement.src = userData.avatarUrl || 'avatar_default.png'; 
     //                 } else {
     //                     console.log("No hay datos de usuario en Firestore para el UID:", user.uid);
-    //                     saldoActualElement.textContent = `$0.00`;
+    //                     saldoActualElement.textContent = `$0.00`; 
     //                     userAvatarElement.src = 'avatar_default.png';
     //                 }
     //             } catch (error) {
@@ -32,11 +36,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     //                 userAvatarElement.src = 'avatar_default.png';
     //             }
     //         } else {
+    //             // No hay usuario logueado, redirigir al login
     //             console.log("Usuario no logueado. Redirigiendo a index.html...");
-    //             window.location.href = 'index.html'; // Redirigir si no hay sesión
+    //             window.location.href = 'index.html'; 
     //         }
     //     });
     // } else {
+        // --- TEMPORAL: Valores de ejemplo para desarrollo sin Firebase activo ---
         console.warn("Firebase no está inicializado o cargado. Usando valores de ejemplo.");
         saldoActualElement.textContent = `$150.00`; // Saldo de ejemplo
         userAvatarElement.src = 'avatar_default.png'; // Avatar de ejemplo
@@ -44,36 +50,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- FIN Lógica de carga de usuario y saldo con Firebase ---
 
 
-    // --- Lógica para seleccionar una sala ---
+    // --- Lógica para seleccionar una sala (Descomentar y adaptar) ---
     // Esta función se hace global para que pueda ser llamada desde el onclick en el HTML
     window.seleccionarSala = async (salaId) => {
         const salaCard = document.getElementById(salaId);
         const costoCarton = parseFloat(salaCard.dataset.cost);
-        const premioBingo = parseFloat(salaCard.dataset.prize); // Este es el premio base, no el 30% del bote final
+        const premioBingo = parseFloat(salaCard.dataset.prize); 
         const salaName = salaCard.dataset.name;
         const minBalanceRequired = parseFloat(salaCard.dataset.minBalance);
 
         let saldoUsuario = parseFloat(saldoActualElement.textContent.replace('$', ''));
 
         if (saldoUsuario >= minBalanceRequired) {
-            // Verificar si el usuario tiene suficiente saldo para el cartón (además del balance mínimo)
             if (saldoUsuario >= costoCarton) {
-                // Simulación del descuento de saldo (esto debe ser seguro en Firebase/Backend)
-                // Aquí solo se actualiza visualmente y se prepara para la redirección.
-                // La actualización real del saldo en Firestore debe hacerse de forma segura
-                // preferiblemente en una Cloud Function de Firebase.
+                // Lógica para descontar saldo y entrar a la sala. 
+                // La actualización real del saldo en Firestore debe hacerse de forma SEGURA,
+                // preferiblemente en una Cloud Function de Firebase o después de una validación.
 
-                // await firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).update({
-                //     balance: firebase.firestore.FieldValue.increment(-costoCarton)
-                // });
-                // saldoUsuario -= costoCarton; // Actualizar solo después de confirmación de Firebase
+                // Aquí solo se actualiza visualmente y se prepara para la redirección.
+                // Si descomentas esto, el saldo se descontará visualmente:
+                // saldoUsuario -= costoCarton; 
                 // saldoActualElement.textContent = `$${saldoUsuario.toFixed(2)}`;
 
                 alert(`¡Has entrado a la Sala ${salaName}! Costo: $${costoCarton.toFixed(2)}. Tu saldo será actualizado.`);
 
                 // Redirigir a la página de juego, pasando la sala seleccionada
-                // Usar localStorage para pasar la salaId es una opción simple para frontend
-                localStorage.setItem('currentSalaId', salaId);
+                localStorage.setItem('currentSalaId', salaId); // Guarda la sala seleccionada
                 window.location.href = `juego.html`; // Redirige a la página de juego
 
             } else {
