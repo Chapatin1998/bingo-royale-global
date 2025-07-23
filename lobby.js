@@ -1,99 +1,104 @@
-// Asegúrate de que Firebase esté inicializado en tu firebase-config.js o directamente aquí
-// Si usas módulos, descomenta las importaciones:
-// import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-// import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecciona tu Sala - Bingo VIP Bolivia</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script> 
+    </head>
+<body>
+    <div class="lobby-container">
+        <div class="lobby-header">
+            <button class="back-button" onclick="window.location.href='index.html'">← Volver al Lobby</button>
+            <div class="user-info">
+                <img id="user-avatar" src="avatar_default.png" alt="Avatar del Usuario" class="avatar-circle">
+                <span id="saldo-actual-lobby" class="saldo-display">$0.00</span>
+                <button class="add-funds-button">+</button>
+            </div>
+        </div>
 
-// Si no usas módulos, asegúrate de que las librerías de Firebase estén cargadas globalmente
-// desde tu lobby.html (ej. <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>)
+        <h1 class="screen-title">SELECCIONA TU SALA DE JUEGO</h1>
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const saldoActualElement = document.getElementById('saldo-actual-lobby');
-    const userAvatarElement = document.getElementById('user-avatar');
+        <div class="salas-grid">
 
-    // --- Lógica de carga de usuario y saldo con Firebase ---
-    // Asegúrate de que 'app' de Firebase esté inicializada globalmente o importada
-    // const auth = getAuth(app); // Si usas módulos y 'app' está enlazada
-    // const db = getFirestore(app); // Si usas módulos y 'app' está enlazada
+            <div class="sala-card" id="sala-1" data-cost="1" data-prize="6.00" data-min-balance="5" data-name="El Bajo Mundo">
+                <div class="sala-card-background" style="background-image: url('fondo_bajo_mundo.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N1</span>
+                    <h2 class="sala-name">Sala 1: El Bajo Mundo</h2>
+                    <p class="sala-description">Tu inicio en las calles. ¡Aprende a jugar con el riesgo!</p>
+                    <div class="sala-details">
+                        <p>Costo del Cartón: <span class="costo">$1</span></p>
+                        <p>Premio por Bingo: <span class="premio">$6.00</span></p>
+                    </div>
+                    <button class="btn-jugar" onclick="seleccionarSala('sala-1')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
 
-    // onAuthStateChanged(auth, async (user) => {
-    //     if (user) {
-    //         // Usuario logueado
-    //         const userRef = doc(db, "users", user.uid);
-    //         try {
-    //             const userSnap = await getDoc(userRef);
-    //             if (userSnap.exists()) {
-    //                 const userData = userSnap.data();
-    //                 saldoActualElement.textContent = `$${userData.balance.toFixed(2)}`;
-    //                 userAvatarElement.src = userData.avatarUrl || 'avatar_default.png'; // Usar avatar guardado
-    //             } else {
-    //                 console.log("No hay datos de usuario en Firestore para el UID:", user.uid);
-    //                 saldoActualElement.textContent = `$0.00`; // Saldo por defecto
-    //                 userAvatarElement.src = 'avatar_default.png';
-    //             }
-    //         } catch (error) {
-    //             console.error("Error al obtener datos del usuario:", error);
-    //             saldoActualElement.textContent = `$Error`;
-    //             userAvatarElement.src = 'avatar_default.png';
-    //         }
-    //     } else {
-    //         // No hay usuario logueado, redirigir al login o mostrar valores por defecto
-    //         console.log("Usuario no logueado. Redirigiendo a index.html...");
-    //         window.location.href = 'index.html'; // Redirigir al inicio de sesión
-    //         // O mostrar un estado de no logueado:
-    //         // saldoActualElement.textContent = `$0.00`;
-    //         // userAvatarElement.src = 'avatar_default.png';
-    //     }
-    // });
+            <div class="sala-card" id="sala-2" data-cost="5" data-prize="23.50" data-min-balance="25" data-name="El Pueblo">
+                <div class="sala-card-background" style="background-image: url('fondo_el_pueblo.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N2</span>
+                    <h2 class="sala-name">Sala 2: El Pueblo</h2>
+                    <p class="sala-description">La comunidad te espera. ¡Diversión y ganancias en cada partida!</p>
+                    <div class="sala-details">
+                        <p>Costo del Cartón: <span class="costo">$5</span></p>
+                        <p>Premio por Bingo: <span class="premio">$23.50</span></p>
+                    </div>
+                    <button class="btn-jugar" onclick="seleccionarSala('sala-2')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
 
-    // --- TEMPORAL: Valores de ejemplo para desarrollo sin Firebase activo ---
-    saldoActualElement.textContent = `$150.00`; // Saldo de ejemplo
-    userAvatarElement.src = 'avatar_default.png'; // Avatar de ejemplo
-    console.log("Usando valores de ejemplo para Saldo y Avatar (descomentar Firebase en producción).");
-    // --- FIN TEMPORAL ---
+            <div class="sala-card" id="sala-3" data-cost="25" data-prize="112.50" data-min-balance="125" data-name="La Competencia">
+                <div class="sala-card-background" style="background-image: url('fondo_la_competencia.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N3</span>
+                    <h2 class="sala-name">Sala 3: La Competencia</h2>
+                    <p class="sala-description">Demuestra tu habilidad. ¡Apuestas serias para jugadores serios!</p>
+                    <div class="sala-details">
+                        <p>Costo del Cartón: <span class="costo">$25</span></p>
+                        <p>Premio por Bingo: <span class="premio">$112.50</span></p>
+                    </div>
+                    <button class="btn-jugar" onclick="seleccionarSala('sala-3')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
 
+            <div class="sala-card" id="sala-4" data-cost="100" data-prize="380.00" data-min-balance="500" data-name="Grandes Ligas">
+                <div class="sala-card-background" style="background-image: url('fondo_grandes_ligas.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N4</span>
+                    <h2 class="sala-name">Sala 4: Grandes Ligas</h2>
+                    <p class="sala-description">Solo para la élite. ¡Grandes premios, grandes emociones!</p>
+                    <div class="sala-details">
+                        <p>Costo del Cartón: <span class="costo">$100</span></p>
+                        <p>Premio por Bingo: <span class="premio">$380.00</span></p>
+                    </div>
+                    <button class="btn-jugar" onclick="seleccionarSala('sala-4')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
 
-    // --- Lógica para seleccionar una sala ---
-    // Esta función se llama desde el onclick en el HTML de cada botón
-    window.seleccionarSala = (salaId) => {
-        const salaCard = document.getElementById(salaId);
-        const costoCarton = parseFloat(salaCard.dataset.cost);
-        const premioBingo = parseFloat(salaCard.dataset.prize);
-        const salaName = salaCard.dataset.name;
-        const minBalanceRequired = parseFloat(salaCard.dataset.minBalance); // Obtener balance mínimo
+            <div class="sala-card" id="sala-5" data-cost="500" data-prize="1500.00" data-min-balance="2500" data-name="El Olimpo">
+                <div class="sala-card-background" style="background-image: url('fondo_el_olimpo.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N5</span>
+                    <h2 class="sala-name">Sala 5: El Olimpo</h2>
+                    <p class="sala-description">La cima del mundo. ¡Apuestas estratosféricas, ganancias legendarias!</p>
+                    <div class="sala-details">
+                        <p>Costo del Cartón: <span class="costo">$500</span></p>
+                        <p>Premio por Bingo: <span class="premio">$1,500.00</span></p>
+                    </div>
+                    <button class="btn-jugar" onclick="seleccionarSala('sala-5')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
 
-        let saldoUsuario = parseFloat(saldoActualElement.textContent.replace('$', ''));
+        </div>
+    </div>
 
-        if (saldoUsuario >= minBalanceRequired) { // Verificar balance mínimo primero
-            if (saldoUsuario >= costoCarton) {
-                // Lógica para descontar saldo y entrar a la sala
-                saldoUsuario -= costoCarton; // Esto es solo visual, el saldo real debe actualizarse en Firebase
-                saldoActualElement.textContent = `$${saldoUsuario.toFixed(2)}`;
-
-                alert(`¡Has entrado a la Sala ${salaName}! Costo: $${costoCarton.toFixed(2)}. Tu nuevo saldo es: $${saldoUsuario.toFixed(2)}. ¡Buena suerte!`);
-
-                // Aquí deberías guardar el nuevo saldo en Firebase
-                // Y luego redirigir a la página de juego, pasando la sala seleccionada
-                // window.location.href = `juego.html?sala=${salaId}`;
-                console.log(`Redirigiendo a juego.html para la ${salaName}...`);
-                // En un entorno real, pasarías más datos de la sala o el jugador
-                // Por ejemplo, usar localStorage o parámetros de URL para pasar salaId a juego.html
-                // localStorage.setItem('currentSalaId', salaId);
-                // window.location.href = 'juego.html';
-
-            } else {
-                alert(`Saldo insuficiente para comprar un cartón en la Sala ${salaName}. Necesitas $${costoCarton.toFixed(2)}.`);
-            }
-        } else {
-             alert(`No cumples el balance mínimo para entrar a la Sala ${salaName}. Necesitas al menos $${minBalanceRequired.toFixed(2)}.`);
-        }
-    };
-
-    // Lógica para el botón de añadir fondos (si lo implementas)
-    const addFundsButton = document.querySelector('.add-funds-button');
-    if (addFundsButton) {
-        addFundsButton.addEventListener('click', () => {
-            alert("Funcionalidad para añadir fondos (monetización) en desarrollo.");
-            // Aquí iría la lógica para procesar pagos o dar bonos de prueba
-        });
-    }
-});
+    <script src="lobby.js"></script>
+</body>
+</html>
