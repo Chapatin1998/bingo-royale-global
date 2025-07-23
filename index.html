@@ -14,9 +14,9 @@
         import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"; // Para autenticación
         import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"; // Para base de datos
 
-        // Tus credenciales de Firebase (¡No las compartas públicamente en un repositorio!)
+        // Tus credenciales de Firebase
         const firebaseConfig = {
-          apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI", // <--- ¡TU ÚLTIMA API KEY AQUÍ!
+          apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI", // <--- ¡TU API KEY AQUÍ!
           authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
           projectId: "bingo-vip-bolivia-df2db",
           storageBucket: "bingo-vip-bolivia-df2db.firebasestorage.app",
@@ -31,9 +31,6 @@
         // Exporta servicios de Firebase para usarlos en script.js
         window.auth = getAuth(app);
         window.db = getFirestore(app);
-        // Si usas Analytics, también lo puedes inicializar aquí
-        // import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
-        // window.analytics = getAnalytics(app); 
     </script>
     </head>
 <body>
