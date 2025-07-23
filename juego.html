@@ -1,118 +1,31 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego - Bingo VIP Bolivia</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <link rel="stylesheet" href="style.css">
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-        // Tus credenciales de Firebase
-        const firebaseConfig = {
-          apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI", // <--- ¡TU ÚLTIMA API KEY AQUÍ!
-          authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
-          projectId: "bingo-vip-bolivia-df2db",
-          storageBucket: "bingo-vip-bolivia-df2db.firebasestorage.app",
-          messagingSenderId: "310290230955",
-          appId: "1:310290230955:web:3526c26c2800b43ffcd1ee",
-          measurementId: "G-VRR7JSHY5G"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        window.auth = getAuth(app);
-        window.db = getFirestore(app);
-        window.onAuthStateChanged = onAuthStateChanged;
-        window.signOut = signOut; // Exporta signOut
-        window.doc = doc;
-        window.getDoc = getDoc;
-        window.updateDoc = updateDoc;
-    </script>
-</head>
-<body>
-    
-
-<div class="background-container">
-        <video autoplay muted loop id="video-fondo">
-            <source src="video-bingo-inicio.mp4" type="video/mp4">
-            Tu navegador no soporta el video.
-        </video>
-    </div>
-
-    <div class="game-container">
-        <div class="game-header">
-            <button id="backToSelectionBtn" class="game-back-button"><i class="fas fa-arrow-left"></i> Salas</button>
-            <h2 id="currentRoomName">Sala de Bingo</h2>
-            <div class="user-balance-display-game">
-                <i class="fas fa-dollar-sign"></i> <span id="gameUserBalance">0.00</span>
-            </div>
+<div class="game-container">
+    <div class="header-ui">
+        <span id="saldo-actual">$500,000</span>
         </div>
 
-        <div class="game-area">
-            <div class="game-left-panel">
-                <div class="locutor-area">
-                    <img src="https://via.placeholder.com/100/FFD700/000000?text=LOC" alt="Avatar del Locutor" class="locutor-avatar-game" id="gameLocutorAvatar">
-                    <p class="locutor-name" id="gameLocutorName">Locutor VIP</p>
-                    <div class="timer" id="gameTimer">30</div>
-                </div>
-                <div class="called-numbers-display" id="calledNumbersDisplay">
-                    <span class="called-ball">B1</span><span class="called-ball">I16</span><span class="called-ball">N38</span>
-                </div>
+    <div class="locutor-section">
+        <img id="locutor-avatar" src="ruta/a/imagen_locutor_sala3.png" alt="Locutor de Bingo">
+        <div class="bingo-machine-visual">
             </div>
+    </div>
 
-            <div class="bingo-card-area">
-                <div class="bingo-card" id="bingoCard">
-                    <div class="card-header">B I N G O</div>
-                    <div class="card-cell" data-number="1">1</div>
-                    <div class="card-cell" data-number="16">16</div>
-                    <div class="card-cell" data-number="38">38</div>
-                    <div class="card-cell" data-number="45">45</div>
-                    <div class="card-cell" data-number="60">60</div>
-                    <div class="card-cell" data-number="2">2</div>
-                    <div class="card-cell" data-number="17">17</div>
-                    <div class="card-cell free">FREE</div>
-                    <div class="card-cell" data-number="46">46</div>
-                    <div class="card-cell" data-number="61">61</div>
-                    </div>
-                <button id="bingoButton" class="bingo-call-btn" disabled><i class="fas fa-bullhorn"></i> ¡BINGO!</button>
-            </div>
-
-            <div class="game-right-panel">
-                <div class="chat-area">
-                    <h4>Chat de la Sala</h4>
-                    <div class="chat-messages" id="chatMessages">
-                        <p><strong>Jugador1:</strong> ¡Hola a todos!</p>
-                        <p><strong>Locutor:</strong> ¡La suerte está echada!</p>
-                    </div>
-                    <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
-                    <button id="chatSendBtn"><i class="fas fa-paper-plane"></i></button>
-                </div>
-                <div class="players-list">
-                    <h4>Jugadores (3/40)</h4>
-                    <ul id="playersList">
-                        <li><i class="fas fa-user-circle"></i> Jugador1</li>
-                        <li><i class="fas fa-user-circle"></i> Jugador2</li>
-                    </ul>
-                </div>
-            </div>
+    <div id="bingo-card-container" class="bingo-card-container">
+        <div class="bingo-header">
+            <span class="bingo-letter">B</span>
+            <span class="bingo-letter">I</span>
+            <span class="bingo-letter">N</span>
+            <span class="bingo-letter">G</span>
+            <span class="bingo-letter">O</span>
         </div>
+        <div id="bingo-grid" class="bingo-grid">
+            </div>
     </div>
 
-    
-
-<div class="advertencia-legal">
-        <p><i class="fas fa-exclamation-triangle"></i> Advertencia:</p>
-        <p>Este juego es solo para mayores de 18 años. Una sola cuenta por persona.</p>
-        <p>Juega con responsabilidad.</p>
+    <div class="game-controls">
+        <button id="btn-comprar-carton" class="btn-primary">COMPRAR CARTÓN</button>
+        <button id="btn-bingo" class="btn-secondary" disabled>BINGO</button>
     </div>
-    
+</div>
 
+<link rel="stylesheet" href="style.css">
 <script src="juego.js"></script>
-</body>
-</html>
