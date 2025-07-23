@@ -508,7 +508,6 @@ a:hover {
     font-size: 1.4em;
     color: #00FFFF; /* Título de nivel cian */
     text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
-    flex-grow: 1;
 }
 
 .locutor-avatar {
@@ -529,6 +528,11 @@ a:hover {
 .level-card .costo {
     color: #FF6347; /* Rojo para el costo */
     font-weight: bold;
+}
+/* AÑADIDO: Estilo para el valor numérico dentro de costo y premio */
+.level-card .costo .amount, .level-card .premio .amount {
+    font-size: 1.2em; /* Hace el número un poco más grande */
+    color: #FFD700; /* Color dorado para el monto */
 }
 
 .level-card .premio {
