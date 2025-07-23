@@ -318,9 +318,9 @@ body {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente para mejor contraste */
     color: #ffcc00; /* Dorado suave para el texto */
-    text-align: center;\
-    padding: 10px 0;\
-    font-size: 0.75em;\
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.75em;
     z-index: 100; /* Asegura que esté por encima de otros elementos */
     border-top: 1px solid rgba(255, 204, 0, 0.3); /* Borde superior sutil */
     box-sizing: border-box; /* Incluye padding en el width */
@@ -354,10 +354,10 @@ body {
 .lobby-header {
     width: 100%;
     display: flex;
-    justify-content: space-between;\
-    align-items: center;\
-    margin-bottom: 40px;\
-    padding-bottom: 20px;\
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
     border-bottom: 1px solid rgba(255, 215, 0, 0.3); /* Línea divisoria dorada */
 }
 
@@ -472,87 +472,87 @@ body {
     border-radius: 8px;
     width: 100%;
     box-sizing: border-box;
-}
-
-/* Media Queries para responsividad */
-@media (max-width: 768px) {
-    .container, .register-container {
-        padding: 15px;
-        max-width: 95%;
-        margin-bottom: 90px; /* Para la advertencia inferior */
-    }
-    .frase-bienvenida-principal {
-        font-size: 1.6em; /* Ajuste para móviles */
-        margin-bottom: 20px;
-    }
-    .logo {
-        width: 150px;
-    }
-    .frase { /* Aunque eliminada, la dejo por si se necesita en el futuro */
-        font-size: 0.9em;
-    }
-    .input-group input, .input-group select {
-        padding: 12px;
-        font-size: 0.9em;
-    }
-    .boton-accion {
-        font-size: 1em;
-        padding: 12px 20px;
-    }
-    .ayuda-soporte {
-        font-size: 0.8em;
-    }
-    .barra {
-        width: 90%;
-    }
-    .botones-flotantes {
-        bottom: 10px;
-        right: 10px;
-        gap: 8px;
-    }
-    .boton-musica-notificacion {
-        padding: 12px;
-        font-size: 1em;
-    }
-    .advertencia-legal {
-        font-size: 0.65em;
-        padding: 8px 0;
-    }
-
-    /* Media Queries Específicas para el Lobby en móvil */
-    .lobby-container {
-        padding: 20px;
-        max-width: 95%;
-        margin-bottom: 90px; /* Para la advertencia inferior */
-    }
-    .lobby-header {
-        flex-direction: column; /* Apila el usuario y el botón cerrar sesión */
-        gap: 15px;
-    }
-    .user-info {
-        flex-direction: column; /* Apila avatar y detalles */
-        gap: 8px;
-    }
-    .user-name {
-        font-size: 1.2em;
-    }
-    .user-balance {
-        font-size: 1em;
-    }
-    .logout-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1em;
-    }
-    .lobby-buttons {
-        grid-template-columns: 1fr; /* Una columna en móviles */
-        gap: 15px;
-    }
-    .lobby-btn {
-        padding: 15px;
-        font-size: 1em;
-    }
-    .lobby-btn i {
-        font-size: 1.8em;
-    }
-}
+}\
+\
+/* Media Queries para responsividad */\
+@media (max-width: 768px) {\
+    .container, .register-container {\
+        padding: 15px;\
+        max-width: 95%;\
+        margin-bottom: 90px; /* Para la advertencia inferior */\
+    }\
+    .frase-bienvenida-principal {\
+        font-size: 1.6em; /* Ajuste para móviles */\
+        margin-bottom: 20px;\
+    }\
+    .logo {\
+        width: 150px;\
+    }\
+    .frase { /* Aunque eliminada, la dejo por si se necesita en el futuro */\
+        font-size: 0.9em;\
+    }\
+    .input-group input, .input-group select {\
+        padding: 12px;\
+        font-size: 0.9em;\
+    }\
+    .boton-accion {\
+        font-size: 1em;\
+        padding: 12px 20px;\
+    }\
+    .ayuda-soporte {\
+        font-size: 0.8em;\
+    }\
+    .barra {\
+        width: 90%;\
+    }\
+    .botones-flotantes {\
+        bottom: 10px;\
+        right: 10px;\
+        gap: 8px;\
+    }\
+    .boton-musica-notificacion {\
+        padding: 12px;\
+        font-size: 1em;\
+    }\
+    .advertencia-legal {\
+        font-size: 0.65em;\
+        padding: 8px 0;\
+    }\
+\
+    /* Media Queries Específicas para el Lobby en móvil */\
+    .lobby-container {\
+        padding: 20px;\
+        max-width: 95%;\
+        margin-bottom: 90px; /* Para la advertencia inferior */\
+    }\
+    .lobby-header {\
+        flex-direction: column; /* Apila el usuario y el botón cerrar sesión */\
+        gap: 15px;\
+    }\
+    .user-info {\
+        flex-direction: column; /* Apila avatar y detalles */\
+        gap: 8px;\
+    }\
+    .user-name {\
+        font-size: 1.2em;\
+    }\
+    .user-balance {\
+        font-size: 1em;\
+    }\
+    .logout-btn {\
+        width: 40px;\
+        height: 40px;\
+        font-size: 1em;\
+    }\
+    .lobby-buttons {\
+        grid-template-columns: 1fr; /* Una columna en móviles */\
+        gap: 15px;\
+    }\
+    .lobby-btn {\
+        padding: 15px;\
+        font-size: 1em;\
+    }\
+    .lobby-btn i {\
+        font-size: 1.8em;\
+    }\
+}\
