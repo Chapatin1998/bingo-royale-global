@@ -1,65 +1,84 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const userAvatar = document.getElementById('userAvatar');
-    const userName = document.getElementById('userName');
-    const userBalance = document.getElementById('userBalance');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const musicaLobby = document.getElementById('musicaLobby');
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby - Bingo VIP Bolivia</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
 
-    // Listener para el estado de autenticación de Firebase
-    window.onAuthStateChanged(window.auth, async (user) => {
-        if (user) {
-            // Usuario está logueado
-            console.log("Usuario logueado en lobby:", user.uid);
-            
-            // Cargar datos adicionales del usuario desde Firestore
-            const userRef = window.doc(window.db, "users", user.uid);
-            const docSnap = await window.getDoc(userRef);
-
-            if (docSnap.exists()) {
-                const userData = docSnap.data();
-                userName.textContent = userData.nombreCompleto || user.email; // Muestra nombre completo o email
-                userBalance.innerHTML = `<i class="fas fa-dollar-sign"></i> ${userData.balance ? userData.balance.toFixed(2) : '0.00'}`; // Muestra saldo
-                userAvatar.src = userData.avatar || "https://via.placeholder.com/60/FFD700/000000?text=AV"; // URL real de avatar
-            } else {
-                console.log("No se encontraron datos adicionales del usuario en Firestore.");
-                userName.textContent = user.email;
-                userBalance.innerHTML = `<i class="fas fa-dollar-sign"></i> 0.00`;
-            }
-
-            // Intentar reproducir música del lobby (puede ser bloqueado por el navegador)
-            musicaLobby.play().catch(error => {
-                console.log("Autoplay de música en lobby bloqueado:", error);
-                // Si el autoplay es bloqueado, puedes mostrar un icono de volumen muteado
-            });
-
-        } else {
-            // Usuario NO está logueado, redirigir a la página de inicio (login)
-            console.log("Usuario no logueado, redirigiendo a index.html");
-            alert("No has iniciado sesión o tu sesión ha expirado. Por favor, inicia sesión.");
-            window.location.href = 'index.html';
-        }
-    });
-
-    // Lógica para el botón de cerrar sesión
-    logoutBtn.addEventListener('click', async () => {
-        try {
-            await window.signOut(window.auth);
-            alert("Has cerrado sesión.");
-            window.location.href = 'index.html'; // Redirigir a la página de inicio/login
-        } catch (error) {
-            console.error("Error al cerrar sesión:", error);
-            alert("No se pudo cerrar sesión. Inténtalo de nuevo.");
-        }
-    });
-
-    // Lógica para los botones del lobby (ejemplos)
-    document.querySelectorAll('.lobby-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            alert(`Hiciste clic en: ${button.textContent.trim()}`);
-            // Aquí iría la lógica para cada botón:
-            // - Redirigir a la tienda.html, niveles.html, etc.
-            // - Abrir un modal para configuración.
-            // - Iniciar el juego de Bingo si es el botón "Jugar".
-        });
-    });
-});
+    <script type="module">\
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";\
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"; // Añadido onAuthStateChanged y signOut\
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"; // Añadido doc y getDoc\
+\
+        const firebaseConfig = {\
+          apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI", // <--- ¡TU ÚLTIMA API KEY AQUÍ!\
+          authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",\
+          projectId: "bingo-vip-bolivia-df2db",\
+          storageBucket: "bingo-vip-bolivia-df2db.firebasestorage.app",\
+          messagingSenderId: "310290230955",\
+          appId: "1:310290230955:web:3526c26c2800b43ffcd1ee",\
+          measurementId: "G-VRR7JSHY5G"\
+        };\
+\
+        const app = initializeApp(firebaseConfig);\
+        window.auth = getAuth(app);\
+        window.db = getFirestore(app);\
+        window.onAuthStateChanged = onAuthStateChanged; // Exporta para usar en lobby.js\
+        window.signOut = signOut; // Exporta para usar en lobby.js\
+        window.doc = doc; // Exporta para usar en lobby.js\
+        window.getDoc = getDoc; // Exporta para usar en lobby.js\
+    </script>\
+</head>\
+<body>\
+    <div class="background-container">\
+        <video autoplay muted loop id="video-fondo">\
+            <source src="video-bingo-inicio.mp4" type="video/mp4">\
+            Tu navegador no soporta el video.\
+        </video>\
+    </div>\
+\
+    <div class="lobby-container">\
+        <div class="lobby-header">\
+            <div class="user-info">\
+                <img src="https://via.placeholder.com/60/FFD700/000000?text=AV" alt="Avatar del Usuario" class="user-avatar" id="userAvatar">\
+                <div class="user-details">\
+                    <span id="userName" class="user-name">Cargando...</span>\
+                    <span id="userBalance" class="user-balance"><i class="fas fa-dollar-sign"></i> 0.00</span>\
+                </div>\
+            </div>\
+            <button id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i></button>\
+        </div>\
+\
+        <div class="lobby-buttons">\
+            <button class="lobby-btn primary"><i class="fas fa-play"></i> Jugar</button>\
+            <button class="lobby-btn"><i class="fas fa-store"></i> Tienda</button>\
+            <button class="lobby-btn"><i class="fas fa-trophy"></i> Niveles</button>\
+            <button class="lobby-btn"><i class="fas fa-user-circle"></i> Avatar</button>\
+            <button class="lobby-btn"><i class="fas fa-ticket-alt"></i> Cartones</button>\
+            <button class="lobby-btn"><i class="fas fa-wallet"></i> Billetera</sbutton>\
+            <button class="lobby-btn"><i class="fas fa-question-circle"></i> Soporte / Ayuda</button>\
+            <button class="lobby-btn"><i class="fas fa-cog"></i> Configuración</button>\
+        </div>\
+\
+        <div class="lobby-info">\
+            <p>¡Nuevos torneos y bonificaciones te esperan! Mantente atento.</p>\
+        </div>\
+    </div>\
+\
+    <div class="advertencia-legal">\
+        <p><i class="fas fa-exclamation-triangle"></i> Advertencia:</p>\
+        <p>Este juego es solo para mayores de 18 años. Una sola cuenta por persona.</p>\
+        <p>Juega con responsabilidad.</p>\
+    </div>\
+    <audio id="musicaLobby" loop autoplay>\
+        <source src="Intro-music.mp3" type="audio/mpeg">\
+        Tu navegador no soporta el audio.\
+    </audio>\
+\
+    <script src="lobby.js"></script>\
+</body>\
+</html>\
