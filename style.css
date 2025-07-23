@@ -1,28 +1,29 @@
-/* Estilos Generales y Reseteo */
+/* General Body Styles */
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
-    color: #fff; /* Texto blanco por defecto */
-    overflow: hidden; /* Evita barras de desplazamiento */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Asegura que ocupe al menos el alto de la ventana */
-    background-color: #000; /* Fondo negro si el video no carga */
+    min-height: 100vh;
+    overflow: hidden; /* Prevent unwanted scrollbars */
+    position: relative; /* Para posicionar el background-container y la advertencia */
 }
 
-/* Contenedor de fondo para video o imagen */
+/* Background Video/Image Container */
 .background-container {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: -1; /* Asegura que esté detrás de todo */
+    z-index: -1; /* Asegura que esté detrás del contenido */
 }
 
-#video-fondo, #imagen-fondo {
+.background-container video,
+.background-container img {
     min-width: 100%;
     min-height: 100%;
     width: auto;
@@ -31,233 +32,332 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    object-fit: cover; /* Asegura que el video/imagen cubra el contenedor */
-    filter: brightness(30%); /* AJUSTADO: Más oscuro para que el contenido resalte mejor */
+    object-fit: cover; /* Asegura que cubra todo el espacio */
+    filter: brightness(0.4) blur(3px); /* Oscurece y desenfoca el fondo para que el contenido resalte */
 }
 
-/* Contenedor principal para login/registro */
-.container, .register-container, .lobby-container, .selection-container {
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente */
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); /* Sombra brillante DORADA */
+/* Main Container (usado en index.html y registro.html) */
+.container, .register-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    width: 90%; /* Ancho adaptable */
-    max-width: 400px; /* Ancho máximo */
-    box-sizing: border-box; /* Incluye padding en el ancho */
-    position: relative; /* Para botones flotantes */
-    z-index: 1; /* Asegura que esté por encima del fondo */
+    padding: 20px;
+    width: 90%;
+    max-width: 450px; /* Ajustado para los campos de entrada */
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente para el contenido */
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    animation: fadeInContainer 1s ease-in-out forwards;
+    box-sizing: border-box; /* Incluye padding en el width */
+    margin-bottom: 70px; /* Espacio para la advertencia fija en la parte inferior */
 }
 
-/* Títulos */
-h2 {
-    color: #FFD700; /* Dorado brillante */
-    margin-bottom: 25px;
-    font-size: 1.8em;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+/* Animación de entrada del contenedor */
+@keyframes fadeInContainer {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Frase de bienvenida principal */
+/* Frase de bienvenida principal (arriba, con MÁS ESTILO) */
 .frase-bienvenida-principal {
-    color: #FFD700; /* Dorado */
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+    font-size: 2.2em; /* Tamaño de fuente más grande */
+    font-weight: bold;
+    color: #ffd700; /* Dorado brillante */
+    margin-bottom: 30px; /* Un poco más de espacio abajo */
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+    animation-delay: 0.5s;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6); /* Sombra de texto brillante */
 }
 
-/* Logo */
+/* Logo Styles */
 .logo {
-    width: 150px;
+    width: 200px; /* Tamaño ajustado */
     height: auto;
-    margin-bottom: 30px;
-    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8)); /* Resplandor dorado al logo */
-}
-
-/* Grupos de entrada */
-.input-group {
     margin-bottom: 20px;
+    filter: drop-shadow(0 0 15px gold);
+    animation: pulseGlow 2s infinite alternate; /* Efecto de pulso y brillo */
 }
 
-.input-group input, .input-group select {
-    width: calc(100% - 20px); /* Ancho completo menos padding */
-    padding: 12px 10px;
-    border: 1px solid #FFD700; /* Borde dorado */
+/* Efecto de pulso y brillo para el logo */
+@keyframes pulseGlow {
+    0% { transform: scale(1); filter: drop-shadow(0 0 15px gold); }
+    100% { transform: scale(1.03); filter: drop-shadow(0 0 25px gold); }
+}
+
+/* Frase debajo del logo (ha sido eliminada del HTML) */
+.frase { /* Por si se reutiliza esta clase en el futuro */
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    color: #ccc;
+}
+
+/* Input Group for Email/Password */
+.input-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.input-group input, .input-group select { /* También aplica a select para el avatar */
+    width: calc(100% - 30px); /* Ajuste para padding */
+    padding: 15px;
+    border: 1px solid #555;
     border-radius: 8px;
-    background-color: rgba(255, 215, 0, 0.1); /* Fondo semi-transparente dorado */
+    background-color: #222;
     color: #fff;
     font-size: 1em;
-    outline: none; /* Quita el contorno al enfocar */
+    outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Incluye padding en el width */
 }
 
 .input-group input:focus, .input-group select:focus {
-    border-color: #FFD700; /* Borde dorado al enfocar */
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7); /* Sombra dorada al enfocar */
+    border-color: #ffd700;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
 }
 
-/* Placeholder styling */
-.input-group input::placeholder {
-    color: #ccc;
-    opacity: 0.8;
-}
-
-/* Botones de acción */
+/* Contenedor de botones de acción */
 .botones-container {
-    margin-top: 30px;
+    display: flex;
+    flex-direction: column; /* Apilados por defecto */
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 30px;
 }
 
-.boton-accion, .lobby-btn {
-    width: 100%;
-    padding: 12px;
+/* Estilos de botones de acción (Iniciar Sesión, Registrarse) */
+.boton-accion {
+    width: 100%; /* Ocupa todo el ancho disponible */
     border: none;
-    border-radius: 8px;
-    font-size: 1.1em;
+    padding: 15px 25px;
+    border-radius: 30px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    font-size: 1.1em;
+    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px; /* Espacio entre icono y texto */
-    margin-bottom: 15px; /* Espacio entre botones */
+    gap: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .boton-accion.primary {
-    background-color: #FFD700; /* Dorado principal */
+    background-color: #ffd700; /* Dorado principal */
     color: #000;
-    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
 }
 
 .boton-accion.primary:hover {
-    background-color: #E6C200; /* Dorado más oscuro */
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
+    background-color: #e6b800;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
 }
 
 .boton-accion.secondary {
-    background-color: #333; /* Gris oscuro para el secundario */
+    background-color: #444; /* Gris oscuro secundario */
     color: #fff;
-    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .boton-accion.secondary:hover {
-    background-color: #555; /* Gris más oscuro */
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    background-color: #666;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Links */
-a {
-    color: #FFD700; /* Dorado */
+/* Sección de Ayuda y Soporte (ahora independiente, si se usa fuera de .container) */
+.ayuda-soporte {
+    /* Si lo dejas dentro del .container, este margin-bottom está bien */
+    /* Si lo mueves fuera, podría necesitar position: absolute o similar */
+    margin-bottom: 20px; 
+    font-size: 0.9em;
+    color: #aaa;
+}
+
+.ayuda-soporte p { /* Asegura que los márgenes de los párrafos sean pequeños */
+    margin: 5px 0;
+}
+
+.ayuda-soporte a {
+    color: #ffd700; /* Enlace dorado */
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-a:hover {
+.ayuda-soporte a:hover {
     color: #fff;
     text-decoration: underline;
-}
-
-.link-volver {
-    margin-top: 20px;
-    font-size: 0.9em;
 }
 
 /* Barra de carga */
 .barra {
     width: 80%;
-    height: 10px;
-    background-color: rgba(255, 255, 255, 0.2);
+    max-width: 300px; /* Ajuste de tamaño para la barra */
+    background-color: #333;
     border-radius: 5px;
-    margin: 20px auto 10px auto;
+    height: 10px;
+    margin-top: 20px;
+    position: relative;
     overflow: hidden;
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5) inset;
 }
 
 .progreso {
     height: 100%;
+    background-color: #fdd835;
     width: 0%;
-    background-color: #FFD700; /* Dorado */
     border-radius: 5px;
-    transition: width 0.3s ease-out;
+    position: relative;
+    overflow: hidden;
 }
 
+/* Efecto de rayo dentro de la barra de progreso */
+.progreso::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+    width: 30%;
+    height: 100%;
+    transform: skewX(-20deg);
+    animation: animarRayo 2s linear infinite;
+}
+
+@keyframes animarRayo {
+    0% { left: -50%; }
+    100% { left: 150%; }
+}
+
+/* Porcentaje de carga */
 .porcentaje {
-    font-size: 0.9em;
-    color: #FFD700; /* Dorado */
+    margin-top: 10px;
+    font-size: 1.1em;
+    color: #fff;
 }
 
-/* Botones flotantes (música, notificaciones) */
+/* Botones flotantes de música y notificaciones */
 .botones-flotantes {
     position: absolute;
-    top: 20px;
+    bottom: 20px;
     right: 20px;
     display: flex;
     gap: 10px;
-    z-index: 10; /* Asegura que estén por encima de todo */
+    z-index: 10;
 }
 
 .boton-musica-notificacion {
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid #FFD700; /* Borde dorado */
+    background-color: rgba(51, 51, 51, 0.8);
+    color: #fff;
+    border: none;
+    padding: 15px;
     border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
-    color: #FFD700; /* Icono dorado */
     font-size: 1.2em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
 }
 
 .boton-musica-notificacion:hover {
-    background-color: rgba(0, 0, 0, 0.7);
-    transform: scale(1.05);
+    background-color: rgba(85, 85, 85, 0.9);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
 }
 
-/* Estilos para la animación de pulsación */
-.boton-musica-notificacion.pulsando {
-    animation: pulse 0.5s ease-in-out;
+/* Animación de entrada general */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.8; }
-    100% { transform: scale(1); opacity: 1; }
+/* Estilos específicos para registro.html */
+.register-container {
+    padding: 30px; /* Un poco más de padding */
+}
+.register-container h2 {
+    color: #ffd700;
+    margin-bottom: 25px;
+    font-size: 2em;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+.register-form .input-group {
+    margin-bottom: 20px;
+}
+.register-form .input-group input, .register-form .input-group select {
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: #fff;
+}
+.register-form .boton-accion {
+    margin-top: 20px;
+}
+.register-container .link-volver {
+    margin-top: 25px;
+    font-size: 0.95em;
+}
+.register-container .link-volver a {
+    color: #ffd700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.register-container .link-volver a:hover {
+    color: #fff;
+    text-decoration: underline;
 }
 
 
-/* Advertencia Legal */
+/* Estilos para la Advertencia Legal (Posición Fija Abajo) */
 .advertencia-legal {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #FF6347; /* Rojo tomate para advertencia */
-    font-size: 0.8em;
-    padding: 10px 0;
-    text-align: center;
-    z-index: 100; /* Asegura que esté en la parte superior */
-    border-top: 1px solid #FF6347;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente para mejor contraste */
+    color: #ffcc00; /* Dorado suave para el texto */
+    text-align: center;\
+    padding: 10px 0;\
+    font-size: 0.75em;\
+    z-index: 100; /* Asegura que esté por encima de otros elementos */
+    border-top: 1px solid rgba(255, 204, 0, 0.3); /* Borde superior sutil */
+    box-sizing: border-box; /* Incluye padding en el width */
 }
 
 .advertencia-legal p {
     margin: 3px 0;
 }
 
-/* Estilos específicos para el Lobby */
+.advertencia-legal .fas {
+    margin-right: 5px;
+    color: #ff9900; /* Naranja para el ícono */
+}
+
+/* Estilos para el Lobby (lobby.html) */
 .lobby-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+    width: 90%;
     max-width: 600px; /* Un poco más ancho para el lobby */
-    padding: 25px;
+    background-color: rgba(0, 0, 0, 0.75); /* Fondo más oscuro para el lobby */
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+    box-sizing: border-box;
+    margin-bottom: 70px; /* Espacio para la advertencia inferior */
 }
 
 .lobby-header {
+    width: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    padding-bottom: 15px;
+    justify-content: space-between;\
+    align-items: center;\
+    margin-bottom: 40px;\
+    padding-bottom: 20px;\
     border-bottom: 1px solid rgba(255, 215, 0, 0.3); /* Línea divisoria dorada */
 }
 
@@ -271,841 +371,188 @@ a:hover {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: 3px solid #FFD700; /* Borde dorado para el avatar */
+    border: 3px solid #ffd700; /* Borde dorado para el avatar */
     object-fit: cover;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
 }
 
 .user-details {
     display: flex;
     flex-direction: column;
-    text-align: left;
+    align-items: flex-start;
 }
 
 .user-name {
     font-size: 1.4em;
     font-weight: bold;
-    color: #FFD700; /* Dorado */
-    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    color: #fff;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
 .user-balance {
     font-size: 1.1em;
-    color: #00FFFF; /* Cian para balance */
+    color: #ffd700; /* Dorado para el saldo */
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 5px;
 }
 
 .logout-btn {
-    background-color: #FF6347; /* Rojo */
+    background-color: rgba(255, 0, 0, 0.7); /* Rojo para cerrar sesión */
     color: #fff;
     border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.2em;
     cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
 }
 
 .logout-btn:hover {
-    background-color: #E65337;
-    transform: translateY(-2px);
+    background-color: rgba(255, 0, 0, 0.9);
+    transform: scale(1.05);
 }
 
 .lobby-buttons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Columnas adaptables */
-    gap: 15px;
-    margin-bottom: 30px;
+    display: grid; /* Usamos grid para una disposición más flexible */
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas por defecto */
+    gap: 20px; /* Espacio entre los botones */
+    width: 100%;
+    margin-bottom: 40px;
 }
 
 .lobby-btn {
-    padding: 15px 10px;
-    font-size: 1em;
-    background-color: rgba(255, 215, 0, 0.2); /* Fondo semi-transparente dorado */
-    color: #FFD700; /* Texto dorado */
-    border: 1px solid #FFD700; /* Borde dorado */
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    text-align: center;
-}
-
-.lobby-btn i {
-    font-size: 1.8em;
-    color: #00FFFF; /* Iconos cian */
-}
-
-.lobby-btn:hover {
-    background-color: rgba(255, 215, 0, 0.4);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
-}
-
-.lobby-btn.primary {
-    background-color: #FFD700; /* Botón principal de jugar en dorado sólido */
-    color: #000;
-    font-weight: bold;
-    border-color: #FFD700;
-}
-
-.lobby-btn.primary i {
-    color: #000; /* Icono negro en botón primario */
-}
-
-.lobby-btn.primary:hover {
-    background-color: #E6C200;
-    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.8);
-}
-
-.lobby-info {
-    background-color: rgba(255, 215, 0, 0.1); /* Fondo dorado semi-transparente */
-    border: 1px solid #FFD700;
-    border-radius: 10px;
-    padding: 15px;
-    font-size: 0.9em;
-    color: #FFD700;
-    text-align: center;
-}
-
-
-/* Estilos Específicos para la Página de Selección de Juego */
-.selection-container {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); /* Sombra dorada */
-    text-align: center;
-    width: 95%;
-    max-width: 1000px; /* Más ancho para la cuadrícula de niveles */
-    box-sizing: border-box;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.selection-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.3); /* Línea dorada */
-}
-
-.selection-header h2 {
-    margin: 0;
-    font-size: 1.8em;
-    color: #FFD700; /* Dorado para el título principal */
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
-    flex-grow: 1;
-}
-
-.back-button {
-    background-color: #FF6347; /* Rojo */
+    background-color: rgba(51, 51, 51, 0.8); /* Gris oscuro semi-transparente */
     color: #fff;
     border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-}
-
-.back-button:hover {
-    background-color: #E65337;
-    transform: translateY(-2px);
-}
-
-.user-balance-display {
-    background-color: rgba(255, 215, 0, 0.2); /* Fondo semi-transparente dorado */
-    border: 1px solid #FFD700; /* Borde dorado */
-    border-radius: 8px;
-    padding: 8px 12px;
-    color: #FFD700; /* Texto dorado */
-    font-size: 1.1em;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    white-space: nowrap;
-}
-
-.user-balance-display i {
-    color: #00FFFF; /* Icono de dólar cian */
-}
-
-.levels-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
-    padding: 10px;
-    overflow-y: auto;
-    max-height: 70vh;
-    scrollbar-width: thin;
-    scrollbar-color: #FFD700 rgba(0, 0, 0, 0.5); /* Scrollbar dorado */
-}
-
-/* Estilo de la barra de desplazamiento para Webkit (Chrome, Safari) */
-.levels-grid::-webkit-scrollbar {
-    width: 8px;
-}
-
-.levels-grid::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-}
-
-.levels-grid::-webkit-scrollbar-thumb {
-    background-color: #FFD700; /* Dorado */
-    border-radius: 10px;
-    border: 2px solid rgba(0, 0, 0, 0.7);
-}
-
-
-.level-card {
-    background-color: rgba(0, 0, 0, 0.8);
-    border: 2px solid #FFD700; /* Borde dorado por defecto */
-    border-radius: 15px;
     padding: 20px;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-}
-
-.level-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
-}
-
-.level-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 15px;
-    width: 100%;
-}
-
-.level-header h3 {
-    margin: 0;
-    font-size: 1.4em;
-    color: #00FFFF; /* Título de nivel cian */
-    text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
-}
-
-.locutor-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid #00FFFF; /* Borde cian */
-    object-fit: cover;
-    flex-shrink: 0;
-}
-
-.level-card p {
-    margin: 8px 0;
-    font-size: 1.1em;
-    color: #fff;
-}
-
-.level-card .costo {
-    color: #FF6347; /* Rojo para el costo */
-    font-weight: bold;
-}
-/* AÑADIDO: Estilo para el valor numérico dentro de costo y premio */
-.level-card .costo .amount, .level-card .premio .amount {
-    font-size: 1.2em; /* Hace el número un poco más grande */
-    color: #FFD700; /* Color dorado para el monto */
-}
-
-.level-card .premio {
-    color: #32CD32; /* Verde para el premio */
-    font-weight: bold;
-}
-
-.play-level-btn {
-    background-color: #FFD700; /* Dorado */
-    color: #000;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-top: 20px;
-    width: 90%;
-    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.play-level-btn i {
-    color: #000; /* Icono negro */
+.lobby-btn i {
+    font-size: 2em; /* Íconos más grandes */
+    color: #ffd700; /* Íconos dorados */
 }
 
-.play-level-btn:hover {
-    background-color: #E6C200;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.7);
+.lobby-btn:hover {
+    background-color: rgba(85, 85, 85, 0.9);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Estilos para los diferentes "estilos de casino" de cada nivel */
-.level-card.casino-clasico { border-color: #FFD700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
-.level-card.las-vegas { border-color: #00FFFF; box-shadow: 0 0 15px rgba(0, 255, 255, 0.3); } /* Cian */
-.level-card.hollywood { border-color: #FFFF00; box-shadow: 0 0 15px rgba(255, 255, 0, 0.3); } /* Amarillo puro */
-.level-card.tropical { border-color: #32CD32; box-shadow: 0 0 15px rgba(50, 205, 50, 0.3); } /* Verde lima */
-.level-card.oriental { border-color: #FF4500; box-shadow: 0 0 15px rgba(255, 69, 0, 0.3); } /* Naranja */
-.level-card.salvaje { border-color: #8B4513; box-shadow: 0 0 15px rgba(139, 69, 19, 0.3); } /* Marrón */
-.level-card.cibernetico { border-color: #00BFFF; box-shadow: 0 0 15px rgba(0, 191, 255, 0.3); } /* Azul cielo */
-.level-card.medieval { border-color: #A9A9A9; box-shadow: 0 0 15px rgba(169, 169, 169, 0.3); } /* Gris */
-.level-card.espacio { border-color: #8A2BE2; box-shadow: 0 0 15px rgba(138, 43, 226, 0.3); } /* Violeta */
-.level-card.antiguo { border-color: #DAA520; box-shadow: 0 0 15px rgba(218, 165, 32, 0.3); } /* Dorado oscuro */
+.lobby-btn.primary {
+    background-color: #ffd700; /* Botón "Jugar" en dorado */
+    color: #000;
+}
+.lobby-btn.primary i {
+    color: #000; /* Ícono negro en botón dorado */
+}
+.lobby-btn.primary:hover {
+    background-color: #e6b800;
+}
 
+.lobby-info {
+    font-size: 0.9em;
+    color: #aaa;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
 
 /* Media Queries para responsividad */
 @media (max-width: 768px) {
-    .container, .register-container, .lobby-container, .selection-container {
-        padding: 20px;
+    .container, .register-container {
+        padding: 15px;
+        max-width: 95%;
+        margin-bottom: 90px; /* Para la advertencia inferior */
     }
-
+    .frase-bienvenida-principal {
+        font-size: 1.6em; /* Ajuste para móviles */
+        margin-bottom: 20px;
+    }
     .logo {
-        width: 120px;
+        width: 150px;
     }
-
-    .boton-accion, .lobby-btn {
+    .frase { /* Aunque eliminada, la dejo por si se necesita en el futuro */
+        font-size: 0.9em;
+    }
+    .input-group input, .input-group select {
+        padding: 12px;
+        font-size: 0.9em;
+    }
+    .boton-accion {
         font-size: 1em;
-        padding: 10px;
+        padding: 12px 20px;
+    }
+    .ayuda-soporte {
+        font-size: 0.8em;
+    }
+    .barra {
+        width: 90%;
+    }
+    .botones-flotantes {
+        bottom: 10px;
+        right: 10px;
+        gap: 8px;
+    }
+    .boton-musica-notificacion {
+        padding: 12px;
+        font-size: 1em;
+    }
+    .advertencia-legal {
+        font-size: 0.65em;
+        padding: 8px 0;
     }
 
+    /* Media Queries Específicas para el Lobby en móvil */
+    .lobby-container {
+        padding: 20px;
+        max-width: 95%;
+        margin-bottom: 90px; /* Para la advertencia inferior */
+    }
     .lobby-header {
-        flex-direction: column;
+        flex-direction: column; /* Apila el usuario y el botón cerrar sesión */
         gap: 15px;
     }
-
+    .user-info {
+        flex-direction: column; /* Apila avatar y detalles */
+        gap: 8px;
+    }
+    .user-name {
+        font-size: 1.2em;
+    }
+    .user-balance {
+        font-size: 1em;
+    }
     .logout-btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .lobby-buttons {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    }
-
-    .lobby-btn i {
-        font-size: 1.5em;
-    }
-
-    .botones-flotantes {
-        top: 10px;
-        right: 10px;
-    }
-
-    .boton-musica-notificacion {
         width: 40px;
         height: 40px;
         font-size: 1em;
     }
-    
-    /* Media Queries Específicas para la selección de juego en móvil */
-    .selection-header {
-        flex-direction: column;
+    .lobby-buttons {
+        grid-template-columns: 1fr; /* Una columna en móviles */
         gap: 15px;
     }
-
-    .selection-header h2 {
-        font-size: 1.5em;
-        text-align: center;
-    }
-
-    .back-button, .user-balance-display {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .levels-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-    }
-
-    .level-card {
+    .lobby-btn {
         padding: 15px;
-    }
-
-    .level-header h3 {
-        font-size: 1.2em;
-    }
-
-    .play-level-btn {
         font-size: 1em;
-        padding: 10px 15px;
     }
-}
-
-@media (max-width: 480px) {
-    .selection-container {
-        padding: 15px;
-    }
-
-    .selection-header h2 {
-        font-size: 1.3em;
-    }
-
-    .levels-grid {
-        grid-template-columns: 1fr; /* Una columna en pantallas muy pequeñas */
-        gap: 15px;
-    }
-
-    .level-card {
-        padding: 10px;
-    }
-
-    .level-header h3 {
-        font-size: 1.1em;
-    }
-
-    .input-group input, .input-group select {
-        font-size: 0.9em;
-        padding: 10px;
-    }
-
-    .boton-accion, .lobby-btn {
-        font-size: 0.9em;
-        padding: 8px;
-    }
-
     .lobby-btn i {
-        font-size: 1.3em;
-    }
-}
-/* Estilos Específicos para la Pantalla de Juego (juego.html) */
-.game-container {
-    background-color: rgba(0, 0, 0, 0.85); /* Fondo más oscuro para la partida */
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 0 40px rgba(255, 215, 0, 0.7); /* Sombra dorada más intensa */
-    width: 98%; /* Casi ancho completo */
-    max-width: 1200px; /* Ancho máximo para monitores grandes */
-    height: 95vh; /* Altura casi completa de la vista */
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    z-index: 1;
-    overflow: hidden; /* Para el contenido interno */
-}
-
-.game-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #FFD700; /* Borde dorado fuerte */
-}
-
-.game-header h2 {
-    margin: 0;
-    font-size: 2em;
-    color: #00FFFF; /* Cian */
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
-    flex-grow: 1;
-    text-align: center;
-}
-
-.game-back-button {
-    background-color: #FF6347; /* Rojo */
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-}
-
-.game-back-button:hover {
-    background-color: #E65337;
-    transform: translateY(-2px);
-}
-
-.user-balance-display-game {
-    background-color: rgba(255, 215, 0, 0.3); /* Fondo semi-transparente dorado */
-    border: 1px solid #FFD700;
-    border-radius: 8px;
-    padding: 8px 12px;
-    color: #FFD700;
-    font-size: 1.2em; /* Un poco más grande para el juego */
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    white-space: nowrap;
-}
-
-.user-balance-display-game i {
-    color: #00FFFF; /* Icono de dólar cian */
-}
-
-.game-area {
-    display: flex;
-    flex-grow: 1; /* Ocupa el espacio restante */
-    gap: 20px;
-    padding: 10px;
-    overflow: hidden; /* Para que los paneles internos manejen su propio scroll */
-}
-
-/* Paneles Laterales del Juego */
-.game-left-panel, .game-right-panel {
-    background-color: rgba(255, 215, 0, 0.1); /* Fondo semi-transparente dorado para paneles */
-    border: 1px solid #FFD700;
-    border-radius: 15px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    box-sizing: border-box;
-    min-width: 200px; /* Ancho mínimo para paneles */
-    max-width: 25%; /* Maximo 25% del ancho total */
-    overflow-y: auto; /* Scroll si el contenido es mucho */
-    position: relative; /* Para el z-index de los iconos */
-}
-
-.locutor-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-}
-
-.locutor-avatar-game {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 4px solid #00FFFF; /* Borde cian */
-    object-fit: cover;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
-}
-
-.locutor-name {
-    font-size: 1.3em;
-    font-weight: bold;
-    color: #FFD700;
-    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-}
-
-.timer {
-    font-size: 2.5em;
-    font-weight: bold;
-    color: #FF6347; /* Rojo para el tiempo */
-    text-shadow: 0 0 10px rgba(255, 99, 71, 0.8);
-    margin-top: 10px;
-}
-
-.called-numbers-display {
-    background-color: rgba(0, 0, 0, 0.6);
-    border: 1px solid #FFD700;
-    border-radius: 10px;
-    padding: 10px;
-    display: flex;
-    flex-wrap: wrap; /* Ajuste para que envuelva los números */
-    gap: 8px;
-    justify-content: center;
-    flex-grow: 1; /* Ocupa el espacio disponible */
-    overflow-y: auto; /* Permite scroll si hay muchos números */
-    max-height: 250px; /* Altura máxima para mostrar números */
-}
-
-.called-ball {
-    background-color: #00FFFF; /* Cian */
-    color: #000;
-    font-weight: bold;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.9em;
-    box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
-    flex-shrink: 0; /* Evita que las bolas se encojan */
-}
-
-/* Columna central: Cartón de Bingo */
-.bingo-card-area {
-    flex-grow: 1; /* Ocupa el mayor espacio */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    max-width: 60%; /* No se estira demasiado */
-}
-
-.bingo-card {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
-    background-color: rgba(255, 255, 255, 0.1); /* Fondo claro para el cartón */
-    border: 3px solid #FFD700;
-    border-radius: 15px;
-    padding: 10px;
-    width: 100%;
-    max-width: 350px; /* Tamaño fijo para el cartón */
-    aspect-ratio: 1 / 1; /* Hace el cartón cuadrado */
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
-}
-
-.card-header {
-    grid-column: span 5; /* Ocupa 5 columnas para BINGO */
-    background-color: #FFD700;
-    color: #000;
-    font-weight: bold;
-    font-size: 1.5em;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 5px 0;
-    border-radius: 8px 8px 0 0;
-}
-
-.card-cell {
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    font-weight: bold;
-    font-size: 1.2em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 8px;
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.card-cell.free {
-    background-color: #00FFFF; /* Cian para el FREE */
-    color: #000;
-    font-size: 1.3em;
-    cursor: default;
-}
-
-.card-cell.marked {
-    background-color: #FF6347; /* Rojo al marcar */
-    box-shadow: inset 0 0 8px rgba(255, 99, 71, 0.8);
-    transform: scale(1.05);
-}
-
-.bingo-call-btn {
-    background-color: #00FFFF; /* Cian */
-    color: #000;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 10px;
-    font-size: 1.5em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    box-shadow: 0 5px 20px rgba(0, 255, 255, 0.7);
-}
-
-.bingo-call-btn:hover:not(:disabled) {
-    background-color: #00E6E6;
-    transform: translateY(-5px);
-}
-
-.bingo-call-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* Columna derecha: Chat y Jugadores */
-.game-right-panel h4 {
-    color: #FFD700;
-    margin-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-    padding-bottom: 5px;
-}
-
-.chat-area {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    padding: 10px;
-}
-
-.chat-messages {
-    flex-grow: 1;
-    overflow-y: auto;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    font-size: 0.9em;
-}
-
-.chat-messages p {
-    margin: 5px 0;
-    color: #fff;
-}
-
-.chat-messages strong {
-    color: #00FFFF;
-}
-
-.chat-area input {
-    width: calc(100% - 70px); /* Ajuste para el botón */
-    padding: 8px;
-    border: 1px solid #FFD700;
-    border-radius: 5px;
-    background-color: #222;
-    color: #fff;
-    outline: none;
-    font-size: 0.9em;
-}
-
-.chat-area button {
-    background-color: #FFD700; /* Dorado */
-    color: #000;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.chat-area button:hover {
-    background-color: #E6C200;
-}
-
-.players-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.players-list li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #fff;
-    font-size: 0.9em;
-    margin-bottom: 5px;
-}
-
-.players-list li i {
-    color: #FFD700; /* Icono de usuario dorado */
-}
-
-
-/* Media Queries para la Pantalla de Juego (juego.html) */
-@media (max-width: 992px) {
-    .game-area {
-        flex-direction: column; /* Apila las columnas en pantallas medianas */
-        overflow-y: auto; /* Permitir scroll en el contenedor principal si es necesario */
-    }
-
-    .game-left-panel, .game-right-panel {
-        max-width: 100%; /* Ocupan todo el ancho */
-        min-height: auto;
-        flex-direction: row; /* Elementos internos en fila */
-        justify-content: space-around;
-        padding: 10px;
-    }
-    .locutor-area {
-        flex-direction: row;
-        border-bottom: none;
-        padding-bottom: 0;
-    }
-    .locutor-avatar-game {
-        width: 80px;
-        height: 80px;
-    }
-    .timer {
-        font-size: 2em;
-    }
-    .called-numbers-display {
-        max-height: 100px; /* Limitar altura en modo horizontal */
-    }
-
-    .bingo-card-area {
-        max-width: 100%;
-    }
-}
-
-@media (max-width: 600px) {
-    .game-header {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .game-header h2 {
-        font-size: 1.5em;
-    }
-    .game-back-button, .user-balance-display-game {
-        width: 100%;
-        justify-content: center;
-    }
-    .game-left-panel, .game-right-panel {
-        flex-direction: column; /* Vuelven a apilarse en vertical en móviles pequeños */
-    }
-    .locutor-area {
-        flex-direction: column; /* Avatar y nombre apilados de nuevo */
-    }
-    .called-numbers-display {
-        max-height: 150px;
-    }
-    .bingo-call-btn {
-        font-size: 1.2em;
-        padding: 10px 20px;
-    }
-}
-
-@media (max-width: 400px) {
-    .game-container {
-        padding: 10px;
-    }
-    .bingo-card {
-        padding: 5px;
-    }
-    .card-cell {
-        font-size: 1em;
-        padding: 5px;
-    }
-    .card-header {
-        font-size: 1.2em;
-    }
-    .called-ball {
-        width: 30px;
-        height: 30px;
-        font-size: 0.8em;
+        font-size: 1.8em;
     }
 }
