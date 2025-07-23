@@ -14,7 +14,7 @@
         import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"; // Para autenticación
         import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"; // Para base de datos
 
-        // Tus credenciales de Firebase (¡Ahora están seguras en tu repo privado!)
+        // Tus credenciales de Firebase (¡No las compartas públicamente en un repositorio!)
         const firebaseConfig = {
           apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI", // <--- ¡TU ÚLTIMA API KEY AQUÍ!
           authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
@@ -44,15 +44,6 @@
         </video>
         </div>
 
-    <div class="botones-flotantes">
-        <button class="boton-musica-notificacion" id="botonMusica">
-            <i class="fas fa-music"></i> 
-        </button>
-        <button class="boton-musica-notificacion" id="botonNotificaciones">
-            <i class="fas fa-bell"></i>
-        </button>
-    </div>
-
     <div class="container">
         <p class="frase-bienvenida-principal">¡Bienvenido a Bingo VIP Bolivia!</p>
 
@@ -81,6 +72,14 @@
         </div>
         <p class="porcentaje" id="porcentaje"></p>
 
+        <div class="botones-flotantes">
+            <button class="boton-musica-notificacion" id="botonMusica">
+                <i class="fas fa-music"></i> 
+            </button>
+            <button class="boton-musica-notificacion" id="botonNotificaciones">
+                <i class="fas fa-bell"></i>
+            </button>
+        </div>
     </div> <div class="advertencia-legal">
         <p><i class="fas fa-exclamation-triangle"></i> Advertencia:</p>
         <p>Este juego es solo para mayores de 18 años. Una sola cuenta por persona.</p>
