@@ -10,9 +10,10 @@
     <link rel="stylesheet" href="style.css">
 
     <script type="module">
+        // Importa las funciones necesarias
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"; // Añadido updateDoc
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         // Tus credenciales de Firebase
         const firebaseConfig = {
@@ -31,7 +32,184 @@
         window.onAuthStateChanged = onAuthStateChanged;
         window.doc = doc;
         window.getDoc = getDoc;
-        window.updateDoc = updateDoc; // Exporta updateDoc
+        window.updateDoc = updateDoc; 
+
+        // Lógica principal de seleccion-juego.js (ahora integrada aquí)
+        document.addEventListener('DOMContentLoaded', () => {
+            const backToLobbyBtn = document.getElementById('backToLobbyBtn');
+            const levelsGrid = document.getElementById('levelsGrid');
+            const currentUserBalanceElement = document.getElementById('currentUserBalance');
+
+            let currentUser = null;
+            let currentUserData = null;
+
+            // Datos de ejemplo para las salas/niveles
+            const gameLevels = [
+                {
+                    id: 'sala-bronce',
+                    name: 'Sala Bronce',
+                    cost: 1.00,
+                    prize: 5.00,
+                    locutor: 'Hombre Básico', // Texto corregido
+                    locutorAvatar: 'https://via.placeholder.com/50/8B4513/FFFFFF?text=Hombre', // URL con texto corregido
+                    description: 'Ideal para principiantes. ¡Gana tus primeras monedas!',
+                    styleClass: 'casino-clasico'
+                },
+                {
+                    id: 'sala-plata',
+                    name: 'Sala Plata',
+                    cost: 5.00,
+                    prize: 25.00,
+                    locutor: 'Mujer Básica', // Texto corregido
+                    locutorAvatar: 'https://via.placeholder.com/50/FFC0CB/000000?text=Mujer', // URL con texto corregido
+                    description: 'Un poco más de emoción y mayores premios.',
+                    styleClass: 'las-vegas'
+                },
+                {
+                    id: 'sala-oro',
+                    name: 'Sala Oro',
+                    cost: 20.00,
+                    prize: 100.00,
+                    locutor: 'Hombre Elegante', // Texto corregido
+                    locutorAvatar: 'https://via.placeholder.com/50/DAA520/000000?text=Elegante', // URL con texto corregido
+                    description: 'Para jugadores con experiencia. ¡Grandes apuestas, grandes ganancias!',
+                    styleClass: 'hollywood'
+                },
+                {
+                    id: 'sala-diamante',
+                    name: 'Sala Diamante',
+                    cost: 100.00,
+                    prize: 500.00,
+                    locutor: 'Mujer Glamour', // Texto corregido
+                    locutorAvatar: 'https://via.placeholder.com/50/B9F2FF/000000?text=Glamour', // URL con texto corregido
+                    description: '¡Solo para los VIP! El mayor desafío y el premio supremo.',
+                    styleClass: 'cibernetico'
+                }
+                // Puedes añadir más niveles aquí
+            ];
+
+            function loadGameLevels() {
+                if (!levelsGrid) { console.error("levelsGrid element not found!"); return; }
+                levelsGrid.innerHTML = '';
+                gameLevels.forEach(level => {
+                    const levelCard = document.createElement('div');
+                    levelCard.classList.add('level-card', level.styleClass);
+                    levelCard.dataset.levelId = level.id;
+
+                    levelCard.innerHTML = `
+                        <div class="level-header">
+                            <img src="${level.locutorAvatar}" alt="${level.locutor}" class="locutor-avatar">
+                            <h3>${level.name}</h3>
+                        </div>
+                        <p>${level.description}</p>
+                        <p class="costo">Entrada: <span class="amount"><i class="fas fa-dollar-sign"></i> ${level.cost.toFixed(2)}</span></p>
+                        <p class="premio">Premio por Bingo: <span class="amount"><i class="fas fa-trophy"></i> ${level.prize.toFixed(2)}</span></p>
+                        <button class="play-level-btn"><i class="fas fa-play"></i> Jugar en esta Sala</button>
+                    `;
+                    levelsGrid.appendChild(levelCard);
+                });
+
+                document.querySelectorAll('.play-level-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const levelId = event.target.closest('.level-card').dataset.levelId;
+                        const entryCost = parseFloat(event.target.closest('.level-card').querySelector('.costo .amount').textContent.replace(/[^0-9.]/g, '')); // Extraer el costo del span.amount
+                        handlePlayLevel(levelId, entryCost);
+                    });
+                });
+            }
+
+            async function handlePlayLevel(levelId, entryCost) {
+                if (!currentUser || !currentUserData) {
+                    alert('Debes iniciar sesión para jugar.');
+                    window.location.href = 'index.html';
+                    return;
+                }
+
+                const selectedLevel = gameLevels.find(level => level.id === levelId);
+
+                if (!selectedLevel) {
+                    alert('Nivel de juego no encontrado.');
+                    return;
+                }
+
+                if (currentUserData.balance < selectedLevel.cost) {
+                    alert(`¡Saldo insuficiente! Necesitas $${selectedLevel.cost.toFixed(2)} para jugar en la ${selectedLevel.name}. Tu saldo actual es $${currentUserData.balance.toFixed(2)}.`);
+                    return;
+                }
+
+                const newBalance = currentUserData.balance - selectedLevel.cost;
+
+                try {
+                    const userDocRef = window.doc(window.db, "users", currentUser.uid);
+                    await window.updateDoc(userDocRef, {
+                        balance: newBalance
+                    });
+                    currentUserData.balance = newBalance; // Actualizar el balance localmente
+                    updateBalanceDisplay(newBalance); // Actualizar la UI
+
+                    alert(`¡Has entrado a la ${selectedLevel.name}! Costo: $${selectedLevel.cost.toFixed(2)}. Tu nuevo saldo es: $${newBalance.toFixed(2)}.`);
+                    console.log(`Usuario ${currentUser.email} entró a ${selectedLevel.name}. Nuevo balance: ${newBalance}`);
+                    
+                } catch (error) {
+                    console.error("Error al actualizar el balance:", error.code, error.message);
+                    let debugErrorMessage = "Error al intentar jugar en la sala.";
+                    debugErrorMessage += "\nDetalle: " + error.message;
+                    if (error.code) {
+                        debugErrorMessage += "\nCódigo: " + error.code;
+                    }
+                    alert(debugErrorMessage + "\n\nPor favor, toma una captura de esta alerta.");
+                }
+            }
+
+            function updateBalanceDisplay(balance) {
+                if (currentUserBalanceElement) {
+                    currentUserBalanceElement.innerHTML = `<i class="fas fa-dollar-sign"></i> ${balance ? balance.toFixed(2) : '0.00'}`;
+                }
+            }
+
+            if (window.onAuthStateChanged && window.auth && window.db) {
+                window.onAuthStateChanged(window.auth, async (user) => {
+                    if (user) {
+                        currentUser = user;
+                        console.log("Usuario logueado en seleccion-juego:", user.uid);
+                        try {
+                            const userDocRef = window.doc(window.db, "users", user.uid);
+                            const userDocSnap = await window.getDoc(userDocRef);
+
+                            if (userDocSnap.exists()) {
+                                currentUserData = userDocSnap.data();
+                                updateBalanceDisplay(currentUserData.balance);
+                            } else {
+                                console.log("No se encontraron datos de usuario en Firestore.");
+                                updateBalanceDisplay(0);
+                            }
+                            loadGameLevels(); 
+                        } catch (error) {
+                            console.error("Error Crítico al cargar la página de selección:", error.code, error.message);
+                            let debugErrorMessage = "Error Crítico al cargar la página de selección.";
+                            debugErrorMessage += "\nDetalle: " + error.message;
+                            if (error.code) {
+                                debugErrorMessage += "\nCódigo: " + error.code;
+                            }
+                            alert(debugErrorMessage + "\n\nPor favor, toma una captura de esta alerta.");
+                            updateBalanceDisplay(0);
+                        }
+                    } else {
+                        console.log("No hay usuario logueado, redirigiendo a index.html");
+                        window.location.href = 'index.html';
+                    }
+                });
+            } else {
+                console.error("Firebase no está inicializado correctamente o elementos esenciales faltan en seleccion-juego.html");
+                alert("Error de inicialización de Firebase. Por favor, recarga la página.");
+            }
+
+            if (backToLobbyBtn) {
+                backToLobbyBtn.addEventListener('click', () => {
+                    window.location.href = 'lobby.html';
+                });
+            }
+        });
     </script>
 </head>
 <body>
@@ -58,6 +236,5 @@
         <p>Este juego es solo para mayores de 18 años. Una sola cuenta por persona.</p>
         <p>Juega con responsabilidad.</p>
     </div>
-    <script src="seleccion-juego.js"></script>
-</body>
+    </body>
 </html>
