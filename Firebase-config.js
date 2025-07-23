@@ -1,18 +1,28 @@
-
 // firebase-config.js
 
-// Configuración de Firebase para el proyecto Bingo Vip Bolivia
-// REEMPLAZA "TU_API_KEY_AQUI" CON LA CLAVE QUE ME ENVIASTE O LA DE TU CONSOLA.
+// Importa las funciones necesarias del SDK de Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// Tu configuración de Firebase (tomada de tus capturas)
 const firebaseConfig = {
-    apiKey: (AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI) // <--- ¡AQUÍ VA TU CLAVE API REAL! (AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI)
-    authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
-    projectId: "bingo-vip-bolivia-df2db",
-    storageBucket: "bingo-vip-bolivia-df2db.appspot.com", // Inferido del projectId
-    messagingSenderId: "310290230955",
-    appId: "1:310290230955:web:352fc25c280b42ff2c1ee"
+  apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI", // Tu API Key
+  authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
+  projectId: "bingo-vip-bolivia-df2db",
+  storageBucket: "bingo-vip-bolivia-df2db.appspot.com",
+  messagingSenderId: "1015694294025",
+  appId: "1:1015694294025:web:5d254b0374e26210214842",
+  measurementId: "G-G6402N020Z"
 };
 
-// Inicializa Firebase (asegúrate de que esto se haga solo una vez)
-if (typeof firebase === 'undefined' || !firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
+// Inicializa Firebase
+const app = initializeApp(firebaseConfig);
+
+// Exporta las instancias de Auth y Firestore para que puedan ser usadas en otros archivos
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+
+// Opcional: Para compatibilidad con código antiguo o si lo usas directamente en el HTML
+// window.auth = auth;
+// window.db = db;
