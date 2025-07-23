@@ -15,9 +15,9 @@
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // Tus credenciales de Firebase (¡Ahora están seguras en tu repo privado!)
+        // Tus credenciales de Firebase
         const firebaseConfig = {
-          apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI", // <--- ¡TU ÚLTIMA API KEY AQUÍ!
+          apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI", // <--- ¡TU API KEY AQUÍ!
           authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
           projectId: "bingo-vip-bolivia-df2db",
           storageBucket: "bingo-vip-bolivia-df2db.firebasestorage.app",
@@ -80,7 +80,7 @@
                         errorMessage += "\n\nDetalle del error: " + error.message; 
                         if (error.code) {
                             errorMessage += "\nCódigo del error: " + error.code;
-                        }
+                        }\
 
                         if (error.code === 'auth/email-already-in-use') {
                             errorMessage = "El correo electrónico ya está en uso. Por favor, usa otro o inicia sesión.";
