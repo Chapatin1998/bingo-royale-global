@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selecciona tu Sala - Bingo VIP Bolivia</title>
     <link rel="stylesheet" href="style.css">
-    
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
     <script src="firebase-config.js"></script> 
 </head>
 <body>
+    
     <video autoplay muted loop id="background-video">
         <source src="bingo-inicio.mp4" type="video/mp4">
         Tu navegador no soporta el tag de video.
     </video>
 
     <div class="lobby-container">
+        
         <div class="lobby-header">
             <button class="back-button" onclick="window.location.href='index.html'">← Volver al Lobby</button>
             <div class="user-info">
@@ -30,6 +31,7 @@
         <h1 class="screen-title">SELECCIONA TU SALA DE JUEGO</h1>
 
         <div class="salas-grid">
+            
             <div class="sala-card" id="sala-1" data-cost="1" data-prize="6.00" data-min-balance="5" data-name="El Bajo Mundo">
                 <div class="sala-card-background" style="background-image: url('fondo_bajo_mundo.jpg');"></div>
                 <div class="sala-card-content">
