@@ -75,3 +75,19 @@ body {
 }
 
 /* Media Queries y todo lo demás se mantiene igual */
+#background-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100; /* Asegura que el video esté detrás de todo */
+    background-size: cover;
+    filter: brightness(0.4) grayscale(0.2); /* Para que el contenido sea legible */
+}
+
+/* El resto de tus estilos .lobby-container, .salas-grid, .sala-card, etc. irían DESPUÉS de esto */
+/* Y el background-image: url('progression_niveles_bingo_final.jpg'); de tu BODY debe ser eliminado,
+   ya que el video lo reemplazará */
