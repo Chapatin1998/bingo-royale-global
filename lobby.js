@@ -1,87 +1,99 @@
-// Asegúrate de que Firebase auth, db, onAuthStateChanged, signOut, doc, getDoc
-// estén disponibles desde el módulo en lobby.html
+// Asegúrate de que Firebase esté inicializado en tu firebase-config.js o directamente aquí
+// Si usas módulos, descomenta las importaciones:
+// import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+// import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-document.addEventListener('DOMContentLoaded', () => {
-    const userNameElement = document.getElementById('userName');
-    const userBalanceElement = document.getElementById('userBalance');
-    const userAvatarElement = document.getElementById('userAvatar'); // Asegúrate de tener este elemento en tu HTML si lo usas
-    const logoutBtn = document.getElementById('logoutBtn');
+// Si no usas módulos, asegúrate de que las librerías de Firebase estén cargadas globalmente
+// desde tu lobby.html (ej. <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>)
 
-    // Escucha los cambios en el estado de autenticación
-    if (window.onAuthStateChanged && window.auth && window.db) {
-        window.onAuthStateChanged(window.auth, async (user) => {
-            if (user) {
-                // Usuario logueado
-                console.log("Usuario logueado en lobby:", user.uid);
-                try {
-                    // Obtener datos adicionales del usuario desde Firestore
-                    const userDocRef = window.doc(window.db, "users", user.uid);
-                    const userDocSnap = await window.getDoc(userDocRef);
+document.addEventListener('DOMContentLoaded', async () => {
+    const saldoActualElement = document.getElementById('saldo-actual-lobby');
+    const userAvatarElement = document.getElementById('user-avatar');
 
-                    if (userDocSnap.exists()) {
-                        const userData = userDocSnap.data();
-                        userNameElement.textContent = userData.nombreCompleto || user.email;
-                        userBalanceElement.innerHTML = `<i class="fas fa-dollar-sign"></i> ${userData.balance ? userData.balance.toFixed(2) : '0.00'}`;
-                        // Puedes actualizar el avatar si tienes URLs de imágenes en Firestore
-                        // userAvatarElement.src = userData.avatarUrl || 'https://via.placeholder.com/60/FFD700/000000?text=AV';
-                    } else {
-                        console.log("No se encontraron datos de usuario en Firestore.");
-                        userNameElement.textContent = user.email;
-                        userBalanceElement.innerHTML = `<i class="fas fa-dollar-sign"></i> 0.00`;
-                    }
-                } catch (error) {
-                    console.error("Error al obtener datos de usuario de Firestore:", error);
-                    userNameElement.textContent = user.email;
-                    userBalanceElement.innerHTML = `<i class="fas fa-dollar-sign"></i> 0.00`;
-                }
+    // --- Lógica de carga de usuario y saldo con Firebase ---
+    // Asegúrate de que 'app' de Firebase esté inicializada globalmente o importada
+    // const auth = getAuth(app); // Si usas módulos y 'app' está enlazada
+    // const db = getFirestore(app); // Si usas módulos y 'app' está enlazada
+
+    // onAuthStateChanged(auth, async (user) => {
+    //     if (user) {
+    //         // Usuario logueado
+    //         const userRef = doc(db, "users", user.uid);
+    //         try {
+    //             const userSnap = await getDoc(userRef);
+    //             if (userSnap.exists()) {
+    //                 const userData = userSnap.data();
+    //                 saldoActualElement.textContent = `$${userData.balance.toFixed(2)}`;
+    //                 userAvatarElement.src = userData.avatarUrl || 'avatar_default.png'; // Usar avatar guardado
+    //             } else {
+    //                 console.log("No hay datos de usuario en Firestore para el UID:", user.uid);
+    //                 saldoActualElement.textContent = `$0.00`; // Saldo por defecto
+    //                 userAvatarElement.src = 'avatar_default.png';
+    //             }
+    //         } catch (error) {
+    //             console.error("Error al obtener datos del usuario:", error);
+    //             saldoActualElement.textContent = `$Error`;
+    //             userAvatarElement.src = 'avatar_default.png';
+    //         }
+    //     } else {
+    //         // No hay usuario logueado, redirigir al login o mostrar valores por defecto
+    //         console.log("Usuario no logueado. Redirigiendo a index.html...");
+    //         window.location.href = 'index.html'; // Redirigir al inicio de sesión
+    //         // O mostrar un estado de no logueado:
+    //         // saldoActualElement.textContent = `$0.00`;
+    //         // userAvatarElement.src = 'avatar_default.png';
+    //     }
+    // });
+
+    // --- TEMPORAL: Valores de ejemplo para desarrollo sin Firebase activo ---
+    saldoActualElement.textContent = `$150.00`; // Saldo de ejemplo
+    userAvatarElement.src = 'avatar_default.png'; // Avatar de ejemplo
+    console.log("Usando valores de ejemplo para Saldo y Avatar (descomentar Firebase en producción).");
+    // --- FIN TEMPORAL ---
+
+
+    // --- Lógica para seleccionar una sala ---
+    // Esta función se llama desde el onclick en el HTML de cada botón
+    window.seleccionarSala = (salaId) => {
+        const salaCard = document.getElementById(salaId);
+        const costoCarton = parseFloat(salaCard.dataset.cost);
+        const premioBingo = parseFloat(salaCard.dataset.prize);
+        const salaName = salaCard.dataset.name;
+        const minBalanceRequired = parseFloat(salaCard.dataset.minBalance); // Obtener balance mínimo
+
+        let saldoUsuario = parseFloat(saldoActualElement.textContent.replace('$', ''));
+
+        if (saldoUsuario >= minBalanceRequired) { // Verificar balance mínimo primero
+            if (saldoUsuario >= costoCarton) {
+                // Lógica para descontar saldo y entrar a la sala
+                saldoUsuario -= costoCarton; // Esto es solo visual, el saldo real debe actualizarse en Firebase
+                saldoActualElement.textContent = `$${saldoUsuario.toFixed(2)}`;
+
+                alert(`¡Has entrado a la Sala ${salaName}! Costo: $${costoCarton.toFixed(2)}. Tu nuevo saldo es: $${saldoUsuario.toFixed(2)}. ¡Buena suerte!`);
+
+                // Aquí deberías guardar el nuevo saldo en Firebase
+                // Y luego redirigir a la página de juego, pasando la sala seleccionada
+                // window.location.href = `juego.html?sala=${salaId}`;
+                console.log(`Redirigiendo a juego.html para la ${salaName}...`);
+                // En un entorno real, pasarías más datos de la sala o el jugador
+                // Por ejemplo, usar localStorage o parámetros de URL para pasar salaId a juego.html
+                // localStorage.setItem('currentSalaId', salaId);
+                // window.location.href = 'juego.html';
+
             } else {
-                // No hay usuario logueado, redirigir a la página de inicio de sesión
-                console.log("No hay usuario logueado, redirigiendo a index.html");
-                window.location.href = 'index.html';
+                alert(`Saldo insuficiente para comprar un cartón en la Sala ${salaName}. Necesitas $${costoCarton.toFixed(2)}.`);
             }
+        } else {
+             alert(`No cumples el balance mínimo para entrar a la Sala ${salaName}. Necesitas al menos $${minBalanceRequired.toFixed(2)}.`);
+        }
+    };
+
+    // Lógica para el botón de añadir fondos (si lo implementas)
+    const addFundsButton = document.querySelector('.add-funds-button');
+    if (addFundsButton) {
+        addFundsButton.addEventListener('click', () => {
+            alert("Funcionalidad para añadir fondos (monetización) en desarrollo.");
+            // Aquí iría la lógica para procesar pagos o dar bonos de prueba
         });
     }
-
-    // Lógica para el botón de cerrar sesión
-    if (logoutBtn && window.signOut && window.auth) {
-        logoutBtn.addEventListener('click', async () => {
-            try {
-                await window.signOut(window.auth);
-                alert('Sesión cerrada exitosamente.');
-                window.location.href = 'index.html'; // Redirige a la página de inicio
-            } catch (error) {
-                console.error("Error al cerrar sesión:", error);
-                alert('Ocurrió un error al cerrar sesión. Por favor, inténtalo de nuevo.');
-            }
-        });
-    }
-
-    // Lógica para el botón "Jugar"
-    const playButton = document.querySelector('.lobby-btn.primary'); // Selecciona el botón "Jugar" (asumiendo que tiene la clase 'primary')
-    if (playButton) {
-        playButton.addEventListener('click', () => {
-            window.location.href = 'seleccion-juego.html'; // Redirige a la nueva página de selección de juego
-        });
-    }
-
-    // Lógica para otros botones del lobby (ejemplo) - Puedes añadir más aquí según tu HTML
-    const tiendaButton = document.querySelector('.lobby-btn:nth-child(2)'); // Si "Tienda" es el segundo botón
-    if (tiendaButton && tiendaButton.textContent.trim() === 'Tienda') { // Verifica que sea el botón correcto
-        tiendaButton.addEventListener('click', () => {
-            alert('Abriendo la Tienda...');
-            // window.location.href = 'tienda.html'; // Descomenta cuando tengas la página de la tienda
-        });
-    }
-
-    const nivelesButton = document.querySelector('.lobby-btn:nth-child(3)'); // Si "Niveles" es el tercer botón
-    if (nivelesButton && nivelesButton.textContent.trim() === 'Niveles') {
-        nivelesButton.addEventListener('click', () => {
-            alert('Mostrando los Niveles...');
-            // window.location.href = 'niveles.html'; // Descomenta cuando tengas la página de niveles
-        });
-    }
-
-    // Puedes seguir añadiendo más lógica para los botones "Avatar", "Cartones", "Billetera", "Soporte", "Configuración"
-    // siguiendo el mismo patrón, asegurándote de que el selector CSS (.lobby-btn:nth-child(X) o por ID si lo tienen)
-    // sea el correcto para cada botón.
 });
