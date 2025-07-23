@@ -116,9 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(`¡Has entrado a la ${selectedLevel.name}! Costo: $${selectedLevel.cost.toFixed(2)}. Tu nuevo saldo es: $${newBalance.toFixed(2)}.`);
             console.log(`Usuario ${currentUser.email} entró a ${selectedLevel.name}. Nuevo balance: ${newBalance}`);
             
-            // Aquí iría la lógica para redirigir al juego real
-            // Por ahora, solo un alert y podrías redirigir a una página de juego simulada
-            // window.location.href = `juego.html?level=${levelId}`; 
+            // ¡NUEVA LÍNEA CLAVE! Redirige al juego.html
+            window.location.href = `juego.html?level=${selectedLevel.id}`; 
 
         } catch (error) {
             console.error("Error al actualizar el balance:", error);
