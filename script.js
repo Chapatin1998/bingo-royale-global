@@ -111,57 +111,57 @@ document.addEventListener('DOMContentLoaded', () => {
                         errorMessage = "Contraseña incorrecta.";
                     } else if (error.code === 'auth/invalid-email') {
                         errorMessage = "Formato de correo electrónico inválido.";
-                    }
-                    alert(errorMessage);
-                });
-        });
-    }
-
-    // Botón "Registrarse"
-    if (btnRegistrar) {
-        btnRegistrar.addEventListener('click', () => {
-            window.location.href = 'registro.html'; // Redirige a la nueva página de registro
-        });
-    }
-
-    // Enlace "Contacta con soporte"
-    if (linkSoporte) {
-        linkSoporte.addEventListener('click', (e) => {
-            e.preventDefault(); // Previene la acción por defecto del enlace
-            alert('Redirigiendo a la página de soporte o abriendo chat de ayuda...');
-            // Aquí iría la lógica para redirigir a la página de soporte o abrir un widget de chat
-            // window.location.href = 'soporte.html';
-        });
-    }
-
-    // Botón de Música
-    if (botonMusica && musicaFondo) {
-        let musicaActiva = false; // Estado inicial, se actualizará al intentar autoplay
-
-        botonMusica.addEventListener('click', () => {
-            if (musicaFondo.paused) {
-                musicaFondo.play().then(() => {
-                    botonMusica.querySelector('.fas').classList.remove('fa-volume-mute');
-                    botonMusica.querySelector('.fas').classList.add('fa-music');
-                    musicaActiva = true;
-                }).catch(error => {
-                    console.log("Error al reproducir música por interacción:", error);
-                    alert("No se pudo reproducir la música. Asegúrate de que tu navegador lo permita.");
-                });
-            } else {
-                musicaFondo.pause();
-                botonMusica.querySelector('.fas').classList.remove('fa-music');
-                botonMusica.querySelector('.fas').classList.add('fa-volume-mute');
-                musicaActiva = false;
-            }
-        });
-    }
-
-    // Botón de Notificaciones
-    if (botonNotificaciones) {
-        botonNotificaciones.addEventListener('click', () => {
-            alert('¡Nuevas notificaciones o alertas aquí!');
-            // Aquí iría la lógica real para mostrar notificaciones, como un modal o un toast
-        });
-    }
-});
+                    }\
+                    alert(errorMessage);\
+                });\
+        });\
+    }\
+\
+    // Botón "Registrarse"\
+    if (btnRegistrar) {\
+        btnRegistrar.addEventListener('click', () => {\
+            window.location.href = 'registro.html'; // Redirige a la nueva página de registro\
+        });\
+    }\
+\
+    // Enlace "Contacta con soporte"\
+    if (linkSoporte) {\
+        linkSoporte.addEventListener('click', (e) => {\
+            e.preventDefault(); // Previene la acción por defecto del enlace\
+            alert('Redirigiendo a la página de soporte o abriendo chat de ayuda...');\
+            // Aquí iría la lógica para redirigir a la página de soporte o abrir un widget de chat\
+            // window.location.href = 'soporte.html';\
+        });\
+    }\
+\
+    // Botón de Música\
+    if (botonMusica && musicaFondo) {\
+        let musicaActiva = false; // Estado inicial, se actualizará al intentar autoplay\
+\
+        botonMusica.addEventListener('click', () => {\
+            if (musicaFondo.paused) {\
+                musicaFondo.play().then(() => {\
+                    botonMusica.querySelector('.fas').classList.remove('fa-volume-mute');\
+                    botonMusica.querySelector('.fas').classList.add('fa-music');\
+                    musicaActiva = true;\
+                }).catch(error => {\
+                    console.log("Error al reproducir música por interacción:", error);\
+                    alert("No se pudo reproducir la música. Asegúrate de que tu navegador lo permita.");\
+                });\
+            } else {\
+                musicaFondo.pause();\
+                botonMusica.querySelector('.fas').classList.remove('fa-music');\
+                botonMusica.querySelector('.fas').classList.add('fa-volume-mute');\
+                musicaActiva = false;\
+            }\
+        });\
+    }\
+\
+    // Botón de Notificaciones\
+    if (botonNotificaciones) {\
+        botonNotificaciones.addEventListener('click', () => {\
+            alert('¡Nuevas notificaciones o alertas aquí!');\
+            // Aquí iría la lógica real para mostrar notificaciones, como un modal o un toast\
+        });\
+    }\
+});\
