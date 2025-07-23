@@ -1,31 +1,61 @@
-<div class="game-container">
-    <div class="header-ui">
-        <span id="saldo-actual">$500,000</span>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jugar Bingo - Bingo VIP Bolivia</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
+</head>
+<body>
+    <video autoplay muted loop id="background-video">
+        <source src="bingo-inicio.mp4" type="video/mp4">
+        Tu navegador no soporta el tag de video.
+    </video>
+
+    <div class="game-container">
+        <div class="game-header-ui">
+            <button class="back-button" onclick="window.location.href='lobby.html'">← Salir de Sala</button>
+            <span id="current-sala-name" class="sala-name-display">Sala Desconocida</span>
+            <span id="game-saldo-actual" class="saldo-display">$0.00</span>
         </div>
 
-    <div class="locutor-section">
-        <img id="locutor-avatar" src="ruta/a/imagen_locutor_sala3.png" alt="Locutor de Bingo">
-        <div class="bingo-machine-visual">
+        <div class="locutor-display-section">
+            <img id="locutor-avatar" src="avatar_locutor_default.png" alt="Locutor de Bingo" class="locutor-avatar-style">
+            <div class="bingo-machine-visual">
+                <img src="bingo_machine_default.png" alt="Máquina de Bingo" class="bingo-machine-img">
+                <span id="numero-cantado" class="numero-cantado-display">--</span>
             </div>
-    </div>
-
-    <div id="bingo-card-container" class="bingo-card-container">
-        <div class="bingo-header">
-            <span class="bingo-letter">B</span>
-            <span class="bingo-letter">I</span>
-            <span class="bingo-letter">N</span>
-            <span class="bingo-letter">G</span>
-            <span class="bingo-letter">O</span>
         </div>
-        <div id="bingo-grid" class="bingo-grid">
+
+        <div class="numeros-cantados-historial">
+            <h3>Números Cantados:</h3>
+            <div id="historial-grid">
+                </div>
+        </div>
+
+        <div id="bingo-card-container" class="bingo-card-container">
+            <div class="bingo-header">
+                <span class="bingo-letter">B</span>
+                <span class="bingo-letter">I</span>
+                <span class="bingo-letter">N</span>
+                <span class="bingo-letter">G</span>
+                <span class="bingo-letter">O</span>
             </div>
+            <div id="bingo-grid" class="bingo-grid">
+                </div>
+        </div>
+
+        <div class="game-controls">
+            <button id="btn-comprar-carton" class="btn-primary">COMPRAR CARTÓN ($0.00)</button>
+            <button id="btn-bingo" class="btn-secondary" disabled>¡BINGO!</button>
+        </div>
     </div>
 
-    <div class="game-controls">
-        <button id="btn-comprar-carton" class="btn-primary">COMPRAR CARTÓN</button>
-        <button id="btn-bingo" class="btn-secondary" disabled>BINGO</button>
-    </div>
-</div>
-
-<link rel="stylesheet" href="style.css">
-<script src="juego.js"></script>
+    <script src="juego.js"></script>
+</body>
+</html>
