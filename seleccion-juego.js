@@ -1,10 +1,3 @@
-// --- INICIO DE DEPURACIÓN CRÍTICA ---
-// Esta alerta nos dirá si el script se está ejecutando al menos
-alert("DEBUG: seleccion-juego.js iniciado.");
-console.log("DEBUG: seleccion-juego.js iniciado.");
-// --- FIN DE DEPURACIÓN CRÍTICA ---
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const backToLobbyBtn = document.getElementById('backToLobbyBtn');
     const levelsGrid = document.getElementById('levelsGrid');
@@ -80,18 +73,17 @@ document.addEventListener('DOMContentLoaded', () => {
             levelsGrid.appendChild(levelCard);
         });
 
-        // Añadir event listeners a los botones de jugar después de que se cargan
+        // Añadir listeners a los botones de jugar después de que se cargan
         document.querySelectorAll('.play-level-btn').forEach(button => {
             button.addEventListener('click', (event) => {
                 const levelId = event.target.closest('.level-card').dataset.levelId;
-                const entryCost = parseFloat(event.target.closest('.level-card').querySelector('.costo').textContent.replace(/[^0-9.]/g, '')); // Extraer el costo del texto
-                handlePlayLevel(levelId, entryCost);
+                playGame(levelId);
             });
         });
     }
 
-    // Manejar el clic en "Jugar Nivel"
-    async function handlePlayLevel(levelId, entryCost) {
+    // Función para jugar (simulación)
+    async function playGame(levelId) {
         if (!currentUser || !currentUserData) {
             alert('Debes iniciar sesión para jugar.');
             window.location.href = 'index.html';
@@ -106,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (currentUserData.balance < selectedLevel.cost) {
-            alert(`Saldo insuficiente! Necesitas $${selectedLevel.cost.toFixed(2)} para jugar en la ${selectedLevel.name}. Tu saldo actual es $${currentUserData.balance.toFixed(2)}.`);
+            alert(`Saldo insuficiente. Necesitas $${selectedLevel.cost.toFixed(2)} para jugar en la ${selectedLevel.name}. Tu saldo actual es $${currentUserData.balance.toFixed(2)}.`);
             return;
         }
 
@@ -130,14 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error("Error al actualizar el balance:", error);
-            // *** ¡NUEVAS LÍNEAS PARA DEPURACIÓN DE ERROR CRÍTICO! ***
-            let debugErrorMessage = "Error al intentar jugar en la sala.";
-            debugErrorMessage += "\nDetalle: " + error.message;
-            if (error.code) {
-                debugErrorMessage += "\nCódigo: " + error.code;
-            }
-            alert(debugErrorMessage + "\n\nPor favor, toma una captura de esta alerta.");
-            // *******************************************************
+            alert('Ocurrió un error al intentar jugar. Por favor, inténtalo de nuevo.');
         }
     }
 
@@ -146,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentUserBalanceElement.innerHTML = `<i class="fas fa-dollar-sign"></i> ${balance ? balance.toFixed(2) : '0.00'}`;
     }
 
-    // Verificar autenticación y cargar datos del usuario
+    // Escucha los cambios en el estado de autenticación de Firebase
     if (window.onAuthStateChanged && window.auth && window.db) {
         window.onAuthStateChanged(window.auth, async (user) => {
             if (user) {
@@ -165,28 +150,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     loadGameLevels(); // Cargar los niveles una vez que el usuario está autenticado
                 } catch (error) {
-                    // *** ¡NUEVAS LÍNEAS PARA DEPURACIÓN DE ERROR CRÍTICO! ***
-                    console.error("Error al obtener datos de usuario de Firestore o cargar niveles:", error);
-                    let debugErrorMessage = "Error Crítico al cargar la página de selección.";
-                    debugErrorMessage += "\nDetalle: " + error.message;
-                    if (error.code) {
-                        debugErrorMessage += "\nCódigo: " + error.code;
-                    }
-                    alert(debugErrorMessage + "\n\nPor favor, toma una captura de esta alerta.");
-                    // *******************************************************
+                    console.error("Error al obtener datos de usuario de Firestore:", error);
                     updateBalanceDisplay(0);
-                    // No redirigimos aquí para que puedas ver la alerta
                 }
             } else {
                 // No hay usuario logueado, redirigir a la página de inicio de sesión
-                console.log("No hay usuario logueado, redirigiendo a index.html");
+                console.log("Usuario no logueado, redirigiendo a index.html");
                 window.location.href = 'index.html';
             }
         });
     } else {
         console.error("Firebase no está inicializado correctamente o elementos esenciales faltan en seleccion-juego.html");
-        alert("Error de inicialización de Firebase. Por favor, recarga la página.");
-        // window.location.href = 'index.html'; // Fallback seguro
+        window.location.href = 'index.html'; // Fallback seguro
     }
 
     // Botón para volver al Lobby
