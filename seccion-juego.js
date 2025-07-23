@@ -121,10 +121,50 @@ document.addEventListener('DOMContentLoaded', () => {
             // window.location.href = `juego.html?level=${levelId}`; 
 
         } catch (error) {
-            console.error("Error al actualizar el balance:", error);
-            alert('Ocurrió un error al intentar jugar. Por favor, inténtalo de nuevo.');
-        }
-    }
+                        // Escucha los cambios en el estado de autenticación de Firebase
+            if (window.onAuthStateChanged && window.auth && window.db) {
+                window.onAuthStateChanged(window.auth, async (user) => {
+                    if (user) {
+                        currentUser = user;
+                        console.log("Usuario logueado en seleccion-juego:", user.uid);
+                        try {
+                            const userDocRef = window.doc(window.db, "users", user.uid);
+                            const userDocSnap = await window.getDoc(userDocRef);
+
+                            if (userDocSnap.exists()) {
+                                currentUserData = userDocSnap.data();
+                                updateBalanceDisplay(currentUserData.balance);
+                            } else {
+                                console.log("No se encontraron datos de usuario en Firestore.");
+                                updateBalanceDisplay(0);
+                            }
+                            loadGameLevels(); // Cargar los niveles una vez que el usuario está autenticado
+                        } catch (error) {
+                            // *** ¡NUEVAS LÍNEAS PARA DEPURACIÓN DE ERROR CRÍTICO! ***
+                            console.error("Error al obtener datos de usuario de Firestore o cargar niveles:", error);
+                            let debugErrorMessage = "Error Crítico al cargar la página de selección.";
+                            debugErrorMessage += "\nDetalle: " + error.message;
+                            if (error.code) {
+                                debugErrorMessage += "\nCódigo: " + error.code;
+                            }
+                            alert(debugErrorMessage + "\n\nPor favor, toma una captura de esta alerta.");
+                            // *******************************************************
+                            updateBalanceDisplay(0);
+                            // No redirigimos aquí para que puedas ver la alerta
+                        }
+                    } else {
+                        // No hay usuario logueado, redirigir a la página de inicio de sesión
+                        console.log("Usuario no logueado, redirigiendo a index.html");
+                        window.location.href = 'index.html';
+                    }
+                });
+            } else {
+                console.error("Firebase no está inicializado correctamente o elementos esenciales faltan en seleccion-juego.html");
+                alert("Error de inicialización de Firebase. Por favor, recarga la página.");
+                window.location.href = 'index.html'; // Fallback seguro
+            }
+        });
+
 
     // Función para actualizar el display del balance
     function updateBalanceDisplay(balance) {
