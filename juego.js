@@ -1,246 +1,119 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const backToSelectionBtn = document.getElementById('backToSelectionBtn');
-    const gameUserBalanceElement = document.getElementById('gameUserBalance');
-    const currentRoomNameElement = document.getElementById('currentRoomName');
-    const gameLocutorAvatar = document.getElementById('gameLocutorAvatar');
-    const gameLocutorName = document.getElementById('gameLocutorName');
-    const gameTimer = document.getElementById('gameTimer');
-    const calledNumbersDisplay = document.getElementById('calledNumbersDisplay');
-    const bingoCardElement = document.getElementById('bingoCard');
-    const bingoButton = document.getElementById('bingoButton');
-    const chatMessages = document.getElementById('chatMessages');
-    const chatInput = document.getElementById('chatInput');
-    const chatSendBtn = document.getElementById('chatSendBtn');
-    const playersList = document.getElementById('playersList');
+// --- Variables Globales (o gestionadas en un objeto de estado) ---
+let currentBingoCard = []; // Almacenará los números del cartón del jugador
+let markedNumbers = new Set(); // Almacenará los números que el jugador ha marcado
+let calledNumbers = new Set(); // Almacenará los números que el locutor ha cantado
 
-    let currentUser = null;
-    let currentUserData = null;
-    let currentBingoCard = []; // Array para el cartón del jugador
-    let calledNumbers = []; // Array de números ya cantados
-    let gameInterval = null; // Para el temporizador del locutor/llamada de bola
-    let bingoInterval = null; // Para el temporizador de "¡Bingo!"
-    let roomLevelId = null; // Para guardar el ID de la sala actual
+const BINGO_ROWS = 5;
+const BINGO_COLS = 5;
 
-    // --- Funciones de Utilidad ---
-    function generateBingoCard() {
-        const card = {};
-        const columns = { 'B': [], 'I': [], 'N': [], 'G': [], 'O': [] };
-        
-        // Generar números únicos para cada columna
-        function generateUniqueNumbers(min, max, count) {
-            const numbers = new Set();
-            while (numbers.size < count) {
-                numbers.add(Math.floor(Math.random() * (max - min + 1)) + min);
-            }
-            return Array.from(numbers).sort((a, b) => a - b);
+// --- Función para Generar un Nuevo Cartón (ejemplo simplificado) ---
+function generateNewBingoCard() {
+    // Esto es un ejemplo. La lógica real de bingo generaría cartones válidos.
+    // Usaremos números aleatorios por ahora.
+    currentBingoCard = [];
+    const bingoGridElement = document.getElementById('bingo-grid');
+    bingoGridElement.innerHTML = ''; // Limpiar cartón anterior
+
+    for (let i = 0; i < BINGO_ROWS * BINGO_COLS; i++) {
+        const number = Math.floor(Math.random() * 75) + 1; // Números del 1 al 75
+        currentBingoCard.push(number);
+
+        const cell = document.createElement('div');
+        cell.classList.add('bingo-cell');
+        cell.dataset.number = number; // Almacenar el número en el data-attribute
+        cell.textContent = number;
+
+        // Añadir evento de clic para marcar el número
+        cell.addEventListener('click', () => markNumberOnCard(cell, number));
+        bingoGridElement.appendChild(cell);
+    }
+    markedNumbers.clear(); // Reiniciar números marcados al obtener nuevo cartón
+    console.log("Nuevo cartón generado:", currentBingoCard);
+}
+
+// --- Función para Marcar un Número en el Cartón ---
+function markNumberOnCard(cellElement, number) {
+    if (calledNumbers.has(number)) { // Solo se puede marcar si el número ya fue cantado
+        cellElement.classList.toggle('marked'); // Alternar clase para visual de marcado
+        if (markedNumbers.has(number)) {
+            markedNumbers.delete(number);
+        } else {
+            markedNumbers.add(number);
         }
-
-        columns['B'] = generateUniqueNumbers(1, 15, 5);
-        columns['I'] = generateUniqueNumbers(16, 30, 5);
-        columns['N'] = generateUniqueNumbers(31, 45, 5); // FREE space at N3
-        columns['G'] = generateUniqueNumbers(46, 60, 5);
-        columns['O'] = generateUniqueNumbers(61, 75, 5);
-
-        // Crear la estructura de la tarjeta
-        const cardNumbers = [];
-        for (let i = 0; i < 5; i++) {
-            cardNumbers.push(columns['B'][i]);
-            cardNumbers.push(columns['I'][i]);
-            cardNumbers.push(i === 2 ? 'FREE' : columns['N'][i]); // FREE space
-            cardNumbers.push(columns['G'][i]);
-            cardNumbers.push(columns['O'][i]);
-        }
-        return cardNumbers;
-    }
-
-    function renderBingoCard(cardNumbers) {
-        bingoCardElement.innerHTML = '<div class="card-header">B I N G O</div>';
-        cardNumbers.forEach((num, index) => {
-            const cell = document.createElement('div');
-            cell.classList.add('card-cell');
-            if (num === 'FREE') {
-                cell.classList.add('free');
-                cell.textContent = 'FREE';
-            } else {
-                cell.textContent = num;
-                cell.dataset.number = num;
-                cell.addEventListener('click', () => markNumber(cell));
-            }
-            bingoCardElement.appendChild(cell);
-        });
-    }
-
-    function markNumber(cell) {
-        if (!cell.classList.contains('marked')) {
-            const number = parseInt(cell.dataset.number);
-            if (calledNumbers.includes(number)) {
-                cell.classList.add('marked');
-                console.log(`Número ${number} marcado.`);
-                checkBingo(); // Verificar bingo después de marcar
-            } else {
-                alert(`El número ${number} aún no ha sido cantado.`);
-            }
-        }
-    }
-
-    function callNextNumber() {
-        if (calledNumbers.length >= 75) {
-            alert("Todas las bolas han sido cantadas. No hay ganadores.");
-            clearInterval(gameInterval);
-            return;
-        }
-
-        let newNumber;
-        do {
-            const letterIndex = Math.floor(Math.random() * 5);
-            const letter = ['B', 'I', 'N', 'G', 'O'][letterIndex];
-            let min, max;
-            switch (letter) {
-                case 'B': min = 1; max = 15; break;
-                case 'I': min = 16; max = 30; break;
-                case 'N': min = 31; max = 45; break;
-                case 'G': min = 46; max = 60; break;
-                case 'O': min = 61; max = 75; break;
-            }
-            newNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-            newNumber = letter + newNumber; // Ejemplo: B12, I25
-        } while (calledNumbers.includes(newNumber));
-
-        calledNumbers.push(newNumber);
-        updateCalledNumbersDisplay();
-        speakNumber(newNumber); // Locutor canta el número
-        
-        // Activar botón BINGO si no lo estaba
-        bingoButton.disabled = false;
-        startBingoTimer(); // Reiniciar/iniciar temporizador de bingo
-    }
-
-    function updateCalledNumbersDisplay() {
-        calledNumbersDisplay.innerHTML = ''; // Limpiar
-        calledNumbers.slice(-10).forEach(num => { // Mostrar las últimas 10 bolas
-            const span = document.createElement('span');
-            span.classList.add('called-ball');
-            span.textContent = num;
-            calledNumbersDisplay.appendChild(span);
-        });
-        calledNumbersDisplay.scrollLeft = calledNumbersDisplay.scrollWidth; // Desplazar al final
-    }
-
-    function speakNumber(number) {
-        // Implementar voz del locutor aquí (requiere API de Text-to-Speech o archivos de audio)
-        console.log(`Locutor canta: ¡${number}!`);
-        // Simular sonido
-        const utterance = new SpeechSynthesisUtterance(number);
-        speechSynthesis.speak(utterance);
-    }
-
-    function startBingoTimer() {
-        clearInterval(bingoInterval); // Reiniciar si ya estaba corriendo
-        let timeLeft = 30;
-        gameTimer.textContent = timeLeft;
-        bingoInterval = setInterval(() => {
-            timeLeft--;
-            gameTimer.textContent = timeLeft;
-            if (timeLeft <= 0) {
-                clearInterval(bingoInterval);
-                bingoButton.disabled = true; // Deshabilitar el botón si el tiempo se agota
-                console.log("Tiempo para BINGO agotado. Se canta la siguiente bola.");
-                // callNextNumber(); // Cantar la siguiente bola automáticamente
-            }
-        }, 1000);
-    }
-
-    function checkBingo() {
-        // Implementar lógica de verificación de BINGO aquí
-        // Por ahora, es una simulación
-        const markedCells = document.querySelectorAll('.card-cell.marked').length;
-        if (markedCells >= 5) { // Si hay 5 números marcados (simulando una línea)
-             bingoButton.disabled = false; // Asegurar que el botón esté activo si hay bingo potencial
-        }
-
-        // Más adelante: verificar todas las líneas, diagonales, full card
-    }
-
-    // --- Inicialización de la Página de Juego ---
-    if (window.onAuthStateChanged && window.auth && window.db) {
-        window.onAuthStateChanged(window.auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                try {
-                    const userDocRef = window.doc(window.db, "users", user.uid);
-                    const userDocSnap = await window.getDoc(userDocRef);
-
-                    if (userDocSnap.exists()) {
-                        currentUserData = userDocSnap.data();
-                        gameUserBalanceElement.innerHTML = `<i class="fas fa-dollar-sign"></i> ${currentUserData.balance ? currentUserData.balance.toFixed(2) : '0.00'}`;
-                        gameLocutorName.textContent = currentUserData.locutor || "Locutor VIP"; // Usar el locutor del usuario si existe
-                        gameLocutorAvatar.src = currentUserData.locutorAvatarUrl || "https://via.placeholder.com/100/FFD700/000000?text=LOC"; // Avatar del locutor
-
-                        // Generar y renderizar un cartón aleatorio para empezar
-                        currentBingoCard = generateBingoCard();
-                        renderBingoCard(currentBingoCard);
-                        
-                        // Simular inicio del juego: llamar primera bola
-                        setTimeout(() => {
-                            callNextNumber();
-                            gameInterval = setInterval(callNextNumber, 15000); // Llamar nueva bola cada 15 segundos
-                        }, 2000);
-
-                    } else {
-                        console.log("No se encontraron datos de usuario en Firestore.");
-                        window.location.href = 'lobby.html'; // Redirigir si no hay datos
-                    }
-                } catch (error) {
-                    console.error("Error al cargar datos de usuario en juego.html:", error);
-                    alert("Error al cargar la partida. Redirigiendo al lobby.");
-                    window.location.href = 'lobby.html';
-                }
-            } else {
-                console.log("No hay usuario logueado, redirigiendo a index.html");
-                window.location.href = 'index.html'; // Si no hay sesión, volver al login
-            }
-        });
+        console.log("Número marcado/desmarcado:", number);
+        // Aquí podríamos llamar a una función para verificar si hay bingo
+        // checkForBingo();
     } else {
-        console.error("Firebase no está inicializado correctamente en juego.js");
-        alert("Error crítico de inicialización. Por favor, reinicia la aplicación.");
-        window.location.href = 'index.html';
+        console.log("El número " + number + " aún no ha sido cantado.");
+        // Opcional: mostrar un mensaje al usuario
     }
+}
 
-    // --- Event Listeners ---
-    if (backToSelectionBtn) {
-        backToSelectionBtn.addEventListener('click', () => {
-            clearInterval(gameInterval); // Detener el juego al salir
-            clearInterval(bingoInterval);
-            window.location.href = 'seleccion-juego.html';
-        });
-    }
+// --- Lógica del Locutor (simulada por ahora) ---
+function callNextNumber() {
+    // Esto se conectaría con la máquina de bingo y la lógica de juego real
+    const nextNumber = Math.floor(Math.random() * 75) + 1; // Número aleatorio para simular
+    calledNumbers.add(nextNumber);
+    console.log("Número cantado por el locutor:", nextNumber);
 
-    if (bingoButton) {
-        bingoButton.addEventListener('click', () => {
-            // Lógica para gritar BINGO
-            alert("¡BINGOOOOOO! Verificando tu cartón...");
-            clearInterval(gameInterval); // Detener el juego
-            clearInterval(bingoInterval);
-            // Aquí iría la lógica de verificación de premio
-        });
-    }
+    // Actualizar visualmente los números cantados en la interfaz (historial)
+    // También resaltar los números en el cartón si el jugador los tiene
+    highlightCalledNumberOnCard(nextNumber);
 
-    if (chatSendBtn) {
-        chatSendBtn.addEventListener('click', () () => {
-            const message = chatInput.value.trim();
-            if (message) {
-                const p = document.createElement('p');
-                p.textContent = `Tú: ${message}`;
-                chatMessages.appendChild(p);
-                chatInput.value = '';
-                chatMessages.scrollTop = chatMessages.scrollHeight; // Desplazar al último mensaje
-                // Aquí iría la lógica para enviar el mensaje a otros jugadores (Firestore, Realtime DB, Functions)
-            }
-        });
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                chatSendBtn.click();
-            }
-        });
-    }
+    // Habilitar botón de BINGO si es necesario
+    document.getElementById('btn-bingo').disabled = false;
+}
+
+// --- Función para resaltar números cantados en el cartón del jugador ---
+function highlightCalledNumberOnCard(number) {
+    const cells = document.querySelectorAll('.bingo-cell');
+    cells.forEach(cell => {
+        if (parseInt(cell.dataset.number) === number) {
+            cell.classList.add('called'); // Clase para indicar que fue cantado
+        }
+    });
+}
+
+
+// --- Lógica del Botón COMPRAR CARTÓN ---
+document.getElementById('btn-comprar-carton').addEventListener('click', () => {
+    // Aquí iría la lógica para descontar saldo, validar entrada a sala, etc.
+    console.log("Comprando nuevo cartón...");
+    generateNewBingoCard();
+    // Iniciar la ronda de juego
+    // setInterval(callNextNumber, 3000); // Ejemplo: cantar número cada 3 segundos
 });
+
+// --- Lógica del Botón BINGO ---
+document.getElementById('btn-bingo').addEventListener('click', () => {
+    console.log("¡Botón BINGO presionado!");
+    checkForBingo(); // Llama a la función de verificación de bingo real
+});
+
+// --- Función de Verificación de Bingo (¡MUY simplificada!) ---
+function checkForBingo() {
+    // Lógica real de bingo:
+    // 1. Verificar si el jugador tiene 5 números marcados en una línea (horizontal, vertical, diagonal).
+    // 2. Verificar que TODOS esos números hayan sido cantados por el locutor (usando calledNumbers).
+    // 3. Comunicarse con el backend (Firebase Functions o similar) para validar el bingo de forma segura.
+
+    // Por ahora, solo una simulación:
+    if (markedNumbers.size >= 5 && calledNumbers.size >= 5) { // Si hay al menos 5 marcados y 5 cantados
+        alert("¡BINGO! (Verificación en progreso...)");
+        console.log("Posible BINGO detectado. Números marcados:", Array.from(markedNumbers), "Números cantados:", Array.from(calledNumbers));
+        // Aquí se detendría el juego, se validaría el bingo, se repartirían premios, etc.
+    } else {
+        alert("Aún no tienes BINGO. ¡Sigue jugando!");
+    }
+}
+
+// --- Inicialización al cargar la página ---
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("Página de juego cargada. Lista para comprar cartón.");
+    // Aquí podrías cargar el saldo del usuario desde Firebase
+    // displayUserBalance();
+});
+
+// Nota: La lógica real de un juego de bingo es mucho más compleja,
+// especialmente la generación de cartones únicos, la verificación de bingo segura
+// y la gestión de múltiples jugadores y rondas. Esto es solo una base.
