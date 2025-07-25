@@ -337,3 +337,239 @@ body {
         font-size: 0.9em;
     }
 }
+/* style.css - (Esto es solo la sección relevante para el lobby y tarjetas. DEBES INTEGRAR ESTO CON TU STYLE.CSS COMPLETO) */
+
+/* Estilos para el lobby */
+.lobby-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh; /* Asegura que ocupe la altura mínima */
+    background-color: #1a1a2e; /* Fondo oscuro, puedes ajustar */
+    color: #e0e0e0;
+}
+
+.lobby-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 10px 0;
+}
+
+.back-button {
+    background-color: #ffc107; /* Amarillo */
+    color: #1a1a2e;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.back-button:hover {
+    background-color: #e0a800;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #555; /* Fondo si no hay avatar */
+    border: 2px solid #ffc107;
+    object-fit: cover;
+}
+
+.saldo-actual {
+    font-size: 1.2em;
+    color: #ffc107; /* Amarillo */
+    font-weight: bold;
+}
+
+.add-funds-button {
+    background-color: #28a745; /* Verde */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.add-funds-button:hover {
+    background-color: #21883b;
+}
+
+
+.screen-title {
+    font-size: 2.2em;
+    color: #ffc107; /* Amarillo */
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilos de la cuadrícula de salas */
+.salas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Columnas responsivas */
+    gap: 30px; /* Espacio entre las tarjetas */
+    width: 90%;
+    max-width: 1200px; /* Ancho máximo para la cuadrícula */
+    margin: 0 auto; /* Centrar la cuadrícula */
+    padding-bottom: 50px; /* Espacio al final */
+}
+
+.sala-card {
+    background-color: #2e2e4e; /* Fondo oscuro para las tarjetas */
+    border-radius: 15px;
+    overflow: hidden; /* Muy importante para que la imagen de fondo no se desborde */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column; /* Apilar contenido verticalmente */
+    height: 400px; /* Altura fija para las tarjetas */
+    position: relative; /* Para posicionar el background */
+}
+
+.sala-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+.sala-card-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60%; /* La imagen de fondo ocupa la mitad superior de la tarjeta */
+    background-size: cover; /* Ajusta la imagen para cubrir el área */
+    background-position: center; /* Centra la imagen */
+    filter: brightness(0.6) grayscale(0.2); /* Oscurece y desatura un poco la imagen */
+    border-bottom: 3px solid #ffc107; /* Línea dorada sutil */
+}
+
+.sala-card-content {
+    position: relative; /* Asegura que el contenido esté sobre la imagen de fondo */
+    z-index: 1; /* Asegura que el contenido esté sobre la imagen de fondo */
+    padding: 15px;
+    padding-top: 65%; /* Para que el contenido empiece justo debajo de la imagen de fondo */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1; /* Permite que el contenido ocupe el espacio restante */
+    color: #e0e0e0;
+}
+
+.sala-level {
+    background-color: #ffc107; /* Amarillo */
+    color: #1a1a2e;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    align-self: flex-start; /* Alinea a la izquierda */
+    margin-bottom: 10px;
+}
+
+.sala-name {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ffc107; /* Amarillo */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.sala-description {
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    line-height: 1.4;
+    max-height: 3.8em; /* Limita el texto a un número de líneas */
+    overflow: hidden; /* Recorta el texto si es demasiado largo */
+    text-overflow: ellipsis; /* Añade puntos suspensivos */
+}
+
+.sala-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.95em;
+    font-weight: bold;
+}
+
+.sala-details .costo {
+    color: #28a745; /* Verde para precios/costos */
+}
+
+.sala-details .premio {
+    color: #00bfff; /* Azul claro para premios */
+}
+
+.btn-bingo {
+    background-color: #00bfff; /* Azul */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%; /* Ocupa todo el ancho */
+    margin-top: 20px; /* Espacio con los detalles */
+}
+
+.btn-bingo:hover {
+    background-color: #0099cc;
+    transform: translateY(-2px);
+}
+
+/* Responsividad para móviles */
+@media (max-width: 768px) {
+    .salas-grid {
+        grid-template-columns: 1fr; /* Una sola columna para celulares */
+        width: 95%;
+    }
+    .sala-card {
+        height: auto; /* Altura automática en móviles */
+    }
+    .sala-card-content {
+        padding-top: 50%; /* Ajusta el padding superior para móviles */
+    }
+    .screen-title {
+        font-size: 1.8em;
+    }
+    .lobby-header {
+        flex-wrap: wrap; /* Permite que los elementos se envuelvan */
+        justify-content: center;
+        text-align: center;
+    }
+    .back-button, .user-info, .add-funds-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .lobby-container {
+        padding: 10px;
+    }
+    .screen-title {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+    .sala-card {
+        margin: 0;
+    }
+}
+
