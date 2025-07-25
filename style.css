@@ -19,11 +19,12 @@ body {
     overflow-x: hidden; /* Solo previene scroll horizontal no deseado */
     background-color: var(--dark-bg); /* Esto puede ser un color de respaldo si el video no carga */
 
-    /* --- CAMBIOS PARA CENTRADO GLOBAL DEL LOBBY --- */
-    min-height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
+    /* --- CAMBIOS PARA CENTRADO GLOBAL Y Llenar ALTURA --- */
+    min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
     display: flex; /* Convierte el body en un contenedor flexbox */
     flex-direction: column; /* Apila el contenido verticalmente */
     align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: flex-start; /* Alinea el contenido al inicio verticalmente (arriba) */
     /* --- FIN CAMBIOS CENTRADO GLOBAL --- */
 }
 
@@ -35,7 +36,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow: hidden; /* Esto aún puede ser útil aquí para el video de fondo en la página de inicio */
 }
 
 /* Estilos del video de fondo */
@@ -414,6 +415,7 @@ body {
     display: flex; /* Convierte el body en un contenedor flexbox */
     flex-direction: column; /* Apila el contenido verticalmente */
     align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: flex-start; /* Alinea el contenido al inicio verticalmente (arriba) */
     /* --- FIN CAMBIOS CENTRADO GLOBAL --- */
     padding: 20px;
     background-color: var(--dark-bg);
