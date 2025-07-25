@@ -1,0 +1,202 @@
+/* style.css */
+
+/* Variables de color */
+:root {
+    --dark-bg: #1a1a2e;
+    --primary-gold: #FFD700;
+    --secondary-gold: #B8860B;
+    --text-light: #e0e0e0;
+    --button-bg-dark: #333642;
+    --button-hover-dark: #454954;
+    --progress-bar-color: #28a745; /* Verde */
+}
+
+/* Estilos generales del body */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    color: var(--text-light);
+    overflow: hidden; /* Previene scroll no deseado */
+    background-color: var(--dark-bg);
+}
+
+/* Contenedor principal para el video de fondo */
+.main-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Estilos del video de fondo */
+#background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1; /* Envía el video al fondo */
+    filter: brightness(0.4) grayscale(0.5); /* Oscurece y desatura el video */
+}
+
+/* Capa de contenido sobre el video */
+.content-overlay {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente para legibilidad */
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    max-width: 90%;
+    width: 450px; /* Ancho fijo para el contenedor */
+}
+
+/* Logo de la aplicación */
+.app-logo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* Título de bienvenida */
+.welcome-title {
+    font-size: 2.5em;
+    color: var(--primary-gold);
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Eslogan */
+.slogan {
+    font-size: 1.1em;
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
+
+/* Barra de carga */
+.loading-bar-container {
+    width: 80%;
+    height: 20px;
+    background-color: var(--button-bg-dark);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.loading-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--primary-gold);
+    border-radius: 10px;
+    transition: width 0.4s ease-out; /* Animación más suave */
+}
+
+#loading-percentage {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 20px;
+    color: var(--dark-bg);
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.loading-message {
+    font-size: 0.9em;
+    color: var(--text-light);
+    margin-top: 10px;
+}
+
+/* Botón de iniciar */
+.start-button {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.start-button:hover {
+    background-color: var(--secondary-gold);
+    transform: translateY(-2px);
+}
+
+.start-button.hidden {
+    display: none;
+}
+
+/* Selector de Idioma */
+.language-selector {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.language-selector select {
+    background-color: var(--button-bg-dark);
+    color: var(--text-light);
+    border: 1px solid var(--secondary-gold);
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+/* Controles de Música */
+.music-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.music-controls button {
+    background-color: var(--button-bg-dark);
+    color: var(--text-light);
+    border: 1px solid var(--secondary-gold);
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.music-controls button:hover {
+    background-color: var(--button-hover-dark);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .welcome-title {
+        font-size: 1.8em;
+    }
+    .app-logo {
+        width: 120px;
+    }
+    .content-overlay {
+        width: 95%;
+        padding: 15px;
+    }
+    .language-selector, .music-controls {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-top: 15px;
+    }
+}
