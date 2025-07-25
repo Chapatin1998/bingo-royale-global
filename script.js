@@ -6,7 +6,10 @@
 // están disponibles globalmente debido a la carga de firebase-auth-compat.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Script.js se está ejecutando y el DOM está cargado."); // <-- Log de depuración
+    // --- LÍNEA DE DIAGNÓSTICO: Esto debería aparecer al cargar la página ---
+    alert("Script.js se está iniciando."); 
+    // Si esta alerta NO aparece, significa que script.js no se está cargando o tiene un error de sintaxis anterior.
+    // --- FIN LÍNEA DE DIAGNÓSTICO ---
 
     const loadingBarContainer = document.getElementById('loading-bar-container');
     const loadingBar = document.getElementById('loading-bar');
@@ -69,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             welcomeTitle: 'Bem-vindo ao Bingo VIP Bolívia!',
             sloganText: 'Sua experiência de bingo premium começa aqui.',
             loadingMessage: 'Carregando sua experiência VIP...',
-            startButton: 'INICIAR JOGO',
+            startButton: 'INICIAR JUEGO',
             emailPlaceholder: 'Email',
             passwordPlaceholder: 'Senha',
             btnIniciar: 'Entrar',
