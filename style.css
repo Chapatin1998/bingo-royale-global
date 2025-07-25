@@ -186,7 +186,7 @@ body {
 .botones-container {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 100%; /* Ajustado para mobile */
     gap: 12px; /* Espacio entre botones */
 }
 
@@ -427,6 +427,9 @@ body {
     min-height: 100vh;
     background-color: var(--dark-bg);
     color: var(--text-light);
+    margin: 0 auto; /* Esto centrará el contenedor horizontalmente */
+    width: 100%; /* Aseguramos que ocupe todo el ancho disponible */
+    max-width: 1200px; /* Puedes ajustar este valor si deseas un ancho máximo diferente */
 }
 
 .lobby-header {
@@ -511,10 +514,6 @@ body {
     flex-direction: column;
     height: 400px; /* Altura fija para las tarjetas */
     position: relative;
-    /* --- BORDES DE DEPURACIÓN - ELIMINAR CUANDO LAS IMÁGENES CARGUEN --- */
-    /* border: 5px solid red; */
-    /* background-color: yellow; */
-    /* ------------------------------------------------------------------ */
 }
 
 .sala-card:hover {
@@ -532,10 +531,6 @@ body {
     background-position: center;
     filter: brightness(0.6) grayscale(0.2);
     border-bottom: 3px solid var(--primary-gold);
-    /* --- BORDES DE DEPURACIÓN - ELIMINAR CUANDO LAS IMÁGENES CARGUEN --- */
-    /* border: 5px solid lime; */
-    /* background-color: blue; */
-    /* ------------------------------------------------------------------ */
 }
 
 .sala-card-content {
@@ -548,9 +543,6 @@ body {
     justify-content: space-between;
     flex-grow: 1;
     color: var(--text-light);
-    /* --- BORDES DE DEPURACIÓN - ELIMINAR CUANDO LAS IMÁGENES CARGUEN --- */
-    /* background-color: yellow; */
-    /* ------------------------------------------------------------------ */
 }
 
 .sala-level {
