@@ -1,148 +1,278 @@
-// script.js
+/* style.css */
 
-// Importa las funciones necesarias para autenticación si se requiere, aunque con compat ya están globales.
-// window.auth y window.db se accederán directamente si se configuran en firebase-config.js
-// como window.auth = firebase.auth();
-// Para signInWithEmailAndPassword, usamos firebase.auth().signInWithEmailAndPassword
-// Ya no necesitamos import { signInWithEmailAndPassword } from "...";
+/* Variables de color */
+:root {
+    --dark-bg: #1a1a2e;
+    --primary-gold: #FFD700;
+    --secondary-gold: #B8860B;
+    --text-light: #e0e0e0;
+    --button-bg-dark: #333642;
+    --button-hover-dark: #454954;
+    --progress-bar-color: #28a745; /* Verde */
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-    const loadingBarContainer = document.getElementById('loading-bar-container');
-    const loadingBar = document.getElementById('loading-bar');
-    const loadingPercentage = document.getElementById('loading-percentage');
-    const authSection = document.getElementById('auth-section'); // La sección con el formulario
-    
-    // Elementos del formulario de autenticación
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-    const btnIniciar = document.getElementById('btnIniciar');
-    const btnRegistrar = document.getElementById('btnRegistrar');
-    const authErrorDisplay = document.getElementById('authError'); // Para mostrar errores
-    const linkSoporte = document.getElementById('linkSoporte'); // Enlace de soporte
+/* Estilos generales del body */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    color: var(--text-light);
+    overflow: hidden; /* Previene scroll no deseado */
+    background-color: var(--dark-bg); /* Esto puede ser un color de respaldo si el video no carga */
+}
 
-    // Controles de medios
-    const backgroundVideo = document.getElementById('background-video');
-    const backgroundMusic = document.getElementById('background-music');
-    const musicToggle = document.getElementById('musicToggle');
-    let isMusicPlaying = false; // Estado de la música
+/* Contenedor principal para el video de fondo */
+.main-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* background-color: var(--dark-bg); <-- ELIMINADO ESTA LÍNEA para que el video se vea */
+}
 
-    let percentage = 0;
+/* Estilos del video de fondo */
+#background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1; /* Envía el video al fondo */
+    filter: brightness(0.4) grayscale(0.5); /* Oscurece y desatura el video */
+}
 
-    // --- Lógica de la barra de carga ---
-    const loadInterval = setInterval(() => {
-        percentage += 5; // Incrementa el 5% cada vez
-        if (loadingBar) loadingBar.style.width = percentage + '%';
-        if (loadingPercentage) loadingPercentage.textContent = percentage + '%';
+/* Capa de contenido sobre el video */
+.content-overlay {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente para legibilidad */
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    max-width: 90%;
+    width: 450px; /* Ancho fijo para el contenedor */
+}
 
-        if (percentage >= 100) {
-            clearInterval(loadInterval);
-            if (loadingBarContainer) {
-                loadingBarContainer.style.display = 'none'; // Oculta la barra de carga
-            }
-            if (authSection) {
-                authSection.classList.remove('hidden'); // Muestra el formulario de inicio de sesión
-            }
+/* Logo de la aplicación */
+.app-logo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+}
 
-            // --- Intentar reproducir video y música después de la carga ---
-            // Esto solo es un intento, navegadores pueden requerir interacción del usuario.
-            if (backgroundVideo) {
-                backgroundVideo.play().catch(e => console.warn("No se pudo iniciar el video automáticamente:", e));
-            }
-            if (backgroundMusic) {
-                backgroundMusic.play().catch(e => console.warn("No se pudo iniciar la música automáticamente:", e));
-                isMusicPlaying = true; // Asumimos que intentamos reproducir
-            }
-            // Actualizar icono de música si se reprodujo
-            if (musicToggle && isMusicPlaying) {
-                 musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-            }
-        }
-    }, 100); // Velocidad de la barra de carga (cada 100ms)
+/* Título de bienvenida */
+.welcome-title {
+    font-size: 2.5em;
+    color: var(--primary-gold);
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
 
-    // --- Lógica del botón INICIAR SESIÓN ---
-    if (btnIniciar) {
-        btnIniciar.addEventListener('click', async () => {
-            const email = emailInput.value;
-            const password = passwordInput.value;
-            authErrorDisplay.textContent = ''; // Limpiar errores previos
+/* Eslogan */
+.slogan {
+    font-size: 1.1em;
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
 
-            if (!email || !password) {
-                authErrorDisplay.textContent = 'Por favor, ingresa tu correo y contraseña.';
-                return;
-            }
+/* Barra de carga */
+.loading-bar-container {
+    width: 80%;
+    height: 20px;
+    background-color: var(--button-bg-dark);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    position: relative;
+}
 
-            try {
-                // Accede a 'auth' a través de window.auth (definido en firebase-config.js)
-                // Asegúrate de que window.auth esté disponible
-                if (!window.auth) {
-                    console.error("Firebase Auth no está inicializado. Recarga la página.");
-                    authErrorDisplay.textContent = "Error de autenticación. Intenta de nuevo más tarde.";
-                    return;
-                }
-                
-                // Usar la función de Firebase Auth globalmente disponible
-                await window.auth.signInWithEmailAndPassword(email, password);
-                alert('Inicio de sesión exitoso!');
-                window.location.href = 'lobby.html'; // Redirige al lobby
+.loading-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--primary-gold);
+    border-radius: 10px;
+    transition: width 0.4s ease-out; /* Animación más suave */
+}
 
-            } catch (error) {
-                console.error("Error al iniciar sesión:", error.code, error.message);
-                let errorMessage = 'Ocurrió un error al iniciar sesión. Por favor, intenta de nuevo.';
+#loading-percentage {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 20px;
+    color: var(--dark-bg);
+    font-weight: bold;
+    font-size: 0.9em;
+}
 
-                switch (error.code) {
-                    case 'auth/invalid-email':
-                        errorMessage = 'El formato del correo electrónico es inválido.';
-                        break;
-                    case 'auth/user-not-found':
-                    case 'auth/wrong-password':
-                        errorMessage = 'Correo o contraseña incorrectos.';
-                        break;
-                    case 'auth/user-disabled':
-                        errorMessage = 'Tu cuenta ha sido deshabilitada.';
-                        break;
-                    case 'auth/too-many-requests':
-                        errorMessage = 'Demasiados intentos de inicio de sesión. Intenta de nuevo más tarde.';
-                        break;
-                    case 'auth/invalid-credential':
-                        errorMessage = 'Las credenciales proporcionadas son inválidas.';
-                        break;
-                    default:
-                        errorMessage = `Error: ${error.message}`;
-                        break;
-                }
-                authErrorDisplay.textContent = errorMessage;
-            }
-        });
+.loading-message {
+    font-size: 0.9em;
+    color: var(--text-light);
+    margin-top: 10px;
+}
+
+/* Formulario de autenticación */
+.auth-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.input-group {
+    width: 80%;
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--secondary-gold);
+    border-radius: 5px;
+    background-color: var(--button-bg-dark);
+    color: var(--text-light);
+    font-size: 1em;
+    box-sizing: border-box; /* Incluye padding y borde en el ancho */
+}
+
+.input-group input::placeholder {
+    color: #aaa;
+}
+
+.botones-container {
+    display: flex;
+    flex-direction: column; /* Apila los botones verticalmente */
+    width: 80%;
+    gap: 10px; /* Espacio entre botones */
+}
+
+.btn-primary, .btn-accion-secondary {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-gold);
+    transform: translateY(-1px);
+}
+
+.btn-accion-secondary {
+    background-color: var(--button-bg-dark);
+    color: var(--primary-gold);
+    border: 1px solid var(--primary-gold);
+}
+
+.btn-accion-secondary:hover {
+    background-color: var(--button-hover-dark);
+    transform: translateY(-1px);
+}
+
+.error-message {
+    color: #ff4d4d; /* Rojo para errores */
+    font-size: 0.9em;
+    margin-top: 10px;
+    height: 1.2em; /* Reserva espacio para el mensaje */
+}
+
+.bottom-area {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: var(--text-light);
+    width: 80%;
+}
+
+.bottom-area a {
+    color: var(--primary-gold);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.bottom-area a:hover {
+    text-decoration: underline;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Selector de Idioma */
+.language-selector {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.language-selector select {
+    background-color: var(--button-bg-dark);
+    color: var(--text-light);
+    border: 1px solid var(--secondary-gold);
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+/* Controles de Música */
+.music-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.music-controls button {
+    background-color: var(--button-bg-dark);
+    color: var(--text-light);
+    border: 1px solid var(--secondary-gold);
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.music-controls button:hover {
+    background-color: var(--button-hover-dark);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .welcome-title {
+        font-size: 1.8em;
     }
-
-    // --- Lógica del botón REGISTRARSE ---
-    if (btnRegistrar) {
-        btnRegistrar.addEventListener('click', () => {
-            window.location.href = 'registro.html'; // Redirige a la página de registro
-        });
+    .app-logo {
+        width: 120px;
     }
-
-    // --- Lógica del enlace de Soporte ---
-    if (linkSoporte) {
-        linkSoporte.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Para soporte, por favor envía un correo a soporte@bingovipbolivia.com.');
-        });
+    .content-overlay {
+        width: 95%;
+        padding: 15px;
     }
-
-    // --- Lógica del control de música ---
-    if (musicToggle) {
-        musicToggle.addEventListener('click', () => {
-            if (backgroundMusic) {
-                if (isMusicPlaying) {
-                    backgroundMusic.pause();
-                    musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>'; // Icono de mute
-                } else {
-                    backgroundMusic.play().catch(e => console.error("Error al reproducir música:", e));
-                    musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>'; // Icono de volumen
-                }
-                isMusicPlaying = !isMusicPlaying;
-            }
-        });
+    .language-selector, .music-controls {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-top: 15px;
     }
-});
+    .input-group, .botones-container, .bottom-area {
+        width: 90%;
+    }
+}
