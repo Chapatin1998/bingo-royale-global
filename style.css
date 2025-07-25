@@ -29,7 +29,7 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    /* background-color: var(--dark-bg); <-- ELIMINADO ESTA LÍNEA para que el video se vea */
+    /* background-color: var(--dark-bg); <-- ESTA LÍNEA FUE ELIMINADA para que el video se vea */
 }
 
 /* Estilos del video de fondo */
@@ -275,4 +275,15 @@ body {
     .input-group, .botones-container, .bottom-area {
         width: 90%;
     }
+}
+
+/* Animación para el logo */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.app-logo {
+    animation: pulse 2s infinite ease-in-out; /* Aplica la animación al logo */
 }
