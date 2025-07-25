@@ -144,7 +144,7 @@ body {
     background-color: var(--button-bg-dark);
     color: var(--text-light);
     font-size: 1.1em; /* Texto más grande */
-    box-sizing: border-box;
+    box-sizing: border-box; /* Incluye padding y borde en el ancho */
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra sutil */
     transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición para foco */
 }
@@ -163,7 +163,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 80%;
-    gap: 12px; /* Más espacio entre botones */
+    gap: 12px; /* Espacio entre botones */
 }
 
 .btn-primary, .btn-accion-secondary, .start-button { /* Aplica estilos comunes también al start-button */
@@ -178,11 +178,6 @@ body {
 }
 
 .start-button { /* Estilo específico para el botón de inicio */
-    background-color: var(--primary-gold);
-    color: var(--dark-bg);
-}
-
-.btn-primary {
     background-color: var(--primary-gold);
     color: var(--dark-bg);
 }
@@ -309,4 +304,15 @@ body {
     .input-group, .botones-container, .bottom-area {
         width: 90%;
     }
+}
+
+/* Animación para el logo */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.app-logo {
+    animation: pulse 2s infinite ease-in-out; /* Aplica la animación al logo */
 }
