@@ -1,16 +1,17 @@
 // script.js
 
-// Importa las funciones necesarias de Firebase SDK
 // Asegúrate de que window.auth y window.db estén disponibles desde firebase-config.js
-// como window.auth = firebase.auth(); y window.db = firebase.firestore();
+// Para autenticación, se asume que firebase.auth() y firebase.auth().signInWithEmailAndPassword
+// están disponibles globalmente debido a la carga de firebase-auth-compat.js
 
 document.addEventListener('DOMContentLoaded', () => {
     const loadingBarContainer = document.getElementById('loading-bar-container');
     const loadingBar = document.getElementById('loading-bar');
     const loadingPercentage = document.getElementById('loading-percentage');
-    const authSection = document.getElementById('auth-section'); // La sección con el formulario
+    const startButton = document.getElementById('startButton'); // Nuevo botón INICIAR JUEGO
+    const authSection = document.getElementById('auth-section'); // La sección con el formulario de login/registro
     
-    // Elementos del formulario de autenticación
+    // Elementos del formulario de autenticación (ahora en script.js directamente)
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
     const btnIniciar = document.getElementById('btnIniciar');
@@ -27,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let percentage = 0;
 
     // --- Lógica de la barra de carga ---
-    // La barra de carga se ejecutará, y al finalizar, mostrará el formulario de autenticación.
+    // La barra de carga se ejecutará, y al finalizar, mostrará el botón INICIAR JUEGO.
     const loadInterval = setInterval(() => {
         percentage += 5; // Incrementa el 5% cada vez
         if (loadingBar) loadingBar.style.width = percentage + '%';
@@ -38,17 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (loadingBarContainer) {
                 loadingBarContainer.style.display = 'none'; // Oculta la barra de carga
             }
-            if (authSection) {
-                authSection.classList.remove('hidden'); // Muestra el formulario de inicio de sesión
+            if (startButton) {
+                startButton.classList.remove('hidden'); // Muestra el botón INICIAR JUEGO
             }
             // NOTA: El video y la música NO se inician aquí automáticamente, sino con un clic del usuario.
         }
     }, 100); // Velocidad de la barra de carga (cada 100ms)
 
-    // --- Lógica del botón INICIAR SESIÓN ---
-    if (btnIniciar) {
-        btnIniciar.addEventListener('click', async () => {
-            // Reproducir video/música al hacer clic en un botón de interacción
+    // --- Lógica del botón INICIAR JUEGO (primera interacción del usuario) ---
+    if (startButton) {
+        startButton.addEventListener('click', () => {
+            // Reproducir video/música al hacer clic en INICIAR JUEGO
             if (backgroundVideo) {
                 backgroundVideo.play().catch(e => console.warn("No se pudo iniciar el video al hacer clic:", e));
             }
@@ -58,6 +59,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>'; // Actualiza icono
             }
 
+            // Ocultar el botón INICIAR JUEGO y mostrar el formulario de autenticación
+            if (startButton) startButton.classList.add('hidden');
+            if (authSection) authSection.classList.remove('hidden');
+        });
+    }
+
+    // --- Lógica de Inicio de Sesión / Registro (dentro de auth-section) ---
+
+    // Lógica del botón INICIAR SESIÓN
+    if (btnIniciar) {
+        btnIniciar.addEventListener('click', async () => {
             const email = emailInput.value;
             const password = passwordInput.value;
             authErrorDisplay.textContent = ''; // Limpiar errores previos
@@ -69,13 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Accede a 'auth' a través de window.auth (definido en firebase-config.js)
-                if (!window.auth) {
+                // O usa firebase.auth() directamente si firebase-auth-compat.js carga el global 'firebase'
+                if (!window.auth) { // Preferible usar window.auth si se exporta así desde config.js
                     console.error("Firebase Auth no está inicializado. Recarga la página.");
                     authErrorDisplay.textContent = "Error de autenticación. Intenta de nuevo más tarde.";
                     return;
                 }
                 
-                // Usar la función de Firebase Auth globalmente disponible
                 await window.auth.signInWithEmailAndPassword(email, password);
                 alert('Inicio de sesión exitoso!');
                 window.location.href = 'lobby.html'; // Redirige al lobby
@@ -110,23 +122,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Lógica del botón REGISTRARSE ---
+    // Lógica del botón REGISTRARSE
     if (btnRegistrar) {
         btnRegistrar.addEventListener('click', () => {
-            // Reproducir video/música al hacer clic en un botón de interacción
-            if (backgroundVideo) {
-                backgroundVideo.play().catch(e => console.warn("No se pudo iniciar el video al hacer clic:", e));
-            }
-            if (backgroundMusic) {
-                backgroundMusic.play().catch(e => console.warn("No se pudo iniciar la música al hacer clic:", e));
-                isMusicPlaying = true;
-                musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>'; // Actualiza icono
-            }
             window.location.href = 'registro.html'; // Redirige a la página de registro
         });
     }
 
-    // --- Lógica del enlace de Soporte ---
+    // Lógica del enlace de Soporte
     if (linkSoporte) {
         linkSoporte.addEventListener('click', (e) => {
             e.preventDefault();
@@ -134,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Lógica del control de música (independiente de inicio/registro) ---
+    // --- Lógica del control de música (independiente del inicio de sesión) ---
     if (musicToggle) {
         musicToggle.addEventListener('click', () => {
             if (backgroundMusic) {
