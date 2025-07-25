@@ -6,6 +6,8 @@
 // están disponibles globalmente debido a la carga de firebase-auth-compat.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("Script.js se está ejecutando y el DOM está cargado."); // <-- Log de depuración
+
     const loadingBarContainer = document.getElementById('loading-bar-container');
     const loadingBar = document.getElementById('loading-bar');
     const loadingPercentage = document.getElementById('loading-percentage');
@@ -67,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             welcomeTitle: 'Bem-vindo ao Bingo VIP Bolívia!',
             sloganText: 'Sua experiência de bingo premium começa aqui.',
             loadingMessage: 'Carregando sua experiência VIP...',
-            startButton: 'INICIAR JUEGO',
+            startButton: 'INICIAR JOGO',
             emailPlaceholder: 'Email',
             passwordPlaceholder: 'Senha',
             btnIniciar: 'Entrar',
@@ -132,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 backgroundVideo.play().catch(e => console.warn("No se pudo iniciar el video al hacer clic:", e));
             }
             if (backgroundMusic) {
-                backgroundMusic.play().catch(e => console.error("Error al reproducir música:", e));
+                backgroundMusic.play().catch(e => console.error("No se pudo iniciar la música al hacer clic:", e));
                 isMusicPlaying = true;
                 musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>'; // Actualiza icono
             }
