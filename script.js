@@ -7,8 +7,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- LÍNEA DE DIAGNÓSTICO: Esto debería aparecer al cargar la página ---
-    alert("Script.js se está iniciando."); 
-    // Si esta alerta NO aparece, significa que script.js no se está cargando o tiene un error de sintaxis anterior.
+    alert("Script.js se está iniciando. (Confirmado)"); 
     // --- FIN LÍNEA DE DIAGNÓSTICO ---
 
     const loadingBarContainer = document.getElementById('loading-bar-container');
@@ -72,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             welcomeTitle: 'Bem-vindo ao Bingo VIP Bolívia!',
             sloganText: 'Sua experiência de bingo premium começa aqui.',
             loadingMessage: 'Carregando sua experiência VIP...',
-            startButton: 'INICIAR JUEGO',
+            startButton: 'INICIAR JOGO',
             emailPlaceholder: 'Email',
             passwordPlaceholder: 'Senha',
             btnIniciar: 'Entrar',
@@ -113,13 +112,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Lógica de la barra de carga ---
     let percentage = 0;
+    // Aseguramos que el contenedor de la barra de carga sea visible antes de empezar
+    if (loadingBarContainer) {
+        loadingBarContainer.style.display = 'block'; 
+        alert("Barra de carga: contenedor debería ser visible."); // Diagnóstico
+    }
+
+
     const loadInterval = setInterval(() => {
         percentage += 2; // Carga un poco más lenta
         if (loadingBar) loadingBar.style.width = percentage + '%';
         if (loadingPercentage) loadingPercentage.textContent = percentage + '%';
 
+        // Diagnóstico: Alertas en puntos clave de la carga
+        if (percentage === 10) alert("Carga al 10%");
+        if (percentage === 50) alert("Carga al 50%");
+        if (percentage === 90) alert("Carga al 90%");
+
+
         if (percentage >= 100) {
             clearInterval(loadInterval);
+            alert("Carga al 100%. Ocultando barra y mostrando botón."); // Diagnóstico
             if (loadingBarContainer) {
                 loadingBarContainer.style.display = 'none'; // Oculta la barra de carga
             }
@@ -132,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Lógica del botón INICIAR JUEGO (primera interacción del usuario) ---
     if (startButton) {
         startButton.addEventListener('click', () => {
+            alert("Clic en INICIAR JUEGO. Mostrando formulario."); // Diagnóstico
             // Reproducir video/música al hacer clic en INICIAR JUEGO
             if (backgroundVideo) {
                 backgroundVideo.play().catch(e => console.warn("No se pudo iniciar el video al hacer clic:", e));
