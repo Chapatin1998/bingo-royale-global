@@ -29,7 +29,6 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    /* background-color: var(--dark-bg); <-- ESTA LÍNEA FUE ELIMINADA para que el video se vea */
 }
 
 /* Estilos del video de fondo */
@@ -603,7 +602,7 @@ body {
 /* Responsive Design para lobby */
 @media (max-width: 768px) {
     .salas-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         width: 95%;
     }
     .sala-card {
