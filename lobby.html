@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo VIP Bolivia - Lobby</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="lobby-container">
+        <header class="lobby-header">
+            <button class="back-button" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i> Volver a Inicio
+            </button>
+            <div class="user-info">
+                <img src="avatar_default.png" alt="Avatar Usuario" class="avatar-circle" id="user-avatar">
+                <span class="user-balance" id="user-balance">$0.00</span>
+                <button class="add-funds-button" id="add-funds-button">
+                    <i class="fas fa-plus-circle"></i>
+                </button>
+            </div>
+            <button class="settings-button" id="settings-button">
+                <i class="fas fa-cog"></i> Configuración
+            </button>
+        </header>
+
+        <h1 class="screen-title">SELECCIONA TU SALA DE JUEGO</h1>
+
+        <div class="salas-grid">
+            <div class="sala-card" id="sala-1" data-cost="10" data-prize="300" data-min-balance="10" data-name="Sala Principiante">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-1.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N1</span>
+                    <h2 class="sala-name">Sala Principiante</h2>
+                    <p class="sala-description">Un inicio clásico en un ambiente familiar.</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $10</span>
+                        <span class="premio">Premio: $300</span>
+                        <span class="players"><i class="fas fa-users"></i> 20/30</span>
+                    </div>
+                    <button class="btn-bingo" onclick="seleccionarSala('sala-1')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-2" data-cost="20" data-prize="700" data-min-balance="20" data-name="Sala Estándar">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-2.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N2</span>
+                    <h2 class="sala-name">Sala Estándar</h2>
+                    <p class="sala-description">La experiencia de bingo que todos disfrutan.</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $20</span>
+                        <span class="premio">Premio: $700</span>
+                        <span class="players"><i class="fas fa-users"></i> 25/35</span>
+                    </div>
+                    <button class="btn-bingo" onclick="seleccionarSala('sala-2')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-3" data-cost="34" data-prize="1200" data-min-balance="34" data-name="Sala Apuesta">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-3.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N3</span>
+                    <h2 class="sala-name">Sala de Apuesta</h2>
+                    <p class="sala-description">Para los que buscan un poco más de emoción.</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $34</span>
+                        <span class="premio">Premio: $1200</span>
+                        <span class="players"><i class="fas fa-users"></i> 28/38</span>
+                    </div>
+                    <button class="btn-bingo" onclick="seleccionarSala('sala-3')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-4" data-cost="50" data-prize="2000" data-min-balance="50" data-name="Sala Premium">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-4.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N4</span>
+                    <h2 class="sala-name">Sala Premium</h2>
+                    <p class="sala-description">Acceso a la élite del bingo. ¡Experiencia de lujo!</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $50</span>
+                        <span class="premio">Premio: $2000</span>
+                        <span class="players"><i class="fas fa-users"></i> 30/40</span>
+                    </div>
+                    <button class="btn-bingo" onclick="seleccionarSala('sala-4')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-5" data-cost="100" data-prize="5000" data-min-balance="100" data-name="Sala Diamante">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-5.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N5</span>
+                    <h2 class="sala-name">Sala Diamante</h2>
+                    <p class="sala-description">Solo para los verdaderos profesionales del bingo.</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $100</span>
+                        <span class="premio">Premio: $5000</span>
+                        <span class="players"><i class="fas fa-users"></i> 35/45</span>
+                    </div>
+                    <button class="btn-bingo" onclick="seleccionarSala('sala-5')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-6" data-cost="150" data-prize="8000" data-min-balance="150" data-name="Sala Blackout">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-6.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N6</span>
+                    <h2 class="sala-name">Sala Blackout</h2>
+                    <p class="sala-description">El desafío más oscuro. ¡Todo o nada!</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $150</span>
+                        <span class="premio">Premio: $8000</span>
+                        <span class="players"><i class="fas fa-users"></i> 38/48</span>
+                    </div>
+                    <button class="btn-bingo" onclick="seleccionarSala('sala-6')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-7" data-cost="300" data-prize="15000" data-min-balance="300" data-name="Sala Millonaria">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-7.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N7</span>
+                    <h2 class="sala-name">Sala Millonaria</h2>
+                    <p class="sala-description">Solo para los que sueñan en grande. ¡Grandes premios te esperan!</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $300</span>
+                        <span class="premio">Premio: $15000</span>
+                        <span class="players"><i class="fas fa-users"></i> 40/50</span>
+                    </div>
+                    <button class="btn-bingo" onclick="seleccionarSala('sala-7')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-8" data-cost="0" data-prize="5000" data-min-balance="0" data-name="Sala Torneo Diario">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-8.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N8</span>
+                    <h2 class="sala-name">Sala Torneo Diario</h2>
+                    <p class="sala-description">Competición diaria con premios garantizados. ¡Demuestra tu habilidad!</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: 0 Pts</span>
+                        <span class="premio">Premio: $5000</span>
+                        <span class="players"><i class="fas fa-users"></i> 50/60</span>
+                    </div>
+                    <button class="btn-bingo" onclick="seleccionarSala('sala-8')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-9" data-cost="5" data-prize="300" data-min-balance="5" data-name="Sala Global">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-9.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N9</span>
+                    <h2 class="sala-name">Sala Global (USD)</h2>
+                    <p class="sala-description">Juega con usuarios de todo el mundo usando USD.</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $5</span>
+                        <span class="premio">Premio: $300</span>
+                        <span class="players"><i class="fas fa-users"></i> 60/70</span>
+                    </div>
+                    <button class="btn-bingo" onclick="seleccionarSala('sala-9')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-10" data-cost="500" data-prize="15000" data-min-balance="500" data-name="Gran Final Mensual">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-10.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N10</span>
+                    <h2 class="sala-name">Gran Final Mensual</h2>
+                    <p class="sala-description">El desafío definitivo. Solo para jugadores VIP.</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $500</span>
+                        <span class="premio">Premio: $15000</span>
+                        <span class="players"><i class="fas fa-users"></i> 70/80</span>
+                    </div>
+                    <button class="btn-bingo" onclick="seleccionarSala('sala-10')">JUGAR EN ESTA SALA</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="advertencia-legal">
+            <p>Juego con responsabilidad. Solo para mayores de 18 años.</p>
+        </div>
+    </div>
+    <script src="firebase-config.js"></script>
+    <script src="lobby.js"></script>
+</body>
+</html>
