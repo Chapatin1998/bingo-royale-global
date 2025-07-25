@@ -15,16 +15,19 @@
 <body>
     <div class="main-container">
         <video autoplay muted loop id="background-video">
-            <source src="video/fondo-casino-3d.mp4" type="video/mp4">
-            Tu navegador no soporta el video.
+            <source src="fondo-casino-3d.mp4" type="video/mp4"> Tu navegador no soporta el video.
         </video>
         
         <div class="content-overlay">
             <img src="logo-bingo-vip.png" alt="Logo Bingo VIP Bolivia" class="app-logo">
-            <h1 class="welcome-title" id="welcomeTitle">¡Bienvenido a Bingo VIP Bolivia!</h1> <p class="slogan" id="sloganText">Tu experiencia de bingo premium comienza aquí.</p> <div class="loading-bar-container" id="loading-bar-container">
+            <h1 class="welcome-title" id="welcomeTitle">¡Bienvenido a Bingo VIP Bolivia!</h1>
+            <p class="slogan" id="sloganText">Tu experiencia de bingo premium comienza aquí.</p>
+
+            <div class="loading-bar-container" id="loading-bar-container">
                 <div class="loading-bar" id="loading-bar"></div>
                 <span id="loading-percentage">0%</span>
-                <p class="loading-message" id="loadingMessage">Cargando tu experiencia VIP...</p> </div>
+                <p class="loading-message" id="loadingMessage">Cargando tu experiencia VIP...</p>
+            </div>
 
             <button class="start-button hidden" id="startButton">INICIAR JUEGO</button>
 
@@ -63,8 +66,7 @@
     </div>
 
     <audio id="background-music" loop>
-        <source src="audio/fondo.mp3" type="audio/mpeg">
-        Tu navegador no soporta el audio.
+        <source src="fondo.mp3" type="audio/mpeg"> Tu navegador no soporta el audio.
     </audio>
 
     <script src="firebase-config.js"></script> 
