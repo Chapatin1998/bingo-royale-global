@@ -15,7 +15,8 @@
 <body>
     <div class="main-container">
         <video autoplay muted loop id="background-video">
-            <source src="fondo-casino-3d.mp4" type="video/mp4"> Tu navegador no soporta el video.
+            <source src="video/fondo-casino-3d.mp4" type="video/mp4">
+            Tu navegador no soporta el video.
         </video>
         
         <div class="content-overlay">
@@ -29,7 +30,23 @@
                 <p class="loading-message">Cargando tu experiencia VIP...</p>
             </div>
 
-            <button class="start-button hidden" id="startButton">INICIAR JUEGO</button>
+            <div id="auth-section" class="auth-section hidden">
+                <div class="input-group">
+                    <input type="email" id="email" placeholder="Correo electrónico" required>
+                    <input type="password" id="password" placeholder="Contraseña" required>
+                </div>
+
+                <div class="botones-container">
+                    <button class="btn-primary" id="btnIniciar">Iniciar Sesión</button>
+                    <button class="btn-accion-secondary" id="btnRegistrar">Registrarse</button>
+                </div>
+                <p class="error-message" id="authError"></p> </div>
+            
+            <div class="bottom-area">
+                <p class="support-text">¿Necesitas ayuda? <a href="#" id="linkSoporte">Contacto con soporte</a></p>
+                <p class="legal-text">Este juego es solo para mayores de 18 años. Una sola cuenta por persona.</p>
+                <p class="legal-text">Juega con responsabilidad.</p>
+            </div>
             
             <div class="language-selector">
                 <select id="langSelect">
@@ -48,7 +65,8 @@
     </div>
 
     <audio id="background-music" loop>
-        <source src="fondo.mp3" type="audio/mpeg"> Tu navegador no soporta el audio.
+        <source src="audio/fondo.mp3" type="audio/mpeg">
+        Tu navegador no soporta el audio.
     </audio>
 
     <script src="firebase-config.js"></script> 
