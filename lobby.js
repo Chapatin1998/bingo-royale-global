@@ -2,9 +2,6 @@
 
 // Asegúrate de que 'auth' y 'db' estén disponibles globalmente desde firebase-config.js
 // como window.auth y window.db
-// Si no, necesitarías importarlos:
-// import { auth, db } from './firebase-config.js';
-// import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Referencias a elementos del DOM en el lobby.html
@@ -14,22 +11,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     const settingsButton = document.getElementById('settings-button'); // Botón de configuración
 
     // Función para actualizar la interfaz del balance y avatar
-    async function updateLobbyUI() {
-        if (!window.auth || !window.db) {
-            console.error("Firebase Auth o DB no están disponibles en lobby.js.");
-            alert("Error: No se pudieron cargar los datos del usuario. Recarga la página.");
-            window.location.href = 'index.html'; // Redirigir a inicio si Firebase no está listo
-            return;
-        }
-
-        const user = window.auth.currentUser;
-        if (!user) {
-            // No hay usuario logueado, redirigir a la página de inicio de sesión
-            alert("No has iniciado sesión. Redirigiendo a la página de inicio.");
+    async function updateLobbyUI(user) { // Ahora acepta el objeto 'user' directamente
+        if (!user) { // Si por alguna razón la función se llama sin usuario (no debería si está en onAuthStateChanged)
+            console.log("No user in updateLobbyUI, redirecting.");
             window.location.href = 'index.html';
             return;
         }
 
+        if (!window.auth || !window.db) {
+            console.error("Firebase Auth o DB no están disponibles en lobby.js.");
+            alert("Error: No se pudieron cargar los datos del usuario. Recarga la página.");
+            window.location.href = 'index.html'; 
+            return;
+        }
+        
         // Obtener datos del usuario desde Firestore
         try {
             const userRef = window.db.collection('users').doc(user.uid);
@@ -46,35 +41,42 @@ document.addEventListener('DOMContentLoaded', async () => {
             } else {
                 console.warn("No se encontraron datos de usuario en Firestore.");
                 alert("Error: No se encontraron tus datos. Recarga o contacta soporte.");
-                window.location.href = 'index.html'; // O redirigir a un error page
+                window.location.href = 'index.html'; 
             }
         } catch (error) {
             console.error("Error al obtener datos de usuario:", error);
             alert("Error al cargar tus datos. Por favor, recarga o contacta soporte.");
-            window.location.href = 'index.html'; // En caso de error, volver al inicio
+            window.location.href = 'index.html'; 
         }
     }
 
-    // Llamar a la función para actualizar la UI del lobby al cargar la página
-    updateLobbyUI();
+    // --- CAMBIO CLAVE: Observar el estado de autenticación ---
+    // Esta es la forma correcta de esperar a que Firebase confirme si el usuario está logueado
+    if (window.auth) {
+        window.auth.onAuthStateChanged(user => {
+            if (user) {
+                // Usuario logueado: Actualizar la UI del lobby con sus datos
+                console.log("Usuario logueado en lobby:", user.uid);
+                updateLobbyUI(user); // Pasamos el objeto user a la función
+            } else {
+                // No hay usuario logueado: Redirigir a la página de inicio
+                console.log("Ningún usuario logueado en lobby.");
+                alert("Tu sesión ha expirado o no has iniciado sesión. Redirigiendo a inicio.");
+                window.location.href = 'index.html';
+            }
+        });
+    } else {
+        // Firebase Auth no está disponible (error en firebase-config.js o carga de SDK)
+        console.error("Firebase Auth no está disponible en lobby.js. Asegúrate de que firebase-config.js y los SDK se carguen correctamente.");
+        alert("Error crítico: El sistema de autenticación no está listo. Recarga la página.");
+        // Podrías redirigir aquí también si prefieres, pero esto alertará primero
+    }
 
-    // Listener para cambios en el estado de autenticación (por si el usuario se desloguea, etc.)
-    window.auth.onAuthStateChanged(user => {
-        if (!user) {
-            console.log("Usuario deslogueado o sesión expirada en lobby.");
-            alert("Tu sesión ha expirado o has cerrado sesión. Vuelve a iniciar.");
-            window.location.href = 'index.html'; // Redirige a la página de inicio de sesión
-        } else {
-            // Si el usuario sigue logueado, actualiza la UI por si acaso
-            updateLobbyUI(); 
-        }
-    });
 
     // Lógica para el botón de Añadir Fondos (ejemplo, solo una alerta)
     if (addFundsButton) {
         addFundsButton.addEventListener('click', () => {
             alert("Funcionalidad 'Añadir Fondos' en desarrollo. ¡Pronto podrás recargar tu balance!");
-            // Aquí iría la lógica para procesar pagos o dar bonos
         });
     }
 
@@ -82,7 +84,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (settingsButton) {
         settingsButton.addEventListener('click', () => {
             alert("Funcionalidad 'Configuración' en desarrollo.");
-            // Aquí iría la lógica para abrir la página de configuración
         });
     }
 });
@@ -97,7 +98,7 @@ window.seleccionarSala = async (salaId) => {
         return;
     }
 
-    const user = window.auth.currentUser;
+    const user = window.auth.currentUser; // Obtener el usuario actual AQUI TAMBIEN
     if (!user) {
         alert("Debes iniciar sesión para jugar. Redirigiendo a inicio.");
         window.location.href = 'index.html';
