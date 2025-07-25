@@ -1,9 +1,14 @@
 // firebase-config.js
 
-// Ya no necesitamos 'import' para initializeApp, getAuth, getFirestore aquí
-// si los cargamos globalmente en index.html con la versión compat
-// Pero SÍ necesitamos que las variables 'auth' y 'db' se configuren globalmente.
+// Importa las funciones necesarias del SDK de Firebase
+// NOTA: Con la versión 'compat' en index.html, 'firebase' ya es global.
+// Estas importaciones aquí son solo por si este archivo fuera un módulo independiente.
+// import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+// import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+// import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+
+// Tu configuración de Firebase (tomada de tus capturas)
 const firebaseConfig = {
   apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI", // Tu API Key
   authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
@@ -17,7 +22,7 @@ const firebaseConfig = {
 // Inicializa Firebase UNA SOLA VEZ
 let app;
 try {
-    // Si firebase (el objeto global) ya existe y no hay apps inicializadas
+    // Usamos el objeto global 'firebase' de la versión 'compat'
     if (typeof firebase !== 'undefined' && (!firebase.apps || firebase.apps.length === 0)) {
         app = firebase.initializeApp(firebaseConfig);
         console.log("Firebase inicializado correctamente.");
@@ -25,17 +30,23 @@ try {
         app = firebase.apps[0]; // Reutiliza la instancia existente
         console.log("Firebase ya estaba inicializado o se está reutilizando.");
     } else {
-        // Esto podría ocurrir si firebase-app-compat.js no se cargó
-        throw new Error("El objeto 'firebase' no está definido globalmente.");
+        throw new Error("El objeto global 'firebase' no está definido. SDK no cargado.");
     }
 } catch (error) {
-    console.error("Error al inicializar Firebase:", error);
-    alert("Error crítico: No se pudo inicializar Firebase. Por favor, recarga la página. " + error.message);
+    console.error("Error al inicializar Firebase en firebase-config.js:", error);
+    alert("CRÍTICO: Error al inicializar Firebase. " + error.message);
 }
 
-// Hacemos 'auth' y 'db' disponibles globalmente
-window.auth = app ? firebase.auth().getAuth(app) : null;
-window.db = app ? firebase.firestore().getFirestore(app) : null;
-
-// NOTA: No se usa 'export' en este archivo si los scripts se cargan sin type="module"
-// y se accede a 'auth'/'db' via window.auth/window.db
+// Hacemos 'auth' y 'db' disponibles globalmente a través de window
+if (app) {
+    try {
+        window.auth = firebase.auth(); // Obtiene la instancia de Auth
+        window.db = firebase.firestore(); // Obtiene la instancia de Firestore
+        alert("Firebase Auth y DB asignados a window."); // Diagnóstico
+    } catch (error) {
+        console.error("Error al obtener servicios de Firebase:", error);
+        alert("CRÍTICO: No se pudieron obtener servicios de Firebase. " + error.message);
+    }
+} else {
+    alert("CRÍTICO: 'app' de Firebase no está definida para asignar servicios."); // Diagnóstico
+}
