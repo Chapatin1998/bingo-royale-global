@@ -121,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (startButton) {
                 startButton.classList.remove('hidden'); // Muestra el botón INICIAR JUEGO
             }
-            // NOTA: El video y la música NO se inician aquí, sino al hacer clic en el botón INICIAR JUEGO.
         }
     }, 150); // Velocidad de la barra de carga (más lenta)
 
