@@ -19,7 +19,7 @@ const firebaseConfig = {
 // Inicializa Firebase UNA SOLA VEZ
 let app;
 try {
-    if (!getApps().length) { // <-- CAMBIO AQUÍ: Usamos getApps().length
+    if (!getApps().length) { // Usamos getApps().length para verificar la inicialización
         app = initializeApp(firebaseConfig);
         console.log("Firebase inicializado correctamente.");
     } else {
@@ -33,4 +33,4 @@ try {
 
 // Exporta las instancias de Auth y Firestore para que puedan ser usadas en otros archivos
 export const auth = app ? getAuth(app) : null;
-export const const db = app ? getFirestore(app) : null;
+export const db = app ? getFirestore(app) : null; // <-- CORREGIDO: Eliminado el 'const' duplicado
