@@ -16,7 +16,7 @@ body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     color: var(--text-light);
-    overflow: hidden; /* Previene scroll no deseado */
+    /* overflow: hidden; <-- ESTA LÍNEA FUE ELIMINADA para permitir el scroll */
     background-color: var(--dark-bg); /* Esto puede ser un color de respaldo si el video no carga */
 }
 
@@ -28,8 +28,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    /* background-color: var(--dark-bg); <-- ESTA LÍNEA FUE ELIMINADA para que el video se vea */
+    overflow: hidden; /* Esto aún puede ser útil aquí para el video de fondo en la página de inicio */
 }
 
 /* Estilos del video de fondo */
@@ -79,7 +78,7 @@ body {
 
 /* Logo de la aplicación */
 .app-logo {
-    width: 150px;
+    width: 100px; /* Ajustado un poco más pequeño para mobile */
     height: auto;
     margin-bottom: 20px;
     animation: pulse 2s infinite ease-in-out; /* Animación de pulsación */
@@ -87,7 +86,7 @@ body {
 
 /* Título de bienvenida */
 .welcome-title {
-    font-size: 2.5em;
+    font-size: 2em; /* Ajustado para mobile */
     color: var(--primary-gold);
     margin-bottom: 10px;
     text-shadow: 0 0 8px var(--primary-gold), 0 0 15px rgba(0, 0, 0, 0.5); /* Brillo dorado */
@@ -95,7 +94,7 @@ body {
 
 /* Eslogan */
 .slogan {
-    font-size: 1.1em;
+    font-size: 1em; /* Ajustado para mobile */
     color: var(--text-light);
     margin-bottom: 30px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
