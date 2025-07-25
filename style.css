@@ -232,7 +232,7 @@ body {
 .btn-primary:active {
     transform: translateY(0);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-    background-color: var(--primary-gold);
+    background-color: var(--button-bg-dark);
 }
 
 .btn-accion-secondary {
@@ -529,7 +529,7 @@ body {
     height: 60%;
     background-size: cover;
     background-position: center;
-    filter: brightness(0.6) grayscale(0.2);
+    filter: brightness(0.4) grayscale(0.5);
     border-bottom: 3px solid var(--primary-gold);
 }
 
