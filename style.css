@@ -19,11 +19,13 @@ body {
     overflow-x: hidden; /* Solo previene scroll horizontal no deseado */
     background-color: var(--dark-bg); /* Esto puede ser un color de respaldo si el video no carga */
 
+    /* --- CAMBIOS PARA CENTRADO GLOBAL (AFECTA A TODAS LAS PÁGINAS) --- */
     min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
     display: flex; /* Convierte el body en un contenedor flexbox */
     flex-direction: column; /* Apila el contenido verticalmente */
     align-items: center; /* Centra el contenido horizontalmente */
     justify-content: flex-start; /* Alinea el contenido al inicio verticalmente (arriba) */
+    /* --- FIN CAMBIOS CENTRADO GLOBAL --- */
 }
 
 /* Contenedor principal para el video de fondo (solo en index.html) */
@@ -34,7 +36,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow: hidden; /* Esto aún puede ser útil aquí para el video de fondo en la página de inicio */
 }
 
 /* Estilos del video de fondo */
@@ -63,7 +65,8 @@ body {
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
     max-width: 90%;
-    width: 450px;
+    width: 450px; /* Ancho fijo para el contenedor */
+    /* Animación de entrada para el overlay */
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInSlideUp 0.8s ease-out forwards;
@@ -83,7 +86,7 @@ body {
 
 /* Logo de la aplicación */
 .app-logo {
-    width: 100px;
+    width: 100px; /* Ajustado un poco más pequeño para mobile */
     height: auto;
     margin-bottom: 20px;
     animation: pulse 2s infinite ease-in-out;
@@ -91,7 +94,7 @@ body {
 
 /* Título de bienvenida */
 .welcome-title {
-    font-size: 2em;
+    font-size: 2em; /* Ajustado para mobile */
     color: var(--primary-gold);
     margin-bottom: 10px;
     text-shadow: 0 0 8px var(--primary-gold), 0 0 15px rgba(0, 0, 0, 0.5);
@@ -99,7 +102,7 @@ body {
 
 /* Eslogan */
 .slogan {
-    font-size: 1em;
+    font-size: 1em; /* Ajustado para mobile */
     color: var(--text-light);
     margin-bottom: 30px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
