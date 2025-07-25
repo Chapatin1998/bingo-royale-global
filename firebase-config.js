@@ -1,7 +1,7 @@
 // firebase-config.js
 
 // Importa las funciones necesarias del SDK de Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -16,13 +16,21 @@ const firebaseConfig = {
   measurementId: "G-G6402N020Z"
 };
 
-// Inicializa Firebase
-const app = initializeApp(firebaseConfig);
+// Inicializa Firebase UNA SOLA VEZ
+let app;
+try {
+    if (!getApps().length) { // <-- CAMBIO AQUÍ: Usamos getApps().length
+        app = initializeApp(firebaseConfig);
+        console.log("Firebase inicializado correctamente.");
+    } else {
+        app = getApps()[0]; // Reutiliza la instancia existente
+        console.log("Firebase ya estaba inicializado o se está reutilizando.");
+    }
+} catch (error) {
+    console.error("Error al inicializar Firebase:", error);
+    alert("Error crítico: No se pudo inicializar Firebase. Por favor, recarga la página. " + error.message);
+}
 
 // Exporta las instancias de Auth y Firestore para que puedan ser usadas en otros archivos
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-
-// Opcional: Para compatibilidad con código antiguo o si lo usas directamente en el HTML
-// window.auth = auth;
-// window.db = db;
+export const auth = app ? getAuth(app) : null;
+export const const db = app ? getFirestore(app) : null;
