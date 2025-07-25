@@ -121,22 +121,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (startButton) {
                 startButton.classList.remove('hidden'); // Muestra el botón INICIAR JUEGO
             }
+            // NOTA: El video y la música NO se inician aquí, sino al hacer clic en el botón de música.
         }
     }, 100); 
 
     // --- Lógica del botón INICIAR JUEGO (primera interacción del usuario) ---
     if (startButton) {
         startButton.addEventListener('click', () => {
-            // Reproducir video/música al hacer clic en INICIAR JUEGO
-            if (backgroundVideo) {
-                backgroundVideo.play().catch(e => console.warn("No se pudo iniciar el video al hacer clic:", e));
-            }
-            if (backgroundMusic) {
-                backgroundMusic.play().catch(e => console.warn("No se pudo iniciar la música al hacer clic:", e));
-                isMusicPlaying = true;
-                musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>'; // Actualiza icono
-            }
-
             // Ocultar el botón INICIAR JUEGO y mostrar el formulario de autenticación
             if (startButton) startButton.classList.add('hidden');
             if (authSection) authSection.classList.remove('hidden');
@@ -158,8 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                // Accede a 'auth' a través de window.auth
-                if (!window.auth) {
+                // Accede a 'auth' a través de window.auth (definido en firebase-config.js)
+                if (!window.auth) { // Preferible usar window.auth si se exporta así desde config.js
                     console.error("Firebase Auth no está inicializado. Recarga la página.");
                     authErrorDisplay.textContent = "Error de autenticación. Intenta de nuevo más tarde.";
                     return;
@@ -211,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
         linkSoporte.addEventListener('click', handleSupportClick);
     }
 
-    // --- Lógica del control de música (independiente del inicio de sesión) ---
+    // --- Lógica del control de música (activado por clic del usuario) ---
     if (musicToggle) {
         musicToggle.addEventListener('click', () => {
             if (backgroundMusic) {
@@ -223,6 +214,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>'; // Icono de volumen
                 }
                 isMusicPlaying = !isMusicPlaying;
+            }
+            // También activa el video aquí con el mismo clic del usuario
+            if (backgroundVideo && backgroundVideo.paused) { // Solo si está pausado
+                backgroundVideo.play().catch(e => console.error("Error al reproducir video:", e));
             }
         });
     }
