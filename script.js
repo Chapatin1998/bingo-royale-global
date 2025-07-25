@@ -11,22 +11,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadingBarContainer = document.getElementById('loading-bar-container');
     const loadingBar = document.getElementById('loading-bar');
     const loadingPercentage = document.getElementById('loading-percentage');
-    const startButton = document.getElementById('startButton'); 
-    const authSection = document.getElementById('auth-section'); 
+    const startButton = document.getElementById('startButton'); // Botón INICIAR JUEGO
+    const authSection = document.getElementById('auth-section'); // La sección con el formulario de login/registro
     
     // Elementos del formulario de autenticación
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
     const btnIniciar = document.getElementById('btnIniciar');
     const btnRegistrar = document.getElementById('btnRegistrar');
-    const authErrorDisplay = document.getElementById('authError'); 
-    const linkSoporte = document.getElementById('linkSoporte'); 
+    const authErrorDisplay = document.getElementById('authError'); // Para mostrar errores
+    const linkSoporte = document.getElementById('linkSoporte'); // Enlace de soporte
 
     // Controles de medios
     const backgroundVideo = document.getElementById('background-video');
     const backgroundMusic = document.getElementById('background-music');
     const musicToggle = document.getElementById('musicToggle');
-    let isMusicPlaying = false; 
+    let isMusicPlaying = false; // Estado de la música
 
     // Elementos de texto para cambio de idioma
     const welcomeTitle = document.getElementById('welcomeTitle');
@@ -96,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (legalText2) legalText2.textContent = t.legalText2;
         // Re-asignar listener al linkSoporte porque el innerHTML lo remueve
         if (linkSoporte) {
-             linkSoporte.removeEventListener('click', handleSupportClick);
-             linkSoporte.addEventListener('click', handleSupportClick);
+             linkSoporte.removeEventListener('click', handleSupportClick); 
+             linkSoporte.addEventListener('click', handleSupportClick); 
         }
     }
 
@@ -113,8 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Aseguramos que el contenedor de la barra de carga sea visible al inicio
     if (loadingBarContainer) {
         loadingBarContainer.style.display = 'block'; 
-        // console.log("Barra de carga: contenedor hecho visible.");
     }
+
 
     const loadInterval = setInterval(() => {
         percentage += 2; // Carga un poco más lenta
@@ -123,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (percentage >= 100) {
             clearInterval(loadInterval);
-            // console.log("Carga al 100%. Ocultando barra y mostrando botón.");
             if (loadingBarContainer) {
                 loadingBarContainer.style.display = 'none'; // Oculta la barra de carga
             }
@@ -169,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Accede a 'auth' a través de window.auth (definido en firebase-config.js)
-                if (!window.auth) {
+                if (!window.auth) { 
                     console.error("Firebase Auth no está inicializado. Recarga la página.");
                     authErrorDisplay.textContent = "Error de autenticación. Intenta de nuevo más tarde.";
                     return;
