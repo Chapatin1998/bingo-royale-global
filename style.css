@@ -219,6 +219,23 @@ body {
     background-color: var(--primary-gold); /* Vuelve al color original al presionar */
 }
 
+.btn-primary {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-gold);
+    transform: translateY(-3px); /* Se eleva un poco más */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    background-color: var(--primary-gold);
+}
+
 .btn-accion-secondary {
     background-color: var(--button-bg-dark);
     color: var(--primary-gold);
@@ -360,6 +377,9 @@ body {
     gap: 15px; /* Espacio entre grupos de input */
 }
 
+/* Reutiliza .input-group, .botones-container, .btn-primary, .btn-accion-secondary de tus estilos globales */
+/* Revisa la sección .input-group input:focus para asegurar el brillo dorado */
+
 .link-text {
     font-size: 1em;
     margin-top: 20px;
@@ -376,7 +396,7 @@ body {
     text-decoration: underline;
 }
 
-/* Si usas video de fondo en registro.html, asegúrate que esté configurado similar a index.html */
+/* Si usas video de fondo en registro.html */
 #background-video-registro { /* Asegúrate que este ID exista en registro.html */
     position: absolute;
     top: 0;
@@ -387,6 +407,17 @@ body {
     z-index: -1;
     filter: brightness(0.4) grayscale(0.5); /* Oscurece y desatura igual que el inicio */
 }
+
+/* Asegura que el main-container en registro.html tenga las mismas propiedades de flex y centrado */
+/* Si ya tienes un .main-container global que funcione para video, no necesitas añadir más */
+/* Sino, podrías necesitar un estilo para .login-page-container si decides usar ese nombre */
+
+/* Ejemplo si quieres un estilo para el body de registro.html diferente */
+/* body.registro-body {
+    background-color: #1a1a2e;
+} */
+
+/* Asegúrate de que los estilos globales para .content-overlay también apliquen aquí si lo usas */
 
 /* Estilos del lobby */
 .lobby-container {
@@ -482,8 +513,8 @@ body {
     height: 400px; /* Altura fija para las tarjetas */
     position: relative;
     /* --- BORDES DE DEPURACIÓN - ELIMINAR CUANDO LAS IMÁGENES CARGUEN --- */
-    border: 5px solid red; 
-    background-color: yellow; /* Para ver si la tarjeta principal se dibuja */
+    /* border: 5px solid red; */
+    /* background-color: yellow; */
     /* ------------------------------------------------------------------ */
 }
 
@@ -503,8 +534,8 @@ body {
     filter: brightness(0.6) grayscale(0.2);
     border-bottom: 3px solid var(--primary-gold);
     /* --- BORDES DE DEPURACIÓN - ELIMINAR CUANDO LAS IMÁGENES CARGUEN --- */
-    border: 5px solid lime; /* Verde lima para el contenedor de la imagen */
-    background-color: blue; /* Para ver si el fondo se está aplicando aquí */
+    /* border: 5px solid lime; */
+    /* background-color: blue; */
     /* ------------------------------------------------------------------ */
 }
 
@@ -518,6 +549,9 @@ body {
     justify-content: space-between;
     flex-grow: 1;
     color: var(--text-light);
+    /* --- BORDES DE DEPURACIÓN - ELIMINAR CUANDO LAS IMÁGENES CARGUEN --- */
+    /* background-color: yellow; */
+    /* ------------------------------------------------------------------ */
 }
 
 .sala-level {
