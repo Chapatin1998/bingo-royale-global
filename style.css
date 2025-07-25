@@ -637,3 +637,271 @@ body {
         margin: 0;
     }
 }
+/* Estilos específicos para juego.html */
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--dark-bg); /* Fondo oscuro para el juego */
+    color: var(--text-light);
+    overflow: hidden; /* Para manejar el fondo animado si lo hay */
+}
+
+.game-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente para la cabecera */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.back-button { /* Reutiliza estilos de back-button del lobby */
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.back-button:hover {
+    background-color: var(--secondary-gold);
+}
+
+.sala-actual-display {
+    font-size: 1.5em;
+    color: var(--primary-gold);
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.game-timer {
+    font-size: 1.5em;
+    color: #00bfff; /* Azul claro para el tiempo */
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.game-settings-button { /* Reutiliza estilos de botón flotante */
+    background-color: var(--button-bg-dark);
+    color: var(--text-light);
+    border: 1px solid var(--secondary-gold);
+    padding: 8px;
+    border-radius: 50%;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.game-settings-button:hover {
+    background-color: var(--button-hover-dark);
+}
+
+.game-area {
+    display: flex;
+    flex-grow: 1; /* Ocupa el espacio restante */
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.locutor-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.locutor-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary-gold);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.numero-cantado-display {
+    font-size: 4em; /* Número grande */
+    font-weight: bold;
+    color: var(--primary-gold);
+    text-shadow: 0 0 10px var(--primary-gold), 0 0 20px rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 15px 30px;
+    border-radius: 10px;
+    min-width: 80px;
+    text-align: center;
+}
+
+.bingo-card-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 700px; /* Ancho máximo para la sección del cartón */
+}
+
+.historial-numeros-cantados {
+    width: 100%;
+    max-height: 120px; /* Altura máxima para el historial */
+    overflow-y: auto; /* Permite desplazamiento si hay muchos números */
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.historial-numeros-cantados h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-gold);
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.numeros-cantados-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+}
+
+.called-number-item {
+    background-color: var(--button-bg-dark);
+    color: var(--primary-gold);
+    border: 1px solid var(--secondary-gold);
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.bingo-card-container {
+    width: 100%;
+    max-width: 400px; /* Ancho máximo del cartón */
+    background-color: var(--dark-bg);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+}
+
+.bingo-header {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
+    font-weight: bold;
+    font-size: 1.5em;
+    padding: 10px 0;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.bingo-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px; /* Espacio entre las celdas */
+    padding: 5px;
+}
+
+.bingo-cell {
+    background-color: #2e2e4e; /* Color de las celdas */
+    color: var(--text-light);
+    padding: 15px 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 3px;
+    cursor: pointer; /* Indica que es clicable */
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra interna para profundidad */
+}
+
+.bingo-cell:hover {
+    background-color: #454954; /* Un poco más claro al pasar el ratón */
+    transform: scale(1.05);
+}
+
+.bingo-cell.marked { /* Color cuando está marcado (ej. verde) */
+    background-color: #28a745;
+    color: white;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.bingo-cell.called { /* Color cuando fue cantado (ej. azul) */
+    background-color: #00bfff;
+    color: var(--dark-bg);
+}
+
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Reutiliza .btn-primary y .btn-accion-secondary */
+/* Estilos para botones deshabilitados */
+.btn-primary:disabled, .btn-accion-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Media Queries para juego.html */
+@media (max-width: 768px) {
+    .game-header {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+    .sala-actual-display, .game-timer {
+        font-size: 1.2em;
+    }
+    .locutor-avatar {
+        width: 80px;
+        height: 80px;
+    }
+    .numero-cantado-display {
+        font-size: 3em;
+        padding: 10px 20px;
+    }
+    .bingo-card-section {
+        max-width: 350px;
+    }
+    .bingo-cell {
+        padding: 10px 3px;
+        font-size: 1em;
+    }
+    .game-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-header {
+        padding: 10px;
+    }
+    .game-area {
+        padding: 10px;
+    }
+    .bingo-card-section {
+        max-width: 95%; /* Ajusta para pantallas muy pequeñas */
+    }
+    .bingo-cell {
+        font-size: 0.9em;
+    }
+}
