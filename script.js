@@ -1,24 +1,34 @@
 // script.js
 
-// Importa las funciones necesarias de Firebase SDK
-// NOTA: initializeApp, getAuth, getFirestore no se importan aquí directamente si se cargan globalmente en index.html
-// y se accede a 'auth' y 'db' a través de window.auth y window.db.
-// Para signInWithEmailAndPassword, sí necesitas importarlo si lo usas en este archivo.
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
+// Importa las funciones necesarias para autenticación si se requiere, aunque con compat ya están globales.
+// window.auth y window.db se accederán directamente si se configuran en firebase-config.js
+// como window.auth = firebase.auth();
+// Para signInWithEmailAndPassword, usamos firebase.auth().signInWithEmailAndPassword
+// Ya no necesitamos import { signInWithEmailAndPassword } from "...";
 
 document.addEventListener('DOMContentLoaded', () => {
     const loadingBarContainer = document.getElementById('loading-bar-container');
     const loadingBar = document.getElementById('loading-bar');
     const loadingPercentage = document.getElementById('loading-percentage');
-    const startButton = document.getElementById('startButton');
-    const backgroundVideo = document.getElementById('background-video'); // Agregado: Referencia al video
+    const authSection = document.getElementById('auth-section'); // La sección con el formulario
+    
+    // Elementos del formulario de autenticación
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const btnIniciar = document.getElementById('btnIniciar');
+    const btnRegistrar = document.getElementById('btnRegistrar');
+    const authErrorDisplay = document.getElementById('authError'); // Para mostrar errores
+    const linkSoporte = document.getElementById('linkSoporte'); // Enlace de soporte
+
+    // Controles de medios
+    const backgroundVideo = document.getElementById('background-video');
     const backgroundMusic = document.getElementById('background-music');
     const musicToggle = document.getElementById('musicToggle');
+    let isMusicPlaying = false; // Estado de la música
 
     let percentage = 0;
 
-    // Simulación de carga
+    // --- Lógica de la barra de carga ---
     const loadInterval = setInterval(() => {
         percentage += 5; // Incrementa el 5% cada vez
         if (loadingBar) loadingBar.style.width = percentage + '%';
@@ -29,32 +39,98 @@ document.addEventListener('DOMContentLoaded', () => {
             if (loadingBarContainer) {
                 loadingBarContainer.style.display = 'none'; // Oculta la barra de carga
             }
-            if (startButton) {
-                startButton.classList.remove('hidden'); // Muestra el botón INICIAR JUEGO
+            if (authSection) {
+                authSection.classList.remove('hidden'); // Muestra el formulario de inicio de sesión
+            }
 
-                // CAMBIO AQUÍ: Intenta reproducir video y música cuando el botón INICIAR JUEGO aparece
-                // Esto puede funcionar si el navegador ya permite autoplay muted, o si el usuario luego interactúa.
-                if (backgroundVideo) {
-                    backgroundVideo.play().catch(e => console.warn("No se pudo iniciar el video automáticamente:", e));
-                }
-                if (backgroundMusic) {
-                    backgroundMusic.play().catch(e => console.warn("No se pudo iniciar la música automáticamente:", e));
-                }
+            // --- Intentar reproducir video y música después de la carga ---
+            // Esto solo es un intento, navegadores pueden requerir interacción del usuario.
+            if (backgroundVideo) {
+                backgroundVideo.play().catch(e => console.warn("No se pudo iniciar el video automáticamente:", e));
+            }
+            if (backgroundMusic) {
+                backgroundMusic.play().catch(e => console.warn("No se pudo iniciar la música automáticamente:", e));
+                isMusicPlaying = true; // Asumimos que intentamos reproducir
+            }
+            // Actualizar icono de música si se reprodujo
+            if (musicToggle && isMusicPlaying) {
+                 musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
             }
         }
     }, 100); // Velocidad de la barra de carga (cada 100ms)
 
-    // Lógica del botón INICIAR JUEGO
-    if (startButton) {
-        startButton.addEventListener('click', () => {
-            // Aquí redirigimos a la pantalla de Login/Registro o Bienvenida
-            window.location.href = 'login.html'; // Redirige a login.html
+    // --- Lógica del botón INICIAR SESIÓN ---
+    if (btnIniciar) {
+        btnIniciar.addEventListener('click', async () => {
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            authErrorDisplay.textContent = ''; // Limpiar errores previos
+
+            if (!email || !password) {
+                authErrorDisplay.textContent = 'Por favor, ingresa tu correo y contraseña.';
+                return;
+            }
+
+            try {
+                // Accede a 'auth' a través de window.auth (definido en firebase-config.js)
+                // Asegúrate de que window.auth esté disponible
+                if (!window.auth) {
+                    console.error("Firebase Auth no está inicializado. Recarga la página.");
+                    authErrorDisplay.textContent = "Error de autenticación. Intenta de nuevo más tarde.";
+                    return;
+                }
+                
+                // Usar la función de Firebase Auth globalmente disponible
+                await window.auth.signInWithEmailAndPassword(email, password);
+                alert('Inicio de sesión exitoso!');
+                window.location.href = 'lobby.html'; // Redirige al lobby
+
+            } catch (error) {
+                console.error("Error al iniciar sesión:", error.code, error.message);
+                let errorMessage = 'Ocurrió un error al iniciar sesión. Por favor, intenta de nuevo.';
+
+                switch (error.code) {
+                    case 'auth/invalid-email':
+                        errorMessage = 'El formato del correo electrónico es inválido.';
+                        break;
+                    case 'auth/user-not-found':
+                    case 'auth/wrong-password':
+                        errorMessage = 'Correo o contraseña incorrectos.';
+                        break;
+                    case 'auth/user-disabled':
+                        errorMessage = 'Tu cuenta ha sido deshabilitada.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Demasiados intentos de inicio de sesión. Intenta de nuevo más tarde.';
+                        break;
+                    case 'auth/invalid-credential':
+                        errorMessage = 'Las credenciales proporcionadas son inválidas.';
+                        break;
+                    default:
+                        errorMessage = `Error: ${error.message}`;
+                        break;
+                }
+                authErrorDisplay.textContent = errorMessage;
+            }
         });
     }
 
-    // Lógica del control de música
-    let isMusicPlaying = false; // Estado inicial, asumimos que no suena al cargar
+    // --- Lógica del botón REGISTRARSE ---
+    if (btnRegistrar) {
+        btnRegistrar.addEventListener('click', () => {
+            window.location.href = 'registro.html'; // Redirige a la página de registro
+        });
+    }
 
+    // --- Lógica del enlace de Soporte ---
+    if (linkSoporte) {
+        linkSoporte.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Para soporte, por favor envía un correo a soporte@bingovipbolivia.com.');
+        });
+    }
+
+    // --- Lógica del control de música ---
     if (musicToggle) {
         musicToggle.addEventListener('click', () => {
             if (backgroundMusic) {
@@ -69,9 +145,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // Intenta reproducir la música al inicio si no se reproduce automáticamente
-    // Necesitas una interacción del usuario, por eso se enlaza al final de la carga o a un clic.
-    // También se puede intentar dentro de un setTimeout para no bloquear.
-    // backgroundMusic.play().catch(e => console.log("Música no se pudo reproducir automáticamente:", e));
 });
