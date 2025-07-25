@@ -29,7 +29,6 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    /* background-color: var(--dark-bg); <-- ESTA LÍNEA FUE ELIMINADA para que el video se vea */
 }
 
 /* Estilos del video de fondo */
@@ -59,6 +58,22 @@ body {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
     max-width: 90%;
     width: 450px; /* Ancho fijo para el contenedor */
+    /* Animación de entrada para el overlay */
+    opacity: 0; /* Empieza invisible */
+    transform: translateY(20px); /* Empieza un poco abajo */
+    animation: fadeInSlideUp 0.8s ease-out forwards; /* Aplicará la animación */
+}
+
+/* Animación de entrada general para el contenido */
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Logo de la aplicación */
@@ -74,7 +89,7 @@ body {
     font-size: 2.5em;
     color: var(--primary-gold);
     margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 8px var(--primary-gold), 0 0 15px rgba(0, 0, 0, 0.5); /* Brillo dorado */
 }
 
 /* Eslogan */
@@ -82,6 +97,7 @@ body {
     font-size: 1.1em;
     color: var(--text-light);
     margin-bottom: 30px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* Barra de carga */
@@ -129,6 +145,14 @@ body {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    opacity: 0; /* Empieza invisible */
+    transform: translateY(20px); /* Empieza un poco abajo */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Transición para cuando aparece */
+}
+
+.auth-section.show { /* Clase para mostrar con animación */
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .input-group {
@@ -182,13 +206,30 @@ body {
     color: var(--dark-bg);
 }
 
-.btn-primary:hover, .start-button:hover {
+.start-button:hover {
     background-color: var(--secondary-gold);
     transform: translateY(-3px); /* Se eleva un poco más */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
 }
 
-.btn-primary:active, .start-button:active { /* Efecto al hacer clic */
+.start-button:active { /* Efecto al hacer clic */
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    background-color: var(--primary-gold); /* Vuelve al color original al presionar */
+}
+
+.btn-primary {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-gold);
+    transform: translateY(-3px); /* Se eleva un poco más */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
+}
+
+.btn-primary:active { /* Efecto al hacer clic */
     transform: translateY(0);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
     background-color: var(--primary-gold); /* Vuelve al color original al presionar */
@@ -215,14 +256,14 @@ body {
 
 .error-message {
     color: #ff4d4d; /* Rojo para errores */
-    font-size: 1em; /* Un poco más grande */
+    font-size: 1em;
     margin-top: 10px;
     height: 1.2em;
 }
 
 .bottom-area {
     margin-top: 30px;
-    font-size: 0.95em; /* Un poco más grande */
+    font-size: 0.95em;
     color: var(--text-light);
     width: 80%;
     line-height: 1.4;
