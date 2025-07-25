@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo VIP Bolivia - Juego</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <button class="back-button" onclick="window.location.href='lobby.html'">
+                <i class="fas fa-arrow-left"></i> Salir de Sala
+            </button>
+            <span class="sala-actual-display" id="sala-actual-display"></span> <span class="game-timer" id="game-timer">00:00</span> <button class="settings-button" id="game-settings-button">
+                <i class="fas fa-cog"></i>
+            </button>
+        </header>
+
+        <div class="game-area">
+            <div class="locutor-section">
+                <img src="avatar_locutor_default.png" alt="Locutor de Bingo" class="locutor-avatar" id="locutor-avatar">
+                <span class="numero-cantado-display" id="numero-cantado-display"></span> </div>
+
+            <div class="bingo-card-section">
+                <div class="historial-numeros-cantados">
+                    <h3>Números Cantados</h3>
+                    <div class="numeros-cantados-grid" id="numeros-cantados-grid">
+                        </div>
+                </div>
+
+                <div class="bingo-card-container">
+                    <div class="bingo-header">
+                        <span>B</span><span>I</span><span>N</span><span>G</span><span>O</span>
+                    </div>
+                    <div class="bingo-grid" id="player-bingo-card">
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-controls">
+            <button class="btn-primary" id="buyNewCardButton">COMPRAR CARTÓN ($0.00)</button>
+            <button class="btn-accion-secondary" id="checkBingoButton" disabled>¡BINGO!</button>
+        </div>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    <script src="juego.js"></script>
+</body>
+</html>
