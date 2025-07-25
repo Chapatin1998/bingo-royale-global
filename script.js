@@ -96,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (legalText2) legalText2.textContent = t.legalText2;
         // Re-asignar listener al linkSoporte porque el innerHTML lo remueve
         if (linkSoporte) {
-             linkSoporte.removeEventListener('click', handleSupportClick); 
-             linkSoporte.addEventListener('click', handleSupportClick); 
+             linkSoporte.removeEventListener('click', handleSupportClick);
+             linkSoporte.addEventListener('click', handleSupportClick);
         }
     }
 
