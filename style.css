@@ -16,7 +16,7 @@ body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     color: var(--text-light);
-    overflow: hidden; /* Previene scroll no deseado */
+    /* overflow: hidden; <-- ELIMINADA ESTA LÍNEA para permitir el scroll */
     background-color: var(--dark-bg); /* Esto puede ser un color de respaldo si el video no carga */
 }
 
@@ -28,7 +28,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow: hidden; /* Esto aún puede ser útil aquí para el video de fondo en la página de inicio */
 }
 
 /* Estilos del video de fondo */
