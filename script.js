@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             welcomeTitle: 'Bem-vindo ao Bingo VIP Bolívia!',
             sloganText: 'Sua experiência de bingo premium começa aqui.',
             loadingMessage: 'Carregando sua experiência VIP...',
-            startButton: 'INICIAR JOGO',
+            startButton: 'INICIAR JUEGO',
             emailPlaceholder: 'Email',
             passwordPlaceholder: 'Senha',
             btnIniciar: 'Entrar',
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 backgroundVideo.play().catch(e => console.warn("No se pudo iniciar el video al hacer clic:", e));
             }
             if (backgroundMusic) {
-                backgroundMusic.play().catch(e => console.warn("No se pudo iniciar la música al hacer clic:", e));
+                backgroundMusic.play().catch(e => console.error("Error al reproducir música:", e));
                 isMusicPlaying = true;
                 musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>'; // Actualiza icono
             }
