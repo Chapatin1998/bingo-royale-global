@@ -1,5 +1,10 @@
 /* style.css */
 
+/* Global Box Sizing para un mejor control del layout */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 /* Variables de color */
 :root {
     --dark-bg: #1a1a2e;
@@ -65,8 +70,7 @@ body {
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
     max-width: 90%;
-    width: 450px; /* Ancho fijo para el contenedor */
-    /* Animación de entrada para el overlay */
+    width: 450px;
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInSlideUp 0.8s ease-out forwards;
@@ -86,7 +90,7 @@ body {
 
 /* Logo de la aplicación */
 .app-logo {
-    width: 100px; /* Ajustado un poco más pequeño para mobile */
+    width: 100px;
     height: auto;
     margin-bottom: 20px;
     animation: pulse 2s infinite ease-in-out;
@@ -94,7 +98,7 @@ body {
 
 /* Título de bienvenida */
 .welcome-title {
-    font-size: 2em; /* Ajustado para mobile */
+    font-size: 2em;
     color: var(--primary-gold);
     margin-bottom: 10px;
     text-shadow: 0 0 8px var(--primary-gold), 0 0 15px rgba(0, 0, 0, 0.5);
@@ -102,7 +106,7 @@ body {
 
 /* Eslogan */
 .slogan {
-    font-size: 1em; /* Ajustado para mobile */
+    font-size: 1em;
     color: var(--text-light);
     margin-bottom: 30px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -490,7 +494,6 @@ body {
 .salas-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
