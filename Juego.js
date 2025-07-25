@@ -1,7 +1,7 @@
 // juego.js
 
 // Asegúrate de que 'auth' y 'db' estén disponibles globalmente desde firebase-config.js
-// Accederemos a ellos a través de window.auth y window.db
+// como window.auth y window.db
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Elementos del DOM
@@ -24,21 +24,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     let salaCosto = 0; // Costo de la sala
     let currentUserData = null; // Datos del usuario
 
-    // --- Inicialización al cargar la página ---
-    async function initializeGamePage() {
-        if (!window.auth || !window.db) {
-            alert("Error: Firebase no está inicializado. Recarga la página.");
-            window.location.href = 'index.html'; // Redirigir a inicio si Firebase no está listo
-            return;
-        }
-
-        const user = window.auth.currentUser;
-        if (!user) {
-            alert("No has iniciado sesión. Redirigiendo a la página de inicio.");
+    // --- Función para inicializar la página de juego ---
+    async function initializeGamePage(user) { // Ahora acepta el objeto 'user'
+        if (!user) { // Si por alguna razón se llama sin usuario (no debería si está en onAuthStateChanged)
+            console.log("No user in initializeGamePage, redirecting.");
             window.location.href = 'index.html';
             return;
         }
 
+        if (!window.auth || !window.db) {
+            alert("Error: Firebase Auth o DB no están disponibles en juego.js.");
+            window.location.href = 'index.html'; 
+            return;
+        }
+        
         // Obtener la sala seleccionada desde localStorage (guardado en lobby.js)
         const currentSalaId = localStorage.getItem('currentSalaId');
         const currentSalaName = localStorage.getItem('currentSalaName');
@@ -59,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     locutorAvatar.src = currentUserData.avatar; // Usar el avatar del jugador como locutor temporalmente
                 }
             } else {
-                alert("Error: No se encontraron tus datos de usuario.");
+                alert("Error: No se encontraron tus datos de usuario en Firestore.");
                 window.location.href = 'lobby.html';
                 return;
             }
@@ -74,19 +73,39 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Asumimos que el costo ya fue deducido al entrar a la sala.
         // Este botón será para comprar un *nuevo* cartón si es que quieres esa funcionalidad después.
         if (buyNewCardButton) {
-            const salaCard = document.getElementById(currentSalaId);
-            if (salaCard) {
-                 salaCosto = parseFloat(salaCard.dataset.cost);
-                 buyNewCardButton.textContent = `COMPRAR CARTÓN ($${salaCosto.toFixed(2)})`;
-            } else {
-                 buyNewCardButton.textContent = `COMPRAR CARTÓN (N/A)`;
-            }
+            const tempSalaCard = document.createElement('div'); // Crear un elemento temporal para leer dataset
+            tempSalaCard.dataset.cost = localStorage.getItem('lastSalaCost') || '0'; // Recuperar el costo de la sala
+            
+            salaCosto = parseFloat(tempSalaCard.dataset.cost);
+            buyNewCardButton.textContent = `COMPRAR CARTÓN ($${salaCosto.toFixed(2)})`;
             buyNewCardButton.disabled = false; // Habilitar compra de cartón
         }
 
         // Generar un nuevo cartón de bingo al iniciar la página de juego
         generateNewBingoCard();
     }
+
+    // --- CAMBIO CLAVE: Observar el estado de autenticación ---
+    // Esta es la forma correcta de esperar a que Firebase confirme si el usuario está logueado en esta página
+    if (window.auth) {
+        window.auth.onAuthStateChanged(user => {
+            if (user) {
+                // Usuario logueado: Inicializar la página del juego
+                console.log("Usuario logueado en juego.html:", user.uid);
+                initializeGamePage(user); // Pasamos el objeto user a la función
+            } else {
+                // No hay usuario logueado: Redirigir a la página de inicio
+                console.log("Ningún usuario logueado en juego.html.");
+                alert("Tu sesión ha expirado o no has iniciado sesión. Redirigiendo a inicio.");
+                window.location.href = 'index.html';
+            }
+        });
+    } else {
+        // Firebase Auth no está disponible (error en firebase-config.js o carga de SDK)
+        console.error("Firebase Auth no está disponible en juego.js. Asegúrate de que firebase-config.js y los SDK se carguen correctamente.");
+        alert("Error crítico: El sistema de autenticación no está listo. Recarga la página.");
+    }
+
 
     // --- Funciones del juego de Bingo ---
 
@@ -128,7 +147,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (calledNumbers.includes(number)) {
                 cardItem.marked = !cardItem.marked; // Alternar marcado
                 cell.classList.toggle('marked', cardItem.marked); // Añadir/quitar clase 'marked'
-                // console.log(`Número ${number} marcado/desmarcado: ${cardItem.marked}`);
             } else {
                 alert(`El número ${number} aún no ha sido cantado por el locutor.`);
             }
@@ -162,7 +180,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             } else {
                 clearInterval(gameInterval);
                 alert("Todos los números han sido cantados. No hubo bingo :(");
-                // Aquí podrías reiniciar el juego o mostrar resultados
             }
         }, 2000); // Canta un número cada 2 segundos
     }
@@ -181,27 +198,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- Lógica del botón COMPRAR CARTÓN (solo ejemplo) ---
     if (buyNewCardButton) {
         buyNewCardButton.addEventListener('click', () => {
-            // Aquí iría la lógica para descontar saldo y generar un nuevo cartón
             alert("Funcionalidad 'Comprar Nuevo Cartón' en desarrollo. Se descontará saldo.");
-            generateNewBingoCard(); // Genera uno nuevo (sin descuento real por ahora)
+            generateNewBingoCard(); 
         });
     }
 
     // --- Lógica del botón ¡BINGO! ---
     if (checkBingoButton) {
         checkBingoButton.addEventListener('click', () => {
-            // Verificar si el usuario tiene un bingo (simplificado)
-            // Esto es solo un ejemplo, la lógica de verificación real es compleja (filas, columnas, diagonales)
             const markedCells = document.querySelectorAll('.bingo-cell.marked').length;
-            if (markedCells >= 5) { // Si hay al menos 5 marcados (ejemplo simple de bingo)
+            if (markedCells >= 5) { 
                 alert("¡BINGO! 🎉 Verificando tu cartón...");
-                // Aquí iría la lógica para verificar el bingo en el servidor
             } else {
                 alert("Aún no tienes BINGO. ¡Sigue marcando!");
             }
         });
     }
 
-    // Inicializar la página de juego al cargar
-    initializeGamePage(); 
+    // NOTA: initializeGamePage() no se llama aquí directamente, sino desde onAuthStateChanged
 });
