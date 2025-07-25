@@ -15,20 +15,16 @@
 <body>
     <div class="main-container">
         <video autoplay muted loop id="background-video">
-            <source src="fondo-casino-3d.mp4" type="video/mp4">
+            <source src="video/fondo-casino-3d.mp4" type="video/mp4">
             Tu navegador no soporta el video.
         </video>
         
         <div class="content-overlay">
             <img src="logo-bingo-vip.png" alt="Logo Bingo VIP Bolivia" class="app-logo">
-            <h1 class="welcome-title">¡Bienvenido a Bingo VIP Bolivia!</h1>
-            <p class="slogan">Tu experiencia de bingo premium comienza aquí.</p>
-
-            <div class="loading-bar-container" id="loading-bar-container">
+            <h1 class="welcome-title" id="welcomeTitle">¡Bienvenido a Bingo VIP Bolivia!</h1> <p class="slogan" id="sloganText">Tu experiencia de bingo premium comienza aquí.</p> <div class="loading-bar-container" id="loading-bar-container">
                 <div class="loading-bar" id="loading-bar"></div>
                 <span id="loading-percentage">0%</span>
-                <p class="loading-message">Cargando tu experiencia VIP...</p>
-            </div>
+                <p class="loading-message" id="loadingMessage">Cargando tu experiencia VIP...</p> </div>
 
             <button class="start-button hidden" id="startButton">INICIAR JUEGO</button>
 
@@ -45,9 +41,9 @@
                 <p class="error-message" id="authError"></p> </div>
             
             <div class="bottom-area">
-                <p class="support-text">¿Necesitas ayuda? <a href="#" id="linkSoporte">Contacto con soporte</a></p>
-                <p class="legal-text">Este juego es solo para mayores de 18 años. Una sola cuenta por persona.</p>
-                <p class="legal-text">Juega con responsabilidad.</p>
+                <p class="support-text" id="supportText">¿Necesitas ayuda? <a href="#" id="linkSoporte">Contacto con soporte</a></p>
+                <p class="legal-text" id="legalText1">Este juego es solo para mayores de 18 años. Una sola cuenta por persona.</p>
+                <p class="legal-text" id="legalText2">Juega con responsabilidad.</p>
             </div>
             
             <div class="language-selector">
