@@ -1,9 +1,11 @@
 // registro.js
 
 // Asegúrate de que 'auth' y 'db' estén disponibles globalmente desde firebase-config.js
-// como window.auth y window.db, o importados si usas módulos estrictos.
+// como window.auth y window.db
 
 document.addEventListener('DOMContentLoaded', () => {
+    alert("Registro.js se está iniciando."); // Diagnóstico
+
     const nombreCompletoInput = document.getElementById('nombreCompleto');
     const emailRegistroInput = document.getElementById('emailRegistro');
     const passwordRegistroInput = document.getElementById('passwordRegistro');
@@ -42,9 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                // Asegúrate de que window.auth y window.db estén disponibles
+                // Verificar si window.auth y window.db están disponibles ANTES de usarlos
                 if (!window.auth || !window.db) {
-                    throw new Error("Firebase no está inicializado. Recarga la página.");
+                    alert("Error: Firebase (Auth/DB) no está disponible en registro.js. Recarga la página."); // Diagnóstico
+                    throw new Error("Firebase (Auth/DB) no está inicializado.");
                 }
 
                 // Crear usuario en Firebase Authentication
@@ -57,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     email: email,
                     avatar: 'avatar_default.png', // Avatar por defecto
                     balance: 500, // Bono de registro inicial, como en tu plan
-                    createAt: firebase.firestore.FieldValue.serverTimestamp() // Fecha de creación
+                    createAt: firebase.firestore.FieldValue.serverTimestamp() // Asegúrate que FieldValue esté disponible globalmente
                 });
 
                 alert('¡Registro exitoso! ¡Bienvenido a Bingo VIP Bolivia!');
