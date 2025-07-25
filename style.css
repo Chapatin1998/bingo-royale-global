@@ -206,13 +206,13 @@ body {
     color: var(--dark-bg);
 }
 
-.btn-primary:hover, .start-button:hover {
+.start-button:hover {
     background-color: var(--secondary-gold);
     transform: translateY(-3px); /* Se eleva un poco más */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
 }
 
-.btn-primary:active, .start-button:active { /* Efecto al hacer clic */
+.start-button:active { /* Efecto al hacer clic */
     transform: translateY(0);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
     background-color: var(--primary-gold); /* Vuelve al color original al presionar */
