@@ -29,6 +29,7 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    /* background-color: var(--dark-bg); <-- ESTA LÍNEA FUE ELIMINADA para que el video se vea */
 }
 
 /* Estilos del video de fondo */
@@ -229,10 +230,10 @@ body {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
 }
 
-.btn-primary:active { /* Efecto al hacer clic */
+.btn-primary:active {
     transform: translateY(0);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-    background-color: var(--primary-gold); /* Vuelve al color original al presionar */
+    background-color: var(--primary-gold);
 }
 
 .btn-accion-secondary {
