@@ -17,7 +17,7 @@ body {
     font-family: 'Arial', sans-serif;
     color: var(--text-light);
     overflow: hidden; /* Previene scroll no deseado */
-    background-color: var(--dark-bg);
+    background-color: var(--dark-bg); /* Esto puede ser un color de respaldo si el video no carga */
 }
 
 /* Contenedor principal para el video de fondo */
@@ -29,6 +29,7 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    /* background-color: var(--dark-bg); <-- ELIMINADO ESTA LÍNEA para que el video se vea */
 }
 
 /* Estilos del video de fondo */
@@ -117,26 +118,98 @@ body {
     margin-top: 10px;
 }
 
-/* Botón de iniciar */
-.start-button {
-    background-color: var(--primary-gold);
-    color: var(--dark-bg);
+/* Formulario de autenticación */
+.auth-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.input-group {
+    width: 80%;
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--secondary-gold);
+    border-radius: 5px;
+    background-color: var(--button-bg-dark);
+    color: var(--text-light);
+    font-size: 1em;
+    box-sizing: border-box; /* Incluye padding y borde en el ancho */
+}
+
+.input-group input::placeholder {
+    color: #aaa;
+}
+
+.botones-container {
+    display: flex;
+    flex-direction: column; /* Apila los botones verticalmente */
+    width: 80%;
+    gap: 10px; /* Espacio entre botones */
+}
+
+.btn-primary, .btn-accion-secondary {
+    padding: 12px 20px;
     border: none;
-    padding: 15px 30px;
     border-radius: 8px;
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.start-button:hover {
+.btn-primary {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
+}
+
+.btn-primary:hover {
     background-color: var(--secondary-gold);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
-.start-button.hidden {
+.btn-accion-secondary {
+    background-color: var(--button-bg-dark);
+    color: var(--primary-gold);
+    border: 1px solid var(--primary-gold);
+}
+
+.btn-accion-secondary:hover {
+    background-color: var(--button-hover-dark);
+    transform: translateY(-1px);
+}
+
+.error-message {
+    color: #ff4d4d; /* Rojo para errores */
+    font-size: 0.9em;
+    margin-top: 10px;
+    height: 1.2em; /* Reserva espacio para el mensaje */
+}
+
+.bottom-area {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: var(--text-light);
+    width: 80%;
+}
+
+.bottom-area a {
+    color: var(--primary-gold);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.bottom-area a:hover {
+    text-decoration: underline;
+}
+
+.hidden {
     display: none;
 }
 
@@ -198,5 +271,8 @@ body {
         top: auto;
         right: auto;
         margin-top: 15px;
+    }
+    .input-group, .botones-container, .bottom-area {
+        width: 90%;
     }
 }
