@@ -1,14 +1,18 @@
 // script.js
 
-// Ya no importamos 'auth' y 'db' de firebase-config.js
-// Accederemos a ellos a través de 'window.auth' y 'window.db'
-// Asegúrate de que Firebase se cargue antes que este script en index.html
+// Importa las funciones necesarias de Firebase SDK
+// NOTA: initializeApp, getAuth, getFirestore no se importan aquí directamente si se cargan globalmente en index.html
+// y se accede a 'auth' y 'db' a través de window.auth y window.db.
+// Para signInWithEmailAndPassword, sí necesitas importarlo si lo usas en este archivo.
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const loadingBarContainer = document.getElementById('loading-bar-container');
     const loadingBar = document.getElementById('loading-bar');
     const loadingPercentage = document.getElementById('loading-percentage');
     const startButton = document.getElementById('startButton');
+    const backgroundVideo = document.getElementById('background-video'); // Agregado: Referencia al video
     const backgroundMusic = document.getElementById('background-music');
     const musicToggle = document.getElementById('musicToggle');
 
@@ -27,13 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (startButton) {
                 startButton.classList.remove('hidden'); // Muestra el botón INICIAR JUEGO
-            }
-            // Intenta iniciar la música de fondo al final de la carga (navegadores pueden bloquear autoplay)
-            if (backgroundMusic) {
-                backgroundMusic.play().catch(e => {
-                    console.warn("No se pudo iniciar la música automáticamente:", e);
-                    // Puedes mostrar un mensaje al usuario para que toque la pantalla
-                });
+
+                // CAMBIO AQUÍ: Intenta reproducir video y música cuando el botón INICIAR JUEGO aparece
+                // Esto puede funcionar si el navegador ya permite autoplay muted, o si el usuario luego interactúa.
+                if (backgroundVideo) {
+                    backgroundVideo.play().catch(e => console.warn("No se pudo iniciar el video automáticamente:", e));
+                }
+                if (backgroundMusic) {
+                    backgroundMusic.play().catch(e => console.warn("No se pudo iniciar la música automáticamente:", e));
+                }
             }
         }
     }, 100); // Velocidad de la barra de carga (cada 100ms)
@@ -63,4 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Intenta reproducir la música al inicio si no se reproduce automáticamente
+    // Necesitas una interacción del usuario, por eso se enlaza al final de la carga o a un clic.
+    // También se puede intentar dentro de un setTimeout para no bloquear.
+    // backgroundMusic.play().catch(e => console.log("Música no se pudo reproducir automáticamente:", e));
 });
