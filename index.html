@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo VIP Bolivia</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="main-container">
+        <video autoplay muted loop id="background-video">
+            <source src="video/fondo-casino-3d.mp4" type="video/mp4">
+            Tu navegador no soporta el video.
+        </video>
+        
+        <div class="content-overlay">
+            <img src="img/logo-bingo-vip.png" alt="Logo Bingo VIP Bolivia" class="app-logo">
+            <h1 class="welcome-title">¡Bienvenido a Bingo VIP Bolivia!</h1>
+            <p class="slogan">Tu experiencia de bingo premium comienza aquí.</p>
+
+            <div class="loading-bar-container" id="loading-bar-container">
+                <div class="loading-bar" id="loading-bar"></div>
+                <span id="loading-percentage">0%</span>
+                <p class="loading-message">Cargando tu experiencia VIP...</p>
+            </div>
+
+            <button class="start-button hidden" id="startButton">INICIAR JUEGO</button>
+            
+            <div class="language-selector">
+                <select id="langSelect">
+                    <option value="es">🇧🇴 Español</option>
+                    <option value="en">🇺🇸 English</option>
+                    <option value="pt">🇧🇷 Portugués</option>
+                </select>
+            </div>
+            
+            <div class="music-controls">
+                <button id="musicToggle">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="background-music" loop>
+        <source src="audio/fondo.mp3" type="audio/mpeg">
+        Tu navegador no soporta el audio.
+    </audio>
+
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+    
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
