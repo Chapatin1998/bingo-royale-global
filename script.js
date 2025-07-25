@@ -6,29 +6,27 @@
 // están disponibles globalmente debido a la carga de firebase-auth-compat.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- LÍNEA DE DIAGNÓSTICO: Esto debería aparecer al cargar la página ---
-    alert("Script.js se está iniciando. (Confirmado)"); 
-    // --- FIN LÍNEA DE DIAGNÓSTICO ---
+    // console.log("Script.js se está iniciando."); // Puedes dejar esto si quieres verlo en consola
 
     const loadingBarContainer = document.getElementById('loading-bar-container');
     const loadingBar = document.getElementById('loading-bar');
     const loadingPercentage = document.getElementById('loading-percentage');
-    const startButton = document.getElementById('startButton'); // Botón INICIAR JUEGO
-    const authSection = document.getElementById('auth-section'); // La sección con el formulario de login/registro
+    const startButton = document.getElementById('startButton'); 
+    const authSection = document.getElementById('auth-section'); 
     
     // Elementos del formulario de autenticación
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
     const btnIniciar = document.getElementById('btnIniciar');
     const btnRegistrar = document.getElementById('btnRegistrar');
-    const authErrorDisplay = document.getElementById('authError'); // Para mostrar errores
-    const linkSoporte = document.getElementById('linkSoporte'); // Enlace de soporte
+    const authErrorDisplay = document.getElementById('authError'); 
+    const linkSoporte = document.getElementById('linkSoporte'); 
 
     // Controles de medios
     const backgroundVideo = document.getElementById('background-video');
     const backgroundMusic = document.getElementById('background-music');
     const musicToggle = document.getElementById('musicToggle');
-    let isMusicPlaying = false; // Estado de la música
+    let isMusicPlaying = false; 
 
     // Elementos de texto para cambio de idioma
     const welcomeTitle = document.getElementById('welcomeTitle');
@@ -98,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (legalText2) legalText2.textContent = t.legalText2;
         // Re-asignar listener al linkSoporte porque el innerHTML lo remueve
         if (linkSoporte) {
-             linkSoporte.removeEventListener('click', handleSupportClick); // Eliminar el viejo
-             linkSoporte.addEventListener('click', handleSupportClick); // Añadir el nuevo
+             linkSoporte.removeEventListener('click', handleSupportClick);
+             linkSoporte.addEventListener('click', handleSupportClick);
         }
     }
 
@@ -112,27 +110,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Lógica de la barra de carga ---
     let percentage = 0;
-    // Aseguramos que el contenedor de la barra de carga sea visible antes de empezar
+    // Aseguramos que el contenedor de la barra de carga sea visible al inicio
     if (loadingBarContainer) {
         loadingBarContainer.style.display = 'block'; 
-        alert("Barra de carga: contenedor debería ser visible."); // Diagnóstico
+        // console.log("Barra de carga: contenedor hecho visible.");
     }
-
 
     const loadInterval = setInterval(() => {
         percentage += 2; // Carga un poco más lenta
         if (loadingBar) loadingBar.style.width = percentage + '%';
         if (loadingPercentage) loadingPercentage.textContent = percentage + '%';
 
-        // Diagnóstico: Alertas en puntos clave de la carga
-        if (percentage === 10) alert("Carga al 10%");
-        if (percentage === 50) alert("Carga al 50%");
-        if (percentage === 90) alert("Carga al 90%");
-
-
         if (percentage >= 100) {
             clearInterval(loadInterval);
-            alert("Carga al 100%. Ocultando barra y mostrando botón."); // Diagnóstico
+            // console.log("Carga al 100%. Ocultando barra y mostrando botón.");
             if (loadingBarContainer) {
                 loadingBarContainer.style.display = 'none'; // Oculta la barra de carga
             }
@@ -145,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Lógica del botón INICIAR JUEGO (primera interacción del usuario) ---
     if (startButton) {
         startButton.addEventListener('click', () => {
-            alert("Clic en INICIAR JUEGO. Mostrando formulario."); // Diagnóstico
             // Reproducir video/música al hacer clic en INICIAR JUEGO
             if (backgroundVideo) {
                 backgroundVideo.play().catch(e => console.warn("No se pudo iniciar el video al hacer clic:", e));
@@ -159,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Ocultar el botón INICIAR JUEGO y mostrar el formulario de autenticación
             if (startButton) startButton.classList.add('hidden');
             if (authSection) authSection.classList.remove('hidden');
+            if (authSection) authSection.classList.add('show'); // Aplica clase 'show' para la animación de entrada
         });
     }
 
@@ -178,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Accede a 'auth' a través de window.auth (definido en firebase-config.js)
-                if (!window.auth) { // Preferible usar window.auth si se exporta así desde config.js
+                if (!window.auth) {
                     console.error("Firebase Auth no está inicializado. Recarga la página.");
                     authErrorDisplay.textContent = "Error de autenticación. Intenta de nuevo más tarde.";
                     return;
