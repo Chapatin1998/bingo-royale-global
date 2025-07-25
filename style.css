@@ -207,33 +207,16 @@ body {
     color: var(--dark-bg);
 }
 
-.start-button:hover {
+.btn-primary:hover, .start-button:hover {
     background-color: var(--secondary-gold);
     transform: translateY(-3px); /* Se eleva un poco más */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
 }
 
-.start-button:active { /* Efecto al hacer clic */
+.btn-primary:active, .start-button:active { /* Efecto al hacer clic */
     transform: translateY(0);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
     background-color: var(--primary-gold); /* Vuelve al color original al presionar */
-}
-
-.btn-primary {
-    background-color: var(--primary-gold);
-    color: var(--dark-bg);
-}
-
-.btn-primary:hover {
-    background-color: var(--secondary-gold);
-    transform: translateY(-3px); /* Se eleva un poco más */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
-}
-
-.btn-primary:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-    background-color: var(--primary-gold);
 }
 
 .btn-accion-secondary {
@@ -357,4 +340,267 @@ body {
 
 .app-logo {
     animation: pulse 2s infinite ease-in-out; /* Aplica la animación al logo */
+}
+
+/* Estilos específicos para registro.html */
+
+/* Los estilos de .screen-title, .input-group, .botones-container, .btn-primary, .btn-accion-secondary
+   ya están definidos globalmente arriba y deberían aplicar. */
+
+.register-form-container {
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente para el formulario */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+    max-width: 450px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Espacio entre grupos de input */
+}
+
+.link-text {
+    font-size: 1em;
+    margin-top: 20px;
+    color: var(--text-light);
+}
+
+.link-text a {
+    color: var(--primary-gold);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link-text a:hover {
+    text-decoration: underline;
+}
+
+/* Si usas video de fondo en registro.html, asegúrate que esté configurado similar a index.html */
+#background-video-registro { /* Asegúrate que este ID exista en registro.html */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    filter: brightness(0.4) grayscale(0.5); /* Oscurece y desatura igual que el inicio */
+}
+
+/* Estilos del lobby */
+.lobby-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+}
+
+.lobby-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 10px 0;
+}
+
+.back-button {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.back-button:hover {
+    background-color: var(--secondary-gold);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #555;
+    border: 2px solid var(--primary-gold);
+    object-fit: cover;
+}
+
+.user-balance {
+    font-size: 1.2em;
+    color: var(--primary-gold);
+    font-weight: bold;
+}
+
+.add-funds-button {
+    background-color: var(--progress-bar-color); /* Verde */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.add-funds-button:hover {
+    background-color: #21883b;
+}
+
+/* screen-title ya está definido globalmente */
+
+/* Estilos de la cuadrícula de salas */
+.salas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+.sala-card {
+    background-color: var(--dark-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 400px; /* Altura fija para las tarjetas */
+    position: relative;
+    /* --- BORDES DE DEPURACIÓN - ELIMINAR CUANDO LAS IMÁGENES CARGUEN --- */
+    border: 5px solid red; 
+    background-color: yellow; /* Para ver si la tarjeta principal se dibuja */
+    /* ------------------------------------------------------------------ */
+}
+
+.sala-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+.sala-card-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.6) grayscale(0.2);
+    border-bottom: 3px solid var(--primary-gold);
+    /* --- BORDES DE DEPURACIÓN - ELIMINAR CUANDO LAS IMÁGENES CARGUEN --- */
+    border: 5px solid lime; /* Verde lima para el contenedor de la imagen */
+    background-color: blue; /* Para ver si el fondo se está aplicando aquí */
+    /* ------------------------------------------------------------------ */
+}
+
+.sala-card-content {
+    position: relative;
+    z-index: 1;
+    padding: 15px;
+    padding-top: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    color: var(--text-light);
+}
+
+.sala-level {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    align-self: flex-start;
+    margin-bottom: 10px;
+}
+
+.sala-name {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--primary-gold);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.sala-description {
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    line-height: 1.4;
+    max-height: 3.8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sala-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.95em;
+    font-weight: bold;
+}
+
+.sala-details .costo {
+    color: var(--progress-bar-color); /* Verde */
+}
+
+.sala-details .premio {
+    color: #00bfff; /* Azul claro */
+}
+
+/* .btn-bingo ya está definido globalmente */
+
+/* Responsive Design para lobby */
+@media (max-width: 768px) {
+    .salas-grid {
+        grid-template-columns: 1fr;
+        width: 95%;
+    }
+    .sala-card {
+        height: auto;
+    }
+    .sala-card-content {
+        padding-top: 50%;
+    }
+    .screen-title {
+        font-size: 1.8em;
+    }
+    .lobby-header {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+    .back-button, .user-info, .add-funds-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .lobby-container {
+        padding: 10px;
+    }
+    .screen-title {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+    .sala-card {
+        margin: 0;
+    }
 }
