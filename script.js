@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Lógica de la barra de carga ---
     let percentage = 0;
     const loadInterval = setInterval(() => {
-        percentage += 5; 
+        percentage += 2; // Carga un poco más lenta
         if (loadingBar) loadingBar.style.width = percentage + '%';
         if (loadingPercentage) loadingPercentage.textContent = percentage + '%';
 
@@ -121,13 +121,23 @@ document.addEventListener('DOMContentLoaded', () => {
             if (startButton) {
                 startButton.classList.remove('hidden'); // Muestra el botón INICIAR JUEGO
             }
-            // NOTA: El video y la música NO se inician aquí, sino al hacer clic en el botón de música.
+            // NOTA: El video y la música NO se inician aquí, sino al hacer clic en el botón INICIAR JUEGO.
         }
-    }, 100); 
+    }, 150); // Velocidad de la barra de carga (más lenta)
 
     // --- Lógica del botón INICIAR JUEGO (primera interacción del usuario) ---
     if (startButton) {
         startButton.addEventListener('click', () => {
+            // Reproducir video/música al hacer clic en INICIAR JUEGO
+            if (backgroundVideo) {
+                backgroundVideo.play().catch(e => console.warn("No se pudo iniciar el video al hacer clic:", e));
+            }
+            if (backgroundMusic) {
+                backgroundMusic.play().catch(e => console.warn("No se pudo iniciar la música al hacer clic:", e));
+                isMusicPlaying = true;
+                musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>'; // Actualiza icono
+            }
+
             // Ocultar el botón INICIAR JUEGO y mostrar el formulario de autenticación
             if (startButton) startButton.classList.add('hidden');
             if (authSection) authSection.classList.remove('hidden');
@@ -202,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         linkSoporte.addEventListener('click', handleSupportClick);
     }
 
-    // --- Lógica del control de música (activado por clic del usuario) ---
+    // --- Lógica del control de música (independiente del inicio de sesión) ---
     if (musicToggle) {
         musicToggle.addEventListener('click', () => {
             if (backgroundMusic) {
@@ -215,8 +225,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 isMusicPlaying = !isMusicPlaying;
             }
-            // También activa el video aquí con el mismo clic del usuario
-            if (backgroundVideo && backgroundVideo.paused) { // Solo si está pausado
+            // También activa el video aquí con el mismo clic del usuario si está pausado
+            if (backgroundVideo && backgroundVideo.paused) { 
                 backgroundVideo.play().catch(e => console.error("Error al reproducir video:", e));
             }
         });
