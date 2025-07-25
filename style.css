@@ -66,6 +66,7 @@ body {
     width: 150px;
     height: auto;
     margin-bottom: 20px;
+    animation: pulse 2s infinite ease-in-out; /* Animación de pulsación */
 }
 
 /* Título de bienvenida */
@@ -86,36 +87,40 @@ body {
 /* Barra de carga */
 .loading-bar-container {
     width: 80%;
-    height: 20px;
+    height: 25px; /* Un poco más alta */
     background-color: var(--button-bg-dark);
-    border-radius: 10px;
+    border-radius: 12px; /* Más redondeada */
     overflow: hidden;
-    margin-bottom: 20px;
+    margin-bottom: 25px; /* Más espacio */
     position: relative;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra para resaltar */
 }
 
 .loading-bar {
     height: 100%;
     width: 0%;
-    background-color: var(--primary-gold);
-    border-radius: 10px;
-    transition: width 0.4s ease-out; /* Animación más suave */
+    background: linear-gradient(90deg, var(--primary-gold), #FFFACD); /* Degradado dorado */
+    border-radius: 12px;
+    transition: width 0.2s ease-out; /* Animación más suave y rápida aquí */
+    box-shadow: 0 0 10px var(--primary-gold); /* Brillo en la barra */
 }
 
 #loading-percentage {
     position: absolute;
     width: 100%;
     text-align: center;
-    line-height: 20px;
+    line-height: 25px; /* Ajusta a la altura de la barra */
     color: var(--dark-bg);
     font-weight: bold;
-    font-size: 0.9em;
+    font-size: 1em; /* Un poco más grande */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Sombra para legibilidad */
 }
 
 .loading-message {
-    font-size: 0.9em;
+    font-size: 1em; /* Un poco más grande */
     color: var(--text-light);
-    margin-top: 10px;
+    margin-top: 15px; /* Más espacio */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* Formulario de autenticación */
@@ -133,35 +138,48 @@ body {
 
 .input-group input {
     width: 100%;
-    padding: 12px 15px;
-    border: 1px solid var(--secondary-gold);
-    border-radius: 5px;
+    padding: 14px 18px; /* Un poco más de padding */
+    border: 2px solid var(--secondary-gold); /* Borde más grueso */
+    border-radius: 8px; /* Más redondeado */
     background-color: var(--button-bg-dark);
     color: var(--text-light);
-    font-size: 1em;
-    box-sizing: border-box; /* Incluye padding y borde en el ancho */
+    font-size: 1.1em; /* Texto más grande */
+    box-sizing: border-box;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición para foco */
 }
 
 .input-group input::placeholder {
     color: #aaa;
 }
 
-.botones-container {
-    display: flex;
-    flex-direction: column; /* Apila los botones verticalmente */
-    width: 80%;
-    gap: 10px; /* Espacio entre botones */
+.input-group input:focus { /* Efecto al hacer foco en el input */
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 15px var(--primary-gold); /* Efecto de brillo dorado */
+    outline: none; /* Elimina el contorno predeterminado del navegador */
 }
 
-.btn-primary, .btn-accion-secondary {
-    padding: 12px 20px;
+.botones-container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    gap: 12px; /* Más espacio entre botones */
+}
+
+.btn-primary, .btn-accion-secondary, .start-button { /* Aplica estilos comunes también al start-button */
+    padding: 15px 30px; /* Más padding */
     border: none;
-    border-radius: 8px;
-    font-size: 1.1em;
+    border-radius: 10px; /* Más redondeado */
+    font-size: 1.2em; /* Texto más grande */
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Transiciones para magia */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Sombra para relieve */
+}
+
+.start-button { /* Estilo específico para el botón de inicio */
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
 }
 
 .btn-primary {
@@ -169,34 +187,50 @@ body {
     color: var(--dark-bg);
 }
 
-.btn-primary:hover {
+.btn-primary:hover, .start-button:hover {
     background-color: var(--secondary-gold);
-    transform: translateY(-1px);
+    transform: translateY(-3px); /* Se eleva un poco más */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
+}
+
+.btn-primary:active, .start-button:active { /* Efecto al hacer clic */
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    background-color: var(--primary-gold); /* Vuelve al color original al presionar */
 }
 
 .btn-accion-secondary {
     background-color: var(--button-bg-dark);
     color: var(--primary-gold);
-    border: 1px solid var(--primary-gold);
+    border: 2px solid var(--primary-gold); /* Borde dorado más visible */
 }
 
 .btn-accion-secondary:hover {
     background-color: var(--button-hover-dark);
-    transform: translateY(-1px);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
 }
+
+.btn-accion-secondary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    background-color: var(--button-bg-dark);
+}
+
 
 .error-message {
     color: #ff4d4d; /* Rojo para errores */
-    font-size: 0.9em;
+    font-size: 1em; /* Un poco más grande */
     margin-top: 10px;
-    height: 1.2em; /* Reserva espacio para el mensaje */
+    height: 1.2em;
 }
 
 .bottom-area {
     margin-top: 30px;
-    font-size: 0.9em;
+    font-size: 0.95em; /* Un poco más grande */
     color: var(--text-light);
     width: 80%;
+    line-height: 1.4;
 }
 
 .bottom-area a {
@@ -275,15 +309,4 @@ body {
     .input-group, .botones-container, .bottom-area {
         width: 90%;
     }
-}
-
-/* Animación para el logo */
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.05); opacity: 0.9; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-.app-logo {
-    animation: pulse 2s infinite ease-in-out; /* Aplica la animación al logo */
 }
