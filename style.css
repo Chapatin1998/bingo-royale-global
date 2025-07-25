@@ -699,3 +699,67 @@ body {
 .app-logo {
     animation: pulse 2s infinite ease-in-out; /* Aplica la animación al logo */
 }
+/* Estilos específicos para registro.html */
+
+.screen-title { /* Si no lo tienes ya en estilos globales, puedes añadirlo aquí */
+    font-size: 2.5em;
+    color: var(--primary-gold);
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.register-form-container {
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente para el formulario */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+    max-width: 450px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Espacio entre grupos de input */
+}
+
+/* Reutiliza .input-group, .botones-container, .btn-primary, .btn-accion-secondary de tus estilos globales */
+/* Revisa la sección .input-group input:focus para asegurar el brillo dorado */
+
+.link-text {
+    font-size: 1em;
+    margin-top: 20px;
+    color: var(--text-light);
+}
+
+.link-text a {
+    color: var(--primary-gold);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link-text a:hover {
+    text-decoration: underline;
+}
+
+/* Si usas video de fondo en registro.html */
+#background-video-registro {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    filter: brightness(0.4) grayscale(0.5); /* Oscurece y desatura igual que el inicio */
+}
+
+/* Asegura que el main-container en registro.html tenga las mismas propiedades de flex y centrado */
+/* Si ya tienes un .main-container global que funcione para video, no necesitas añadir más */
+/* Sino, podrías necesitar un estilo para .login-page-container si decides usar ese nombre */
+
+/* Ejemplo si quieres un estilo para el body de registro.html diferente */
+/* body.registro-body {
+    background-color: #1a1a2e;
+} */
+
+/* Asegúrate de que los estilos globales para .content-overlay también apliquen aquí si lo usas */
