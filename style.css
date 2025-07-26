@@ -25,87 +25,54 @@ body {
     overflow-y: auto; /* Permite scroll vertical en el body por defecto, si el contenido es grande */
     background-color: var(--dark-bg); /* Esto puede ser un color de respaldo si el video no carga */
 
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
+    display: flex; /* Convierte el body en un contenedor flexbox */
+    flex-direction: column; /* Apila el contenido verticalmente */
     align-items: center; /* Centra el contenido horizontalmente en el body */
     justify-content: flex-start; /* Alinea el contenido al inicio verticalmente (arriba) */
 }
-
-/* Contenedor principal para el video de fondo (usado en todas las "pantallas") */
-.background-video-container {
-    position: fixed;
-    top: 0;
-    left: 0;
+/* Contenedor principal para el video de fondo (solo en index.html) */
+.main-container {
+    position: relative;
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
-    z-index: -2;
-}
-
-.background-video-container video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    transform: translate(-50%, -50%);
-    object-fit: cover;
-    filter: brightness(0.4) grayscale(0.5);
-}
-
-/* Clases para manejar las "pantallas" */
-.app-screen {
-    width: 100%;
-    min-height: 100vh;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: flex-start;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: transparent;
-    color: var(--text-light);
-    position: relative;
-    z-index: 0;
-    opacity: 1;
-    transition: opacity 0.5s ease-out;
-    max-width: 100%;
-    overflow-y: auto; 
+    overflow: hidden; /* Esto aún puede ser útil aquí para el video de fondo en la página de inicio */
 }
 
-.app-screen.hidden {
-    display: none;
-    opacity: 0;
+/* Estilos del video de fondo */
+#background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1; /* Envía el video al fondo */
+    filter: brightness(0.4) grayscale(0.5); /* Oscurece y desatura el video */
 }
 
-.app-screen.fade-out {
-    opacity: 0;
-}
-
-.app-screen.fade-in {
-    opacity: 1;
-}
-
-/* Contenido superpuesto (usado en splash/login/register) */
+/* Capa de contenido sobre el video */
 .content-overlay {
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-    max-width: 450px;
-    width: 95%; /* Asegura que no sea 100% para dar espacio de padding en móvil */
-    padding: 20px;
-    margin: 0 auto;
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInSlideUp 0.8s ease-out forwards;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente para legibilidad */
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    max-width: 90%; /* Ajustado para pantallas más pequeñas */
+    width: 450px; /* Ancho fijo para el contenedor */
+    /* Animación de entrada para el overlay */
+    opacity: 0; /* Empieza invisible */
+    transform: translateY(20px); /* Empieza un poco abajo */
+    animation: fadeInSlideUp 0.8s ease-out forwards; /* Aplicará la animación */
 }
 
 /* Animación de entrada general para el contenido */
@@ -122,23 +89,23 @@ body {
 
 /* Logo de la aplicación */
 .app-logo {
-    width: 100px;
+    width: 100px; /* Ajustado un poco más pequeño para mobile */
     height: auto;
     margin-bottom: 20px;
-    animation: pulse 2s infinite ease-in-out;
+    animation: pulse 2s infinite ease-in-out; /* Animación de pulsación */
 }
 
 /* Título de bienvenida */
 .welcome-title {
-    font-size: 2em;
+    font-size: 2em; /* Ajustado para mobile */
     color: var(--primary-gold);
     margin-bottom: 10px;
-    text-shadow: 0 0 8px var(--primary-gold), 0 0 15px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 8px var(--primary-gold), 0 0 15px rgba(0, 0, 0, 0.5); /* Brillo dorado */
 }
 
 /* Eslogan */
 .slogan {
-    font-size: 1em;
+    font-size: 1em; /* Ajustado para mobile */
     color: var(--text-light);
     margin-bottom: 30px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -147,39 +114,39 @@ body {
 /* Barra de carga */
 .loading-bar-container {
     width: 80%;
-    height: 25px;
+    height: 25px; /* Un poco más alta */
     background-color: var(--button-bg-dark);
-    border-radius: 12px;
+    border-radius: 12px; /* Más redondeada */
     overflow: hidden;
-    margin-bottom: 25px;
+    margin-bottom: 25px; /* Más espacio */
     position: relative;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra para resaltar */
 }
 
 .loading-bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--primary-gold), #FFFACD);
+    background: linear-gradient(90deg, var(--primary-gold), #FFFACD); /* Degradado dorado */
     border-radius: 12px;
-    transition: width 0.2s ease-out;
-    box-shadow: 0 0 10px var(--primary-gold);
+    transition: width 0.2s ease-out; /* Animación más suave y rápida aquí */
+    box-shadow: 0 0 10px var(--primary-gold); /* Brillo en la barra */
 }
 
 #loading-percentage {
     position: absolute;
     width: 100%;
     text-align: center;
-    line-height: 25px;
+    line-height: 25px; /* Ajusta a la altura de la barra */
     color: var(--dark-bg);
     font-weight: bold;
-    font-size: 1em;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    font-size: 1em; /* Un poco más grande */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Sombra para legibilidad */
 }
 
 .loading-message {
-    font-size: 1em;
+    font-size: 1em; /* Un poco más grande */
     color: var(--text-light);
-    margin-top: 15px;
+    margin-top: 15px; /* Más espacio */
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
@@ -189,12 +156,12 @@ body {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    opacity: 0; /* Empieza invisible */
+    transform: translateY(20px); /* Empieza un poco abajo */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Transición para cuando aparece */
 }
 
-.auth-section.show {
+.auth-section.show { /* Clase para mostrar con animación */
     opacity: 1;
     transform: translateY(0);
 }
@@ -206,60 +173,77 @@ body {
 
 .input-group input {
     width: 100%;
-    padding: 14px 18px;
-    border: 2px solid var(--secondary-gold);
-    border-radius: 8px;
+    padding: 14px 18px; /* Un poco más de padding */
+    border: 2px solid var(--secondary-gold); /* Borde más grueso */
+    border-radius: 8px; /* Más redondeado */
     background-color: var(--button-bg-dark);
     color: var(--text-light);
-    font-size: 1.1em;
-    box-sizing: border-box;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1.1em; /* Texto más grande */
+    box-sizing: border-box; /* Incluye padding y borde en el ancho */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición para foco */
 }
 
 .input-group input::placeholder {
     color: #aaa;
 }
 
-.input-group input:focus {
+.input-group input:focus { /* Efecto al hacer foco en el input */
     border-color: var(--primary-gold);
-    box-shadow: 0 0 15px var(--primary-gold);
-    outline: none;
+    box-shadow: 0 0 15px var(--primary-gold); /* Efecto de brillo dorado */
+    outline: none; /* Elimina el contorno predeterminado del navegador */
 }
 
 .botones-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 12px;
+    gap: 12px; /* Espacio entre botones */
 }
 
-.btn-primary, .btn-accion-secondary, .start-button {
-    padding: 15px 30px;
+.btn-primary, .btn-accion-secondary, .start-button { /* Aplica estilos comunes también al start-button */
+    padding: 15px 30px; /* Más padding */
     border: none;
-    border-radius: 10px;
-    font-size: 1.2em;
+    border-radius: 10px; /* Más redondeado */
+    font-size: 1.2em; /* Texto más grande */
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Transiciones para magia */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Sombra para relieve */
 }
 
-.start-button {
+.start-button { /* Estilo específico para el botón de inicio */
     background-color: var(--primary-gold);
     color: var(--dark-bg);
 }
 
 .btn-primary:hover, .start-button:hover {
     background-color: var(--secondary-gold);
+    transform: translateY(-3px); /* Se eleva un poco más */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
+}
+
+.btn-primary:active, .start-button:active { /* Efecto al hacer clic */
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    background-color: var(--primary-gold); /* Vuelve al color original al presionar */
+}
+
+.btn-primary {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-gold);
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
-.btn-primary:active, .start-button:active {
+.btn-primary:active {
     transform: translateY(0);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-    background-color: var(--primary-gold);
+    background-color: var(--button-bg-dark);
 }
 
 .btn-accion-secondary {
