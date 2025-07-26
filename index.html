@@ -5,73 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo VIP Bolivia</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    
 </head>
 <body>
-    <div class="main-container">
+    <div class="background-video-container">
         <video autoplay muted loop id="background-video">
-            <source src="fondo-casino-3d.mp4" type="video/mp4">
-            Tu navegador no soporta el video.
+            <source src="fondo-video.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
         </video>
-        
-        <div class="content-overlay">
-            <img src="logo-bingo-vip.png" alt="Logo Bingo VIP Bolivia" class="app-logo">
-            <h1 class="welcome-title" id="welcomeTitle">¡Bienvenido a Bingo VIP Bolivia!</h1>
-            <p class="slogan" id="sloganText">Tu experiencia de bingo premium comienza aquí.</p>
+    </div>
 
-            <div class="loading-bar-container" id="loading-bar-container">
+    <div id="splash-screen" class="app-screen">
+        <div class="content-overlay">
+            <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="app-logo">
+            <h1 class="welcome-title">BIENVENIDO A BINGO VIP BOLIVIA</h1>
+            <p class="slogan">Tu destino definitivo para la diversión y grandes premios</p>
+            <div class="loading-bar-container">
                 <div class="loading-bar" id="loading-bar"></div>
                 <span id="loading-percentage">0%</span>
-                <p class="loading-message" id="loadingMessage">Cargando tu experiencia VIP...</p>
             </div>
+            <p class="loading-message" id="loading-message">Cargando recursos...</p>
+        </div>
+    </div>
 
-            <button class="start-button hidden" id="startButton">INICIAR JUEGO</button>
-
-            <div id="auth-section" class="auth-section hidden">
+    <div id="login-screen" class="app-screen hidden">
+        <div class="content-overlay">
+            <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="app-logo">
+            <h1 class="welcome-title">INICIAR SESIÓN</h1>
+            <div class="auth-section show">
                 <div class="input-group">
-                    <input type="email" id="email" placeholder="Correo electrónico" required>
-                    <input type="password" id="password" placeholder="Contraseña" required>
+                    <input type="email" id="login-email" placeholder="Correo electrónico" required>
                 </div>
-
+                <div class="input-group">
+                    <input type="password" id="login-password" placeholder="Contraseña" required>
+                </div>
                 <div class="botones-container">
-                    <button class="btn-primary" id="btnIniciar">Iniciar Sesión</button>
-                    <button class="btn-accion-secondary" id="btnRegistrar">Registrarse</button>
+                    <button class="btn-primary" id="login-button">INICIAR SESIÓN</button>
+                    <button class="btn-accion-secondary" id="register-from-login-button">REGISTRARSE</button>
                 </div>
-                <p class="error-message" id="authError"></p> </div>
-            
-            <div class="bottom-area">
-                <p class="support-text" id="supportText">¿Necesitas ayuda? <a href="#" id="linkSoporte">Contacto con soporte</a></p>
-                <p class="legal-text" id="legalText1">Este juego es solo para mayores de 18 años. Una sola cuenta por persona.</p>
-                <p class="legal-text" id="legalText2">Juega con responsabilidad.</p>
-            </div>
-            
-            <div class="language-selector">
-                <select id="langSelect">
-                    <option value="es">🇧🇴 Español</option>
-                    <option value="en">🇺🇸 English</option>
-                    <option value="pt">🇧🇷 Portugués</option>
-                </select>
-            </div>
-            
-            <div class="music-controls">
-                <button id="musicToggle">
-                    <i class="fas fa-volume-up"></i>
-                </button>
+                <p class="error-message" id="login-error-message"></p>
+                <div class="bottom-area">
+                    <p>¿Olvidaste tu contraseña? <a href="#" id="forgot-password-link">Recuperar</a></p>
+                    <p>Al iniciar sesión, aceptas nuestros <a href="#">Términos y Condiciones</a>.</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <audio id="background-music" loop>
-        <source src="fondo.mp3" type="audio/mpeg">
-        Tu navegador no soporta el audio.
-    </audio>
+    <div id="register-screen" class="app-screen hidden">
+        <div class="content-overlay">
+            <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="app-logo">
+            <h1 class="welcome-title">REGISTRARSE</h1>
+            <div class="auth-section show">
+                <div class="input-group">
+                    <input type="email" id="register-email" placeholder="Correo electrónico" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="register-password" placeholder="Contraseña" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="register-confirm-password" placeholder="Confirmar contraseña" required>
+                </div>
+                <div class="botones-container">
+                    <button class="btn-primary" id="register-button">CREAR CUENTA</button>
+                    <button class="btn-accion-secondary" id="login-from-register-button">YA TENGO CUENTA</button>
+                </div>
+                <p class="error-message" id="register-error-message"></p>
+                <div class="bottom-area">
+                    <p>Al registrarte, aceptas nuestros <a href="#">Términos y Condiciones</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <script src="firebase-config.js"></script> 
+    <div class="language-selector">
+        <select id="language-select">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+        </select>
+    </div>
+
+    <div class="music-controls">
+        <button id="play-music-button"><i class="fas fa-play"></i></button>
+        <button id="pause-music-button" class="hidden"><i class="fas fa-pause"></i></button>
+        <audio id="background-music" loop>
+            <source src="music.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+    </div>
+
+    <script src="firebase-config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
