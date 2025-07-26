@@ -21,7 +21,10 @@ body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     color: var(--text-light);
-    overflow-x: hidden; /* Solo previene scroll horizontal no deseado */
+    overflow-x: hidden; /* Previene scroll horizontal no deseado */
+    /* --- CAMBIO CLAVE AQUÍ: Ocultamos el scroll del body por defecto --- */
+    overflow-y: hidden; /* Oculta la barra de desplazamiento vertical por defecto */
+    /* --- FIN CAMBIO CLAVE --- */
     background-color: var(--dark-bg); /* Esto puede ser un color de respaldo si el video no carga */
 
     min-height: 100vh;
@@ -33,13 +36,13 @@ body {
 
 /* Contenedor principal para el video de fondo (usado en todas las "pantallas") */
 .background-video-container {
-    position: fixed;
+    position: fixed; /* Ocupa toda la ventana, sin desplazarse */
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    z-index: -2;
+    z-index: -2; /* Detrás de todo el contenido */
 }
 
 .background-video-container video {
@@ -56,9 +59,10 @@ body {
 }
 
 /* Clases para manejar las "pantallas" */
+/* app-screen es ahora el elemento que tendrá scroll si su contenido lo necesita */
 .app-screen {
     width: 100%;
-    min-height: 100vh;
+    min-height: 100vh; /* Asegura que la pantalla ocupe al menos toda la altura de la ventana */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,8 +75,10 @@ body {
     z-index: 0;
     opacity: 1;
     transition: opacity 0.5s ease-out;
-    /* Aseguramos que la pantalla se centre si el body la alinea */
-    max-width: 100%; /* Permite que la pantalla no sea más ancha que el viewport */
+    max-width: 100%;
+    /* --- CAMBIO CLAVE AQUÍ: Permite scroll individual si el contenido lo excede --- */
+    overflow-y: auto; 
+    /* --- FIN CAMBIO CLAVE --- */
 }
 
 .app-screen.hidden {
@@ -94,7 +100,7 @@ body {
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
     max-width: 90%; 
-    width: 450px; /* Ancho fijo para el contenedor */
+    width: 450px;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -104,7 +110,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInSlideUp 0.8s ease-out forwards;
-    margin: 0 auto; /* Esto centrará el bloque dentro de su padre */
+    margin: 0 auto;
 }
 
 /* Animación de entrada general para el contenido */
@@ -370,7 +376,7 @@ body {
         margin-top: 15px;
     }
     .input-group, .botones-container, .bottom-area {
-        width: 90%; /* Asegura que los elementos internos sean más estrechos en móvil */
+        width: 90%;
     }
 }
 
@@ -447,6 +453,7 @@ body {
 
 /* Estilos del lobby */
 .lobby-container {
+    /* --- CAMBIOS PARA CENTRADO GLOBAL DEL LOBBY --- */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -455,12 +462,14 @@ body {
     padding: 20px;
     background-color: var(--dark-bg);
     color: var(--text-light);
+    max-width: 1200px; /* Puedes ajustar este valor si deseas un ancho máximo diferente */
     /* Removido margin: 0 auto; y width: 100%; para que body.align-items: center lo centre */
-    max-width: 1200px; /* Límite de ancho para desktop */
+    /* Aseguramos que ocupe todo el ancho disponible para su contenido interno */
+    width: 100%; /* <-- Añadido de nuevo para que los elementos internos tengan una base de 100% */
 }
 
 .lobby-header {
-    width: 100%; /* Ocupa todo el ancho del lobby-container */
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
