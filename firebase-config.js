@@ -42,11 +42,11 @@ if (app) {
     try {
         window.auth = firebase.auth(); // Obtiene la instancia de Auth
         window.db = firebase.firestore(); // Obtiene la instancia de Firestore
-        alert("Firebase Auth y DB asignados a window."); // Diagnóstico
+        // alert("Firebase Auth y DB asignados a window."); // Diagnóstico
     } catch (error) {
         console.error("Error al obtener servicios de Firebase:", error);
         alert("CRÍTICO: No se pudieron obtener servicios de Firebase. " + error.message);
     }
 } else {
-    alert("CRÍTICO: 'app' de Firebase no está definida para asignar servicios."); // Diagnóstico
+    // alert("CRÍTICO: 'app' de Firebase no está definida para asignar servicios."); // Diagnóstico
 }
