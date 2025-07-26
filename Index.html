@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo VIP Bolivia</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    
+</head>
+<body>
+    <div class="background-video-container">
+        <video autoplay muted loop id="background-video">
+            <source src="fondo-casino-3d.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+        </video>
+    </div>
+
+    <section id="splash-screen" class="app-screen">
+        <div class="content-overlay">
+            <img src="logo-bingo-vip.png" alt="Logo Bingo VIP Bolivia" class="app-logo">
+            <h1 class="welcome-title">BIENVENIDO A BINGO VIP BOLIVIA</h1>
+            <p class="slogan">Tu destino definitivo para la diversión y grandes premios</p>
+            <div class="loading-bar-container" id="loading-bar-container">
+                <div class="loading-bar" id="loading-bar"></div>
+                <span id="loading-percentage">0%</span>
+            </div>
+            <p class="loading-message" id="loading-message">Cargando recursos...</p>
+        </div>
+    </section>
+
+    <section id="login-screen" class="app-screen hidden">
+        <div class="content-overlay">
+            <img src="logo-bingo-vip.png" alt="Logo Bingo VIP Bolivia" class="app-logo">
+            <h1 class="welcome-title" id="loginTitle">INICIAR SESIÓN</h1>
+            <div class="auth-section">
+                <div class="input-group">
+                    <input type="email" id="login-email" placeholder="Correo electrónico" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="login-password" placeholder="Contraseña" required>
+                </div>
+                <div class="botones-container">
+                    <button class="btn-primary" id="login-button">INICIAR SESIÓN</button>
+                    <button class="btn-accion-secondary" id="register-from-login-button">REGISTRARSE</button>
+                </div>
+                <p class="error-message" id="login-error-message"></p>
+                <div class="bottom-area">
+                    <p id="forgotPasswordText">¿Olvidaste tu contraseña? <a href="#" id="forgot-password-link">Recuperar</a></p>
+                    <p id="termsLoginText">Al iniciar sesión, aceptas nuestros <a href="#" id="terms-login-link">Términos y Condiciones</a>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="register-screen" class="app-screen hidden">
+        <div class="content-overlay">
+            <img src="logo-bingo-vip.png" alt="Logo Bingo VIP Bolivia" class="app-logo">
+            <h1 class="welcome-title" id="registerTitle">REGISTRARSE</h1>
+            <div class="auth-section">
+                <div class="input-group">
+                    <input type="text" id="register-name" placeholder="Nombre Completo" required>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="register-email" placeholder="Correo electrónico" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="register-password" placeholder="Contraseña" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="register-confirm-password" placeholder="Confirmar contraseña" required>
+                </div>
+                <div class="botones-container">
+                    <button class="btn-primary" id="register-button">CREAR CUENTA</button>
+                    <button class="btn-accion-secondary" id="login-from-register-button">YA TENGO CUENTA</button>
+                </div>
+                <p class="error-message" id="register-error-message"></p>
+                <div class="bottom-area">
+                    <p id="termsRegisterText">Al registrarte, aceptas nuestros <a href="#" id="terms-register-link">Términos y Condiciones</a>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="lobby-screen" class="app-screen hidden">
+        <header class="lobby-header">
+            <button class="back-button" id="lobby-back-button">
+                <i class="fas fa-arrow-left"></i> <span id="lobbyBackText">Volver a Inicio</span>
+            </button>
+            <div class="user-info">
+                <img src="avatar_default.png" alt="Avatar Usuario" class="avatar-circle" id="user-avatar">
+                <span class="user-balance" id="user-balance">$0.00</span>
+                <button class="add-funds-button" id="add-funds-button">
+                    <i class="fas fa-plus-circle"></i>
+                </button>
+            </div>
+            <button class="settings-button" id="settings-button">
+                <i class="fas fa-cog"></i> <span id="settingsText">Configuración</span>
+            </button>
+        </header>
+
+        <h1 class="screen-title" id="lobbyTitle">SELECCIONA TU SALA DE JUEGO</h1>
+
+        <div class="salas-grid">
+            <div class="sala-card" id="sala-1" data-cost="1" data-prize="3" data-min-balance="1" data-name="El Subterráneo" data-min-players="5" data-max-players="8">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-1.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N1</span>
+                    <h2 class="sala-name">El Subterráneo</h2>
+                    <p class="sala-description">El inicio, desde lo más profundo.</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $1</span>
+                        <span class="premio">Premio: $3</span>
+                        <span class="players"><i class="fas fa-users"></i> 5/8</span>
+                    </div>
+                    <button class="btn-bingo" data-sala-id="sala-1"><span id="playSala1">JUGAR EN ESTA SALA</span></button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-2" data-cost="2" data-prize="6" data-min-balance="2" data-name="La Esquina Peligrosa" data-min-players="8" data-max-players="12">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-2.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N2</span>
+                    <h2 class="sala-name">La Esquina Peligrosa</h2>
+                    <p class="sala-description">La lucha diaria en las calles.</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $2</span>
+                        <span class="premio">Premio: $6</span>
+                        <span class="players"><i class="fas fa-users"></i> 8/12</span>
+                    </div>
+                    <button class="btn-bingo" data-sala-id="sala-2"><span id="playSala2">JUGAR EN ESTA SALA</span></button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-3" data-cost="3" data-prize="9" data-min-balance="3" data-name="El Aguantadero" data-min-players="10" data-max-players="15">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-3.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N3</span>
+                    <h2 class="sala-name">El Aguantadero</h2>
+                    <p class="sala-description">Donde la supervivencia es la clave.</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $3</span>
+                        <span class="premio">Premio: $9</span>
+                        <span class="players"><i class="fas fa-users"></i> 10/15</span>
+                    </div>
+                    <button class="btn-bingo" data-sala-id="sala-3"><span id="playSala3">JUGAR EN ESTA SALA</span></button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-4" data-cost="5" data-prize="15" data-min-balance="5" data-name="El Resbalón" data-min-players="12" data-max-players="18">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-4.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N4</span>
+                    <h2 class="sala-name">El Resbalón</h2>
+                    <p class="sala-description">Cuidado con las trampas en el camino.</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $5</span>
+                        <span class="premio">Premio: $15</span>
+                        <span class="players"><i class="fas fa-users"></i> 12/18</span>
+                    </div>
+                    <button class="btn-bingo" data-sala-id="sala-4"><span id="playSala4">JUGAR EN ESTA SALA</span></button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-5" data-cost="10" data-prize="30" data-min-balance="10" data-name="El Amanecer" data-min-players="15" data-max-players="20">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-5.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N5</span>
+                    <h2 class="sala-name">El Amanecer</h2>
+                    <p class="sala-description">El rayo de esperanza y nuevas oportunidades.</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $10</span>
+                        <span class="premio">Premio: $30</span>
+                        <span class="players"><i class="fas fa-users"></i> 15/20</span>
+                    </div>
+                    <button class="btn-bingo" data-sala-id="sala-5"><span id="playSala5">JUGAR EN ESTA SALA</span></button>
+                </div>
+            </div>
+
+            <div class="sala-card" id="sala-6" data-cost="20" data-prize="60" data-min-balance="20" data-name="El Dorado Cruceño" data-min-players="18" data-max-players="25">
+                <div class="sala-card-background" style="background-image: url('fondo-sala-6.jpg');"></div>
+                <div class="sala-card-content">
+                    <span class="sala-level">N6</span>
+                    <h2 class="sala-name">El Dorado Cruceño</h2>
+                    <p class="sala-description">Donde el progreso y el orgullo se encuentran.</p>
+                    <div class="sala-details">
+                        <span class="costo">Costo: $20</span>
+                        <span class="premio">Premio: $60</span>
+                        <span class="players"><i class="fas fa-users"></i> 18/25</span>
+                    </div>
+                    <button class="btn-bingo" data-sala-id="sala-6"><span id="playSala6">JUGAR EN ESTA SALA</span></button>
+                </div>
+            </div>
+
+                <div class="sala-card" id="sala-7" data-cost="50" data-prize="150" data-min-balance="50" data-name="La Joya Escondida" data-min-players="20" data-max-players="30">
+                    <div class="sala-card-background" style="background-image: url('fondo-sala-7.jpg');"></div>
+                    <div class="sala-card-content">
+                        <span class="sala-level">N7</span>
+                        <h2 class="sala-name">La Joya Escondida</h2>
+                        <p class="sala-description">Acceso a lo exclusivo, solo para unos pocos.</p>
+                        <div class="sala-details">
+                            <span class="costo">Costo: $50</span>
+                            <span class="premio">Premio: $150</span>
+                            <span class="players"><i class="fas fa-users"></i> 20/30</span>
+                        </div>
+                        <button class="btn-bingo" data-sala-id="sala-7"><span id="playSala7">JUGAR EN ESTA SALA</span></button>
+                    </div>
+                </div>
+
+                <div class="sala-card" id="sala-8" data-cost="100" data-prize="300" data-min-balance="100" data-name="El Palacio de las Palmas" data-min-players="25" data-max-players="35">
+                    <div class="sala-card-background" style="background-image: url('fondo-sala-8.jpg');"></div>
+                    <div class="sala-card-content">
+                        <span class="sala-level">N8</span>
+                        <h2 class="sala-name">El Palacio de las Palmas</h2>
+                        <p class="sala-description">La opulencia máxima, donde los sueños se hacen realidad.</p>
+                        <div class="sala-details">
+                            <span class="costo">Costo: $100</span>
+                            <span class="premio">Premio: $300</span>
+                            <span class="players"><i class="fas fa-users"></i> 25/35</span>
+                        </div>
+                        <button class="btn-bingo" data-sala-id="sala-8"><span id="playSala8">JUGAR EN ESTA SALA</span></button>
+                    </div>
+                </div>
+
+                <div class="sala-card" id="sala-9" data-cost="200" data-prize="600" data-min-balance="200" data-name="El Imperio Dorado" data-min-players="30" data-max-players="40">
+                    <div class="sala-card-background" style="background-image: url('fondo-sala-9.jpg');"></div>
+                    <div class="sala-card-content">
+                        <span class="sala-level">N9</span>
+                        <h2 class="sala-name">El Imperio Dorado</h2>
+                        <p class="sala-description">El poder y la riqueza consolidada, la cima al alcance.</p>
+                        <div class="sala-details">
+                            <span class="costo">Costo: $200</span>
+                            <span class="premio">Premio: $600</span>
+                            <span class="players"><i class="fas fa-users"></i> 30/40</span>
+                        </div>
+                        <button class="btn-bingo" data-sala-id="sala-9"><span id="playSala9">JUGAR EN ESTA SALA</span></button>
+                    </div>
+                </div>
+
+                <div class="sala-card" id="sala-10" data-cost="500" data-prize="1500" data-min-balance="500" data-name="La Cima del Mundo" data-min-players="35" data-max-players="45">
+                    <div class="sala-card-background" style="background-image: url('fondo-sala-10.jpg');"></div>
+                    <div class="sala-card-content">
+                        <span class="sala-level">N10</span>
+                        <h2 class="sala-name">La Cima del Mundo</h2>
+                        <p class="sala-description">Donde las dificultades de la cima ponen a prueba a los millonarios.</p>
+                        <div class="sala-details">
+                            <span class="costo">Costo: $500</span>
+                            <span class="premio">Premio: $1500</span>
+                            <span class="players"><i class="fas fa-users"></i> 35/45</span>
+                        </div>
+                        <button class="btn-bingo" data-sala-id="sala-10"><span id="playSala10">JUGAR EN ESTA SALA</span></button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="advertencia-legal" id="legalWarningText">
+                <p>Juego con responsabilidad. Solo para mayores de 18 años.</p>
+            </div>
+        </section>
+
+        <section id="game-screen" class="app-screen hidden">
+            <header class="game-header">
+                <button class="back-button" id="game-back-to-lobby-button">
+                    <i class="fas fa-arrow-left"></i> <span id="gameBackText">Salir de Sala</span>
+                </button>
+                <span class="sala-actual-display" id="game-sala-actual-display"></span>
+                <span class="game-timer" id="game-timer">00:00</span>
+                <button class="settings-button" id="game-settings-button">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </header>
+
+            <div class="game-area">
+                <div class="locutor-section">
+                    <img src="avatar_locutor_default.png" alt="Locutor de Bingo" class="locutor-avatar" id="locutor-avatar">
+                    <span class="numero-cantado-display" id="numero-cantado-display"></span>
+                </div>
+
+                <div class="bingo-card-section">
+                    <div class="historial-numeros-cantados">
+                        <h3>Números Cantados</h3>
+                        <div class="numeros-cantados-grid" id="numeros-cantados-grid">
+                            </div>
+                    </div>
+
+                    <div class="bingo-card-container">
+                        <div class="bingo-header">
+                            <span>B</span><span>I</span><span>N</span><span>G</span><span>O</span>
+                        </div>
+                        <div class="bingo-grid" id="player-bingo-card">
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn-primary" id="buy-new-card-button">COMPRAR CARTÓN ($0.00)</button>
+                <button class="btn-accion-secondary" id="check-bingo-button">¡BINGO!</button>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="music-controls">
+        <button id="play-music-button"><i class="fas fa-play"></i></button>
+        <button id="pause-music-button" class="hidden"><i class="fas fa-pause"></i></button>
+        <audio id="background-music" loop>
+            <source src="fondo.mp3" type="audio/mpeg">
+            Tu navegador no soporta el audio.
+        </audio>
+    </div>
+
+    <div class="language-selector">
+        <select id="language-select">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+            <option value="pt">Portugués</option>
+        </select>
+    </div>
+
+    <script>
+        // --- firebase-config.js (INTEGRADO AQUI) ---
+        // Se asume que firebase-app-compat.js ya cargó 'firebase' globalmente
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI", 
+            authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
+            projectId: "bingo-vip-bolivia-df2db",
+            storageBucket: "bingo-vip-bolivia-df2db.appspot.com",
+            messagingSenderId: "1015694294025",
+            appId: "1:1015694294025:web:5d254b0374e26210214842",
+            measurementId: "G-G6402N020Z"
+        };
+        let app;
+        try {
+            if (typeof firebase !== 'undefined' && (!firebase.apps || firebase.apps.length === 0)) {
+                app = firebase.initializeApp(firebaseConfig);
+            } else if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                app = firebase.apps[0];
+            } else {
+                throw new Error("El objeto global 'firebase' no está definido. SDK no cargado.");
+            }
+        } catch (error) {
+            console.error("Error al inicializar Firebase:", error);
+            alert("CRÍTICO: Error al inicializar Firebase en el script principal. " + error.message);
+        }
+        if (app) {
+            window.auth = firebase.auth();
+            window.db = firebase.firestore();
+        }
+
+
+        // --- script.js (INTEGRADO AQUI) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const appContainer = document.getElementById('app-container');
+            const splashScreen = document.getElementById('splash-screen');
+            const loginScreen = document.getElementById('login-screen');
+            const registerScreen = document.getElementById('register-screen');
+            const lobbyScreen = document.getElementById('lobby-screen');
+            const gameScreen = document.getElementById('game-screen');
+            
+            // Splash Screen Elements
+            const loadingBarContainer = document.getElementById('loading-bar-container');
+            const loadingBar = document.getElementById('loading-bar');
+            const loadingPercentage = document.getElementById('loading-percentage');
+            const loadingMessage = document.getElementById('loading-message');
+            const startGameButton = document.getElementById('start-game-button');
+
+            // Login Screen Elements
+            const loginEmailInput = document.getElementById('login-email');
+            const loginPasswordInput = document.getElementById('login-password');
+            const loginButton = document.getElementById('login-button');
+            const registerFromLoginButton = document.getElementById('register-from-login-button');
+            const loginErrorMessage = document.getElementById('login-error-message');
+            const forgotPasswordLink = document.getElementById('forgot-password-link');
+            const termsLoginLink = document.getElementById('terms-login-link'); // Added ID for terms link
+
+            // Register Screen Elements
+            const registerNameInput = document.getElementById('register-name');
+            const registerEmailInput = document.getElementById('register-email');
+            const registerPasswordInput = document.getElementById('register-password');
+            const registerConfirmPasswordInput = document.getElementById('register-confirm-password');
+            const registerButton = document.getElementById('register-button');
+            const loginFromRegisterButton = document.getElementById('login-from-register-button');
+            const registerErrorMessage = document.getElementById('register-error-message');
+            const termsRegisterLink = document.getElementById('terms-register-link'); // Added ID for terms link
+
+            // Global Media Controls
+            const backgroundVideo = document.getElementById('background-video');
+            const backgroundMusic = document.getElementById('background-music');
+            const playMusicButton = document.getElementById('play-music-button');
+            const pauseMusicButton = document.getElementById('pause-music-button');
+            let isMusicPlaying = false;
+
+            // Global Language Selector
+            const languageSelect = document.getElementById('language-select');
+
+            // --- Diccionario de idiomas ---
+            const translations = {
+                es: {
+                    welcomeTitle: 'BIENVENIDO A BINGO VIP BOLIVIA',
+                    sloganText: 'Tu destino definitivo para la diversión y grandes premios',
+                    loadingMessage: 'Cargando recursos...',
+                    startScreenButton: 'INICIAR JUEGO',
+                    loginTitle: 'INICIAR SESIÓN',
+                    registerTitle: 'REGISTRARSE',
+                    loginEmailPlaceholder: 'Correo electrónico',
+                    loginPasswordPlaceholder: 'Contraseña',
+                    loginButton: 'INICIAR SESIÓN',
+                    registerFromLoginButton: 'REGISTRARSE',
+                    forgotPasswordText: '¿Olvidaste tu contraseña?',
+                    termsLoginText: 'Al iniciar sesión, aceptas nuestros Términos y Condiciones.',
+                    registerNamePlaceholder: 'Nombre Completo',
+                    registerEmailPlaceholder: 'Correo electrónico',
+                    registerPasswordPlaceholder: 'Contraseña',
+                    registerConfirmPasswordPlaceholder: 'Confirmar Contraseña',
+                    registerButton: 'CREAR CUENTA',
+                    loginFromRegisterButton: 'YA TENGO CUENTA',
+                    termsRegisterText: 'Al registrarte, aceptas nuestros Términos y Condiciones.',
+                    lobbyBackText: 'Volver a Inicio',
+                    settingsText: 'Configuración',
+                    lobbyTitle: 'SELECCIONA TU SALA DE JUEGO',
+                    playSala: 'JUGAR EN ESTA SALA', // General text for all sala buttons
+                    legalWarningText: 'Juego con responsabilidad. Solo para mayores de 18 años.',
+                    balanceInsufficient: 'Balance insuficiente. Necesitas $',
+                    toPlayIn: ' para jugar en la ',
+                    yourBalanceIs: '. Tu balance actual es $',
+                    salaNotFound: 'Error: Sala no encontrada.',
+                    firebaseNotInit: 'Error: Firebase (Auth/DB) no inicializado. Recarga la página.',
+                    mustLogin: 'Debes iniciar sesión para jugar. Redirigiendo a inicio.',
+                    updateBalanceError: 'Error al actualizar balance o entrar a sala. Por favor, intenta de nuevo.',
+                    registerFillFields: 'Por favor, rellena todos los campos.',
+                    passwordsMismatch: 'Las contraseñas no coinciden.',
+                    passwordTooWeak: 'La contraseña debe tener al menos 6 caracteres.',
+                    emailInUse: 'Este correo electrónico ya está en uso. Por favor, usa otro o inicia sesión.',
+                    invalidEmailFormat: 'El formato del correo electrónico es inválido.',
+                    registrationSuccessful: '¡Registro exitoso! ¡Bienvenido a Bingo VIP Bolivia!',
+                    loginSuccessful: '¡Inicio de sesión exitoso!',
+                    failedToLoadUserData: 'Error al cargar datos de usuario. Recarga o contacta soporte.',
+                    noUserDataFound: 'Error: No se encontraron datos de usuario. Recarga o contacta soporte.',
+                    authServicesNotReady: 'Error crítico: El sistema de autenticación no está listo. Recarga la página.'
+                },
+                en: {
+                    welcomeTitle: 'WELCOME TO BINGO VIP BOLIVIA',
+                    sloganText: 'Your ultimate destination for fun and big prizes',
+                    loadingMessage: 'Loading resources...',
+                    startScreenButton: 'START GAME',
+                    loginTitle: 'SIGN IN',
+                    registerTitle: 'REGISTER',
+                    loginEmailPlaceholder: 'Email',
+                    loginPasswordPlaceholder: 'Password',
+                    loginButton: 'SIGN IN',
+                    registerFromLoginButton: 'REGISTER',
+                    forgotPasswordText: 'Forgot your password?',
+                    termsLoginText: 'By signing in, you agree to our Terms and Conditions.',
+                    registerNamePlaceholder: 'Full Name',
+                    registerEmailPlaceholder: 'Email',
+                    registerPasswordPlaceholder: 'Password',
+                    registerConfirmPasswordPlaceholder: 'Confirm Password',
+                    registerButton: 'CREATE ACCOUNT',
+                    loginFromRegisterButton: 'ALREADY HAVE AN ACCOUNT',
+                    termsRegisterText: 'By registering, you agree to our Terms and Conditions.',
+                    lobbyBackText: 'Back to Home',
+                    settingsText: 'Settings',
+                    lobbyTitle: 'SELECT YOUR GAME ROOM',
+                    playSala: 'PLAY IN THIS ROOM',
+                    legalWarningText: 'Play responsibly. For ages 18+ only.',
+                    balanceInsufficient: 'Insufficient balance. You need $',
+                    toPlayIn: ' to play in ',
+                    yourBalanceIs: '. Your current balance is $',
+                    salaNotFound: 'Error: Room not found.',
+                    firebaseNotInit: 'Error: Firebase (Auth/DB) not initialized. Reload page.',
+                    mustLogin: 'You must sign in to play. Redirecting to home.',
+                    updateBalanceError: 'Error updating balance or entering room. Please try again.',
+                    registerFillFields: 'Please fill in all fields.',
+                    passwordsMismatch: 'Passwords do not match.',
+                    passwordTooWeak: 'Password must be at least 6 characters.',
+                    emailInUse: 'This email is already in use. Please use another or sign in.',
+                    invalidEmailFormat: 'Invalid email format.',
+                    registrationSuccessful: 'Registration successful! Welcome to Bingo VIP Bolivia!',
+                    loginSuccessful: 'Sign in successful!',
+                    failedToLoadUserData: 'Error loading user data. Reload or contact support.',
+                    noUserDataFound: 'Error: No user data found. Reload or contact support.',
+                    authServicesNotReady: 'Critical error: Authentication system not ready. Reload page.'
+                }
+            };
+            
+            // --- Helper para mostrar/ocultar pantallas ---
+            function showScreen(screenId) {
+                document.querySelectorAll('.app-screen').forEach(screen => {
+                    if (screen.id === screenId) {
+                        screen.classList.remove('hidden');
+                        screen.classList.add('fade-in');
+                        screen.classList.remove('fade-out');
+                    } else {
+                        screen.classList.add('hidden');
+                        screen.classList.remove('fade-in');
+                        screen.classList.add('fade-out');
+                    }
+                });
+                // Lógica específica al mostrar una pantalla
+                if (screenId === 'splash-screen') {
+                    // Reiniciar barra de carga y elementos si vuelves a splash
+                    if (document.getElementById('loading-bar-container')) document.getElementById('loading-bar-container').classList.remove('hidden');
+                    if (document.getElementById('start-game-button')) document.getElementById('start-game-button').classList.add('hidden');
+                    // Iniciar música y video (muteado) al mostrar splash
+                    if (backgroundVideo) backgroundVideo.play().catch(e => console.warn("Video play blocked on splash return:", e));
+                    if (backgroundMusic && !isMusicPlaying) backgroundMusic.play().catch(e => console.warn("Music play blocked on splash return:", e));
+                } else if (screenId === 'lobby-screen') {
+                    updateLobbyUI(); // Cargar datos del usuario en el lobby al mostrar
+                } else if (screenId === 'game-screen') {
+                    initializeGameScreen(); // Iniciar lógica del juego al mostrar
+                }
+            }
+
+            // --- Core Screen Navigation Logic (from initial load or internal navigation) ---
+            document.addEventListener('DOMContentLoaded', () => {
+                showScreen('splash-screen'); // Siempre inicia en la pantalla de carga
+                
+                // --- Global Media Controls ---
+                if (backgroundVideo) backgroundVideo.play().catch(e => console.warn("Video autoplay blocked on initial load:", e));
+                // Music is only played on user interaction (start button or music toggle)
+
+                // Listener para el botón INICIAR JUEGO (en splash-screen)
+                const startButton = document.getElementById('start-game-button');
+                if (startButton) {
+                    startButton.addEventListener('click', () => {
+                        showScreen('login-screen'); // Transición a la pantalla de Login
+                        // Play music/video on first user interaction
+                        if (backgroundVideo && backgroundVideo.paused) backgroundVideo.play().catch(e => console.warn("Video play blocked on start:", e));
+                        if (backgroundMusic && backgroundMusic.paused) {
+                            backgroundMusic.play().catch(e => console.warn("Music play blocked on start:", e));
+                            isMusicPlaying = true;
+                            if (playMusicButton) playMusicButton.classList.add('hidden');
+                            if (pauseMusicButton) pauseMusicButton.classList.remove('hidden');
+                        }
+                    });
+                }
+            });
+
+
+            // --- Firebase Initialization (from firebase-config.js) ---
+            // Se asume que firebase-app-compat.js ya cargó 'firebase' globalmente
+            const firebaseConfig = {
+                apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI", 
+                authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
+                projectId: "bingo-vip-bolivia-df2db",
+                storageBucket: "bingo-vip-bolivia-df2db.appspot.com",
+                messagingSenderId: "1015694294025",
+                appId: "1:1015694294025:web:5d254b0374e26210214842",
+                measurementId: "G-G6402N020Z"
+            };
+            let app;
+            try {
+                if (typeof firebase !== 'undefined' && (!firebase.apps || firebase.apps.length === 0)) {
+                    app = firebase.initializeApp(firebaseConfig);
+                } else if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                    app = firebase.apps[0];
+                } else {
+                    throw new Error("El objeto global 'firebase' no está definido. SDK no cargado.");
+                }
+            } catch (error) {
+                console.error("Error al inicializar Firebase:", error);
+                alert("CRÍTICO: Error al inicializar Firebase en el script principal. " + error.message);
+            }
+            if (app) {
+                window.auth = firebase.auth();
+                window.db = firebase.firestore();
+            }
+
+            // --- Core App Logic (script.js combined with other JS files) ---
+
+            // --- General UI Elements ---
+            const textElements = {
+                welcomeTitle: document.getElementById('welcomeTitle'),
+                sloganText: document.getElementById('sloganText'),
+                loadingMessage: document.getElementById('loadingMessage'),
+                startScreenButton: document.getElementById('start-game-button'), 
+                loginTitle: document.getElementById('loginTitle'),
+                registerTitle: document.getElementById('registerTitle'),
+                loginEmailPlaceholder: document.getElementById('login-email'), 
+                loginPasswordPlaceholder: document.getElementById('login-password'), 
+                loginButton: document.getElementById('login-button'),
+                registerFromLoginButton: document.getElementById('register-from-login-button'),
+                forgotPasswordText: document.getElementById('forgotPasswordText'),
+                termsLoginText: document.getElementById('termsLoginText'),
+                registerNamePlaceholder: document.getElementById('register-name'), 
+                registerEmailPlaceholder: document.getElementById('register-email'), 
+                registerPasswordPlaceholder: document.getElementById('register-password'), 
+                registerConfirmPasswordPlaceholder: document.getElementById('register-confirm-password'), 
+                registerButton: document.getElementById('register-button'),
+                loginFromRegisterButton: document.getElementById('login-from-register-button'),
+                termsRegisterText: document.getElementById('termsRegisterText'),
+                lobbyBackText: document.getElementById('lobbyBackText'),
+                settingsText: document.getElementById('settingsText'),
+                lobbyTitle: document.getElementById('lobbyTitle'),
+                gameSalaActualDisplay: document.getElementById('game-sala-actual-display'),
+                gameBackText: document.getElementById('gameBackText'),
+                buyNewCardButton: document.getElementById('buy-new-card-button'),
+                checkBingoButton: document.getElementById('check-bingo-button'),
+                legalWarningText: document.getElementById('legalWarningText'),
+                
+                // String literals used in alerts/messages
+                balanceInsufficient: 'Balance insuficiente. Necesitas $',
+                toPlayIn: ' para jugar en la ',
+                yourBalanceIs: '. Tu balance actual es $',
+                salaNotFound: 'Error: Sala no encontrada.',
+                firebaseNotInit: 'Error: Firebase (Auth/DB) no inicializado. Recarga la página.',
+                mustLogin: 'Debes iniciar sesión para jugar. Redirigiendo a inicio.',
+                updateBalanceError: 'Error al actualizar balance o entrar a sala. Por favor, intenta de nuevo.',
+                registerFillFields: 'Por favor, rellena todos los campos.',
+                passwordsMismatch: 'Las contraseñas no coinciden.',
+                passwordTooWeak: 'La contraseña debe tener al menos 6 caracteres.',
+                emailInUse: 'Este correo electrónico ya está en uso. Por favor, usa otro o inicia sesión.',
+                    invalidEmailFormat: 'El formato del correo electrónico es inválido.',
+                    registrationSuccessful: '¡Registro exitoso! ¡Bienvenido a Bingo VIP Bolivia!',
+                    loginSuccessful: '¡Inicio de sesión exitoso!',
+                    failedToLoadUserData: 'Error al cargar datos de usuario. Recarga o contacta soporte.',
+                    noUserDataFound: 'Error: No se encontraron datos de usuario. Recarga o contacta soporte.',
+                    authServicesNotReady: 'Error crítico: El sistema de autenticación no está listo. Recarga la página.'
+                },
+                en: {
+                    welcomeTitle: 'WELCOME TO BINGO VIP BOLIVIA',
+                    sloganText: 'Your ultimate destination for fun and big prizes',
+                    loadingMessage: 'Loading resources...',
+                    startScreenButton: 'START GAME',
+                    loginTitle: 'SIGN IN',
+                    registerTitle: 'REGISTER',
+                    loginEmailPlaceholder: 'Email',
+                    loginPasswordPlaceholder: 'Password',
+                    loginButton: 'SIGN IN',
+                    registerFromLoginButton: 'REGISTER',
+                    forgotPasswordText: 'Forgot your password?',
+                    termsLoginText: 'By signing in, you agree to our Terms and Conditions.',
+                    registerNamePlaceholder: 'Full Name',
+                    registerEmailPlaceholder: 'Email',
+                    registerPasswordPlaceholder: 'Password',
+                    registerConfirmPasswordPlaceholder: 'Confirm Password',
+                    registerButton: 'CREATE ACCOUNT',
+                    loginFromRegisterButton: 'ALREADY HAVE AN ACCOUNT',
+                    termsRegisterText: 'By registering, you agree to our Terms and Conditions.',
+                    lobbyBackText: 'Back to Home',
+                    settingsText: 'Settings',
+                    lobbyTitle: 'SELECT YOUR GAME ROOM',
+                    playSala: 'PLAY IN THIS ROOM',
+                    legalWarningText: 'Play responsibly. For ages 18+ only.',
+                    balanceInsufficient: 'Insufficient balance. You need $',
+                    toPlayIn: ' to play in ',
+                    yourBalanceIs: '. Your current balance is $',
+                    salaNotFound: 'Error: Room not found.',
+                    firebaseNotInit: 'Error: Firebase (Auth/DB) not initialized. Reload page.',
+                    mustLogin: 'You must sign in to play. Redirecting to home.',
+                    updateBalanceError: 'Error updating balance or entering room. Please try again.',
+                    registerFillFields: 'Please fill in all fields.',
+                    passwordsMismatch: 'Passwords do not match.',
+                    passwordTooWeak: 'Password must be at least 6 characters.',
+                    emailInUse: 'This email is already in use. Please use another or sign in.',
+                    invalidEmailFormat: 'Invalid email format.',
+                    registrationSuccessful: 'Registration successful! Welcome to Bingo VIP Bolivia!',
+                    loginSuccessful: 'Sign in successful!',
+                    failedToLoadUserData: 'Error loading user data. Reload or contact support.',
+                    noUserDataFound: 'Error: No user data found. Reload or contact support.',
+                    authServicesNotReady: 'Critical error: Authentication system not ready. Reload page.'
+                }
+            };
+            
+            // --- Helper para mostrar/ocultar pantallas ---
+            function showScreen(screenId) {
+                document.querySelectorAll('.app-screen').forEach(screen => {
+                    if (screen.id === screenId) {
+                        screen.classList.remove('hidden');
+                        screen.classList.add('fade-in');
+                        screen.classList.remove('fade-out');
+                    } else {
+                        screen.classList.add('hidden');
+                        screen.classList.remove('fade-in');
+                        screen.classList.add('fade-out');
+                    }
+                });
+                // Lógica específica al mostrar una pantalla
+                if (screenId === 'splash-screen') {
+                    // Reiniciar barra de carga y elementos si vuelves a splash
+                    if (document.getElementById('loading-bar-container')) document.getElementById('loading-bar-container').classList.remove('hidden');
+                    if (document.getElementById('start-game-button')) document.getElementById('start-game-button').classList.add('hidden');
+                    // Iniciar música y video (muteado) al mostrar splash
+                    if (backgroundVideo) backgroundVideo.play().catch(e => console.warn("Video play blocked on splash return:", e));
+                    if (backgroundMusic && !isMusicPlaying) backgroundMusic.play().catch(e => console.warn("Music play blocked on splash return:", e));
+                } else if (screenId === 'lobby-screen') {
+                    updateLobbyUI(); // Cargar datos del usuario en el lobby al mostrar
+                } else if (screenId === 'game-screen') {
+                    initializeGameScreen(); // Iniciar lógica del juego al mostrar
+                }
+            }
+
+            // --- Core Screen Navigation Logic (from initial load or internal navigation) ---
+            document.addEventListener('DOMContentLoaded', () => {
+                showScreen('splash-screen'); // Siempre inicia en la pantalla de carga
+                
+                // --- Global Media Controls ---
+                if (backgroundVideo) backgroundVideo.play().catch(e => console.warn("Video autoplay blocked on initial load:", e));
+                // Music is only played on user interaction (start button or music toggle)
+
+                // Listener para el botón INICIAR JUEGO (en splash-screen)
+                const startButton = document.getElementById('start-game-button');
+                if (startButton) {
+                    startButton.addEventListener('click', () => {
+                        showScreen('login-screen'); // Transición a la pantalla de Login
+                        // Play music/video on first user interaction
+                        if (backgroundVideo && backgroundVideo.paused) backgroundVideo.play().catch(e => console.warn("Video play blocked on start:", e));
+                        if (backgroundMusic && backgroundMusic.paused) {
+                            backgroundMusic.play().catch(e => console.warn("Music play blocked on start:", e));
+                            isMusicPlaying = true;
+                            if (playMusicButton) playMusicButton.classList.add('hidden');
+                            if (pauseMusicButton) pauseMusicButton.classList.remove('hidden');
+                        }
+                    });
+                }
+            });
+
+
+            // --- Firebase Initialization (from firebase-config.js) ---
+            // Se asume que firebase-app-compat.js ya cargó 'firebase' globalmente
+            const firebaseConfig = {
+                apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI", 
+                authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
+                projectId: "bingo-vip-bolivia-df2db",
+                storageBucket: "bingo-vip-bolivia-df2db.appspot.com",
+                messagingSenderId: "1015694294025",
+                appId: "1:1015694294025:web:5d254b0374e26210214842",
+                measurementId: "G-G6402N020Z"
+            };
+            let app;
+            try {
+                if (typeof firebase !== 'undefined' && (!firebase.apps || firebase.apps.length === 0)) {
+                    app = firebase.initializeApp(firebaseConfig);
+                } else if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                    app = firebase.apps[0];
+                } else {
+                    throw new Error("El objeto global 'firebase' no está definido. SDK no cargado.");
+                }
+            } catch (error) {
+                console.error("Error al inicializar Firebase:", error);
+                alert("CRÍTICO: Error al inicializar Firebase en el script principal. " + error.message);
+            }
+            if (app) {
+                window.auth = firebase.auth();
+                window.db = firebase.firestore();
+            }
+
+            // --- Core App Logic (script.js combined with other JS files) ---
+
+            // --- General UI Elements ---
+            const textElements = {
+                welcomeTitle: document.getElementById('welcomeTitle'),
+                sloganText: document.getElementById('sloganText'),
+                loadingMessage: document.getElementById('loadingMessage'),
+                startScreenButton: document.getElementById('start-game-button'), 
+                loginTitle: document.getElementById('loginTitle'),
+                registerTitle: document.getElementById('registerTitle'),
+                loginEmailPlaceholder: document.getElementById('login-email'), 
+                loginPasswordPlaceholder: document.getElementById('login-password'), 
+                loginButton: document.getElementById('login-button'),
+                registerFromLoginButton: document.getElementById('register-from-login-button'),
+                forgotPasswordText: document.getElementById('forgotPasswordText'),
+                termsLoginText: document.getElementById('termsLoginText'),
+                registerNamePlaceholder: document.getElementById('register-name'), 
+                registerEmailPlaceholder: document.getElementById('register-email'), 
+                registerPasswordPlaceholder: document.getElementById('register-password'), 
+                registerConfirmPasswordPlaceholder: document.getElementById('register-confirm-password'), 
+                registerButton: document.getElementById('register-button'),
+                loginFromRegisterButton: document.getElementById('login-from-register-button'),
+                termsRegisterText: document.getElementById('termsRegisterText'),
+                lobbyBackText: document.getElementById('lobbyBackText'),
+                settingsText: document.getElementById('settingsText'),
+                lobbyTitle: document.getElementById('lobbyTitle'),
+                gameSalaActualDisplay: document.getElementById('game-sala-actual-display'),
+                gameBackText: document.getElementById('gameBackText'),
+                buyNewCardButton: document.getElementById('buy-new-card-button'),
+                checkBingoButton: document.getElementById('check-bingo-button'),
+                legalWarningText: document.getElementById('legalWarningText'),
+                
+                // String literals used in alerts/messages
+                balanceInsufficient: 'Balance insuficiente. Necesitas $',
+                toPlayIn: ' para jugar en la ',
+                yourBalanceIs: '. Tu balance actual es $',
+                salaNotFound: 'Error: Sala no encontrada.',
+                firebaseNotInit: 'Error: Firebase (Auth/DB) no inicializado. Recarga la página.',
+                mustLogin: 'Debes iniciar sesión para jugar. Redirigiendo a inicio.',
+                updateBalanceError: 'Error al actualizar balance o entrar a sala. Por favor, intenta de nuevo.',
+                registerFillFields: 'Por favor, rellena todos los campos.',
+                passwordsMismatch: 'Las contraseñas no coinciden.',
+                passwordTooWeak: 'La contraseña debe tener al menos 6 caracteres.',
+                emailInUse: 'Este correo electrónico ya está en uso. Por favor, usa otro o inicia sesión.',
+                invalidEmailFormat: 'El formato del correo electrónico es inválido.',
+                registrationSuccessful: '¡Registro exitoso! ¡Bienvenido a Bingo VIP Bolivia!',
+                loginSuccessful: '¡Inicio de sesión exitoso!',
+                failedToLoadUserData: 'Error al cargar datos de usuario. Recarga o contacta soporte.',
+                noUserDataFound: 'Error: No se encontraron datos de usuario. Recarga o contacta soporte.',
+                authServicesNotReady: 'Error crítico: El sistema de autenticación no está listo. Recarga la página.'
+            };
+            
+            const currentLang = localStorage.getItem('appLang') || 'es'; // 'es' como defecto
+
+            // Función de traducción
+            function t(key) {
+                return translations[currentLang][key] || key; // Retorna la traducción o la clave original
+            }
+
+            // Función para actualizar los placeholders de los inputs
+            function updatePlaceholders() {
+                if (loginEmailInput) loginEmailInput.placeholder = t('loginEmailPlaceholder');
+                if (loginPasswordInput) loginPasswordInput.placeholder = t('loginPasswordPlaceholder');
+                if (registerNameInput) registerNameInput.placeholder = t('registerNamePlaceholder');
+                if (registerEmailInput) registerEmailInput.placeholder = t('registerEmailPlaceholder');
+                if (registerPasswordInput) registerPasswordInput.placeholder = t('registerPasswordPlaceholder');
+                if (registerConfirmPasswordInput) registerConfirmPasswordInput.placeholder = t('registerConfirmPasswordPlaceholder');
+            }
+            
+            // Función para actualizar textos de elementos con ID
+            function updateElementTexts() {
+                if (document.getElementById('welcomeTitle')) document.getElementById('welcomeTitle').textContent = t('welcomeTitle');
+                if (document.getElementById('sloganText')) document.getElementById('sloganText').textContent = t('sloganText');
+                if (document.getElementById('loadingMessage')) document.getElementById('loadingMessage').textContent = t('loadingMessage');
+                if (document.getElementById('start-game-button')) document.getElementById('start-game-button').textContent = t('startScreenButton');
+                if (document.getElementById('loginTitle')) document.getElementById('loginTitle').textContent = t('loginTitle');
+                if (document.getElementById('registerTitle')) document.getElementById('registerTitle').textContent = t('registerTitle');
+                if (document.getElementById('login-button')) document.getElementById('login-button').textContent = t('loginButton');
+                if (document.getElementById('register-from-login-button')) document.getElementById('register-from-login-button').textContent = t('registerFromLoginButton');
+                if (document.getElementById('register-button')) document.getElementById('register-button').textContent = t('registerButton');
+                if (document.getElementById('login-from-register-button')) document.getElementById('login-from-register-button').textContent = t('loginFromRegisterButton');
+                if (document.getElementById('lobbyBackText')) document.getElementById('lobbyBackText').textContent = t('lobbyBackText');
+                if (document.getElementById('settingsText')) document.getElementById('settingsText').textContent = t('settingsText');
+                if (document.getElementById('lobbyTitle')) document.getElementById('lobbyTitle').textContent = t('lobbyTitle');
+                if (document.getElementById('game-sala-actual-display')) document.getElementById('game-sala-actual-display').textContent = t('gameSalaActualDisplay');
+                if (document.getElementById('gameBackText')) document.getElementById('gameBackText').textContent = t('gameBackText');
+                if (document.getElementById('buy-new-card-button')) document.getElementById('buy-new-card-button').textContent = t('buyNewCardDev');
+                if (document.getElementById('check-bingo-button')) document.getElementById('check-bingo-button').textContent = t('bingoVerificationDev');
+                if (document.getElementById('legalWarningText')) document.getElementById('legalWarningText').textContent = t('legalWarningText');
+
+                // Enlaces que requieren innerHTML
+                if (document.getElementById('forgot-password-link')) document.getElementById('forgot-password-link').parentNode.innerHTML = t('forgotPasswordText').replace('Recuperar', '<a href="#" id="forgot-password-link">Recuperar</a>');
+                if (document.getElementById('terms-login-link')) document.getElementById('terms-login-link').parentNode.innerHTML = t('termsLoginText').replace('Términos y Condiciones', '<a href="#" id="terms-login-link">Términos y Condiciones</a>');
+                if (document.getElementById('terms-register-link')) document.getElementById('terms-register-link').parentNode.innerHTML = t('termsRegisterText').replace('Términos y Condiciones', '<a href="#" id="terms-register-link">Términos y Condiciones</a>');
+                if (document.getElementById('linkSoporte')) document.getElementById('linkSoporte').parentNode.innerHTML = t('supportText').replace('Contacto con soporte', '<a href="#" id="linkSoporte">Contacto con soporte</a>');
+
+                // Re-asignar listeners a enlaces que fueron modificados con innerHTML
+                if (document.getElementById('linkSoporte')) document.getElementById('linkSoporte').addEventListener('click', handleSupportClick);
+                if (document.getElementById('forgot-password-link')) document.getElementById('forgot-password-link').addEventListener('click', handleForgotPasswordClick);
+                if (document.getElementById('terms-login-link')) document.getElementById('terms-login-link').addEventListener('click', handleTermsClick);
+                if (document.getElementById('terms-register-link')) document.getElementById('terms-register-link').addEventListener('click', handleTermsClick);
+            }
+
+            // --- Handlers para enlaces (ya definidos en script.js) ---
+            function handleSupportClick(e) { e.preventDefault(); alert(t('supportEmail')); }
+            function handleForgotPasswordClick(e) { e.preventDefault(); alert("Recuperación de contraseña en desarrollo."); }
+            function handleTermsClick(e) { e.preventDefault(); alert("Términos y Condiciones en desarrollo."); }
+
+
+            // --- Core App Logic (script.js combined with other JS files) ---
+            // Asume que firebase ya cargó el objeto global 'firebase'
+            // Asume que window.auth y window.db ya están asignados desde firebase-config.js (parte de este mismo script)
+
+            // Lógica de la barra de carga (Splash Screen)
+            let percentage = 0;
+            const loadInterval = setInterval(() => {
+                percentage += 2;
+                if (loadingBar) loadingBar.style.width = percentage + '%';
+                if (loadingPercentage) loadingPercentage.textContent = percentage + '%';
+
+                if (percentage >= 100) {
+                    clearInterval(loadInterval);
+                    if (loadingBarContainer) loadingBarContainer.classList.add('hidden');
+                    if (startGameButton) startGameButton.classList.remove('hidden');
+                }
+            }, 150);
+
+            // Button Click Handlers (Splash/Login/Register screens)
+            if (startGameButton) {
+                startGameButton.addEventListener('click', () => {
+                    showScreen('login-screen');
+                    // Play music/video on first user interaction
+                    if (backgroundVideo && backgroundVideo.paused) backgroundVideo.play().catch(e => console.warn("Video play blocked on start:", e));
+                    if (backgroundMusic && backgroundMusic.paused) {
+                        backgroundMusic.play().catch(e => console.warn("Music play blocked on start:", e));
+                        isMusicPlaying = true;
+                        if (playMusicButton) playMusicButton.classList.add('hidden');
+                        if (pauseMusicButton) pauseMusicButton.classList.remove('hidden');
+                    }
+                });
+            }
+
+            // Login Screen Buttons
+            if (loginButton) {
+                loginButton.addEventListener('click', async () => {
+                    const email = loginEmailInput.value;
+                    const password = loginPasswordInput.value;
+                    loginErrorMessage.textContent = '';
+                    if (!email || !password) { errorMessageElement.textContent = t('registerFillFields'); return; }
+                    try {
+                        await firebase.auth().signInWithEmailAndPassword(email, password);
+                        alert(t('loginSuccessful'));
+                        showScreen('lobby-screen'); 
+                        updateLobbyUI(); 
+                    } catch (error) {
+                        console.error("Error al iniciar sesión:", error);
+                        let errorMessage = t('updateBalanceError');
+                        switch (error.code) {
+                            case 'auth/invalid-email': errorMessage = t('invalidEmailFormat'); break;
+                            case 'auth/user-not-found':
+                            case 'auth/wrong-password': errorMessage = t('loginButton'); break; 
+                            case 'auth/user-disabled': errorMessage = 'Tu cuenta ha sido deshabilitada.'; break;
+                            case 'auth/too-many-requests': errorMessage = 'Demasiados intentos de inicio de sesión. Intenta de nuevo más tarde.'; break;
+                            case 'auth/invalid-credential': errorMessage = 'Las credenciales proporcionadas son inválidas.'; break;
+                            default: errorMessage = `Error: ${error.message}`; break;
+                        }
+                        loginErrorMessage.textContent = errorMessage;
+                    }
+                });
+            }
+            if (registerFromLoginButton) { registerFromLoginButton.addEventListener('click', () => showScreen('register-screen')); }
+            if (loginFromRegisterButton) { loginFromRegisterButton.addEventListener('click', () => showScreen('login-screen')); }
+
+            // Register Screen Buttons
+            if (registerButton) {
+                registerButton.addEventListener('click', async () => {
+                    const name = document.getElementById('register-name').value;
+                    const email = document.getElementById('register-email').value;
+                    const password = document.getElementById('register-password').value;
+                    const confirmPassword = document.getElementById('register-confirm-password').value;
+                    registerErrorMessage.textContent = '';
+                    if (!name || !email || !password || !confirmPassword) { errorMessageElement.textContent = t('registerFillFields'); return; }
+                    if (password !== confirmPassword) { errorMessageElement.textContent = t('passwordsMismatch'); return; }
+                    if (password.length < 6) { errorMessageElement.textContent = t('passwordTooWeak'); return; }
+                    try {
+                        const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                        await firebase.firestore().collection('users').doc(userCredential.user.uid).set({
+                            nombreCompleto: name, email: email, avatar: 'avatar_default.png', balance: 500, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                        alert(t('registrationSuccessful'));
+                        showScreen('login-screen');
+                    } catch (error) {
+                        console.error("Error al registrar:", error);
+                        let errorMessage = t('updateBalanceError');
+                        switch (error.code) {
+                            case 'auth/email-already-in-use': errorMessage = t('emailInUse'); break;
+                            case 'auth/invalid-email': errorMessage = t('invalidEmailFormat'); break;
+                            case 'auth/weak-password': errorMessage = t('passwordTooWeak'); break;
+                            default: errorMessage = `Error: ${error.message}`; break;
+                        }
+                        registerErrorMessage.textContent = errorMessage;
+                    }
+                });
+            }
+
+            // --- Lobby Logic (integrated from lobby.js) ---
+            async function updateLobbyUI() {
+                const user = firebase.auth().currentUser;
+                if (!user) { alert(t('mustLogin')); showScreen('login-screen'); return; }
+                try {
+                    const userRef = firebase.firestore().collection('users').doc(user.uid);
+                    const userSnap = await userRef.get();
+                    if (userSnap.exists) {
+                        const userData = userSnap.data();
+                        if (document.getElementById('user-balance')) document.getElementById('user-balance').textContent = `$${parseFloat(userData.balance).toFixed(2)}`;
+                        if (document.getElementById('user-avatar') && userData.avatar) {
+                            document.getElementById('user-avatar').src = userData.avatar;
+                        } else if (document.getElementById('user-avatar')) {
+                            document.getElementById('user-avatar').src = 'avatar_default.png';
+                        }
+                    } else {
+                        alert(t('noUserDataFound'));
+                        showScreen('login-screen');
+                    }
+                } catch (error) {
+                    console.error("Error al cargar datos de usuario en lobby:", error);
+                    alert(t('failedToLoadUserData'));
+                    showScreen('login-screen');
+                }
+            }
+
+            // Lobby Buttons
+            document.querySelectorAll('.btn-bingo').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const salaId = button.dataset.salaId;
+                    const salaCard = document.getElementById(salaId);
+                    if (!salaCard) { alert(t('salaNotFound')); return; }
+                    const costoCarton = parseFloat(salaCard.dataset.cost);
+                    const minBalance = parseFloat(salaCard.dataset.minBalance);
+                    const salaName = salaCard.dataset.name;
+
+                    const user = firebase.auth().currentUser;
+                    if (!user) { alert(t('mustLogin')); showScreen('login-screen'); return; }
+                    const userRef = firebase.firestore().collection('users').doc(user.uid);
+                    const userSnap = await userRef.get();
+                    let currentBalance = 0;
+                    if (userSnap.exists) { currentBalance = parseFloat(userSnap.data().balance); } else { alert(t('noUserDataFound')); showScreen('login-screen'); return; }
+                    
+                    if (currentBalance < minBalance) {
+                        alert(`${t('balanceInsufficient')}${minBalance.toFixed(2)}${t('toPlayIn')}${salaName}. ${t('yourBalanceIs')}${currentBalance.toFixed(2)}`);
+                        return;
+                    }
+
+                    try {
+                        await firebase.firestore().runTransaction(async (transaction) => {
+                            const sfDoc = await transaction.get(userRef);
+                            if (!sfDoc.exists) { throw "Documento de usuario no existe!"; }
+                            const newBalance = parseFloat(sfDoc.data().balance) - costoCarton;
+                            if (newBalance < 0) { throw "Balance negativo inesperado. Operación cancelada."; }
+                            transaction.update(userRef, { balance: newBalance });
+                        });
+                        alert(`${t('playedInRoom')} ${salaName}. ${t('costDeducted')}${costoCarton.toFixed(2)}.`);
+                        localStorage.setItem('currentSalaId', salaId);
+                        localStorage.setItem('currentSalaName', salaName);
+                        showScreen('game-screen');
+                        initializeGameScreen();
+                    } catch (error) {
+                        console.error("Error al actualizar balance o entrar a sala:", error);
+                        alert(t('updateBalanceError'));
+                    }
+                });
+            });
+            
+            // --- Game Logic (integrated from juego.js) ---
+            let currentBingoCard = []; // El cartón del jugador
+            let calledNumbers = []; // Números que ya han sido cantados
+            let gameInterval; // Para el temporizador de llamado de números
+            const BINGO_NUMBERS = 75; // Números totales en el bingo (1-75)
+            const BINGO_CARD_SIZE = 25; // Tamaño del cartón (5x5)
+
+            async function initializeGameScreen() {
+                const salaActualDisplay = document.getElementById('game-sala-actual-display');
+                const gameTimerDisplay = document.getElementById('game-timer');
+                const locutorAvatar = document.getElementById('locutor-avatar');
+                const numeroCantadoDisplay = document.getElementById('numero-cantado-display');
+                const numerosCantadosGrid = document.getElementById('numeros-cantados-grid');
+                const playerBingoCardElement = document.getElementById('player-bingo-card');
+                const buyNewCardButton = document.getElementById('buy-new-card-button');
+                const checkBingoButton = document.getElementById('check-bingo-button');
+                const backToLobbyButton = document.getElementById('game-back-to-lobby-button');
+
+                if (salaActualDisplay) salaActualDisplay.textContent = `${t('playSala')}: ${localStorage.getItem('currentSalaName') || t('unknownRoom')}`;
+                if (locutorAvatar) {
+                    const user = firebase.auth().currentUser;
+                    if (user) {
+                        const userSnap = await firebase.firestore().collection('users').doc(user.uid).get();
+                        if (userSnap.exists && userSnap.data().avatar) {
+                            locutorAvatar.src = userSnap.data().avatar;
+                        } else {
+                            locutorAvatar.src = 'avatar_locutor_default.png';
+                        }
+                    }
+                }
+                
+                generateNewBingoCard(playerBingoCardElement, checkBingoButton);
+                startGameRound(gameTimerDisplay, numeroCantadoDisplay, numerosCantadosGrid, playerBingoCardElement);
+                
+                if (buyNewCardButton) {
+                    buyNewCardButton.addEventListener('click', () => {
+                        alert(t('buyNewCardDev'));
+                        generateNewBingoCard(playerBingoCardElement, checkBingoButton);
+                    });
+                }
+                if (checkBingoButton) {
+                    checkBingoButton.addEventListener('click', () => {
+                        alert(t('bingoVerificationDev'));
+                    });
+                }
+                if (backToLobbyButton) {
+                    backToLobbyButton.addEventListener('click', () => {
+                        clearInterval(gameInterval);
+                        showScreen('lobby-screen');
+                    });
+                }
+            }
+            
+            function generateNewBingoCard(cardElement, bingoButton) {
+                if (!cardElement) return;
+                cardElement.innerHTML = '';
+                currentBingoCard = [];
+                const allNumbers = Array.from({ length: BINGO_NUMBERS }, (_, i) => i + 1);
+                const shuffledNumbers = allNumbers.sort(() => 0.5 - Math.random()).slice(0, BINGO_CARD_SIZE);
+                shuffledNumbers.forEach(num => {
+                    const cell = document.createElement('div');
+                    cell.classList.add('bingo-cell');
+                    cell.textContent = num;
+                    cell.dataset.number = num;
+                    cell.addEventListener('click', () => markNumberOnCard(cell));
+                    cardElement.appendChild(cell);
+                    currentBingoCard.push({ number: num, marked: false });
+                });
+                if(bingoButton) bingoButton.disabled = false;
+            }
+
+            function markNumberOnCard(cell) {
+                const number = parseInt(cell.dataset.number);
+                const cardItem = currentBingoCard.find(item => item.number === number);
+                if (cardItem && calledNumbers.includes(number)) {
+                    cardItem.marked = !cardItem.marked;
+                    cell.classList.toggle('marked', cardItem.marked);
+                } else {
+                    alert(t('numberNotCalled'));
+                }
+            }
+
+            function startGameRound(timerDisplay, numDisplay, historyGrid, cardElement) {
+                let numbersPool = Array.from({ length: BINGO_NUMBERS }, (_, i) => i + 1);
+                numbersPool.sort(() => 0.5 - Math.random());
+                calledNumbers = [];
+                numDisplay.textContent = '';
+                historyGrid.innerHTML = '';
+                
+                clearInterval(gameInterval);
+                let callIndex = 0;
+                gameInterval = setInterval(() => {
+                    if (callIndex < numbersPool.length) {
+                        const num = numbersPool[callIndex];
+                        calledNumbers.push(num);
+                        numDisplay.textContent = num;
+                        updateCalledNumbersGrid(historyGrid, num);
+                        document.querySelectorAll('.bingo-cell').forEach(cell => {
+                            if (parseInt(cell.dataset.number) === num) {
+                                cell.classList.add('called');
+                            }
+                        });
+                        callIndex++;
+                    } else {
+                        clearInterval(gameInterval);
+                        alert(t('allNumbersCalled'));
+                    }
+                }, 2000);
+            }
+
+            function updateCalledNumbersGrid(gridElement, number) {
+                if (!gridElement) return;
+                const numDiv = document.createElement('div');
+                numDiv.classList.add('called-number-item');
+                numDiv.textContent = number;
+                gridElement.appendChild(numDiv);
+                gridElement.scrollTop = gridElement.scrollHeight;
+            }
+
+
+            // --- Global Media Controls ---
+            if (playMusicButton) {
+                playMusicButton.addEventListener('click', () => {
+                    backgroundMusic.play().catch(e => console.error("Error al reproducir música:", e));
+                    isMusicPlaying = true;
+                    playMusicButton.classList.add('hidden');
+                    pauseMusicButton.classList.remove('hidden');
+                });
+            }
+
+            if (pauseMusicButton) {
+                pauseMusicButton.addEventListener('click', () => {
+                    backgroundMusic.pause();
+                    isMusicPlaying = false;
+                    playMusicButton.classList.remove('hidden');
+                    pauseMusicButton.classList.add('hidden');
+                });
+            }
+            
+            // Intenta reproducir el video de fondo al cargar (muteado)
+            if (backgroundVideo) {
+                backgroundVideo.play().catch(e => console.warn("Video autoplay blocked:", e));
+            }
+
+            // --- Control de Idioma ---
+            if (languageSelect) {
+                const initialLang = localStorage.getItem('appLang') || 'es';
+                languageSelect.value = initialLang;
+                updatePlaceholders(); // Actualiza placeholders al cargar
+                updateElementTexts(); // Actualiza textos al cargar inicialmente
+
+                languageSelect.addEventListener('change', (event) => {
+                    const selectedLang = event.target.value;
+                    localStorage.setItem('appLang', selectedLang);
+                    updatePlaceholders();
+                    updateElementTexts();
+                });
+            }
+
+            // --- Listener para onAuthStateChanged (Para manejar el estado del usuario) ---
+            firebase.auth().onAuthStateChanged(user => {
+                if (user) {
+                    console.log("Usuario autenticado:", user.uid);
+                    // Si el usuario está logueado, vamos directamente al lobby
+                    // Pero si recarga el login, queremos que lo mande al lobby.
+                    // Solo si estamos en la splash/login/register screen, redirigimos.
+                    if (splashScreen && (splashScreen.classList.contains('active') || loginScreen.classList.contains('active') || registerScreen.classList.contains('active'))) {
+                        showScreen('lobby-screen');
+                        updateLobbyUI(); // Cargar datos del lobby
+                    }
+                } else {
+                    console.log("Usuario no autenticado.");
+                    // Si no hay usuario, y no estamos en splash, vamos a login
+                    if (splashScreen && !splashScreen.classList.contains('active') && loginScreen && !loginScreen.classList.contains('active') && registerScreen && !registerScreen.classList.contains('active')) {
+                        showScreen('login-screen');
+                    }
+                }
+            });
+
+            // --- Initial Screen Load ---
+            showScreen('splash-screen'); // Inicia siempre en la pantalla de carga
+        });
+    </script>
+</body>
+</html>
