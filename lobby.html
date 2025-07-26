@@ -11,24 +11,31 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
-    <div class="lobby-container">
-        <header class="lobby-header">
-            <button class="back-button" id="back-to-home-button" onclick="window.location.href='index.html'">
-                <i class="fas fa-arrow-left"></i> Volver a Inicio
-            </button>
-            <div class="user-info">
-                <img src="avatar_default.png" alt="Avatar Usuario" class="avatar-circle" id="user-avatar">
-                <span class="user-balance" id="user-balance">$0.00</span>
-                <button class="add-funds-button" id="add-funds-button">
-                    <i class="fas fa-plus-circle"></i>
-                </button>
-            </div>
-            <button class="settings-button" id="settings-button">
-                <i class="fas fa-cog"></i> Configuración
-            </button>
-        </header>
+    <div class="background-video-container">
+        <video autoplay muted loop id="background-video-lobby">
+            <source src="fondo-video-lobby.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+        </video>
+    </div>
 
-        <div class="lobby-main-content"> <h1 class="screen-title">SELECCIONA TU SALA DE JUEGO</h1>
+    <div class="page-content-wrapper"> <div class="lobby-container">
+            <header class="lobby-header">
+                <button class="back-button" onclick="window.location.href='index.html'">
+                    <i class="fas fa-arrow-left"></i> Volver a Inicio
+                </button>
+                <div class="user-info">
+                    <img src="avatar_default.png" alt="Avatar Usuario" class="avatar-circle" id="user-avatar">
+                    <span class="user-balance" id="user-balance">$0.00</span>
+                    <button class="add-funds-button" id="add-funds-button">
+                        <i class="fas fa-plus-circle"></i>
+                    </button>
+                </div>
+                <button class="settings-button" id="settings-button">
+                    <i class="fas fa-cog"></i> Configuración
+                </button>
+            </header>
+
+            <h1 class="screen-title">SELECCIONA TU SALA DE JUEGO</h1>
 
             <div class="salas-grid">
                 <div class="sala-card" id="sala-1" data-cost="1" data-prize="3" data-min-balance="1" data-name="El Subterráneo" data-min-players="5" data-max-players="8">
