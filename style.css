@@ -93,7 +93,7 @@ body {
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-    max-width: 90%; /* Ajustado para pantallas más pequeñas */
+    max-width: 90%; 
     width: 450px; /* Ancho fijo para el contenedor */
     padding: 20px;
     display: flex;
@@ -104,6 +104,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInSlideUp 0.8s ease-out forwards;
+    margin: 0 auto; /* Esto centrará el bloque dentro de su padre */
 }
 
 /* Animación de entrada general para el contenido */
@@ -358,8 +359,9 @@ body {
         width: 120px;
     }
     .content-overlay {
-        width: 95%; /* Asegura que el overlay no sea muy ancho */
+        width: 95%; /* Ajustado para pantallas más pequeñas */
         padding: 15px;
+        max-width: 300px; /* Ancho máximo para el overlay en móvil */
     }
     .language-selector, .music-controls {
         position: relative;
@@ -445,23 +447,20 @@ body {
 
 /* Estilos del lobby */
 .lobby-container {
-    /* --- CAMBIOS PARA CENTRADO GLOBAL DEL LOBBY --- */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center; /* Centra el contenido horizontalmente */
     justify-content: flex-start;
-    /* --- FIN CAMBIOS CENTRADO GLOBAL --- */
     padding: 20px;
     background-color: var(--dark-bg);
     color: var(--text-light);
-    margin: 0 auto;
-    width: 100%; /* Aseguramos que ocupe todo el ancho disponible */
-    max-width: 1200px; /* Puedes ajustar este valor si deseas un ancho máximo diferente */
+    /* Removido margin: 0 auto; y width: 100%; para que body.align-items: center lo centre */
+    max-width: 1200px; /* Límite de ancho para desktop */
 }
 
 .lobby-header {
-    width: 100%;
+    width: 100%; /* Ocupa todo el ancho del lobby-container */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -634,14 +633,15 @@ body {
     .screen-title {
         font-size: 1.8em;
     }
-    .lobby-header {
+    .lobby-header { /* Asegura que la cabecera se centre en móvil */
         flex-wrap: wrap;
         justify-content: center;
         text-align: center;
+        gap: 10px; /* Añade un pequeño espacio si los elementos se envuelven */
     }
-    .back-button, .user-info, .add-funds-button {
+    .back-button, .user-info, .add-funds-button, .settings-button { /* Asegura que los elementos de la cabecera ocupen todo el ancho si se envuelven */
         width: 100%;
-        margin-bottom: 10px;
+        margin-bottom: 0; /* Quita margin-bottom si ya hay gap */
     }
 }
 
