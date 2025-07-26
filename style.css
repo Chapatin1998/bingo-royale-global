@@ -25,9 +25,9 @@ body {
     overflow-y: auto; /* Permite scroll vertical en el body por defecto, si el contenido es grande */
     background-color: var(--dark-bg); /* Esto puede ser un color de respaldo si el video no carga */
 
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
+    display: flex; /* Convierte el body en un contenedor flexbox */
+    flex-direction: column; /* Apila el contenido verticalmente */
     align-items: center; /* Centra el contenido horizontalmente en el body */
     justify-content: flex-start; /* Alinea el contenido al inicio verticalmente (arriba) */
 }
@@ -53,13 +53,13 @@ body {
     height: auto;
     transform: translate(-50%, -50%);
     object-fit: cover;
-    filter: brightness(0.4) grayscale(0.5);
+    filter: brightness(0.4) grayscale(0.5); /* Oscurece y desatura el video */
 }
 
 /* Clases para manejar las "pantallas" */
 .app-screen {
     width: 100%;
-    min-height: 100vh;
+    min-height: 100vh; /* Asegura que la pantalla ocupe al menos toda la altura de la ventana */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -95,7 +95,7 @@ body {
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
     max-width: 450px;
-    width: 95%; /* Asegura que no sea 100% para dar espacio de padding en móvil */
+    width: 95%; /* Ajustado para pantallas más pequeñas */
     padding: 20px;
     margin: 0 auto;
     display: flex;
