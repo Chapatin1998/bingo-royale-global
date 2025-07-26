@@ -4,73 +4,669 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo VIP Bolivia</title>
-    <link rel="stylesheet" href="style.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     
-</head>
-<body>
-    <div class="main-container">
-        <video autoplay muted loop id="background-video">
-            <source src="fondo-casino-3d.mp4" type="video/mp4">
-            Tu navegador no soporta el video.
-        </video>
-        
-        <div class="content-overlay">
-            <img src="logo-bingo-vip.png" alt="Logo Bingo VIP Bolivia" class="app-logo">
-            <h1 class="welcome-title" id="welcomeTitle">¡Bienvenido a Bingo VIP Bolivia!</h1>
-            <p class="slogan" id="sloganText">Tu experiencia de bingo premium comienza aquí.</p>
+    <style>
+        /* style.css - INTEGRADO AQUÍ */
 
-            <div class="loading-bar-container" id="loading-bar-container"> <div class="loading-bar" id="loading-bar"></div>
-                <span id="loading-percentage">0%</span>
-                <p class="loading-message" id="loadingMessage">Cargando tu experiencia VIP...</p>
-            </div>
+        /* Global Box Sizing para un mejor control del layout */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
 
-            <button class="start-button hidden" id="startButton">INICIAR JUEGO</button>
+        /* Variables de color */
+        :root {
+            --dark-bg: #1a1a2e;
+            --primary-gold: #FFD700;
+            --secondary-gold: #B8860B;
+            --text-light: #e0e0e0;
+            --button-bg-dark: #333642;
+            --button-hover-dark: #454954;
+            --progress-bar-color: #28a745; /* Verde */
+        }
 
-            <div id="auth-section" class="auth-section hidden">
-                <div class="input-group">
-                    <input type="email" id="email" placeholder="Correo electrónico" required>
-                    <input type="password" id="password" placeholder="Contraseña" required>
-                </div>
+        /* Estilos generales del body */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: var(--text-light);
+            overflow-x: hidden; /* Solo previene scroll horizontal no deseado */
+            background-color: var(--dark-bg); /* Esto puede ser un color de respaldo si el video no carga */
 
-                <div class="botones-container">
-                    <button class="btn-primary" id="btnIniciar">Iniciar Sesión</button>
-                    <button class="btn-accion-secondary" id="btnRegistrar">Registrarse</button>
-                </div>
-                <p class="error-message" id="authError"></p> </div>
-            
-            <div class="bottom-area">
-                <p class="support-text" id="supportText">¿Necesitas ayuda? <a href="#" id="linkSoporte">Contacto con soporte</a></p>
-                <p class="legal-text" id="legalText1">Este juego es solo para mayores de 18 años. Una sola cuenta por persona.</p>
-                <p class="legal-text" id="legalText2">Juega con responsabilidad.</p>
-            </div>
-            
-            <div class="language-selector">
-                <select id="langSelect">
-                    <option value="es">🇧🇴 Español</option>
-                    <option value="en">🇺🇸 English</option>
-                    <option value="pt">🇧🇷 Portugués</option>
-                </select>
-            </div>
-            
-            <div class="music-controls">
-                <button id="musicToggle">
-                    <i class="fas fa-volume-up"></i>
-                </button>
-            </div>
-        </div>
-    </div>
+            /* --- CAMBIOS PARA CENTRADO GLOBAL (AFECTA A TODAS LAS PÁGINAS) --- */
+            min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
+            display: flex; /* Convierte el body en un contenedor flexbox */
+            flex-direction: column; /* Apila el contenido verticalmente */
+            align-items: center; /* Centra el contenido horizontalmente */
+            justify-content: flex-start; /* Alinea el contenido al inicio verticalmente (arriba) */
+            /* --- FIN CAMBIOS CENTRADO GLOBAL --- */
+        }
 
-    <audio id="background-music" loop>
-        <source src="fondo.mp3" type="audio/mpeg">
-        Tu navegador no soporta el audio.
-    </audio>
+        /* Contenedor principal para el video de fondo (usado en todas las "pantallas") */
+        .background-video-container {
+            position: fixed; /* Ocupa toda la ventana, sin desplazarse */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            z-index: -2; /* Detrás de todo el contenido */
+        }
 
-    <script src="firebase-config.js"></script> 
-    <script src="script.js"></script>
-</body>
-</html>
+        .background-video-container video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            filter: brightness(0.4) grayscale(0.5); /* Oscurece y desatura el video */
+        }
+
+        /* Clases para manejar las "pantallas" */
+        .app-screen {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Alinea al inicio verticalmente */
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: transparent; /* No tiene fondo propio, usa el del body o video */
+            color: var(--text-light);
+            position: relative; /* Para z-index de elementos internos */
+            z-index: 0; /* Por encima del video de fondo */
+            opacity: 1;
+            transition: opacity 0.5s ease-out; /* Transición al ocultar/mostrar */
+        }
+
+        .app-screen.hidden {
+            display: none;
+            opacity: 0;
+        }
+
+        .app-screen.fade-out {
+            opacity: 0;
+        }
+
+        .app-screen.fade-in {
+            opacity: 1;
+        }
+
+        /* Contenido superpuesto (usado en splash/login/register) */
+        .content-overlay {
+            background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente para legibilidad */
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            max-width: 90%;
+            width: 450px; /* Ancho fijo para el contenedor */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0; /* Empieza invisible */
+            transform: translateY(20px); /* Empieza un poco abajo */
+            animation: fadeInSlideUp 0.8s ease-out forwards; /* Aplicará la animación */
+        }
+
+        /* Animación de entrada general para el contenido */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Logo de la aplicación */
+        .app-logo {
+            width: 100px; /* Ajustado un poco más pequeño para mobile */
+            height: auto;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite ease-in-out; /* Animación de pulsación */
+        }
+
+        /* Título de bienvenida */
+        .welcome-title {
+            font-size: 2em; /* Ajustado para mobile */
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+            text-shadow: 0 0 8px var(--primary-gold), 0 0 15px rgba(0, 0, 0, 0.5); /* Brillo dorado */
+        }
+
+        /* Eslogan */
+        .slogan {
+            font-size: 1em; /* Ajustado para mobile */
+            color: var(--text-light);
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Barra de carga */
+        .loading-bar-container {
+            width: 80%;
+            height: 25px; /* Un poco más alta */
+            background-color: var(--button-bg-dark);
+            border-radius: 12px; /* Más redondeada */
+            overflow: hidden;
+            margin-bottom: 25px; /* Más espacio */
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra para resaltar */
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary-gold), #FFFACD); /* Degradado dorado */
+            border-radius: 12px;
+            transition: width 0.2s ease-out; /* Animación más suave y rápida aquí */
+            box-shadow: 0 0 10px var(--primary-gold); /* Brillo en la barra */
+        }
+
+        #loading-percentage {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            line-height: 25px; /* Ajusta a la altura de la barra */
+            color: var(--dark-bg);
+            font-weight: bold;
+            font-size: 1em; /* Un poco más grande */
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Sombra para legibilidad */
+        }
+
+        .loading-message {
+            font-size: 1em; /* Un poco más grande */
+            color: var(--text-light);
+            margin-top: 15px; /* Más espacio */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Formulario de autenticación */
+        .auth-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            opacity: 0; /* Empieza invisible */
+            transform: translateY(20px); /* Empieza un poco abajo */
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Transición para cuando aparece */
+        }
+
+        .auth-section.show { /* Clase para mostrar con animación */
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .input-group {
+            width: 80%;
+            margin-bottom: 15px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 18px; /* Un poco más de padding */
+            border: 2px solid var(--secondary-gold); /* Borde más grueso */
+            border-radius: 8px; /* Más redondeado */
+            background-color: var(--button-bg-dark);
+            color: var(--text-light);
+            font-size: 1.1em; /* Texto más grande */
+            box-sizing: border-box; /* Incluye padding y borde en el ancho */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición para foco */
+        }
+
+        .input-group input::placeholder {
+            color: #aaa;
+        }
+
+        .input-group input:focus { /* Efecto al hacer foco en el input */
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 15px var(--primary-gold); /* Efecto de brillo dorado */
+            outline: none; /* Elimina el contorno predeterminado del navegador */
+        }
+
+        .botones-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 12px; /* Espacio entre botones */
+        }
+
+        .btn-primary, .btn-accion-secondary, .start-button { /* Aplica estilos comunes también al start-button */
+            padding: 15px 30px; /* Más padding */
+            border: none;
+            border-radius: 10px; /* Más redondeado */
+            font-size: 1.2em; /* Texto más grande */
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Transiciones para magia */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Sombra para relieve */
+        }
+
+        .start-button { /* Estilo específico para el botón de inicio */
+            background-color: var(--primary-gold);
+            color: var(--dark-bg);
+        }
+
+        .btn-primary:hover, .start-button:hover {
+            background-color: var(--secondary-gold);
+            transform: translateY(-3px); /* Se eleva un poco más */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
+        }
+
+        .btn-primary:active, .start-button:active { /* Efecto al hacer clic */
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            background-color: var(--primary-gold); /* Vuelve al color original al presionar */
+        }
+
+        .btn-accion-secondary {
+            background-color: var(--button-bg-dark);
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+        }
+
+        .btn-accion-secondary:hover {
+            background-color: var(--button-hover-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .btn-accion-secondary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            background-color: var(--button-bg-dark);
+        }
+
+        .error-message {
+            color: #ff4d4d;
+            font-size: 1em;
+            margin-top: 10px;
+            height: 1.2em;
+        }
+
+        .bottom-area {
+            margin-top: 30px;
+            font-size: 0.95em;
+            color: var(--text-light);
+            width: 80%;
+            line-height: 1.4;
+        }
+
+        .bottom-area a {
+            color: var(--primary-gold);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .bottom-area a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Selector de Idioma */
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .language-selector select {
+            background-color: var(--button-bg-dark);
+            color: var(--text-light);
+            border: 1px solid var(--secondary-gold);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        /* Controles de Música */
+        .music-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .music-controls button {
+            background-color: var(--button-bg-dark);
+            color: var(--text-light);
+            border: 1px solid var(--secondary-gold);
+            padding: 10px;
+            border-radius: 50%;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .music-controls button:hover {
+            background-color: var(--button-hover-dark);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .welcome-title {
+                font-size: 1.8em;
+            }
+            .app-logo {
+                width: 120px;
+            }
+            .content-overlay {
+                width: 95%;
+                padding: 15px;
+            }
+            .language-selector, .music-controls {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-top: 15px;
+            }
+            .input-group, .botones-container, .bottom-area {
+                width: 90%;
+            }
+        }
+
+        /* Animación para el logo */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .app-logo {
+            animation: pulse 2s infinite ease-in-out; /* Aplica la animación al logo */
+        }
+
+        /* Estilos específicos para registro.html */
+
+        /* Los estilos de .screen-title, .input-group, .botones-container, .btn-primary, .btn-accion-secondary
+           ya están definidos globalmente arriba y deberían aplicar. */
+
+        .register-form-container {
+            background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente para el formulario */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+            max-width: 450px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px; /* Espacio entre grupos de input */
+        }
+
+        /* Reutiliza .input-group, .botones-container, .btn-primary, .btn-accion-secondary de tus estilos globales */
+        /* Revisa la sección .input-group input:focus para asegurar el brillo dorado */
+
+        .link-text {
+            font-size: 1em;
+            margin-top: 20px;
+            color: var(--text-light);
+        }
+
+        .link-text a {
+            color: var(--primary-gold);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+.link-text a:hover {
+    text-decoration: underline;
+}
+
+/* Si usas video de fondo en registro.html */
+#background-video-registro { /* Asegúrate que este ID exista en registro.html */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    filter: brightness(0.4) grayscale(0.5); /* Oscurece y desatura igual que el inicio */
+}
+
+/* Asegura que el main-container en registro.html tenga las mismas propiedades de flex y centrado */
+/* Si ya tienes un .main-container global que funcione para video, no necesitas añadir más */
+/* Sino, podrías necesitar un estilo para .login-page-container si decides usar ese nombre */
+
+/* Ejemplo si quieres un estilo para el body de registro.html diferente */
+/* body.registro-body {
+    background-color: #1a1a2e;
+} */
+
+/* Asegúrate de que los estilos globales para .content-overlay también apliquen aquí si lo usas */
+
+/* Estilos del lobby */
+.lobby-container {
+    /* --- CAMBIOS PARA CENTRADO GLOBAL DEL LOBBY --- */
+    min-height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
+    display: flex; /* Convierte el body en un contenedor flexbox */
+    flex-direction: column; /* Apila el contenido verticalmente */
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: flex-start; /* Alinea el contenido al inicio verticalmente (arriba) */
+    /* --- FIN CAMBIOS CENTRADO GLOBAL --- */
+    padding: 20px;
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+    margin: 0 auto; /* Esto centrará el contenedor horizontalmente */
+    width: 100%; /* Aseguramos que ocupe todo el ancho disponible */
+    max-width: 1200px; /* Puedes ajustar este valor si deseas un ancho máximo diferente */
+}
+
+.lobby-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 10px 0;
+}
+
+.back-button {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.back-button:hover {
+    background-color: var(--secondary-gold);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #555;
+    border: 2px solid var(--primary-gold);
+    object-fit: cover;
+}
+
+.user-balance {
+    font-size: 1.2em;
+    color: var(--primary-gold);
+    font-weight: bold;
+}
+
+.add-funds-button {
+    background-color: var(--progress-bar-color); /* Verde */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.add-funds-button:hover {
+    background-color: #21883b;
+}
+
+/* screen-title ya está definido globalmente */
+
+/* Estilos de la cuadrícula de salas */
+.salas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+.sala-card {
+    background-color: var(--dark-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 400px; /* Altura fija para las tarjetas */
+    position: relative;
+}
+
+.sala-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+.sala-card-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.4) grayscale(0.5);
+    border-bottom: 3px solid var(--primary-gold);
+}
+
+.sala-card-content {
+    position: relative;
+    z-index: 1;
+    padding: 15px;
+    padding-top: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    color: var(--text-light);
+}
+
+.sala-level {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    align-self: flex-start;
+    margin-bottom: 10px;
+}
+
+.sala-name {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--primary-gold);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.sala-description {
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    line-height: 1.4;
+    max-height: 3.8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sala-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.95em;
+    font-weight: bold;
+}
+
+.sala-details .costo {
+    color: var(--progress-bar-color); /* Verde */
+}
+
+.sala-details .premio {
+    color: #00bfff; /* Azul claro */
+}
+
+/* .btn-bingo ya está definido globalmente */
+
+/* Responsive Design para lobby */
+@media (max-width: 768px) {
+    .salas-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        width: 95%;
+    }
+    .sala-card {
+        height: auto;
+    }
+    .sala-card-content {
+        padding-top: 50%;
+    }
+    .screen-title {
+        font-size: 1.8em;
+    }
+    .lobby-header {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+    .back-button, .user-info, .add-funds-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .lobby-container {
+        padding: 10px;
+    }
+    .screen-title {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+    .sala-card {
+        margin: 0;
+    }
+}
