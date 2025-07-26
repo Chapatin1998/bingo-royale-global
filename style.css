@@ -1,10 +1,5 @@
 /* style.css */
 
-/* Global Box Sizing para un mejor control del layout */
-*, *::before, *::after {
-    box-sizing: border-box;
-}
-
 /* Variables de color */
 :root {
     --dark-bg: #1a1a2e;
@@ -52,8 +47,8 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -1;
-    filter: brightness(0.4) grayscale(0.5);
+    z-index: -1; /* Envía el video al fondo */
+    filter: brightness(0.4) grayscale(0.5); /* Oscurece y desatura el video */
 }
 
 /* Capa de contenido sobre el video */
@@ -66,14 +61,15 @@ body {
     justify-content: center;
     text-align: center;
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente para legibilidad */
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
     max-width: 90%;
-    width: 450px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInSlideUp 0.8s ease-out forwards;
+    width: 450px; /* Ancho fijo para el contenedor */
+    /* Animación de entrada para el overlay */
+    opacity: 0; /* Empieza invisible */
+    transform: translateY(20px); /* Empieza un poco abajo */
+    animation: fadeInSlideUp 0.8s ease-out forwards; /* Aplicará la animación */
 }
 
 /* Animación de entrada general para el contenido */
@@ -90,23 +86,23 @@ body {
 
 /* Logo de la aplicación */
 .app-logo {
-    width: 100px;
+    width: 100px; /* Ajustado un poco más pequeño para mobile */
     height: auto;
     margin-bottom: 20px;
-    animation: pulse 2s infinite ease-in-out;
+    animation: pulse 2s infinite ease-in-out; /* Animación de pulsación */
 }
 
 /* Título de bienvenida */
 .welcome-title {
-    font-size: 2em;
+    font-size: 2em; /* Ajustado para mobile */
     color: var(--primary-gold);
     margin-bottom: 10px;
-    text-shadow: 0 0 8px var(--primary-gold), 0 0 15px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 8px var(--primary-gold), 0 0 15px rgba(0, 0, 0, 0.5); /* Brillo dorado */
 }
 
 /* Eslogan */
 .slogan {
-    font-size: 1em;
+    font-size: 1em; /* Ajustado para mobile */
     color: var(--text-light);
     margin-bottom: 30px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -115,39 +111,39 @@ body {
 /* Barra de carga */
 .loading-bar-container {
     width: 80%;
-    height: 25px;
+    height: 25px; /* Un poco más alta */
     background-color: var(--button-bg-dark);
-    border-radius: 12px;
+    border-radius: 12px; /* Más redondeada */
     overflow: hidden;
-    margin-bottom: 25px;
+    margin-bottom: 25px; /* Más espacio */
     position: relative;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra para resaltar */
 }
 
 .loading-bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--primary-gold), #FFFACD);
+    background: linear-gradient(90deg, var(--primary-gold), #FFFACD); /* Degradado dorado */
     border-radius: 12px;
-    transition: width 0.2s ease-out;
-    box-shadow: 0 0 10px var(--primary-gold);
+    transition: width 0.2s ease-out; /* Animación más suave y rápida aquí */
+    box-shadow: 0 0 10px var(--primary-gold); /* Brillo en la barra */
 }
 
 #loading-percentage {
     position: absolute;
     width: 100%;
     text-align: center;
-    line-height: 25px;
+    line-height: 25px; /* Ajusta a la altura de la barra */
     color: var(--dark-bg);
     font-weight: bold;
-    font-size: 1em;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    font-size: 1em; /* Un poco más grande */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Sombra para legibilidad */
 }
 
 .loading-message {
-    font-size: 1em;
+    font-size: 1em; /* Un poco más grande */
     color: var(--text-light);
-    margin-top: 15px;
+    margin-top: 15px; /* Más espacio */
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
@@ -157,12 +153,12 @@ body {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    opacity: 0; /* Empieza invisible */
+    transform: translateY(20px); /* Empieza un poco abajo */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Transición para cuando aparece */
 }
 
-.auth-section.show {
+.auth-section.show { /* Clase para mostrar con animación */
     opacity: 1;
     transform: translateY(0);
 }
@@ -174,57 +170,74 @@ body {
 
 .input-group input {
     width: 100%;
-    padding: 14px 18px;
-    border: 2px solid var(--secondary-gold);
-    border-radius: 8px;
+    padding: 14px 18px; /* Un poco más de padding */
+    border: 2px solid var(--secondary-gold); /* Borde más grueso */
+    border-radius: 8px; /* Más redondeado */
     background-color: var(--button-bg-dark);
     color: var(--text-light);
-    font-size: 1.1em;
-    box-sizing: border-box;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1.1em; /* Texto más grande */
+    box-sizing: border-box; /* Incluye padding y borde en el ancho */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición para foco */
 }
 
 .input-group input::placeholder {
     color: #aaa;
 }
 
-.input-group input:focus {
+.input-group input:focus { /* Efecto al hacer foco en el input */
     border-color: var(--primary-gold);
-    box-shadow: 0 0 15px var(--primary-gold);
-    outline: none;
+    box-shadow: 0 0 15px var(--primary-gold); /* Efecto de brillo dorado */
+    outline: none; /* Elimina el contorno predeterminado del navegador */
 }
 
 .botones-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 12px;
+    gap: 12px; /* Espacio entre botones */
 }
 
-.btn-primary, .btn-accion-secondary, .start-button {
-    padding: 15px 30px;
+.btn-primary, .btn-accion-secondary, .start-button { /* Aplica estilos comunes también al start-button */
+    padding: 15px 30px; /* Más padding */
     border: none;
-    border-radius: 10px;
-    font-size: 1.2em;
+    border-radius: 10px; /* Más redondeado */
+    font-size: 1.2em; /* Texto más grande */
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Transiciones para magia */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Sombra para relieve */
 }
 
-.start-button {
+.start-button { /* Estilo específico para el botón de inicio */
     background-color: var(--primary-gold);
     color: var(--dark-bg);
 }
 
 .btn-primary:hover, .start-button:hover {
     background-color: var(--secondary-gold);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    transform: translateY(-3px); /* Se eleva un poco más */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
 }
 
-.btn-primary:active, .start-button:active {
+.btn-primary:active, .start-button:active { /* Efecto al hacer clic */
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    background-color: var(--primary-gold); /* Vuelve al color original al presionar */
+}
+
+.btn-primary {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-gold);
+    transform: translateY(-3px); /* Se eleva un poco más */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
+}
+
+.btn-primary:active {
     transform: translateY(0);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
     background-color: var(--primary-gold);
@@ -250,7 +263,7 @@ body {
 
 
 .error-message {
-    color: #ff4d4d;
+    color: #ff4d4d; /* Rojo para errores */
     font-size: 1em;
     margin-top: 10px;
     height: 1.2em;
@@ -494,6 +507,7 @@ body {
 .salas-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
