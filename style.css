@@ -1,5 +1,10 @@
 /* style.css */
 
+/* Global Box Sizing para un mejor control del layout */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 /* Variables de color */
 :root {
     --dark-bg: #1a1a2e;
@@ -11,7 +16,7 @@
     --progress-bar-color: #28a745; /* Verde */
 }
 
-/* Estilos generales del body */
+/* Estilos generales del body (afecta a todas las páginas) */
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
@@ -19,56 +24,86 @@ body {
     overflow-x: hidden; /* Solo previene scroll horizontal no deseado */
     background-color: var(--dark-bg); /* Esto puede ser un color de respaldo si el video no carga */
 
-    min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
-    display: flex; /* Convierte el body en un contenedor flexbox */
-    flex-direction: column; /* Apila el contenido verticalmente */
-    align-items: center; /* Centra el contenido horizontalmente */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido horizontalmente en el body */
     justify-content: flex-start; /* Alinea el contenido al inicio verticalmente (arriba) */
 }
 
-
-/* Contenedor principal para el video de fondo (solo en index.html) */
-.main-container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Esto aún puede ser útil aquí para el video de fondo en la página de inicio */
-}
-
-/* Estilos del video de fondo */
-#background-video {
-    position: absolute;
+/* Contenedor principal para el video de fondo (usado en todas las "pantallas") */
+.background-video-container {
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1; /* Envía el video al fondo */
-    filter: brightness(0.4) grayscale(0.5); /* Oscurece y desatura el video */
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -2;
 }
 
-/* Capa de contenido sobre el video */
-.content-overlay {
+.background-video-container video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    filter: brightness(0.4) grayscale(0.5);
+}
+
+/* Clases para manejar las "pantallas" */
+.app-screen {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: var(--text-light);
     position: relative;
-    z-index: 1;
+    z-index: 0;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+    /* Aseguramos que la pantalla se centre si el body la alinea */
+    max-width: 100%; /* Permite que la pantalla no sea más ancha que el viewport */
+}
+
+.app-screen.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.app-screen.fade-out {
+    opacity: 0;
+}
+
+.app-screen.fade-in {
+    opacity: 1;
+}
+
+/* Contenido superpuesto (usado en splash/login/register) */
+.content-overlay {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    max-width: 90%; /* Ajustado para pantallas más pequeñas */
+    width: 450px; /* Ancho fijo para el contenedor */
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente para legibilidad */
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-    max-width: 90%;
-    width: 450px; /* Ancho fijo para el contenedor */
-    /* Animación de entrada para el overlay */
-    opacity: 0; /* Empieza invisible */
-    transform: translateY(20px); /* Empieza un poco abajo */
-    animation: fadeInSlideUp 0.8s ease-out forwards; /* Aplicará la animación */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInSlideUp 0.8s ease-out forwards;
 }
 
 /* Animación de entrada general para el contenido */
@@ -85,23 +120,23 @@ body {
 
 /* Logo de la aplicación */
 .app-logo {
-    width: 100px; /* Ajustado un poco más pequeño para mobile */
+    width: 100px;
     height: auto;
     margin-bottom: 20px;
-    animation: pulse 2s infinite ease-in-out; /* Animación de pulsación */
+    animation: pulse 2s infinite ease-in-out;
 }
 
 /* Título de bienvenida */
 .welcome-title {
-    font-size: 2em; /* Ajustado para mobile */
+    font-size: 2em;
     color: var(--primary-gold);
     margin-bottom: 10px;
-    text-shadow: 0 0 8px var(--primary-gold), 0 0 15px rgba(0, 0, 0, 0.5); /* Brillo dorado */
+    text-shadow: 0 0 8px var(--primary-gold), 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 /* Eslogan */
 .slogan {
-    font-size: 1em; /* Ajustado para mobile */
+    font-size: 1em;
     color: var(--text-light);
     margin-bottom: 30px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -110,39 +145,39 @@ body {
 /* Barra de carga */
 .loading-bar-container {
     width: 80%;
-    height: 25px; /* Un poco más alta */
+    height: 25px;
     background-color: var(--button-bg-dark);
-    border-radius: 12px; /* Más redondeada */
+    border-radius: 12px;
     overflow: hidden;
-    margin-bottom: 25px; /* Más espacio */
+    margin-bottom: 25px;
     position: relative;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra para resaltar */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 .loading-bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--primary-gold), #FFFACD); /* Degradado dorado */
+    background: linear-gradient(90deg, var(--primary-gold), #FFFACD);
     border-radius: 12px;
-    transition: width 0.2s ease-out; /* Animación más suave y rápida aquí */
-    box-shadow: 0 0 10px var(--primary-gold); /* Brillo en la barra */
+    transition: width 0.2s ease-out;
+    box-shadow: 0 0 10px var(--primary-gold);
 }
 
 #loading-percentage {
     position: absolute;
     width: 100%;
     text-align: center;
-    line-height: 25px; /* Ajusta a la altura de la barra */
+    line-height: 25px;
     color: var(--dark-bg);
     font-weight: bold;
-    font-size: 1em; /* Un poco más grande */
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Sombra para legibilidad */
+    font-size: 1em;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
 .loading-message {
-    font-size: 1em; /* Un poco más grande */
+    font-size: 1em;
     color: var(--text-light);
-    margin-top: 15px; /* Más espacio */
+    margin-top: 15px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
@@ -152,12 +187,12 @@ body {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    opacity: 0; /* Empieza invisible */
-    transform: translateY(20px); /* Empieza un poco abajo */
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Transición para cuando aparece */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
-.auth-section.show { /* Clase para mostrar con animación */
+.auth-section.show {
     opacity: 1;
     transform: translateY(0);
 }
@@ -169,74 +204,57 @@ body {
 
 .input-group input {
     width: 100%;
-    padding: 14px 18px; /* Un poco más de padding */
-    border: 2px solid var(--secondary-gold); /* Borde más grueso */
-    border-radius: 8px; /* Más redondeado */
+    padding: 14px 18px;
+    border: 2px solid var(--secondary-gold);
+    border-radius: 8px;
     background-color: var(--button-bg-dark);
     color: var(--text-light);
-    font-size: 1.1em; /* Texto más grande */
-    box-sizing: border-box; /* Incluye padding y borde en el ancho */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra sutil */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transición para foco */
+    font-size: 1.1em;
+    box-sizing: border-box;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .input-group input::placeholder {
     color: #aaa;
 }
 
-.input-group input:focus { /* Efecto al hacer foco en el input */
+.input-group input:focus {
     border-color: var(--primary-gold);
-    box-shadow: 0 0 15px var(--primary-gold); /* Efecto de brillo dorado */
-    outline: none; /* Elimina el contorno predeterminado del navegador */
+    box-shadow: 0 0 15px var(--primary-gold);
+    outline: none;
 }
 
 .botones-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 12px; /* Espacio entre botones */
+    gap: 12px;
 }
 
-.btn-primary, .btn-accion-secondary, .start-button { /* Aplica estilos comunes también al start-button */
-    padding: 15px 30px; /* Más padding */
+.btn-primary, .btn-accion-secondary, .start-button {
+    padding: 15px 30px;
     border: none;
-    border-radius: 10px; /* Más redondeado */
-    font-size: 1.2em; /* Texto más grande */
+    border-radius: 10px;
+    font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Transiciones para magia */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Sombra para relieve */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
-.start-button { /* Estilo específico para el botón de inicio */
+.start-button {
     background-color: var(--primary-gold);
     color: var(--dark-bg);
 }
 
 .btn-primary:hover, .start-button:hover {
     background-color: var(--secondary-gold);
-    transform: translateY(-3px); /* Se eleva un poco más */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
-.btn-primary:active, .start-button:active { /* Efecto al hacer clic */
-    transform: translateY(0);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-    background-color: var(--primary-gold); /* Vuelve al color original al presionar */
-}
-
-.btn-primary {
-    background-color: var(--primary-gold);
-    color: var(--dark-bg);
-}
-
-.btn-primary:hover {
-    background-color: var(--secondary-gold);
-    transform: translateY(-3px); /* Se eleva un poco más */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada */
-}
-
-.btn-primary:active {
+.btn-primary:active, .start-button:active {
     transform: translateY(0);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
     background-color: var(--primary-gold);
@@ -262,7 +280,7 @@ body {
 
 
 .error-message {
-    color: #ff4d4d; /* Rojo para errores */
+    color: #ff4d4d;
     font-size: 1em;
     margin-top: 10px;
     height: 1.2em;
@@ -340,7 +358,7 @@ body {
         width: 120px;
     }
     .content-overlay {
-        width: 95%;
+        width: 95%; /* Asegura que el overlay no sea muy ancho */
         padding: 15px;
     }
     .language-selector, .music-controls {
@@ -350,7 +368,7 @@ body {
         margin-top: 15px;
     }
     .input-group, .botones-container, .bottom-area {
-        width: 90%;
+        width: 90%; /* Asegura que los elementos internos sean más estrechos en móvil */
     }
 }
 
@@ -427,16 +445,19 @@ body {
 
 /* Estilos del lobby */
 .lobby-container {
+    /* --- CAMBIOS PARA CENTRADO GLOBAL DEL LOBBY --- */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: flex-start;
+    /* --- FIN CAMBIOS CENTRADO GLOBAL --- */
     padding: 20px;
-    min-height: 100vh;
     background-color: var(--dark-bg);
     color: var(--text-light);
-    margin: 0 auto; /* Esto centrará el contenedor horizontalmente dentro del body flexbox */
+    margin: 0 auto;
     width: 100%; /* Aseguramos que ocupe todo el ancho disponible */
-    max-width: 1200px; /* Puedes ajustar este valor si deseas un ancho máximo diferente para el lobby */
+    max-width: 1200px; /* Puedes ajustar este valor si deseas un ancho máximo diferente */
 }
 
 .lobby-header {
@@ -446,7 +467,7 @@ body {
     align-items: center;
     margin-bottom: 30px;
     padding: 10px 0;
-    }
+}
 
 .back-button {
     background-color: var(--primary-gold);
