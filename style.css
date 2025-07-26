@@ -19,14 +19,13 @@ body {
     overflow-x: hidden; /* Solo previene scroll horizontal no deseado */
     background-color: var(--dark-bg); /* Esto puede ser un color de respaldo si el video no carga */
 
-    /* --- CAMBIOS PARA CENTRADO GLOBAL (AFECTA A TODAS LAS PÁGINAS) --- */
     min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
     display: flex; /* Convierte el body en un contenedor flexbox */
     flex-direction: column; /* Apila el contenido verticalmente */
     align-items: center; /* Centra el contenido horizontalmente */
     justify-content: flex-start; /* Alinea el contenido al inicio verticalmente (arriba) */
-    /* --- FIN CAMBIOS CENTRADO GLOBAL --- */
 }
+
 
 /* Contenedor principal para el video de fondo (solo en index.html) */
 .main-container {
@@ -428,19 +427,16 @@ body {
 
 /* Estilos del lobby */
 .lobby-container {
-    /* --- CAMBIOS PARA CENTRADO GLOBAL DEL LOBBY --- */
-    min-height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
-    display: flex; /* Convierte el body en un contenedor flexbox */
-    flex-direction: column; /* Apila el contenido verticalmente */
-    align-items: center; /* Centra el contenido horizontalmente */
-    justify-content: flex-start; /* Alinea el contenido al inicio verticalmente (arriba) */
-    /* --- FIN CAMBIOS CENTRADO GLOBAL --- */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
+    min-height: 100vh;
     background-color: var(--dark-bg);
     color: var(--text-light);
-    margin: 0 auto; /* Esto centrará el contenedor horizontalmente */
+    margin: 0 auto; /* Esto centrará el contenedor horizontalmente dentro del body flexbox */
     width: 100%; /* Aseguramos que ocupe todo el ancho disponible */
-    max-width: 1200px; /* Puedes ajustar este valor si deseas un ancho máximo diferente */
+    max-width: 1200px; /* Puedes ajustar este valor si deseas un ancho máximo diferente para el lobby */
 }
 
 .lobby-header {
@@ -450,7 +446,7 @@ body {
     align-items: center;
     margin-bottom: 30px;
     padding: 10px 0;
-}
+    }
 
 .back-button {
     background-color: var(--primary-gold);
