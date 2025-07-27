@@ -120,14 +120,7 @@ const GameScreen = ({ setScreen }) => {
     const [markedNumbers, setMarkedNumbers] = useState(new Set(['FREE']));
     const [isBingo, setIsBingo] = useState(false);
     const [isDrawing, setIsDrawing] = useState(false);
-    const [gameState, setGameState] = useState({
-        calledNumbers: [],
-        currentNumber: null,
-        players: [{name: 'Rival01'}, {name: 'JugadorX'}, {name: 'La_Suerte'}],
-        chat: [{ user: 'System', text: '¡Bienvenidos al Callejón Oscuro!' }],
-        status: 'playing',
-        winner: null
-    });
+    const [gameState, setGameState] = useState(null);
     
     const synth = useRef(window.speechSynthesis);
     const gameId = "callejon_oscuro_1"; // ID de la sala de juego
@@ -137,7 +130,7 @@ const GameScreen = ({ setScreen }) => {
         const unsubscribe = onSnapshot(gameDocRef, (doc) => {
             if (doc.exists()) {
                 const data = doc.data();
-                if (data.currentNumber && data.currentNumber.number !== gameState.currentNumber?.number) {
+                if (data.currentNumber && data.currentNumber.number !== gameState?.currentNumber?.number) {
                     setIsDrawing(true);
                     speak(`${data.currentNumber.letter}. ${data.currentNumber.number}`);
                     setTimeout(() => setIsDrawing(false), 1500);
@@ -152,7 +145,7 @@ const GameScreen = ({ setScreen }) => {
             }
         });
         return () => unsubscribe();
-    }, [gameId, gameState.currentNumber]);
+    }, [gameId, gameState?.currentNumber]);
 
     const speak = (text, pitch = 0.8, rate = 0.9) => {
         if (synth.current && 'speechSynthesis' in window) {
@@ -186,7 +179,7 @@ const GameScreen = ({ setScreen }) => {
     }, [flatCard, markedNumbers]);
 
     const handleCellClick = (num) => {
-        if (gameState.status !== 'playing' || num === 'FREE' || !gameState.calledNumbers.includes(num)) return;
+        if (gameState?.status !== 'playing' || num === 'FREE' || !gameState?.calledNumbers.includes(num)) return;
         const newMarkedNumbers = new Set(markedNumbers);
         if (newMarkedNumbers.has(num)) {
             newMarkedNumbers.delete(num);
@@ -219,6 +212,10 @@ const GameScreen = ({ setScreen }) => {
         });
         e.target.reset();
     };
+
+    if (!gameState) {
+        return <div className="h-screen w-screen flex items-center justify-center bg-black text-white">Conectando a la sala...</div>
+    }
     
     return (
         <div className="relative flex flex-col h-screen bg-black text-white overflow-hidden">
@@ -308,14 +305,6 @@ const GameScreen = ({ setScreen }) => {
                     </div>
                 </main>
             </div>
-            <style>{`
-                @keyframes stamp-in { 0% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(1); opacity: 0.9; } }
-                .animate-stamp-in { animation: stamp-in 0.3s ease-out forwards; }
-                @keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-3deg); } 75% { transform: rotate(3deg); } }
-                .animate-shake { animation: shake 0.5s ease-in-out infinite; }
-                @keyframes reveal { 0% { transform: translateY(50px) scale(0.5); opacity: 0; } 80% { transform: translateY(-10px) scale(1.1); opacity: 1; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
-                .animate-reveal { animation: reveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-            `}</style>
         </div>
     );
 };
