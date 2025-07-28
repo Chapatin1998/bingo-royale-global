@@ -1,20 +1,24 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDREqTx0PpnRDmE4J-wQlYR1JkqaJvHI4Y",
+  apiKey: "AIzaSyCmWFaQv-iJ5LdfGXY1fmi_1KZmzFv3TSI",
   authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
   projectId: "bingo-vip-bolivia-df2db",
-  storageBucket: "bingo-vip-bolivia-df2db.appspot.com",
+  storageBucket: "bingo-vip-bolivia-df2db.firebasestorage.app",
   messagingSenderId: "310290230955",
-  appId: "1:310290230955:web:3526c26c2800b43ffcd1ee"
+  appId: "1:310290230955:web:3526c26c2800b43ffcd1ee",
+  measurementId: "G-VRR7JSHY5G"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const analytics = getAnalytics(app);
 
 // --- FUNCIONES QUE USAREMOS ---
 
