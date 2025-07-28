@@ -3,7 +3,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
 // Your web app's Firebase configuration
-// ¡ESTAS SON TUS LLAVES! YA LAS HE PUESTO AQUÍ.
 const firebaseConfig = {
   apiKey: "AIzaSyDREqTx0PpnRDmE4J-wQlYR1JkqaJvHI4Y",
   authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
@@ -23,12 +22,11 @@ const auth = getAuth(app);
 window.registerUser = function(email, password) {
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Registro exitoso, redirigir al lobby
-            console.log("Usuario registrado:", userCredential.user);
-            window.location.href = 'lobby.html';
+            // Registro exitoso, AHORA REDIRIGE A COMPLETAR PERFIL
+            console.log("Usuario registrado, completando perfil:", userCredential.user);
+            window.location.href = 'complete-profile.html'; // <--- ¡CAMBIO IMPORTANTE!
         })
         .catch((error) => {
-            // Manejar errores
             alert("Error en el registro: " + error.message);
         });
 }
@@ -37,12 +35,10 @@ window.registerUser = function(email, password) {
 window.loginUser = function(email, password) {
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Login exitoso, redirigir al lobby
             console.log("Usuario conectado:", userCredential.user);
             window.location.href = 'lobby.html';
         })
         .catch((error) => {
-            // Manejar errores
             alert("Error al iniciar sesión: " + error.message);
         });
 }
@@ -50,7 +46,6 @@ window.loginUser = function(email, password) {
 // Función para cerrar sesión
 window.logoutUser = function() {
     signOut(auth).then(() => {
-        // Cierre de sesión exitoso, redirigir a la página de inicio
         window.location.href = 'index.html';
     }).catch((error) => {
         alert("Error al cerrar sesión: " + error.message);
@@ -62,14 +57,19 @@ onAuthStateChanged(auth, (user) => {
     const currentPage = window.location.pathname.split("/").pop();
     if (user) {
         // El usuario está conectado
-        // Si está en la página de login o registro, lo llevamos al lobby
-        if (currentPage === 'login.html' || currentPage === 'register.html' || currentPage === 'index.html' || currentPage === '') {
+        const protectedPages = ['lobby.html', 'complete-profile.html'];
+        const publicPages = ['login.html', 'register.html', 'index.html', ''];
+        
+        if (publicPages.includes(currentPage)) {
+             // Si un usuario conectado está en una página pública, lo mandamos al lobby
+             // Excepción: Si acaba de registrarse y no tiene perfil, se quedará en complete-profile.html
+             // Esta lógica se puede mejorar después, por ahora lo dejamos así de simple.
             window.location.href = 'lobby.html';
         }
     } else {
         // El usuario no está conectado
-        // Si intenta entrar al lobby, lo llevamos al login
-        if (currentPage === 'lobby.html') {
+        const protectedPages = ['lobby.html', 'complete-profile.html'];
+        if (protectedPages.includes(currentPage)) {
             window.location.href = 'login.html';
         }
     }
