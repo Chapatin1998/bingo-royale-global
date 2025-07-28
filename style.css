@@ -161,3 +161,48 @@ footer {
     color: var(--color-gris);
     font-size: 0.9em;
 }
+/* --- ESTILOS PARA LA PÁGINA DE COMPLETAR PERFIL --- */
+.subtitle-form {
+    font-size: 0.9em;
+    color: var(--color-gris);
+    max-width: 350px;
+    margin-bottom: 20px;
+}
+
+.phone-input {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+}
+
+.phone-input select {
+    padding: 0 10px;
+    background-color: #333;
+    color: var(--color-blanco);
+    border: 2px solid var(--color-gris);
+    border-radius: 5px;
+}
+
+.phone-input input {
+    flex-grow: 1; /* Para que ocupe el espacio restante */
+}
+
+.upload-label {
+    font-size: 1em;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+/* Estilo para el botón de subir archivo */
+input[type="file"] {
+    border: 2px dashed var(--color-gris);
+    padding: 20px;
+    background-color: rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+input[type="file"]:hover {
+    border-color: var(--color-oro);
+}
+
+
