@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="video-background">
+        <video autoplay loop muted playsinline>
+            <source src="https://videos.pexels.com/video-files/4784090/4784090-hd_1280_720_25fps.mp4" type="video/mp4">
+        </video>
+    </div>
     <div class="auth-container">
         <img src="logo.png" alt="Logo" class="logo">
         <h1>Iniciar Sesión</h1>
@@ -15,7 +20,9 @@
             <input type="password" name="password" placeholder="Contraseña" required>
             <button type="submit" class="cta-button">Entrar</button>
         </form>
-        <p>¿No tienes una cuenta? <a href="register.html">Regístrate aquí</a></p>
+        <div class="form-footer">
+            <p>¿No tienes una cuenta? <a href="register.html">Regístrate aquí</a></p>
+        </div>
     </div>
     <script type="module" src="auth.js"></script>
     <script type="module" src="ui.js"></script>
