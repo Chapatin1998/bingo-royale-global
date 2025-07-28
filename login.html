@@ -17,14 +17,16 @@
         <h1>Iniciar Sesión</h1>
         <form id="login-form" class="auth-form">
             <input type="email" name="email" placeholder="Correo Electrónico" required>
-            <input type="password" name="password" placeholder="Contraseña" required>
+            <div class="password-wrapper">
+                <input type="password" id="password-field" name="password" placeholder="Contraseña" required>
+                <span class="toggle-password">👁️</span>
+            </div>
             <button type="submit" class="cta-button">Entrar</button>
         </form>
         <div class="form-footer">
             <p>¿No tienes una cuenta? <a href="register.html">Regístrate aquí</a></p>
         </div>
     </div>
-    <script type="module" src="app.js"></script>
     <script type="module" src="app.js"></script>
 </body>
 </html>
