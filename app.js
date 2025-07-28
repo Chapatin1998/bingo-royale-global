@@ -5,14 +5,6 @@ import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
 
 // Tu configuración de Firebase (asegúrate de que esta sea la llave MÁS RECIENTE)
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCmWFaQv-iJ5LdfGXY1fmi_1KZmzFv3TSI",
   authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
@@ -22,10 +14,6 @@ const firebaseConfig = {
   appId: "1:310290230955:web:3526c26c2800b43ffcd1ee",
   measurementId: "G-VRR7JSHY5G"
 };
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
 // Inicializamos todos los servicios de Firebase
 const app = initializeApp(firebaseConfig);
