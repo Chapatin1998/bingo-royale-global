@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completar Perfil - Bingo VIP Bolivia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <img src="logo.png" alt="Logo" class="logo">
+        <h1>Último Paso: Completa tu Perfil</h1>
+        <p class="subtitle-form">Esta información es necesaria para mantener la seguridad de tu cuenta y la comunidad.</p>
+        <form id="profile-form" class="auth-form">
+            <input type="text" name="fullName" placeholder="Nombre Completo" required>
+            <div class="phone-input">
+                <select name="countryCode">
+                    <option value="+591">🇧🇴 +591</option>
+                    <option value="+54">🇦🇷 +54</option>
+                    <option value="+55">🇧🇷 +55</option>
+                    <option value="+51">🇵🇪 +51</option>
+                    </select>
+                <input type="tel" name="phoneNumber" placeholder="Número de Celular" required>
+            </div>
+            <label for="idUpload" class="upload-label">Sube tu Carnet de Identidad (CI)</label>
+            <input type="file" id="idUpload" name="idUpload" accept="image/*" required>
+            
+            <button type="submit" class="cta-button">Guardar Perfil y Entrar</button>
+        </form>
+    </div>
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="profile.js"></script> 
+</body>
+</html>
