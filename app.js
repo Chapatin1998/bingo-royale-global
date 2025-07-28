@@ -14,7 +14,7 @@ import { getAnalytics } from "firebase/analytics";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDhXhwJXEpeBBB23l49XRaxiRT2-9mz0KI,
+  apiKey: "AIzaSyCmWFaQv-iJ5LdfGXY1fmi_1KZmzFv3TSI,
   authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
   projectId: "bingo-vip-bolivia-df2db",
   storageBucket: "bingo-vip-bolivia-df2db.firebasestorage.app",
