@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Completar Perfil - Bingo VIP Bolivia</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .upload-container {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .upload-label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            color: var(--color-gris);
+        }
+        input.upload-field {
+            border: 2px dashed var(--color-gris);
+            padding: 15px;
+            background-color: rgba(0,0,0,0.3);
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        input.upload-field:hover {
+            border-color: var(--color-oro);
+        }
+    </style>
 </head>
 <body>
     <div class="auth-container">
@@ -19,16 +42,29 @@
                     <option value="+54">🇦🇷 +54</option>
                     <option value="+55">🇧🇷 +55</option>
                     <option value="+51">🇵🇪 +51</option>
-                    </select>
+                </select>
                 <input type="tel" name="phoneNumber" placeholder="Número de Celular" required>
             </div>
-            <label for="idUpload" class="upload-label">Sube tu Carnet de Identidad (CI)</label>
-            <input type="file" id="idUpload" name="idUpload" accept="image/*" required>
+
+            <div class="upload-container">
+                <label for="idFrontUpload" class="upload-label">Foto Frontal de tu Carnet de Identidad (CI)</label>
+                <input type="file" id="idFrontUpload" name="idFrontUpload" accept="image/*" class="upload-field" required>
+            </div>
+
+            <div class="upload-container">
+                <label for="idBackUpload" class="upload-label">Foto Trasera de tu Carnet de Identidad (CI)</label>
+                <input type="file" id="idBackUpload" name="idBackUpload" accept="image/*" class="upload-field" required>
+            </div>
+
+            <div class="upload-container">
+                <label for="selfieWithIdUpload" class="upload-label">Selfie Sosteniendo tu Carnet de Identidad (CI)</label>
+                <input type="file" id="selfieWithIdUpload" name="selfieWithIdUpload" accept="image/*" class="upload-field" required>
+            </div>
             
             <button type="submit" class="cta-button">Guardar Perfil y Entrar</button>
         </form>
     </div>
     <script type="module" src="auth.js"></script>
-    <script type="module" src="profile.js"></script> 
+    <script type="module" src="profile.js"></script>
 </body>
 </html>
