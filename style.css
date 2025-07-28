@@ -18,21 +18,9 @@ body, html {
     background-color: var(--color-negro);
 }
 
-/* --- SECCIÓN HÉROE --- */
-#hero {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-    position: relative;
-    overflow: hidden;
-}
-
+/* --- VIDEO DE FONDO Y CONTENEDORES PRINCIPALES --- */
 .video-background {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -47,12 +35,20 @@ body, html {
     object-fit: cover;
 }
 
-#hero .content {
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 40px;
-    border-radius: 10px;
+#hero, .auth-container, .lobby-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    text-align: center;
+    /* Sombra sobre el video para que el texto resalte */
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
+
+/* --- LOGO Y TÍTULOS --- */
 .logo {
     width: 120px;
     margin-bottom: 20px;
@@ -72,6 +68,7 @@ h1 {
     max-width: 600px;
 }
 
+/* --- BOTONES --- */
 .button-group {
     margin-top: 30px;
     display: flex;
@@ -89,6 +86,7 @@ h1 {
     border-radius: 5px;
     border: 2px solid var(--color-oro);
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .cta-button.secondary {
@@ -101,17 +99,7 @@ h1 {
     box-shadow: 0 0 20px var(--color-oro);
 }
 
-/* --- PÁGINAS DE AUTENTICACIÓN Y LOBBY --- */
-.auth-container, .lobby-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    text-align: center;
-}
-
+/* --- PÁGINAS DE AUTENTICACIÓN --- */
 .auth-form {
     display: flex;
     flex-direction: column;
@@ -125,7 +113,7 @@ h1 {
     padding: 15px;
     font-size: 1em;
     border: 2px solid var(--color-gris);
-    background-color: #222;
+    background-color: rgba(0,0,0,0.5);
     color: var(--color-blanco);
     border-radius: 5px;
 }
@@ -135,15 +123,32 @@ h1 {
     border-color: var(--color-oro);
 }
 
-.auth-container p {
+.form-footer {
     margin-top: 20px;
+    background-color: rgba(0,0,0,0.6);
+    padding: 10px;
+    border-radius: 5px;
 }
 
-.auth-container a {
+.form-footer a {
     color: var(--color-oro);
     font-weight: bold;
 }
 
+.terms {
+    font-size: 0.8em;
+    color: var(--color-gris);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+}
+
+.terms a {
+    color: var(--color-blanco);
+}
+
+/* --- PÁGINA DE LOBBY --- */
 .lobby-container p {
     font-size: 1.2em;
 }
