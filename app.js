@@ -24,13 +24,10 @@ const storage = getStorage(app);
 // --- LÓGICA DE LA APLICACIÓN ---
 
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // ... (El resto de la lógica de los formularios que ya teníamos) ...
 
-    // --- ¡NUEVO! Lógica para mostrar/ocultar contraseña ---
+    // --- Lógica para mostrar/ocultar contraseña ---
     const togglePassword = document.querySelector('.toggle-password');
     const passwordField = document.getElementById('password-field');
-
     if (togglePassword && passwordField) {
         togglePassword.addEventListener('click', function () {
             const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -39,38 +36,93 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- ¡NUEVO! Lógica para la música de fondo ---
+    // --- Lógica para la música de fondo ---
     const musicControl = document.getElementById('music-control');
     const backgroundMusic = document.getElementById('background-music');
     let isMusicPlaying = false;
-
     if (musicControl && backgroundMusic) {
-        // Para que la música pueda empezar, el usuario debe interactuar primero.
-        // Haremos que la música intente empezar al primer clic en cualquier lugar.
-        document.body.addEventListener('click', () => {
+        // Función para intentar iniciar la música
+        const startMusic = () => {
             if (!isMusicPlaying) {
                 backgroundMusic.play().then(() => {
                     isMusicPlaying = true;
-                    musicControl.textContent = '🔇';
-                }).catch(e => console.log("El navegador bloqueó la reproducción automática."));
+                    musicControl.classList.add('playing');
+                }).catch(e => console.log("El navegador necesita interacción del usuario para iniciar el audio."));
             }
-        }, { once: true }); // 'once: true' hace que esto solo ocurra la primera vez.
+        };
+        // Intentamos iniciar la música con el primer toque en cualquier lugar
+        document.body.addEventListener('click', startMusic, { once: true });
 
         musicControl.addEventListener('click', (e) => {
-            e.stopPropagation(); // Evita que el clic en el botón se propague al body.
+            e.stopPropagation();
             if (isMusicPlaying) {
                 backgroundMusic.pause();
-                musicControl.textContent = '🎵';
+                musicControl.classList.remove('playing');
             } else {
                 backgroundMusic.play();
-                musicControl.textContent = '🔇';
+                musicControl.classList.add('playing');
             }
             isMusicPlaying = !isMusicPlaying;
         });
     }
+
+    // --- Lógica para el formulario de registro ---
+    const registerForm = document.getElementById('register-form');
+    if (registerForm) {
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = registerForm.email.value;
+            const password = registerForm.password.value;
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    // No hacemos nada aquí, el onAuthStateChanged se encargará de redirigir
+                })
+                .catch((error) => alert("Error en el registro: " + error.message));
+        });
+    }
+
+    // --- Lógica para el formulario de login ---
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = loginForm.email.value;
+            const password = loginForm.password.value;
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    // No hacemos nada aquí, el onAuthStateChanged se encargará de redirigir
+                })
+                .catch((error) => alert("Error al iniciar sesión: " + error.message));
+        });
+    }
+
+    // --- Lógica para el botón de logout ---
+    const logoutButton = document.getElementById('logout-button');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', () => {
+            signOut(auth); // onAuthStateChanged se encargará de redirigir
+        });
+    }
 });
 
+// --- GUARDIA DE SEGURIDAD (onAuthStateChanged) INTELIGENTE ---
+onAuthStateChanged(auth, (user) => {
+    const currentPage = window.location.pathname.split("/").pop();
+    const publicPages = ['index.html', 'login.html', 'register.html', ''];
 
-// ... (Aquí va el resto del código de app.js: registerForm, loginForm, logoutButton, onAuthStateChanged, etc.
-// Pega el resto de tu app.js aquí para mantener toda la funcionalidad)
-
+    if (user) {
+        // Usuario CONECTADO
+        console.log("Usuario conectado, redirigiendo al lobby...");
+        // Si está en una página pública, lo mandamos al lobby
+        if (publicPages.includes(currentPage)) {
+            window.location.href = 'lobby.html';
+        }
+    } else {
+        // Usuario NO CONECTADO
+        console.log("Usuario no conectado, redirigiendo al login si es necesario...");
+        // Si está en una página protegida, lo mandamos al login
+        if (!publicPages.includes(currentPage)) {
+            window.location.href = 'login.html';
+        }
+    }
+});
