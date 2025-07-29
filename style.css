@@ -204,5 +204,37 @@ input[type="file"] {
 input[type="file"]:hover {
     border-color: var(--color-oro);
 }
+/* --- Estilos para el ojo de la contraseña --- */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none; /* Evita que el emoji se seleccione como texto */
+}
+
+/* --- Estilos para el control de música --- */
+#music-control {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 1.5em;
+    background-color: rgba(255, 215, 0, 0.5);
+    color: var(--color-negro);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1000;
+}
 
 
