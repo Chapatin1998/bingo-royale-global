@@ -5,8 +5,6 @@ import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
 
 // Tu configuración de Firebase
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCmWFaQv-iJ5LdfGXY1fmi_1KZmzFv3TSI",
   authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
