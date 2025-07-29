@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesa de Juego - El Callejón</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="game-header">
+            <div>
+                <h2>Nivel 1: El Callejón</h2>
+                <p>¡Mucha suerte, jugador!</p>
+            </div>
+            <a href="lobby.html" class="cta-button secondary">Salir</a>
+        </div>
+
+        <div class="game-board">
+            <div class="caller-section">
+                <h3>BOLILLERO</h3>
+                <div class="current-ball-display">
+                    <span id="current-ball">--</span>
+                </div>
+                <h4>Números Cantados:</h4>
+                <div class="called-balls-list" id="called-balls-list">
+                </div>
+            </div>
+
+            <div class="card-section">
+                <div class="bingo-card" id="bingo-card">
+                    </div>
+                <div class="game-controls">
+                    <button id="call-ball-button" class="cta-button">Cantar Bola</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
