@@ -1,10 +1,14 @@
-// Importamos todo lo que necesitamos de Firebase al principio
+// =================================================================
+// BINGO VIP BOLIVIA - CÓDIGO MAESTRO DE LA APLICACIÓN
+// =================================================================
+
+// --- 1. IMPORTACIÓN DE MÓDULOS DE FIREBASE ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
 
-// Tu configuración de Firebase
+// --- 2. CONFIGURACIÓN DE FIREBASE ---
 const firebaseConfig = {
   apiKey: "AIzaSyCmWFaQv-iJ5LdfGXY1fmi_1KZmzFv3TSI",
   authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
@@ -15,42 +19,17 @@ const firebaseConfig = {
   measurementId: "G-VRR7JSHY5G"
 };
 
-// Inicializamos todos los servicios de Firebase
+// --- 3. INICIALIZACIÓN DE SERVICIOS DE FIREBASE ---
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// --- LÓGICA DE LA APLICACIÓN ---
-
+// --- 4. LÓGICA DE LA INTERFAZ DE USUARIO (UI) ---
+// Esta función se ejecuta cuando toda la página se ha cargado
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Lógica para mostrar/ocultar contraseña ---
-    const togglePassword = document.querySelector('.toggle-password');
-    const passwordField = document.getElementById('password-field');
-    if (togglePassword && passwordField) {
-        togglePassword.addEventListener('click', function () {
-            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordField.setAttribute('type', type);
-            this.textContent = type === 'password' ? '👁️' : '🙈';
-        });
-    }
-// ... (Toda la parte de importación y configuración de Firebase se mantiene igual) ...
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-// ... etc
-
-const firebaseConfig = {
-  // ... tu configuración ...
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-// ... etc
-
-document.addEventListener('DOMContentLoaded', () => {
-
-    // --- ¡NUEVO! Lógica de Entrada Cinematográfica ---
+    // Lógica de Entrada Cinematográfica
     const enterButton = document.getElementById('enter-button');
     const initialContent = document.getElementById('initial-content');
     const authButtons = document.getElementById('auth-buttons');
@@ -61,27 +40,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (enterButton) {
         enterButton.addEventListener('click', (e) => {
             e.preventDefault();
-            
-            // Iniciar música
             if (backgroundMusic) {
                 backgroundMusic.play().then(() => {
                     isMusicPlaying = true;
-                    musicControl.style.display = 'flex'; // Muestra el botón de control
+                    musicControl.style.display = 'flex';
                     musicControl.classList.add('playing');
                 }).catch(err => console.log("Error al reproducir música:", err));
             }
-
-            // Efecto de transición
             initialContent.classList.add('fade-out');
             setTimeout(() => {
                 initialContent.style.display = 'none';
                 authButtons.style.display = 'flex';
                 authButtons.classList.add('fade-in');
-            }, 500); // 500ms = 0.5s, igual que la duración de la animación en CSS
+            }, 500);
         });
     }
-    
-    if (musicControl && backgroundMusic) {
+
+    if (musicControl) {
         musicControl.addEventListener('click', () => {
              if (isMusicPlaying) {
                 backgroundMusic.pause();
@@ -93,17 +68,19 @@ document.addEventListener('DOMContentLoaded', () => {
             isMusicPlaying = !isMusicPlaying;
         });
     }
+    
+    // Lógica para mostrar/ocultar contraseña
+    const togglePassword = document.querySelector('.toggle-password');
+    const passwordField = document.getElementById('password-field');
+    if (togglePassword && passwordField) {
+        togglePassword.addEventListener('click', function () {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            this.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+    }
 
-    // ... (Aquí va toda la lógica que ya teníamos: togglePassword, registerForm, loginForm, etc.)
-    // ... Asegúrate de pegar el resto de tu código de app.js aquí ...
-});
-
-
-// ... (Aquí va el onAuthStateChanged, se mantiene igual) ...
-
-
-
-    // --- Lógica para el formulario de registro ---
+    // Lógica para el formulario de registro
     const registerForm = document.getElementById('register-form');
     if (registerForm) {
         registerForm.addEventListener('submit', (e) => {
@@ -111,14 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = registerForm.email.value;
             const password = registerForm.password.value;
             createUserWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    // No hacemos nada aquí, el onAuthStateChanged se encargará de redirigir
-                })
                 .catch((error) => alert("Error en el registro: " + error.message));
         });
     }
 
-    // --- Lógica para el formulario de login ---
+    // Lógica para el formulario de login
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
@@ -126,39 +100,95 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = loginForm.email.value;
             const password = loginForm.password.value;
             signInWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    // No hacemos nada aquí, el onAuthStateChanged se encargará de redirigir
-                })
                 .catch((error) => alert("Error al iniciar sesión: " + error.message));
         });
     }
 
-    // --- Lógica para el botón de logout ---
+    // Lógica para el botón de logout
     const logoutButton = document.getElementById('logout-button');
     if (logoutButton) {
         logoutButton.addEventListener('click', () => {
-            signOut(auth); // onAuthStateChanged se encargará de redirigir
+            signOut(auth);
+        });
+    }
+
+    // Lógica para el formulario de perfil
+    const profileForm = document.getElementById('profile-form');
+    if (profileForm) {
+        // Función para subir un archivo y obtener su URL
+        async function uploadFileAndGetURL(user, file, folder) {
+            if (!file) return null;
+            const storageRef = ref(storage, `${folder}/${user.uid}/${file.name}`);
+            const snapshot = await uploadBytes(storageRef, file);
+            return await getDownloadURL(snapshot.ref);
+        }
+
+        profileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const user = auth.currentUser;
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const submitButton = profileForm.querySelector('button');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Guardando...';
+
+            try {
+                const fullName = profileForm.fullName.value;
+                const phoneNumber = profileForm.countryCode.value + profileForm.phoneNumber.value;
+                const idFrontFile = profileForm.idFrontUpload.files[0];
+                const idBackFile = profileForm.idBackUpload.files[0];
+                const selfieFile = profileForm.selfieWithIdUpload.files[0];
+
+                const [idFrontUrl, idBackUrl, selfieUrl] = await Promise.all([
+                    uploadFileAndGetURL(user, idFrontFile, 'id_front'),
+                    uploadFileAndGetURL(user, idBackFile, 'id_back'),
+                    uploadFileAndGetURL(user, selfieFile, 'id_selfie')
+                ]);
+
+                const userProfile = {
+                    uid: user.uid,
+                    email: user.email,
+                    fullName: fullName,
+                    phoneNumber: phoneNumber,
+                    idFrontImageUrl: idFrontUrl,
+                    idBackImageUrl: idBackUrl,
+                    selfieWithIdUrl: selfieUrl,
+                    isVerified: false,
+                    createdAt: new Date()
+                };
+
+                await setDoc(doc(db, "users", user.uid), userProfile);
+                window.location.href = 'lobby.html';
+
+            } catch (error) {
+                alert("Error al guardar el perfil: " + error.message);
+                submitButton.disabled = false;
+                submitButton.textContent = 'Guardar Perfil y Entrar';
+            }
         });
     }
 });
 
-// --- GUARDIA DE SEGURIDAD (onAuthStateChanged) INTELIGENTE ---
-onAuthStateChanged(auth, (user) => {
+// --- 5. GUARDIA DE SEGURIDAD (ROUTER) ---
+onAuthStateChanged(auth, async (user) => {
     const currentPage = window.location.pathname.split("/").pop();
     const publicPages = ['index.html', 'login.html', 'register.html', ''];
-
+    const protectedPages = ['lobby.html', 'complete-profile.html'];
+    
     if (user) {
         // Usuario CONECTADO
-        console.log("Usuario conectado, redirigiendo al lobby...");
-        // Si está en una página pública, lo mandamos al lobby
-        if (publicPages.includes(currentPage)) {
+        const userDocRef = doc(db, "users", user.uid);
+        // Aquí iría la lógica para comprobar si el perfil está completo,
+        // pero por ahora, lo mandamos al lobby.
+        if (!protectedPages.includes(currentPage)) {
             window.location.href = 'lobby.html';
         }
     } else {
         // Usuario NO CONECTADO
-        console.log("Usuario no conectado, redirigiendo al login si es necesario...");
-        // Si está en una página protegida, lo mandamos al login
-        if (!publicPages.includes(currentPage)) {
+        if (protectedPages.includes(currentPage)) {
             window.location.href = 'login.html';
         }
     }
