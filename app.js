@@ -1,5 +1,5 @@
 // =================================================================
-// BINGO VIP BOLIVIA - CÓDIGO MAESTRO DEFINITIVO
+// BINGO VIP BOLIVIA - CÓDIGO MAESTRO DEFINITIVO v4
 // =================================================================
 
 // --- 1. IMPORTACIÓN DE MÓDULOS DE FIREBASE ---
@@ -18,7 +18,6 @@ const firebaseConfig = {
   appId: "1:310290230955:web:3526c26c2800b43ffcd1ee",
   measurementId: "G-VRR7JSHY5G"
 };
-
 
 // --- 3. INICIALIZACIÓN DE SERVICIOS DE FIREBASE ---
 const app = initializeApp(firebaseConfig);
@@ -72,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isMusicPlaying = !isMusicPlaying;
         });
     }
-
+    
     // Lógica para mostrar/ocultar contraseña
     const togglePasswords = document.querySelectorAll('.toggle-password');
     togglePasswords.forEach(toggle => {
@@ -167,21 +166,79 @@ document.addEventListener('DOMContentLoaded', () => {
     // Lógica del Motor del Juego
     const gameContainer = document.getElementById('game-container');
     if (gameContainer) {
-        // ... (Aquí va todo el motor del juego que te di antes)
-    }
-    
-    // Lógica para mostrar el saldo en la billetera y lobby
-    const balanceAmount = document.getElementById('balance-amount');
-    const lobbyBalance = document.getElementById('lobby-balance');
-    if (auth.currentUser && (balanceAmount || lobbyBalance)) {
-        const userDocRef = doc(db, "users", auth.currentUser.uid);
-        getDoc(userDocRef).then(docSnap => {
-            if (docSnap.exists() && 'balance' in docSnap.data()) {
-                const balance = docSnap.data().balance.toFixed(2);
-                if (balanceAmount) balanceAmount.textContent = `${balance} Bs.`;
-                if (lobbyBalance) lobbyBalance.textContent = balance;
+        const bingoCard = document.getElementById('bingo-card');
+        const callBallButton = document.getElementById('call-ball-button');
+        const currentBallDisplay = document.getElementById('current-ball');
+        const calledBallsList = document.getElementById('called-balls-list');
+        let balls = [];
+        
+        function getRandomNumber(min, max, exclude) {
+            let num;
+            do { num = Math.floor(Math.random() * (max - min + 1)) + min; } while (exclude.includes(num));
+            return num;
+        }
+
+        function generateCard() {
+            bingoCard.innerHTML = '';
+            const headers = ['B', 'I', 'N', 'G', 'O'];
+            headers.forEach(header => {
+                const cell = document.createElement('div');
+                cell.classList.add('bingo-cell', 'bingo-header');
+                cell.textContent = header;
+                bingoCard.appendChild(cell);
+            });
+
+            const ranges = { B: [1, 15], I: [16, 30], N: [31, 45], G: [46, 60], O: [61, 75] };
+            let cardNumbers = {};
+
+            for (const letter of headers) {
+                let columnNumbers = [];
+                for (let i = 0; i < 5; i++) {
+                    if (letter === 'N' && i === 2) { columnNumbers.push('FREE'); continue; }
+                    const num = getRandomNumber(ranges[letter][0], ranges[letter][1], columnNumbers);
+                    columnNumbers.push(num);
+                }
+                cardNumbers[letter] = columnNumbers;
             }
-        });
+
+            for (let i = 0; i < 5; i++) {
+                for (const letter of headers) {
+                    const num = cardNumbers[letter][i];
+                    const cell = document.createElement('div');
+                    cell.classList.add('bingo-cell');
+                    cell.textContent = num;
+                    if (num === 'FREE') { cell.classList.add('marked'); }
+                    else { cell.addEventListener('click', () => cell.classList.toggle('marked')); }
+                    bingoCard.appendChild(cell);
+                }
+            }
+        }
+        
+        function callNextBall() {
+            if (balls.length === 0) {
+                currentBallDisplay.textContent = 'FIN';
+                callBallButton.disabled = true;
+                return;
+            }
+            const ballIndex = Math.floor(Math.random() * balls.length);
+            const ball = balls.splice(ballIndex, 1)[0];
+            currentBallDisplay.textContent = ball;
+            const ballElement = document.createElement('div');
+            ballElement.classList.add('called-ball');
+            ballElement.textContent = ball;
+            calledBallsList.prepend(ballElement);
+        }
+
+        function initGame() {
+            balls = Array.from({ length: 75 }, (_, i) => i + 1);
+            calledBallsList.innerHTML = '';
+            currentBallDisplay.textContent = '--';
+            callBallButton.disabled = false;
+            generateCard();
+        }
+        
+        callBallButton.addEventListener('click', callNextBall);
+        initGame();
     }
 });
 
@@ -190,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
 onAuthStateChanged(auth, async (user) => {
     const currentPage = window.location.pathname.split("/").pop();
     const publicPages = ['index.html', 'login.html', 'register.html', ''];
-    const protectedPages = ['lobby.html', 'complete-profile.html', 'game.html''wallet.html'];
+    const protectedPages = ['lobby.html', 'complete-profile.html', 'game.html', 'wallet.html'];
     
     if (user) {
         const userDocRef = doc(db, "users", user.uid);
@@ -201,7 +258,7 @@ onAuthStateChanged(auth, async (user) => {
             return;
         }
 
-        if (docSnap.exists() && !protectedPages.includes(currentPage)) {
+        if (docSnap.exists() && publicPages.includes(currentPage)) {
              window.location.href = 'lobby.html';
              return;
         }
@@ -214,6 +271,13 @@ onAuthStateChanged(auth, async (user) => {
             const lobbyBalance = document.getElementById('lobby-balance');
             if (lobbyBalance) {
                 lobbyBalance.textContent = docSnap.data().balance.toFixed(2);
+            }
+        }
+        
+        if(docSnap.exists() && currentPage === 'wallet.html'){
+            const balanceAmount = document.getElementById('balance-amount');
+            if (balanceAmount) {
+                balanceAmount.textContent = `${docSnap.data().balance.toFixed(2)} Bs.`;
             }
         }
 
