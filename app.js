@@ -249,20 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {// --- INICIO DEL CÓDIGO D
                     uploadFileAndGetURL(user, selfieFile, 'id_selfie')
                 ]);
 
-                const userProfile = { // ... dentro del evento de envío del formulario de perfil ...
-
-                const userProfile = {
-                    uid: user.uid,
-                    email: user.email,
-                    fullName: fullName,
-                    phoneNumber: phoneNumber,
-                    idFrontImageUrl: idFrontUrl,
-                    idBackImageUrl: idBackUrl,
-                    selfieWithIdUrl: selfieUrl,
-                    balance: 0, // <-- ¡AÑADE ESTA LÍNEA!
-                    isVerified: false, 
-                    createdAt: new Date()
-                };
+                const userProfile = { // ... dentro del evento de envío del formulario de perfil 
 
                 await setDoc(doc(db, "users", user.uid), userProfile);
                 
@@ -275,6 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {// --- INICIO DEL CÓDIGO D
                     idFrontImageUrl: idFrontUrl,
                     idBackImageUrl: idBackUrl,
                     selfieWithIdUrl: selfieUrl,
+                    balance: 0, // <-- ¡AÑADE ESTA LÍNEA!
                     isVerified: false,
                     createdAt: new Date()
                 };
