@@ -21,8 +21,7 @@
         .video-background {
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100%; z-index: -1;
-            background: url('https://i.imgur.com/V32a24W.jpeg') no-repeat center center; /* Imagen de respaldo */
-            background-size: cover;
+            background: black;
         }
         .video-background video { width: 100%; height: 100%; object-fit: cover; }
         .hero-container {
@@ -64,11 +63,9 @@
             color: var(--color-oro); width: 45px; height: 45px;
             display: flex; justify-content: center; align-items: center;
             border-radius: 50%; cursor: pointer; z-index: 1000;
-            transition: transform 0.3s;
         }
-        #music-control:hover { transform: scale(1.1); }
-        #music-control::before { content: '🎵'; }
         #music-control.playing::before { content: '🔇'; }
+        #music-control::before { content: '🎵'; }
         footer {
             position: fixed; bottom: 0; width: 100%;
             text-align: center; padding: 10px;
@@ -79,13 +76,13 @@
 </head>
 <body>
     <audio id="background-music" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/02/12/audio_c8d83d091a.mp3" type="audio/mpeg">
+        <source src="audio/music.mp3" type="audio/mpeg">
     </audio>
     <div id="music-control" class="hidden"></div>
 
     <div class="video-background">
-        <video autoplay loop muted playsinline poster="https://i.imgur.com/V32a24W.jpeg">
-            <source src="https://videos.pexels.com/video-files/7550385/7550385-hd_1920_1080_25fps.mp4" type="video/mp4">
+        <video autoplay loop muted playsinline>
+            <source src="video/background.mp4" type="video/mp4">
         </video>
     </div>
 
@@ -119,17 +116,20 @@
                 enterButton.addEventListener('click', (e) => {
                     e.preventDefault();
                     
-                    if (backgroundMusic && !isMusicPlaying) {
+                    if (backgroundMusic) {
                         backgroundMusic.volume = 0.3;
-                        backgroundMusic.play().then(() => {
-                            isMusicPlaying = true;
-                            if (musicControl) {
-                                musicControl.classList.remove('hidden');
-                                musicControl.classList.add('playing');
-                            }
-                        }).catch(err => {
-                            console.log("El navegador necesita otra interacción para el audio.");
-                        });
+                        const playPromise = backgroundMusic.play();
+                        if (playPromise !== undefined) {
+                            playPromise.then(_ => {
+                                isMusicPlaying = true;
+                                if (musicControl) {
+                                    musicControl.classList.remove('hidden');
+                                    musicControl.classList.add('playing');
+                                }
+                            }).catch(error => {
+                                console.log("La reproducción de audio fue bloqueada por el navegador.");
+                            });
+                        }
                     }
 
                     if (initialContent) initialContent.classList.add('fade-out');
