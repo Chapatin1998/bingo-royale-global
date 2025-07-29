@@ -245,4 +245,22 @@ input[type="file"]:hover {
     content: '🔇'; /* Ícono cuando la música está sonando */
 }
 
+/* --- Estilos para la Transición de Entrada --- */
+#initial-content.fade-out {
+    animation: fadeOut 0.5s forwards;
+}
+
+#auth-buttons.fade-in {
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.95); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
 
