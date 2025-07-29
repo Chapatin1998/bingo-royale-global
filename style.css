@@ -454,3 +454,66 @@ input[type="file"]:hover {
     flex-grow: 1; /* El botón ocupa todo el ancho */
 }
 
+/* --- ESTILOS PARA LA BILLETERA --- */
+.wallet-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.wallet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.balance-card {
+    background-color: #1a1a1a;
+    border: 1px solid var(--color-oro);
+    padding: 40px;
+    text-align: center;
+    border-radius: 15px;
+}
+
+.balance-card h2 {
+    margin: 0;
+    color: var(--color-gris);
+}
+
+#balance-amount {
+    font-size: 4em;
+    color: var(--color-oro);
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.wallet-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 40px 0;
+}
+
+.transaction-history {
+    margin-top: 40px;
+    text-align: center;
+    color: var(--color-gris);
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.wallet-link {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--color-oro);
+    text-decoration: none;
+    background-color: #1a1a1a;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid #333;
+}
