@@ -26,7 +26,32 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 // --- 4. LÓGICA DE LA INTERFAZ DE USUARIO (UI) ---
-document.addEventListener('DOMContentLoaded', () => {// --- INICIO DEL CÓDIGO DEL MOTOR DEL JUEGO ---
+document.addEventListener('DOMContentLoaded', () => {
+      // --- LÓGICA PARA MOSTRAR SALDO EN LA BILLETERA Y LOBBY ---
+    const balanceAmount = document.getElementById('balance-amount');
+    const lobbyBalance = document.getElementById('lobby-balance');
+
+    // Usaremos onAuthStateChanged para asegurarnos de tener el usuario
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            const userDocRef = doc(db, "users", user.uid);
+            try {
+                const docSnap = await getDoc(userDocRef);
+                if (docSnap.exists() && 'balance' in docSnap.data()) {
+                    const balance = docSnap.data().balance.toFixed(2);
+                    if(balanceAmount) balanceAmount.textContent = `${balance} Bs.`;
+                    if(lobbyBalance) lobbyBalance.textContent = balance;
+                } else {
+                    if(balanceAmount) balanceAmount.textContent = '0.00 Bs.';
+                    if(lobbyBalance) lobbyBalance.textContent = '0.00';
+                }
+            } catch (error) {
+                console.error("Error al obtener saldo:", error);
+            }
+        }
+    });
+
+  // --- INICIO DEL CÓDIGO DEL MOTOR DEL JUEGO ---
 
     // Comprobamos si estamos en la página del juego
     const gameContainer = document.getElementById('game-container');
