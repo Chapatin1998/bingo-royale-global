@@ -10,27 +10,26 @@
     <audio id="background-music" loop>
         <source src="https://cdn.pixabay.com/download/audio/2022/08/04/audio_2dee6426cd.mp3" type="audio/mpeg">
     </audio>
-    <div id="music-control" style="display: none;"></div>
+    <div id="music-control" class="hidden"></div>
 
-    <section id="hero">
-        <div class="video-background">
-            <video autoplay loop muted playsinline>
-                <source src="https://videos.pexels.com/video-files/4784090/4784090-hd_1280_720_25fps.mp4" type="video/mp4">
-            </video>
+    <div class="video-background">
+        <video autoplay loop muted playsinline>
+            <source src="https://videos.pexels.com/video-files/4784090/4784090-hd_1280_720_25fps.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="hero-container">
+        <div id="initial-content" class="fade-in">
+            <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo">
+            <h1>LA LEYENDA COMIENZA</h1>
+            <p class="subtitle">El juego de bingo más exclusivo de Bolivia. ¿Estás listo?</p>
+            <button id="enter-button" class="cta-button">ENTRAR</button>
         </div>
-        <div class="content">
-            <div id="initial-content">
-                <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo">
-                <h1>LA LEYENDA COMIENZA</h1>
-                <p class="subtitle">El juego de bingo más exclusivo de Bolivia. ¿Estás listo?</p>
-                <a href="#" id="enter-button" class="cta-button">ENTRAR</a>
-            </div>
-            <div id="auth-buttons" class="button-group" style="display: none;">
-                <a href="login.html" class="cta-button">Iniciar Sesión</a>
-                <a href="register.html" class="cta-button secondary">Registrarse</a>
-            </div>
+        <div id="auth-buttons" class="button-group hidden">
+            <a href="login.html" class="cta-button">Iniciar Sesión</a>
+            <a href="register.html" class="cta-button secondary">Registrarse</a>
         </div>
-    </section>
+    </div>
     
     <footer>
         <p>&copy; 2025 Bingo VIP Bolivia. Todos los derechos reservados. Juego para mayores de 18 años.</p>
