@@ -8,13 +8,34 @@
 </head>
 <body>
     <div class="lobby-container">
-        <h1>Bienvenido al Lobby</h1>
-        <p>¡Has iniciado sesión con éxito! Aquí comenzará tu aventura.</p>
-        <p>Próximamente: Las salas de juego.</p>
-        <button id="logout-button" class="cta-button">Cerrar Sesión</button>
+        <div class="lobby-header">
+            <h1 id="welcome-message">Bienvenido, ...</h1>
+            <button id="logout-button" class="cta-button secondary">Cerrar Sesión</button>
+        </div>
+        
+        <h2>Salas Disponibles</h2>
+        
+        <div class="rooms-grid">
+            <div class="room-card">
+                <img src="nivel-01.jpg" alt="El Callejón">
+                <div class="room-info">
+                    <h3>Nivel 1: El Callejón</h3>
+                    <p>Entrada: 2 Bs.</p>
+                    <p>Premio: 60 Bs.</p>
+                    <a href="game.html?room=callejon" class="cta-button">Unirse a la Mesa</a>
+                </div>
+            </div>
+
+            <div class="room-card disabled">
+                <img src="nivel-02.jpg" alt="Bingo de Barrio">
+                <div class="room-info">
+                    <h3>Nivel 2: Bingo de Barrio</h3>
+                    <p>Próximamente</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script type="module" src="app.js"></script>
     <script type="module" src="app.js"></script>
 </body>
 </html>
