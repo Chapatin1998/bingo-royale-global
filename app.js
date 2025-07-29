@@ -173,151 +173,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
-// --- 5. GUARDIA DE SEGURIDAD (ROUTER) ---
+// --- 5. GUARDIA DE SEGURIDAD (ROUTER) - VERSIÓN FINAL INTELIGENTE ---
 onAuthStateChanged(auth, async (user) => {
     const currentPage = window.location.pathname.split("/").pop();
     const publicPages = ['index.html', 'login.html', 'register.html', ''];
     const protectedPages = ['lobby.html', 'complete-profile.html', 'game.html'];
     
     if (user) {
+        // --- El usuario ESTÁ CONECTADO ---
         const userDocRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(userDocRef);
+        
+        try {
+            const docSnap = await getDoc(userDocRef);
 
-        if (!docSnap.exists() && currentPage !== 'complete-profile.html') {
-            window.location.href = 'complete-profile.html';
-            return;
-        }
+            // CASO 1: El usuario se acaba de registrar y NO tiene perfil.
+            // Lo forzamos a ir a la página de completar perfil.
+            if (!docSnap.exists() && currentPage !== 'complete-profile.html') {
+                console.log("Perfil no encontrado, redirigiendo para completar.");
+                window.location.href = 'complete-profile.html';
+                return; // Detenemos todo lo demás.
+            }
 
-        if (docSnap.exists() && currentPage !== 'lobby.html') {
-             const welcomeMessage = document.getElementById('welcome-message');
-             if (welcomeMessage) {
-                 welcomeMessage.textContent = `Bienvenido, ${docSnap.data().fullName.split(' ')[0]}`;
-             }
-             window.location.href = 'lobby.html';
-             return;
-        }
+            // CASO 2: El usuario SÍ tiene perfil y está en una página pública (login, register, etc.)
+            // Lo mandamos al lobby porque ya no necesita estar ahí.
+            if (docSnap.exists() && publicPages.includes(currentPage)) {
+                console.log("Usuario con perfil en página pública. Redirigiendo al lobby.");
+                window.location.href = 'lobby.html';
+                return;
+            }
 
-        if(docSnap.exists() && currentPage === 'lobby.html'){
+            // ¡NUEVO! Mostrar mensaje de bienvenida en el lobby.
             const welcomeMessage = document.getElementById('welcome-message');
-             if (welcomeMessage) {
-                 welcomeMessage.textContent = `Bienvenido, ${docSnap.data().fullName.split(' ')[0]}`;
-             }
+            if (docSnap.exists() && welcomeMessage) {
+                // Muestra solo el primer nombre
+                welcomeMessage.textContent = `Bienvenido, ${docSnap.data().fullName.split(' ')[0]}`;
+            }
+
+        } catch (error) {
+            console.error("Error en el guardia de seguridad:", error);
+            signOut(auth); // Si hay un error grave, cerramos la sesión por seguridad.
         }
 
     } else {
+        // --- El usuario NO ESTÁ CONECTADO ---
+        // Si intenta entrar a cualquier página protegida, lo mandamos al login.
         if (protectedPages.includes(currentPage)) {
+            console.log("Usuario no conectado intentando acceder a página protegida. Redirigiendo a login.");
             window.location.href = 'login.html';
         }
     }
-});
-// --- LÓGICA PARA LA PANTALLA DE JUEGO ---
-// Esto se ejecuta cuando la página se carga
-document.addEventListener('DOMContentLoaded', () => {
-
-    // Comprobamos si estamos en la página del juego
-    const gameContainer = document.getElementById('game-container');
-    if (!gameContainer) return; // Si no estamos en la página del juego, no hacemos nada
-
-    const bingoCard = document.getElementById('bingo-card');
-    const callBallButton = document.getElementById('call-ball-button');
-    const currentBallDisplay = document.getElementById('current-ball');
-    const calledBallsList = document.getElementById('called-balls-list');
-    
-    let balls = []; // El bolillero
-    let calledBalls = new Set(); // Para no repetir números
-    
-    // Función para generar un número aleatorio en un rango
-    function getRandomNumber(min, max, exclude) {
-        let num;
-        do {
-            num = Math.floor(Math.random() * (max - min + 1)) + min;
-        } while (exclude.includes(num));
-        return num;
-    }
-
-    // Función para generar el cartón de bingo
-    function generateCard() {
-        bingoCard.innerHTML = ''; // Limpiamos el cartón
-        const headers = ['B', 'I', 'N', 'G', 'O'];
-        headers.forEach(header => {
-            const cell = document.createElement('div');
-            cell.classList.add('bingo-cell', 'bingo-header');
-            cell.textContent = header;
-            bingoCard.appendChild(cell);
-        });
-
-        const ranges = { B: [1, 15], I: [16, 30], N: [31, 45], G: [46, 60], O: [61, 75] };
-        let cardNumbers = {};
-
-        for (const letter of headers) {
-            let columnNumbers = [];
-            for (let i = 0; i < 5; i++) {
-                // El espacio del centro en la N es gratis
-                if (letter === 'N' && i === 2) {
-                    columnNumbers.push('FREE');
-                    continue;
-                }
-                const num = getRandomNumber(ranges[letter][0], ranges[letter][1], columnNumbers);
-                columnNumbers.push(num);
-            }
-            cardNumbers[letter] = columnNumbers;
-        }
-
-        // Renderizar el cartón
-        for (let i = 0; i < 5; i++) {
-            for (const letter of headers) {
-                const num = cardNumbers[letter][i];
-                const cell = document.createElement('div');
-                cell.classList.add('bingo-cell');
-                cell.textContent = num;
-                if (num === 'FREE') {
-                    cell.classList.add('marked');
-                } else {
-                    cell.addEventListener('click', () => {
-                        cell.classList.toggle('marked');
-                    });
-                }
-                bingoCard.appendChild(cell);
-            }
-        }
-    }
-    
-    // Función para cantar la siguiente bola
-    function callNextBall() {
-        if (balls.length === 0) {
-            currentBallDisplay.textContent = 'FIN';
-            callBallButton.disabled = true;
-            return;
-        }
-
-        const ballIndex = Math.floor(Math.random() * balls.length);
-        const ball = balls.splice(ballIndex, 1)[0];
-        calledBalls.add(ball);
-
-        // Actualizar la pantalla
-        currentBallDisplay.textContent = ball;
-        const ballElement = document.createElement('div');
-        ballElement.classList.add('called-ball');
-        ballElement.textContent = ball;
-        calledBallsList.prepend(ballElement);
-    }
-
-    // Función para iniciar un nuevo juego
-    function initGame() {
-        // Llenar el bolillero con 75 bolas
-        balls = Array.from({ length: 75 }, (_, i) => i + 1);
-        calledBalls.clear();
-        calledBallsList.innerHTML = '';
-        currentBallDisplay.textContent = '--';
-        callBallButton.disabled = false;
-        
-        generateCard();
-    }
-    
-    // Event listener para el botón
-    callBallButton.addEventListener('click', callNextBall);
-
-    // Iniciar el juego
-    initGame();
 });
