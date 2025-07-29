@@ -27,6 +27,47 @@ const storage = getStorage(app);
 
 // --- 4. LÓGICA DE LA INTERFAZ DE USUARIO (UI) ---
 document.addEventListener('DOMContentLoaded', () => {
+      // --- LÓGICA DEL LOBBY MULTIJUGADOR ---
+    const playerList = document.getElementById('callejon-player-list');
+    const joinButton = document.getElementById('join-callejon-btn');
+
+    if (playerList && joinButton) {
+        const user = auth.currentUser;
+        if (user) {
+            const roomRef = doc(db, "game_rooms", "callejon");
+            const playersRef = collection(roomRef, "players");
+
+            // Escuchar cambios en la lista de jugadores EN TIEMPO REAL
+            onSnapshot(playersRef, (snapshot) => {
+                playerList.innerHTML = ''; // Limpiamos la lista
+                snapshot.forEach((doc) => {
+                    const playerName = doc.data().name;
+                    const playerElement = document.createElement('li');
+                    playerElement.textContent = `👤 ${playerName}`;
+                    playerList.appendChild(playerElement);
+                });
+            });
+
+            // Acción al pulsar "Unirse a la Mesa"
+            joinButton.addEventListener('click', (e) => {
+                e.preventDefault(); // Evitamos que navegue inmediatamente
+                const userDocRef = doc(db, "users", user.uid);
+                getDoc(userDocRef).then(docSnap => {
+                    if (docSnap.exists()) {
+                        const playerName = docSnap.data().fullName;
+                        // Añadimos al jugador a la sala
+                        setDoc(doc(playersRef, user.uid), { name: playerName, joinedAt: new Date() })
+                            .then(() => {
+                                // Una vez añadido, ahora sí vamos a la página del juego
+                                window.location.href = joinButton.href;
+                            });
+                    }
+                });
+            });
+        }
+    }
+
+
 
     // Lógica de Entrada Cinematográfica
     const enterButton = document.getElementById('enter-button');
