@@ -249,7 +249,25 @@ document.addEventListener('DOMContentLoaded', () => {// --- INICIO DEL CÓDIGO D
                     uploadFileAndGetURL(user, selfieFile, 'id_selfie')
                 ]);
 
+                const userProfile = { // ... dentro del evento de envío del formulario de perfil ...
+
                 const userProfile = {
+                    uid: user.uid,
+                    email: user.email,
+                    fullName: fullName,
+                    phoneNumber: phoneNumber,
+                    idFrontImageUrl: idFrontUrl,
+                    idBackImageUrl: idBackUrl,
+                    selfieWithIdUrl: selfieUrl,
+                    balance: 0, // <-- ¡AÑADE ESTA LÍNEA!
+                    isVerified: false, 
+                    createdAt: new Date()
+                };
+
+                await setDoc(doc(db, "users", user.uid), userProfile);
+                
+                // ... el resto del código ...
+
                     uid: user.uid,
                     email: user.email,
                     fullName: fullName,
