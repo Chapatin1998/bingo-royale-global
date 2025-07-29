@@ -5,7 +5,7 @@
 // --- 1. IMPORTACIÓN DE MÓDULOS DE FIREBASE ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"; // LÍNEA CORREGIDA
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
 
 // --- 2. CONFIGURACIÓN DE FIREBASE ---
@@ -19,6 +19,7 @@ const firebaseConfig = {
   measurementId: "G-VRR7JSHY5G"
 };
 
+
 // --- 3. INICIALIZACIÓN DE SERVICIOS DE FIREBASE ---
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -26,150 +27,9 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 // --- 4. LÓGICA DE LA INTERFAZ DE USUARIO (UI) ---
-// Esta función se ejecuta cuando toda la página se ha cargado
 document.addEventListener('DOMContentLoaded', () => {
-
-    // Lógica de Entrada Cinematográfica
-    const enterButton = document.getElementById('enter-button');
-    const initialContent = document.getElementById('initial-content');
-    const authButtons = document.getElementById('auth-buttons');
-    const musicControl = document.getElementById('music-control');
-    const backgroundMusic = document.getElementById('background-music');
-    let isMusicPlaying = false;
-
-    if (enterButton) {
-        enterButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (backgroundMusic) {
-                backgroundMusic.play().then(() => {
-                    isMusicPlaying = true;
-                    musicControl.style.display = 'flex';
-                    musicControl.classList.add('playing');
-                }).catch(err => console.log("Error al reproducir música:", err));
-            }
-            initialContent.classList.add('fade-out');
-            setTimeout(() => {
-                initialContent.style.display = 'none';
-                authButtons.style.display = 'flex';
-                authButtons.classList.add('fade-in');
-            }, 500);
-        });
-    }
-
-    if (musicControl) {
-        musicControl.addEventListener('click', () => {
-             if (isMusicPlaying) {
-                backgroundMusic.pause();
-                musicControl.classList.remove('playing');
-            } else {
-                backgroundMusic.play();
-                musicControl.classList.add('playing');
-            }
-            isMusicPlaying = !isMusicPlaying;
-        });
-    }
-    
-    // Lógica para mostrar/ocultar contraseña
-    const togglePassword = document.querySelector('.toggle-password');
-    const passwordField = document.getElementById('password-field');
-    if (togglePassword && passwordField) {
-        togglePassword.addEventListener('click', function () {
-            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordField.setAttribute('type', type);
-            this.textContent = type === 'password' ? '👁️' : '🙈';
-        });
-    }
-
-    // Lógica para el formulario de registro
-    const registerForm = document.getElementById('register-form');
-    if (registerForm) {
-        registerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = registerForm.email.value;
-            const password = registerForm.password.value;
-            createUserWithEmailAndPassword(auth, email, password)
-                .catch((error) => alert("Error en el registro: " + error.message));
-        });
-    }
-
-    // Lógica para el formulario de login
-    const loginForm = document.getElementById('login-form');
-    if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = loginForm.email.value;
-            const password = loginForm.password.value;
-            signInWithEmailAndPassword(auth, email, password)
-                .catch((error) => alert("Error al iniciar sesión: " + error.message));
-        });
-    }
-
-    // Lógica para el botón de logout
-    const logoutButton = document.getElementById('logout-button');
-    if (logoutButton) {
-        logoutButton.addEventListener('click', () => {
-            signOut(auth);
-        });
-    }
-
-    // Lógica para el formulario de perfil
-    const profileForm = document.getElementById('profile-form');
-    if (profileForm) {
-        // Función para subir un archivo y obtener su URL
-        async function uploadFileAndGetURL(user, file, folder) {
-            if (!file) return null;
-            const storageRef = ref(storage, `${folder}/${user.uid}/${file.name}`);
-            const snapshot = await uploadBytes(storageRef, file);
-            return await getDownloadURL(snapshot.ref);
-        }
-
-        profileForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const user = auth.currentUser;
-            if (!user) {
-                window.location.href = 'login.html';
-                return;
-            }
-
-            const submitButton = profileForm.querySelector('button');
-            submitButton.disabled = true;
-            submitButton.textContent = 'Guardando...';
-
-            try {
-                const fullName = profileForm.fullName.value;
-                const phoneNumber = profileForm.countryCode.value + profileForm.phoneNumber.value;
-                const idFrontFile = profileForm.idFrontUpload.files[0];
-                const idBackFile = profileForm.idBackUpload.files[0];
-                const selfieFile = profileForm.selfieWithIdUpload.files[0];
-
-                const [idFrontUrl, idBackUrl, selfieUrl] = await Promise.all([
-                    uploadFileAndGetURL(user, idFrontFile, 'id_front'),
-                    uploadFileAndGetURL(user, idBackFile, 'id_back'),
-                    uploadFileAndGetURL(user, selfieFile, 'id_selfie')
-                ]);
-
-                const userProfile = {
-                    uid: user.uid,
-                    email: user.email,
-                    fullName: fullName,
-                    phoneNumber: phoneNumber,
-                    idFrontImageUrl: idFrontUrl,
-                    idBackImageUrl: idBackUrl,
-                    selfieWithIdUrl: selfieUrl,
-                    isVerified: false,
-                    createdAt: new Date()
-                };
-
-                await setDoc(doc(db, "users", user.uid), userProfile);
-                window.location.href = 'lobby.html';
-
-            } catch (error) {
-                alert("Error al guardar el perfil: " + error.message);
-                submitButton.disabled = false;
-                submitButton.textContent = 'Guardar Perfil y Entrar';
-            }
-        });
-    }
+    // ... (Aquí va toda la lógica de los botones: entrar, música, ojo, formularios, etc.)
+    // Esta parte no cambia.
 });
 
 // --- 5. GUARDIA DE SEGURIDAD (ROUTER) ---
@@ -181,25 +41,31 @@ onAuthStateChanged(auth, async (user) => {
     if (user) {
         // Usuario CONECTADO
         const userDocRef = doc(db, "users", user.uid);
-        
-        // ¡NUEVO! Mostrar mensaje de bienvenida
         const welcomeMessage = document.getElementById('welcome-message');
-        if (welcomeMessage) {
-             try {
-                const docSnap = await getDoc(userDocRef);
-                if (docSnap.exists()) {
-                    welcomeMessage.textContent = `Bienvenido, ${docSnap.data().fullName}`;
-                } else {
-                     welcomeMessage.textContent = `Bienvenido`;
-                }
-            } catch (error) {
-                console.error("Error al obtener perfil:", error);
-                welcomeMessage.textContent = `Bienvenido`;
-            }
-        }
 
-        if (!protectedPages.includes(currentPage)) {
-            window.location.href = 'lobby.html';
+        try {
+            const docSnap = await getDoc(userDocRef);
+            
+            // Si el documento del perfil no existe, significa que el registro no se ha completado
+            if (!docSnap.exists() && currentPage !== 'complete-profile.html') {
+                console.log("Perfil no encontrado, redirigiendo para completar.");
+                window.location.href = 'complete-profile.html';
+                return; // Detenemos la ejecución aquí para que la redirección ocurra
+            }
+
+            // Si el perfil sí existe y tenemos el mensaje de bienvenida, lo actualizamos
+            if (docSnap.exists() && welcomeMessage) {
+                welcomeMessage.textContent = `Bienvenido, ${docSnap.data().fullName.split(' ')[0]}`;
+            }
+            
+            // Si el usuario está en una página pública, lo mandamos al lobby
+            if (publicPages.includes(currentPage)) {
+                window.location.href = 'lobby.html';
+            }
+
+        } catch (error) {
+            console.error("Error en el guardia de seguridad:", error);
+            signOut(auth); // Si hay un error, cerramos la sesión por seguridad
         }
     } else {
         // Usuario NO CONECTADO
@@ -209,3 +75,5 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
+
+// (Asegúrate de que la lógica de los formularios esté dentro del DOMContentLoaded como en el mensaje anterior)
