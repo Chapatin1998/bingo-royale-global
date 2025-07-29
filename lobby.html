@@ -24,13 +24,22 @@
         <div class="rooms-grid">
             <div class="room-card">
                 <img src="nivel-01.jpg" alt="El Callejón">
+                            <div class="room-card">
+                <img src="nivel-01.jpg" alt="El Callejón">
                 <div class="room-info">
                     <h3>Nivel 1: El Callejón</h3>
-                    <p>Entrada: 2 Bs.</p>
-                    <p>Premio: 60 Bs.</p>
-                    <a href="game.html?room=callejon" class="cta-button">Unirse a la Mesa</a>
+                    <p>Entrada: 2 Bs. | Premio: 60 Bs.</p>
+                    
+                    <div class="player-list-container">
+                        <h4>Jugadores en la sala (1/20)</h4>
+                        <ul id="callejon-player-list" class="player-list">
+                            </ul>
+                    </div>
+
+                    <a href="game.html?room=callejon" id="join-callejon-btn" class="cta-button">Unirse a la Mesa</a>
                 </div>
             </div>
+
 
             <div class="room-card disabled">
                 <img src="nivel-02.jpg" alt="Bingo de Barrio">
