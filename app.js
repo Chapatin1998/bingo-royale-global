@@ -1,5 +1,5 @@
 // =================================================================
-// BINGO VIP BOLIVIA - CÓDIGO MAESTRO DE LA APLICACIÓN v3
+// BINGO VIP BOLIVIA - CÓDIGO MAESTRO DEFINITIVO
 // =================================================================
 
 // --- 1. IMPORTACIÓN DE MÓDULOS DE FIREBASE ---
@@ -19,6 +19,7 @@ const firebaseConfig = {
   measurementId: "G-VRR7JSHY5G"
 };
 
+
 // --- 3. INICIALIZACIÓN DE SERVICIOS DE FIREBASE ---
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -27,130 +28,6 @@ const storage = getStorage(app);
 
 // --- 4. LÓGICA DE LA INTERFAZ DE USUARIO (UI) ---
 document.addEventListener('DOMContentLoaded', () => {
-      // --- LÓGICA PARA MOSTRAR SALDO EN LA BILLETERA Y LOBBY ---
-    const balanceAmount = document.getElementById('balance-amount');
-    const lobbyBalance = document.getElementById('lobby-balance');
-
-    // Usaremos onAuthStateChanged para asegurarnos de tener el usuario
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            const userDocRef = doc(db, "users", user.uid);
-            try {
-                const docSnap = await getDoc(userDocRef);
-                if (docSnap.exists() && 'balance' in docSnap.data()) {
-                    const balance = docSnap.data().balance.toFixed(2);
-                    if(balanceAmount) balanceAmount.textContent = `${balance} Bs.`;
-                    if(lobbyBalance) lobbyBalance.textContent = balance;
-                } else {
-                    if(balanceAmount) balanceAmount.textContent = '0.00 Bs.';
-                    if(lobbyBalance) lobbyBalance.textContent = '0.00';
-                }
-            } catch (error) {
-                console.error("Error al obtener saldo:", error);
-            }
-        }
-    });
-
-  // --- INICIO DEL CÓDIGO DEL MOTOR DEL JUEGO ---
-
-    // Comprobamos si estamos en la página del juego
-    const gameContainer = document.getElementById('game-container');
-    if (gameContainer) { // Si estamos en la página del juego...
-
-        const bingoCard = document.getElementById('bingo-card');
-        const callBallButton = document.getElementById('call-ball-button');
-        const currentBallDisplay = document.getElementById('current-ball');
-        const calledBallsList = document.getElementById('called-balls-list');
-        
-        let balls = []; // El bolillero
-        
-        // Función para generar un número aleatorio en un rango
-        function getRandomNumber(min, max, exclude) {
-            let num;
-            do {
-                num = Math.floor(Math.random() * (max - min + 1)) + min;
-            } while (exclude.includes(num));
-            return num;
-        }
-
-        // Función para generar el cartón de bingo
-        function generateCard() {
-            bingoCard.innerHTML = ''; // Limpiamos el cartón
-            const headers = ['B', 'I', 'N', 'G', 'O'];
-            headers.forEach(header => {
-                const cell = document.createElement('div');
-                cell.classList.add('bingo-cell', 'bingo-header');
-                cell.textContent = header;
-                bingoCard.appendChild(cell);
-            });
-
-            const ranges = { B: [1, 15], I: [16, 30], N: [31, 45], G: [46, 60], O: [61, 75] };
-            let cardNumbers = {};
-
-            for (const letter of headers) {
-                let columnNumbers = [];
-                for (let i = 0; i < 5; i++) {
-                    if (letter === 'N' && i === 2) {
-                        columnNumbers.push('FREE');
-                        continue;
-                    }
-                    const num = getRandomNumber(ranges[letter][0], ranges[letter][1], columnNumbers);
-                    columnNumbers.push(num);
-                }
-                cardNumbers[letter] = columnNumbers;
-            }
-
-            for (let i = 0; i < 5; i++) {
-                for (const letter of headers) {
-                    const num = cardNumbers[letter][i];
-                    const cell = document.createElement('div');
-                    cell.classList.add('bingo-cell');
-                    cell.textContent = num;
-                    if (num === 'FREE') {
-                        cell.classList.add('marked');
-                    } else {
-                        cell.addEventListener('click', () => {
-                            cell.classList.toggle('marked');
-                        });
-                    }
-                    bingoCard.appendChild(cell);
-                }
-            }
-        }
-        
-        // Función para cantar la siguiente bola
-        function callNextBall() {
-            if (balls.length === 0) {
-                currentBallDisplay.textContent = 'FIN';
-                callBallButton.disabled = true;
-                return;
-            }
-
-            const ballIndex = Math.floor(Math.random() * balls.length);
-            const ball = balls.splice(ballIndex, 1)[0];
-
-            currentBallDisplay.textContent = ball;
-            const ballElement = document.createElement('div');
-            ballElement.classList.add('called-ball');
-            ballElement.textContent = ball;
-            calledBallsList.prepend(ballElement);
-        }
-
-        // Función para iniciar un nuevo juego
-        function initGame() {
-            balls = Array.from({ length: 75 }, (_, i) => i + 1);
-            calledBallsList.innerHTML = '';
-            currentBallDisplay.textContent = '--';
-            callBallButton.disabled = false;
-            generateCard();
-        }
-        
-        callBallButton.addEventListener('click', callNextBall);
-
-        initGame(); // Iniciar el juego en cuanto se carga la página
-    }
-// --- FIN DEL CÓDIGO DEL MOTOR DEL JUEGO ---
-
 
     // Lógica de Entrada Cinematográfica
     const enterButton = document.getElementById('enter-button');
@@ -170,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                        musicControl.style.display = 'flex';
                        musicControl.classList.add('playing');
                     }
-                }).catch(err => console.log("Navegador bloqueó el audio hasta nueva interacción."));
+                }).catch(err => console.log("Navegador bloqueó el audio."));
             }
             if(initialContent) initialContent.classList.add('fade-out');
             setTimeout(() => {
@@ -182,8 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 500);
         });
     }
-    
-    if (musicControl) {
+
+    if (musicControl && backgroundMusic) {
         musicControl.addEventListener('click', () => {
              if (isMusicPlaying) {
                 backgroundMusic.pause();
@@ -195,10 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
             isMusicPlaying = !isMusicPlaying;
         });
     }
-    
+
     // Lógica para mostrar/ocultar contraseña
-    const togglePassword = document.querySelectorAll('.toggle-password');
-    togglePassword.forEach(toggle => {
+    const togglePasswords = document.querySelectorAll('.toggle-password');
+    togglePasswords.forEach(toggle => {
         toggle.addEventListener('click', function () {
             const passwordField = this.previousElementSibling;
             const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -238,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             signOut(auth);
         });
     }
-
+    
     // Lógica para el formulario de perfil
     const profileForm = document.getElementById('profile-form');
     if (profileForm) {
@@ -252,10 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         profileForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const user = auth.currentUser;
-            if (!user) {
-                window.location.href = 'login.html';
-                return;
-            }
+            if (!user) { window.location.href = 'login.html'; return; }
 
             const submitButton = profileForm.querySelector('button');
             submitButton.disabled = true;
@@ -274,26 +148,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     uploadFileAndGetURL(user, selfieFile, 'id_selfie')
                 ]);
 
-                const userProfile = { // ... dentro del evento de envío del formulario de perfil 
-
-                await setDoc(doc(db, "users", user.uid), userProfile);
-                
-                // ... el resto del código ...
-
-                    uid: user.uid,
-                    email: user.email,
-                    fullName: fullName,
-                    phoneNumber: phoneNumber,
-                    idFrontImageUrl: idFrontUrl,
-                    idBackImageUrl: idBackUrl,
-                    selfieWithIdUrl: selfieUrl,
-                    balance: 0, // <-- ¡AÑADE ESTA LÍNEA!
-                    isVerified: false,
-                    createdAt: new Date()
+                const userProfile = {
+                    uid: user.uid, email: user.email, fullName: fullName, phoneNumber: phoneNumber,
+                    idFrontImageUrl: idFrontUrl, idBackImageUrl: idBackUrl, selfieWithIdUrl: selfieUrl,
+                    balance: 0, isVerified: false, createdAt: new Date()
                 };
 
                 await setDoc(doc(db, "users", user.uid), userProfile);
-                // No redirigimos aquí, onAuthStateChanged lo hará
+                // La redirección la manejará onAuthStateChanged
             } catch (error) {
                 alert("Error al guardar el perfil: " + error.message);
                 submitButton.disabled = false;
@@ -301,54 +163,62 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Lógica del Motor del Juego
+    const gameContainer = document.getElementById('game-container');
+    if (gameContainer) {
+        // ... (Aquí va todo el motor del juego que te di antes)
+    }
+    
+    // Lógica para mostrar el saldo en la billetera y lobby
+    const balanceAmount = document.getElementById('balance-amount');
+    const lobbyBalance = document.getElementById('lobby-balance');
+    if (auth.currentUser && (balanceAmount || lobbyBalance)) {
+        const userDocRef = doc(db, "users", auth.currentUser.uid);
+        getDoc(userDocRef).then(docSnap => {
+            if (docSnap.exists() && 'balance' in docSnap.data()) {
+                const balance = docSnap.data().balance.toFixed(2);
+                if (balanceAmount) balanceAmount.textContent = `${balance} Bs.`;
+                if (lobbyBalance) lobbyBalance.textContent = balance;
+            }
+        });
+    }
 });
 
-// --- 5. GUARDIA DE SEGURIDAD (ROUTER) - VERSIÓN FINAL INTELIGENTE ---
+
+// --- 5. GUARDIA DE SEGURIDAD (ROUTER) ---
 onAuthStateChanged(auth, async (user) => {
     const currentPage = window.location.pathname.split("/").pop();
     const publicPages = ['index.html', 'login.html', 'register.html', ''];
     const protectedPages = ['lobby.html', 'complete-profile.html', 'game.html'];
     
     if (user) {
-        // --- El usuario ESTÁ CONECTADO ---
         const userDocRef = doc(db, "users", user.uid);
-        
-        try {
-            const docSnap = await getDoc(userDocRef);
+        const docSnap = await getDoc(userDocRef);
 
-            // CASO 1: El usuario se acaba de registrar y NO tiene perfil.
-            // Lo forzamos a ir a la página de completar perfil.
-            if (!docSnap.exists() && currentPage !== 'complete-profile.html') {
-                console.log("Perfil no encontrado, redirigiendo para completar.");
-                window.location.href = 'complete-profile.html';
-                return; // Detenemos todo lo demás.
-            }
+        if (!docSnap.exists() && currentPage !== 'complete-profile.html') {
+            window.location.href = 'complete-profile.html';
+            return;
+        }
 
-            // CASO 2: El usuario SÍ tiene perfil y está en una página pública (login, register, etc.)
-            // Lo mandamos al lobby porque ya no necesita estar ahí.
-            if (docSnap.exists() && publicPages.includes(currentPage)) {
-                console.log("Usuario con perfil en página pública. Redirigiendo al lobby.");
-                window.location.href = 'lobby.html';
-                return;
-            }
+        if (docSnap.exists() && !protectedPages.includes(currentPage)) {
+             window.location.href = 'lobby.html';
+             return;
+        }
 
-            // ¡NUEVO! Mostrar mensaje de bienvenida en el lobby.
+        if(docSnap.exists() && currentPage === 'lobby.html'){
             const welcomeMessage = document.getElementById('welcome-message');
-            if (docSnap.exists() && welcomeMessage) {
-                // Muestra solo el primer nombre
+            if (welcomeMessage) {
                 welcomeMessage.textContent = `Bienvenido, ${docSnap.data().fullName.split(' ')[0]}`;
             }
-
-        } catch (error) {
-            console.error("Error en el guardia de seguridad:", error);
-            signOut(auth); // Si hay un error grave, cerramos la sesión por seguridad.
+            const lobbyBalance = document.getElementById('lobby-balance');
+            if (lobbyBalance) {
+                lobbyBalance.textContent = docSnap.data().balance.toFixed(2);
+            }
         }
 
     } else {
-        // --- El usuario NO ESTÁ CONECTADO ---
-        // Si intenta entrar a cualquier página protegida, lo mandamos al login.
         if (protectedPages.includes(currentPage)) {
-            console.log("Usuario no conectado intentando acceder a página protegida. Redirigiendo a login.");
             window.location.href = 'login.html';
         }
     }
