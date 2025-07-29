@@ -176,13 +176,28 @@ document.addEventListener('DOMContentLoaded', () => {
 onAuthStateChanged(auth, async (user) => {
     const currentPage = window.location.pathname.split("/").pop();
     const publicPages = ['index.html', 'login.html', 'register.html', ''];
-    const protectedPages = ['lobby.html', 'complete-profile.html'];
+    const protectedPages = ['lobby.html', 'complete-profile.html', 'game.html'];
     
     if (user) {
         // Usuario CONECTADO
         const userDocRef = doc(db, "users", user.uid);
-        // Aquí iría la lógica para comprobar si el perfil está completo,
-        // pero por ahora, lo mandamos al lobby.
+        
+        // ¡NUEVO! Mostrar mensaje de bienvenida
+        const welcomeMessage = document.getElementById('welcome-message');
+        if (welcomeMessage) {
+             try {
+                const docSnap = await getDoc(userDocRef);
+                if (docSnap.exists()) {
+                    welcomeMessage.textContent = `Bienvenido, ${docSnap.data().fullName}`;
+                } else {
+                     welcomeMessage.textContent = `Bienvenido`;
+                }
+            } catch (error) {
+                console.error("Error al obtener perfil:", error);
+                welcomeMessage.textContent = `Bienvenido`;
+            }
+        }
+
         if (!protectedPages.includes(currentPage)) {
             window.location.href = 'lobby.html';
         }
@@ -193,3 +208,4 @@ onAuthStateChanged(auth, async (user) => {
         }
     }
 });
+
