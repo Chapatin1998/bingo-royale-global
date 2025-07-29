@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
 onAuthStateChanged(auth, async (user) => {
     const currentPage = window.location.pathname.split("/").pop();
     const publicPages = ['index.html', 'login.html', 'register.html', ''];
-    const protectedPages = ['lobby.html', 'complete-profile.html', 'game.html'];
+    const protectedPages = ['lobby.html', 'complete-profile.html', 'game.html''wallet.html'];
     
     if (user) {
         const userDocRef = doc(db, "users", user.uid);
