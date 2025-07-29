@@ -236,5 +236,13 @@ input[type="file"]:hover {
     cursor: pointer;
     z-index: 1000;
 }
+/* --- Estilos para el control de música --- */
+#music-control::before {
+    content: '🎵'; /* Ícono por defecto (música apagada) */
+}
+
+#music-control.playing::before {
+    content: '🔇'; /* Ícono cuando la música está sonando */
+}
 
 
