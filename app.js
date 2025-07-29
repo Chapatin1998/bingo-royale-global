@@ -35,27 +35,55 @@ document.addEventListener('DOMContentLoaded', () => {
             this.textContent = type === 'password' ? '👁️' : '🙈';
         });
     }
+// ... (Toda la parte de importación y configuración de Firebase se mantiene igual) ...
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+// ... etc
 
-    // --- Lógica para la música de fondo ---
+const firebaseConfig = {
+  // ... tu configuración ...
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+// ... etc
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- ¡NUEVO! Lógica de Entrada Cinematográfica ---
+    const enterButton = document.getElementById('enter-button');
+    const initialContent = document.getElementById('initial-content');
+    const authButtons = document.getElementById('auth-buttons');
     const musicControl = document.getElementById('music-control');
     const backgroundMusic = document.getElementById('background-music');
     let isMusicPlaying = false;
-    if (musicControl && backgroundMusic) {
-        // Función para intentar iniciar la música
-        const startMusic = () => {
-            if (!isMusicPlaying) {
+
+    if (enterButton) {
+        enterButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Iniciar música
+            if (backgroundMusic) {
                 backgroundMusic.play().then(() => {
                     isMusicPlaying = true;
+                    musicControl.style.display = 'flex'; // Muestra el botón de control
                     musicControl.classList.add('playing');
-                }).catch(e => console.log("El navegador necesita interacción del usuario para iniciar el audio."));
+                }).catch(err => console.log("Error al reproducir música:", err));
             }
-        };
-        // Intentamos iniciar la música con el primer toque en cualquier lugar
-        document.body.addEventListener('click', startMusic, { once: true });
 
-        musicControl.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (isMusicPlaying) {
+            // Efecto de transición
+            initialContent.classList.add('fade-out');
+            setTimeout(() => {
+                initialContent.style.display = 'none';
+                authButtons.style.display = 'flex';
+                authButtons.classList.add('fade-in');
+            }, 500); // 500ms = 0.5s, igual que la duración de la animación en CSS
+        });
+    }
+    
+    if (musicControl && backgroundMusic) {
+        musicControl.addEventListener('click', () => {
+             if (isMusicPlaying) {
                 backgroundMusic.pause();
                 musicControl.classList.remove('playing');
             } else {
@@ -65,6 +93,15 @@ document.addEventListener('DOMContentLoaded', () => {
             isMusicPlaying = !isMusicPlaying;
         });
     }
+
+    // ... (Aquí va toda la lógica que ya teníamos: togglePassword, registerForm, loginForm, etc.)
+    // ... Asegúrate de pegar el resto de tu código de app.js aquí ...
+});
+
+
+// ... (Aquí va el onAuthStateChanged, se mantiene igual) ...
+
+
 
     // --- Lógica para el formulario de registro ---
     const registerForm = document.getElementById('register-form');
