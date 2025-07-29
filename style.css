@@ -316,4 +316,141 @@ input[type="file"]:hover {
     margin-top: 0;
     color: var(--color-oro);
 }
+/* --- ESTILOS PARA LA PANTALLA DE JUEGO --- */
+.game-container {
+    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('nivel-01.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-blanco);
+}
+
+.game-header h2 { margin: 0; }
+.game-header p { margin: 0; color: var(--color-gris); }
+
+.game-board {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 20px;
+    align-items: center;
+}
+
+/* En pantallas más grandes, ponemos el bolillero y el cartón uno al lado del otro */
+@media (min-width: 768px) {
+    .game-board {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+    }
+}
+
+.caller-section {
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #333;
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+}
+
+.current-ball-display {
+    background-color: var(--color-negro);
+    border: 2px solid var(--color-oro);
+    width: 100px;
+    height: 100px;
+    margin: 10px auto;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    font-weight: bold;
+    color: var(--color-oro);
+}
+
+.called-balls-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    margin-top: 10px;
+    background-color: rgba(0,0,0,0.5);
+    padding: 10px;
+    border-radius: 5px;
+    min-height: 50px;
+}
+
+.called-ball {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--color-blanco);
+    color: var(--color-negro);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.card-section {
+    width: 100%;
+    max-width: 400px;
+}
+
+.bingo-card {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid var(--color-oro);
+}
+
+.bingo-cell {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: beige;
+    color: var(--color-negro);
+    font-size: 1.5em;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.bingo-header {
+    background-color: var(--color-oro);
+    font-size: 1.8em;
+}
+
+.bingo-cell.marked {
+    background-color: crimson;
+    color: white;
+    opacity: 0.8;
+}
+
+.game-controls {
+    margin-top: 20px;
+    display: flex;
+}
+
+.game-controls .cta-button {
+    flex-grow: 1; /* El botón ocupa todo el ancho */
+}
 
