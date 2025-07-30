@@ -3,44 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Cuenta - Bingo VIP Bolivia</title>
+    <title>Crear Cuenta</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="video-background">
-        <video autoplay loop muted playsinline><source src="fondo-video.mp4" type="video/mp4"></video>
-    </div>
-
-    <div id="language-selector">
-        <div id="language-button" class="language-button"></div>
-        <div id="language-menu" class="hidden">
-            <a href="#" data-lang="es">🇧🇴 Español</a>
-            <a href="#" data-lang="en">🇺🇸 English</a>
-            <a href="#" data-lang="pt">🇧🇷 Português</a>
-        </div>
-    </div>
-    
-    <div class="main-container">
+    <div class="video-background"><video autoplay loop muted playsinline><source src="fondo-video.mp4" type="video/mp4"></video></div>
+    <div class="main-container fade-in">
         <div class="content-wrapper">
-            <a href="index.html"><img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo"></a>
-            <h1 id="register-title"></h1>
-
+            <a href="index.html"><img src="logo.png" alt="Logo" class="logo"></a>
+            <h1>Crear Cuenta</h1>
             <form id="register-form" class="form-container">
-                <input type="email" name="email" required>
+                <input type="email" name="email" placeholder="Correo Electrónico" required>
                 <div class="password-wrapper">
-                    <input type="password" id="password-field" name="password" required>
+                    <input type="password" id="password-field" name="password" placeholder="Contraseña (mínimo 6 caracteres)" required>
                     <span class="toggle-password">👁️</span>
                 </div>
-                <button id="register-button" type="submit" class="cta-button"></button>
+                <button type="submit" class="cta-button">Registrarme</button>
             </form>
-            
             <div class="form-footer">
-                <p id="login-text"></p>
-                <p id="warning-text" class="warning-text" style="font-size: 0.8em; color: #aaa; margin-top: 15px;"></p>
+                <p>¿Ya tienes una cuenta? <a href="login.html">Inicia sesión</a></p>
             </div>
         </div>
     </div>
-    
     <script type="module" src="app.js"></script>
 </body>
 </html>
