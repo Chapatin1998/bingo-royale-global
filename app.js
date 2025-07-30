@@ -1,51 +1,103 @@
-// Lógica que se ejecuta cuando la página está lista
+// LÓGICA DE TRADUCCIONES
+const translations = {
+    es: { 
+        startBtn: "Iniciar", 
+        warning: "⚠️ Juego para mayores de 18 años. Juega con responsabilidad. Una sola cuenta por persona.", 
+        flag: "🇧🇴 Español" 
+    },
+    en: { 
+        startBtn: "Start", 
+        warning: "⚠️ Game for ages 18+. Play responsibly. One account per person.", 
+        flag: "🇺🇸 English" 
+    },
+    pt: { 
+        startBtn: "Iniciar", 
+        warning: "⚠️ Jogo para maiores de 18 anos. Jogue com responsabilidade. Uma conta por pessoa.", 
+        flag: "🇧🇷 Português" 
+    }
+};
+
+// FUNCIÓN PARA APLICAR TRADUCCIONES
+function applyTranslations(lang) {
+    if (!translations[lang]) lang = 'es'; // Idioma por defecto
+
+    localStorage.setItem('userLanguage', lang); // Guardar elección
+    
+    const t = translations[lang];
+    const startButton = document.getElementById('start-button');
+    const warningText = document.getElementById('warning-text');
+    const languageButton = document.getElementById('language-button');
+    
+    if (startButton) startButton.textContent = t.startBtn;
+    if (warningText) warningText.textContent = t.warning;
+    if (languageButton) languageButton.textContent = t.flag;
+}
+
+
+// LÓGICA PRINCIPAL DE LA PÁGINA
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Elementos de la página ---
+    const startScreen = document.getElementById('start-screen');
     const loaderScreen = document.getElementById('loader-screen');
-    const loaderBar = document.getElementById('loader-bar');
-    const loaderPercentage = document.getElementById('loader-percentage');
-    const mainContent = document.getElementById('main-content');
     const startButton = document.getElementById('start-button');
     const backgroundMusic = document.getElementById('background-music');
+    const languageButton = document.getElementById('language-button');
+    const languageMenu = document.getElementById('language-menu');
+    
+    // Aplicar idioma guardado al cargar
+    const savedLang = localStorage.getItem('userLanguage') || 'es';
+    applyTranslations(savedLang);
 
-    // --- Lógica de la Barra de Carga ---
-    let progress = 0;
-    const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 5) + 1; // Suma un número aleatorio para que no sea monótono
-        if (progress > 100) progress = 100;
-        
-        // Actualizamos los elementos visuales de la carga
-        if (loaderBar) loaderBar.style.width = progress + '%';
-        if (loaderPercentage) loaderPercentage.textContent = progress + '%';
-        
-        // Cuando la carga llega al 100%
-        if (progress === 100) {
-            clearInterval(interval); // Detenemos el contador
-            setTimeout(() => {
-                // Hacemos desaparecer la pantalla de carga con una transición suave
-                if (loaderScreen) loaderScreen.style.opacity = '0';
-                setTimeout(() => {
-                    // La ocultamos por completo y mostramos el contenido principal
-                    if (loaderScreen) loaderScreen.style.display = 'none';
-                    if (mainContent) mainContent.classList.remove('hidden');
-                }, 1000); // 1 segundo de transición
-            }, 500); // Pequeña pausa antes de desaparecer
-        }
-    }, 80); // Velocidad de la carga
+    // Lógica del menú de idiomas
+    if(languageButton){
+        languageButton.addEventListener('click', () => {
+            if(languageMenu) languageMenu.classList.toggle('hidden');
+        });
+    }
 
-    // --- Lógica del Botón de Inicio ---
+    if(languageMenu){
+        languageMenu.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                const lang = e.target.dataset.lang;
+                applyTranslations(lang);
+                languageMenu.classList.add('hidden');
+            }
+        });
+    }
+
+    // Lógica del botón de inicio
     if (startButton) {
         startButton.addEventListener('click', () => {
-            // Activar música
             if (backgroundMusic) {
                 backgroundMusic.volume = 0.3;
-                backgroundMusic.play().catch(e => console.error("Música bloqueada por el navegador."));
+                backgroundMusic.play().catch(e => console.log("Audio necesita interacción"));
             }
-            // Muestra una alerta para confirmar que funciona
-            alert("¡Pieza terminada! Próximo paso: construir la página de login.");
+
+            startScreen.style.opacity = '0';
+            loaderScreen.classList.remove('hidden');
             
-            // En el futuro, esta línea nos llevará a la siguiente página
-            // window.location.href = 'login.html'; 
+            setTimeout(() => {
+                startScreen.style.display = 'none';
+            }, 1200);
+
+            const loaderBar = document.getElementById('loader-bar');
+            const loaderPercentage = document.getElementById('loader-percentage');
+            let progress = 0;
+            const loadTime = 7000; 
+            const interval = setInterval(() => {
+                progress++;
+                if (progress > 100) progress = 100;
+                
+                if(loaderBar) loaderBar.style.width = progress + '%';
+                if(loaderPercentage) loaderPercentage.textContent = progress + '%';
+                
+                if (progress === 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        alert("¡Pieza terminada! Próximo paso: construir la página de login.");
+                        // window.location.href = 'login.html'; 
+                    }, 1000);
+                }
+            }, loadTime / 100);
         });
     }
 });
