@@ -24,7 +24,6 @@
             text-align: center;
             box-sizing: border-box;
             transition: opacity 1.2s ease-in-out;
-            background-color: rgba(0,0,0,0.7); /* Capa oscura sobre el video */
         }
         .video-background {
             position: fixed; top: 0; left: 0;
@@ -33,16 +32,45 @@
         .video-background video { 
             width: 100%; height: 100%; 
             object-fit: cover; 
-            filter: grayscale(80%) brightness(0.6);
+            /* CAMBIO: Nuevo filtro para más realismo */
+            filter: grayscale(50%) brightness(0.6) contrast(1.1) sepia(20%);
+        }
+        /* CAMBIO: Efecto de grano de película */
+        .video-background::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAMFBMVEUAAAAzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzPZyImLAAAAD3RSTlMAAQIDBAUGBwgJCgsMDQ4PEBITFRUWFxiZkaGqq62wzNfd5uvo8fLz9ff6+/7/uEs6kwAAAIVJREFUeNqV00sOgDAIBEDfMhQ3vX/uh24G8d338PD8AgA+9eWH2g1YVsvxgltO3YIu120Zg2p9A+d3vIMBEB45jkj3NaU3k55z4J3jRm4k85x4Z+c3I87z4B3l52aA/ePE7aTfDACL8J8j3C50dcj5Pwcg4gMMAuYRDAKiIwwCwhIMAuISHALiEgwCohIMAgLDkQGADy5sQGq74wUAAAAASUVORK5CYII=');
+            opacity: 0.1;
+            animation: grain 8s steps(10) infinite;
+        }
+        @keyframes grain {
+          0%, 100% { transform:translate(0, 0) }
+          10% { transform:translate(-5%, -10%) }
+          20% { transform:translate(-15%, 5%) }
+          30% { transform:translate(7%, -25%) }
+          40% { transform:translate(-5%, 25%) }
+          50% { transform:translate(-15%, 10%) }
+          60% { transform:translate(15%, 0%) }
+          70% { transform:translate(0%, 15%) }
+          80% { transform:translate(-15%, 0%) }
+          90% { transform:translate(10%, 5%) }
+        }
+        .overlay {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; z-index: 0;
+            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%);
         }
         .content-wrapper {
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             padding: 20px;
             z-index: 1;
         }
         .logo { 
-            width: clamp(120px, 30vw, 180px); /* Logo más grande */
+            /* CAMBIO: Logo más grande */
+            width: clamp(150px, 35vw, 220px);
             margin-bottom: 30px; 
         }
         .start-logo {
@@ -59,14 +87,24 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         .cta-button:hover { transform: scale(1.05); }
-        .hidden { display: none; }
-        .visible { display: flex; }
-        .fade-out { opacity: 0; pointer-events: none; }
-
+        .hidden { opacity: 0; pointer-events: none; }
+        .visible { opacity: 1; }
+        .warning-text {
+            /* CAMBIO: Estilos para la advertencia */
+            margin-top: 30px;
+            font-size: 0.8em;
+            color: #aaa;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
         /* --- Estilos de la Pantalla de Carga Mejorada --- */
-        #loader-screen { background-color: #000; }
+        #loader-screen { 
+            /* CAMBIO: Fondo semi-transparente para ver el video */
+            background-color: rgba(0,0,0,0.85); 
+        }
         .loader-logo {
-            /* NUEVO: Animación de movimiento y brillo */
+            width: clamp(150px, 35vw, 220px); /* CAMBIO: Logo más grande */
             animation: float-glow 4s infinite ease-in-out;
         }
         @keyframes float-glow {
@@ -104,18 +142,22 @@
     </div>
 
     <div id="start-screen" class="screen visible">
+        <div class="overlay"></div>
         <div class="content-wrapper">
             <img src="logo.png" alt="Logo" class="logo start-logo">
             <button id="start-button" class="cta-button">Iniciar</button>
+            <p class="warning-text">Juego para mayores de 18 años. Juega con responsabilidad. Una sola cuenta por persona.</p>
         </div>
     </div>
 
-    <div id="loader-screen" class="screen hidden fade-out">
-        <img src="logo.png" alt="Logo Cargando" class="logo loader-logo">
-        <div class="loader-bar-container">
-            <div id="loader-bar" class="loader-bar"></div>
+    <div id="loader-screen" class="screen hidden">
+         <div class="content-wrapper">
+            <img src="logo.png" alt="Logo Cargando" class="logo loader-logo">
+            <div class="loader-bar-container">
+                <div id="loader-bar" class="loader-bar"></div>
+            </div>
+            <p id="loader-percentage">0%</p>
         </div>
-        <p id="loader-percentage">0%</p>
     </div>
 
     <audio id="background-music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
@@ -129,28 +171,22 @@
 
             if (startButton) {
                 startButton.addEventListener('click', () => {
-                    // 1. Iniciar música
                     if (backgroundMusic) {
                         backgroundMusic.volume = 0.3;
                         backgroundMusic.play().catch(e => console.log("Audio necesita interacción"));
                     }
 
-                    // 2. Ocultar pantalla de inicio y mostrar la de carga
                     startScreen.classList.add('fade-out');
                     loaderScreen.classList.remove('hidden');
-                    // Forzar al navegador a aplicar el cambio de 'display' antes de cambiar la opacidad
-                    void loaderScreen.offsetWidth; 
-                    loaderScreen.classList.remove('fade-out');
                     
                     setTimeout(() => {
                         startScreen.style.display = 'none';
                     }, 1200);
 
-                    // 3. Iniciar la barra de carga (más lenta)
                     const loaderBar = document.getElementById('loader-bar');
                     const loaderPercentage = document.getElementById('loader-percentage');
                     let progress = 0;
-                    const loadTime = 5000; // 5 segundos de carga
+                    const loadTime = 5000;
                     const interval = setInterval(() => {
                         progress++;
                         if (progress > 100) progress = 100;
@@ -160,13 +196,12 @@
                         
                         if (progress === 100) {
                             clearInterval(interval);
-                            // 4. Cuando termina, redirigir
                             setTimeout(() => {
                                 alert("¡Carga completa! Próximo paso: construir la página de login.");
                                 // window.location.href = 'login.html'; 
                             }, 1000);
                         }
-                    }, loadTime / 100); // Se actualiza 100 veces durante el tiempo de carga
+                    }, loadTime / 100);
                 });
             }
         });
