@@ -1,12 +1,14 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+// --- 2. CONFIGURACIÓN DE FIREBASE ---
 const firebaseConfig = {
-  apiKey: "AIzaSyDREqTx0PpnRDmE4J-wQlYR1JkqaJvHI4Y", // Tu llave API correcta
+  apiKey: "AIzaSyCmWFaQv-iJ5LdfGXY1fmi_1KZmzFv3TSI",
   authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
   projectId: "bingo-vip-bolivia-df2db",
-  storageBucket: "bingo-vip-bolivia-df2db.appspot.com",
+  storageBucket: "bingo-vip-bolivia-df2db.firebasestorage.app",
   messagingSenderId: "310290230955",
-  appId: "1:310290230955:web:3526c26c2800b43ffcd1ee"
+  appId: "1:310290230955:web:3526c26c2800b43ffcd1ee",
+  measurementId: "G-VRR7JSHY5G"
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
