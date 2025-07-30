@@ -7,29 +7,44 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="loader-screen" class="main-container">
-        <img src="logo.png" alt="Logo" class="logo">
-        <div class="loader-bar-container" style="width: 80%; max-width: 300px; height: 8px; background-color: #222; border-radius: 4px; overflow: hidden; margin-top: 20px;">
-            <div id="loader-bar" style="width: 0%; height: 100%; background-color: #FFD700; border-radius: 4px; transition: width 0.1s linear;"></div>
-        </div>
-        <p id="loader-percentage" style="margin-top: 15px; font-size: 1em; color: #FFD700;">0%</p>
+    <div class="video-background">
+        <video autoplay loop muted playsinline>
+            <source src="fondo-video.mp4" type="video/mp4">
+        </video>
     </div>
 
-    <div id="main-content" class="main-container hidden">
-        <div class="video-background">
-            <video autoplay loop muted playsinline>
-                <source src="fondo-video.mp4" type="video/mp4"></video>
+    <div id="language-selector">
+        <div id="language-button" class="language-button"></div>
+        <div id="language-menu" class="language-menu hidden">
+            <a href="#" data-lang="es">🇧🇴 Español</a>
+            <a href="#" data-lang="en">🇺🇸 English</a>
+            <a href="#" data-lang="pt">🇧🇷 Português</a>
         </div>
+    </div>
+
+    <div id="start-screen" class="screen visible">
+        <div class="overlay"></div>
         <div class="content-wrapper">
-            <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo">
-            <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
-            <p class="subtitle">Tu experiencia de bingo premium comienza aquí.</p>
-            <button id="start-button" class="start-button">Iniciar Juego</button>
+            <div class="start-logo-wrapper">
+                <img src="logo.png" alt="Logo" class="logo start-logo">
+            </div>
+            <button id="start-button" class="cta-button"></button>
+            <p id="warning-text" class="warning-text"></p>
+        </div>
+    </div>
+
+    <div id="loader-screen" class="screen hidden">
+         <div class="content-wrapper">
+            <img src="logo.png" alt="Logo Cargando" class="logo loader-logo">
+            <div class="loader-bar-container">
+                <div id="loader-bar" class="loader-bar"></div>
+            </div>
+            <p id="loader-percentage">0%</p>
         </div>
     </div>
 
     <audio id="background-music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
-    
+
     <script type="module" src="app.js"></script>
 </body>
 </html>
