@@ -10,25 +10,33 @@
     <div class="video-background">
         <video autoplay loop muted playsinline><source src="fondo-video.mp4" type="video/mp4"></video>
     </div>
-    <audio id="background-music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
-    <div id="music-control"></div>
 
+    <div id="language-selector">
+        <div id="language-button" class="language-button"></div>
+        <div id="language-menu" class="hidden">
+            <a href="#" data-lang="es">🇧🇴 Español</a>
+            <a href="#" data-lang="en">🇺🇸 English</a>
+            <a href="#" data-lang="pt">🇧🇷 Português</a>
+        </div>
+    </div>
+    
     <div class="main-container">
         <div class="content-wrapper">
             <a href="index.html"><img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo"></a>
-            <h1 id="login-title">Iniciar Sesión</h1>
+            <h1 id="login-title"></h1>
 
             <form id="login-form" class="form-container">
-                <input type="email" name="email" placeholder="Correo Electrónico" required>
+                <input type="email" name="email" required>
                 <div class="password-wrapper">
-                    <input type="password" id="password-field" name="password" placeholder="Contraseña" required>
+                    <input type="password" id="password-field" name="password" required>
                     <span class="toggle-password">👁️</span>
                 </div>
-                <button id="login-button" type="submit" class="cta-button">Entrar</button>
+                <button id="login-button" type="submit" class="cta-button"></button>
             </form>
             
             <div class="form-footer">
-                <p id="register-text">¿No tienes una cuenta? <a href="register.html">Regístrate</a></p>
+                <p id="register-text"></p>
+                <p id="warning-text" class="warning-text" style="font-size: 0.8em; color: #aaa; margin-top: 15px;"></p>
             </div>
         </div>
     </div>
