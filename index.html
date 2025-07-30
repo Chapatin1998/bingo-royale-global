@@ -8,7 +8,7 @@
         :root {
             --color-oro: #FFD700;
             --color-blanco: #ffffff;
-            --color-gris-claro: #aaa;
+            --color-rojo-advertencia: #ff4d4d;
         }
         body, html {
             margin: 0; padding: 0;
@@ -38,7 +38,7 @@
         .video-background::after {
             content: ''; position: absolute; top: 0; left: 0;
             width: 100%; height: 100%;
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAMFBMVEUAAAAzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzPZyImLAAAAD3RSTlMAAQIDBAUGBwgJCgsMDQ4PEBITFRUWFxiZkaGqq62wzNfd5uvo8fLz9ff6+/7/uEs6kwAAAIVJREFUeNqV00sOgDAIBEDfMhQ3vX/uh24G8d338PD8AgA+9eWH2g1YVsvxgltO3YIu120Zg2p9A+d3vIMBEB45jkj3NaU3k55z4J3jRm4k85x4Z+c3I87z4B3l52aA/ePE7aTfDACL8J8j3C50dcj5Pwcg4gMMAuYRDAKiIwwCwhIMAuISHALiEgwCohIMAgLDkQGADy5sQGq74wUAAAAASUVORKCYII=');
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAMFBMVEUAAAAzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzPZyImLAAAAD3RSTlMAAQIDBAUGBwgJCgsMDQ4PEBITFRUWFxiZkaGqq62wzNfd5uvo8fLz9ff6+/7/uEs6kwAAAIVJREFUeNqV00sOgDAIBEDfMhQ3vX/uh24G8d338PD8AgA+9eWH2g1YVsvxgltO3YIu120Zg2p9A+d3vIMBEB45jkj3NaU3k55z4J3jRm4k85x4Z+c3I87z4B3l52aA/ePE7aTfDACL8J8j3C50dcj5Pwcg4gMMAuYRDAKiIwwCwhIMAuISHALiEgwCohIMAgLDkQGADy5sQGq74wUAAAAASUVORK5CYII=');
             opacity: 0.1; animation: grain 8s steps(10) infinite;
         }
         @keyframes grain {
@@ -58,10 +58,24 @@
         .logo { 
             width: clamp(150px, 35vw, 220px); margin-bottom: 30px; 
         }
-        .start-logo { animation: pulse 3s infinite alternate ease-in-out; }
-        @keyframes pulse {
-            from { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));}
-            to { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));}
+        .start-logo-wrapper {
+            position: relative;
+            animation: pulse 3s infinite alternate ease-in-out;
+        }
+        /* CAMBIO: Aura dorada para el logo de inicio */
+        .start-logo-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: aura-glow 3s infinite alternate ease-in-out;
+        }
+        @keyframes aura-glow {
+            from { opacity: 0.7; }
+            to { opacity: 1; }
         }
         .cta-button {
             background-color: var(--color-oro); color: #000; padding: 18px 40px;
@@ -73,10 +87,11 @@
         .hidden { opacity: 0; pointer-events: none; }
         .visible { opacity: 1; }
         .warning-text {
-            margin-top: 30px; font-size: 0.8em; color: var(--color-gris-claro);
+            margin-top: 30px; font-size: 0.8em; 
+            /* CAMBIO: Color rojo para la advertencia */
+            color: var(--color-rojo-advertencia);
+            text-shadow: 0 0 8px rgba(255, 77, 77, 0.7);
             max-width: 300px; margin-left: auto; margin-right: auto;
-            /* CAMBIO: Letras con un toque dorado */
-            text-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
         }
         #loader-screen { background-color: rgba(0,0,0,0.9); }
         .loader-logo {
@@ -107,8 +122,29 @@
         /* CAMBIO: Estilos para el selector de idioma */
         #language-selector {
             position: fixed; top: 20px; right: 20px; z-index: 1000;
+        }
+        .language-button {
             background-color: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px;
             font-size: 0.9em; border: 1px solid #333; cursor: pointer;
+        }
+        .language-menu {
+            position: absolute;
+            top: 110%; right: 0;
+            background-color: rgba(0,0,0,0.8);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+        .language-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: var(--color-blanco);
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .language-menu a:hover {
+            background-color: var(--color-oro);
+            color: #000;
         }
     </style>
 </head>
@@ -119,14 +155,23 @@
         </video>
     </div>
 
-    <div id="language-selector">🇧🇴 Español</div>
+    <div id="language-selector">
+        <div id="language-button" class="language-button">🇧🇴 Español</div>
+        <div id="language-menu" class="language-menu hidden">
+            <a href="#" data-lang="es">🇧🇴 Español</a>
+            <a href="#" data-lang="en">🇺🇸 English</a>
+            <a href="#" data-lang="pt">🇧🇷 Português</a>
+        </div>
+    </div>
 
     <div id="start-screen" class="screen visible">
         <div class="overlay"></div>
         <div class="content-wrapper">
-            <img src="logo.png" alt="Logo" class="logo start-logo">
+            <div class="start-logo-wrapper">
+                <img src="logo.png" alt="Logo" class="logo start-logo">
+            </div>
             <button id="start-button" class="cta-button">Iniciar</button>
-            <p class="warning-text">Juego para mayores de 18 años. Juega con responsabilidad. Una sola cuenta por persona.</p>
+            <p id="warning-text" class="warning-text">⚠️ Juego para mayores de 18 años. Juega con responsabilidad. Una sola cuenta por persona.</p>
         </div>
     </div>
 
@@ -148,7 +193,32 @@
             const loaderScreen = document.getElementById('loader-screen');
             const startButton = document.getElementById('start-button');
             const backgroundMusic = document.getElementById('background-music');
+            const languageButton = document.getElementById('language-button');
+            const languageMenu = document.getElementById('language-menu');
+            const warningText = document.getElementById('warning-text');
 
+            // --- Lógica del Selector de Idiomas ---
+            const translations = {
+                es: { start: "Iniciar", warning: "⚠️ Juego para mayores de 18 años. Juega con responsabilidad. Una sola cuenta por persona.", flag: "🇧🇴 Español" },
+                en: { start: "Start", warning: "⚠️ Game for ages 18+. Play responsibly. One account per person.", flag: "🇺🇸 English" },
+                pt: { start: "Iniciar", warning: "⚠️ Jogo para maiores de 18 anos. Jogue com responsabilidade. Uma conta por pessoa.", flag: "🇧🇷 Português" }
+            };
+
+            languageButton.addEventListener('click', () => {
+                languageMenu.classList.toggle('hidden');
+            });
+
+            languageMenu.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    const lang = e.target.dataset.lang;
+                    startButton.textContent = translations[lang].start;
+                    warningText.textContent = translations[lang].warning;
+                    languageButton.textContent = translations[lang].flag;
+                    languageMenu.classList.add('hidden');
+                }
+            });
+            
+            // --- Lógica de Inicio y Carga ---
             if (startButton) {
                 startButton.addEventListener('click', () => {
                     if (backgroundMusic) {
@@ -166,7 +236,6 @@
                     const loaderBar = document.getElementById('loader-bar');
                     const loaderPercentage = document.getElementById('loader-percentage');
                     let progress = 0;
-                    // CAMBIO: Barra de carga más lenta (7 segundos)
                     const loadTime = 7000; 
                     const interval = setInterval(() => {
                         progress++;
