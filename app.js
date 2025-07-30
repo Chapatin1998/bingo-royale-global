@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 const firebaseConfig = {
-  apiKey: "AIzaSyDREqTx0PpnRDmE4J-wQlYR1JkqaJvHI4Y",
+  apiKey: "AIzaSyDREqTx0PpnRDmE4J-wQlYR1JkqaJvHI4Y", // Tu llave API correcta
   authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
   projectId: "bingo-vip-bolivia-df2db",
   storageBucket: "bingo-vip-bolivia-df2db.appspot.com",
@@ -12,46 +12,67 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- Lógica para la PÁGINA DE INICIO (index.html) ---
     const startButton = document.getElementById('start-button');
     if (startButton) {
+        const startScreen = document.getElementById('start-screen');
+        const loaderScreen = document.getElementById('loader-screen');
+        const backgroundMusic = document.getElementById('background-music');
+
         startButton.addEventListener('click', () => {
-            window.location.href = 'login.html';
+            if (backgroundMusic) {
+                backgroundMusic.volume = 0.2;
+                backgroundMusic.play().catch(e => {});
+            }
+            if(startScreen) startScreen.style.opacity = '0';
+            if (loaderScreen) loaderScreen.classList.remove('hidden');
+            
+            setTimeout(() => {
+                if(startScreen) startScreen.style.display = 'none';
+            }, 1200);
+
+            const loaderBar = document.getElementById('loader-bar');
+            const loaderPercentage = document.getElementById('loader-percentage');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress++;
+                if (progress > 100) progress = 100;
+                if (loaderBar) loaderBar.style.width = progress + '%';
+                if (loaderPercentage) loaderPercentage.textContent = progress + '%';
+                if (progress === 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 500);
+                }
+            }, 50); // Barra de carga de 5 segundos
         });
     }
 
-    const togglePassword = document.querySelector('.toggle-password');
-    if (togglePassword) {
-        togglePassword.addEventListener('click', function() {
-            const passwordField = document.getElementById('password-field');
-            if(passwordField){
+    // --- Lógica para la PÁGINA DE LOGIN (login.html) ---
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        const togglePassword = document.querySelector('.toggle-password');
+        if (togglePassword) {
+            togglePassword.addEventListener('click', function() {
+                const passwordField = document.getElementById('password-field');
                 const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
                 passwordField.setAttribute('type', type);
                 this.textContent = type === 'password' ? '👁️' : '🙈';
-            }
-        });
-    }
-
-    const loginForm = document.getElementById('login-form');
-    if (loginForm) {
+            });
+        }
+        
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const email = loginForm.email.value;
             const password = loginForm.password.value;
             signInWithEmailAndPassword(auth, email, password)
-                .then(() => alert('¡Login Exitoso!'))
-                .catch((error) => alert(error.message));
-        });
-    }
-
-    const registerForm = document.getElementById('register-form');
-    if (registerForm) {
-        registerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = registerForm.email.value;
-            const password = registerForm.password.value;
-            createUserWithEmailAndPassword(auth, email, password)
-                .then(() => alert('¡Registro Exitoso!'))
-                .catch((error) => alert(error.message));
+                .then(() => {
+                    alert('¡Login Exitoso! Próximo paso: El Lobby.');
+                    // window.location.href = '/lobby.html';
+                })
+                .catch((error) => alert("Error: " + error.message));
         });
     }
 });
