@@ -8,15 +8,26 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, on
 // ... (Otras importaciones de Firestore, etc. vendrán después)
 
 // --- 2. CONFIGURACIÓN DE FIREBASE ---
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDREqTx0PpnRDmE4J-wQlYR1JkqaJvHI4Y", // Tu llave API correcta
+  apiKey: "AIzaSyCmWFaQv-iJ5LdfGXY1fmi_1KZmzFv3TSI",
   authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
   projectId: "bingo-vip-bolivia-df2db",
-  storageBucket: "bingo-vip-bolivia-df2db.appspot.com",
+  storageBucket: "bingo-vip-bolivia-df2db.firebasestorage.app",
   messagingSenderId: "310290230955",
-  appId: "1:310290230955:web:3526c26c2800b43ffcd1ee"
+  appId: "1:310290230955:web:3526c26c2800b43ffcd1ee",
+  measurementId: "G-VRR7JSHY5G"
 };
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 // --- 3. INICIALIZACIÓN DE FIREBASE ---
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
