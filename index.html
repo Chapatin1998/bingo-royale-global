@@ -8,63 +8,15 @@
 </head>
 <body>
     <div class="video-background">
-        <video autoplay loop muted playsinline>
-            <source src="fondo-video.mp4" type="video/mp4">
-        </video>
-    </div>
-
-    <div id="language-selector">
-        <div id="language-button" class="language-button">🇧🇴 Español</div>
-        <div id="language-menu" class="language-menu hidden">
-            <a href="#" data-lang="es">🇧🇴 Español</a>
-            <a href="#" data-lang="en">🇺🇸 English</a>
-            <a href="#" data-lang="pt">🇧🇷 Português</a>
         </div>
-    </div>
     
     <div class="main-container">
         <div class="content-wrapper">
-            <div id="start-screen">
-                <img src="logo.png" alt="Logo" class="logo">
-                <h1 id="start-title">¡Bienvenido!</h1>
-                <p id="start-subtitle" class="subtitle">La experiencia de bingo premium te espera.</p>
-                <button id="start-button" class="cta-button">Iniciar</button>
-            </div>
+            <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo">
+            <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
+            <p class="subtitle">Tu experiencia de bingo premium comienza aquí.</p>
+            <a href="login.html" class="start-button">Iniciar Juego</a>
         </div>
     </div>
-    
-    <audio id="background-music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
-    <script type="module" src="app.js"></script> <script>
-        // Pequeño script para la página de inicio
-        document.addEventListener('DOMContentLoaded', () => {
-            const startButton = document.getElementById('start-button');
-            const languageMenu = document.getElementById('language-menu');
-            const translations = {
-                es: { title: "¡Bienvenido!", subtitle: "La experiencia de bingo premium te espera.", button: "Iniciar" },
-                en: { title: "Welcome!", subtitle: "The premium bingo experience awaits.", button: "Start" },
-                pt: { title: "Bem-vindo!", subtitle: "A experiência de bingo premium espera por você.", button: "Iniciar" }
-            };
-
-            languageMenu.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A') {
-                    const lang = e.target.dataset.lang;
-                    document.getElementById('start-title').textContent = translations[lang].title;
-                    document.getElementById('start-subtitle').textContent = translations[lang].subtitle;
-                    document.getElementById('start-button').textContent = translations[lang].button;
-                }
-            });
-
-            if (startButton) {
-                startButton.addEventListener('click', () => {
-                    const backgroundMusic = document.getElementById('background-music');
-                    if (backgroundMusic) {
-                        backgroundMusic.volume = 0.2;
-                        backgroundMusic.play();
-                    }
-                    window.location.href = 'login.html';
-                });
-            }
-        });
-    </script>
 </body>
 </html>
