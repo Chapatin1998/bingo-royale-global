@@ -7,48 +7,42 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="video-background"><video autoplay loop muted playsinline><source src="fondo-video.mp4" type="video/mp4"></video></div>
-    <div id="language-selector">
-        <div id="language-button" class="language-button">🇧🇴 Español</div>
-        <div id="language-menu" class="language-menu hidden">
-            <a href="#" data-lang="es">🇧🇴 Español</a>
-            <a href="#" data-lang="en">🇺🇸 English</a>
-            <a href="#" data-lang="pt">🇧🇷 Português</a>
+    <div id="loader-screen" class="main-container">
+        <img src="logo.png" alt="Logo" class="logo" style="animation: pulse 3s infinite alternate ease-in-out;">
+        <div class="loader-bar-container" style="width: 80%; max-width: 300px; height: 8px; background-color: #222; border-radius: 4px; overflow: hidden; margin-top: 20px;">
+            <div id="loader-bar" style="width: 0%; height: 100%; background-color: #FFD700; border-radius: 4px; transition: width 0.1s linear;"></div>
         </div>
+        <p id="loader-percentage" style="margin-top: 15px; font-size: 1em; color: #FFD700;">0%</p>
     </div>
-    <div class="main-container">
+
+    <div id="main-content" class="main-container hidden">
+        <div class="video-background">
+            <video autoplay loop muted playsinline>
+                <source src="fondo-video.mp4" type="video/mp4"></video>
+        </div>
+        
+        <div id="language-selector">
+            <div id="language-button" class="language-button"></div>
+            <div id="language-menu" class="language-menu hidden">
+                <a href="#" data-lang="es">🇧🇴 Español</a>
+                <a href="#" data-lang="en">🇺🇸 English</a>
+                <a href="#" data-lang="pt">🇧🇷 Português</a>
+            </div>
+        </div>
+        
         <div class="content-wrapper">
             <div id="start-screen">
-                <div class="start-logo-wrapper"><img src="logo.png" alt="Logo" class="logo"></div>
-                <button id="start-button" class="cta-button">Iniciar</button>
-                <p id="warning-text" class="warning-text">⚠️ Juego para mayores de 18 años. Juega con responsabilidad.</p>
+                <div class="start-logo-wrapper" style="position: relative; animation: pulse 3s infinite alternate ease-in-out;">
+                    <img src="logo.png" alt="Logo" class="logo">
+                </div>
+                <button id="start-button" class="cta-button"></button>
+                <p id="warning-text" class="warning-text" style="margin-top: 30px; font-size: 0.8em; color: #ff4d4d; text-shadow: 0 0 8px rgba(255, 77, 77, 0.7);"></p>
             </div>
         </div>
     </div>
-    <audio id="background-music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
-    <script>
-        // Script mínimo solo para esta página
-        document.addEventListener('DOMContentLoaded', () => {
-            const startButton = document.getElementById('start-button');
-            const languageButton = document.getElementById('language-button');
-            const languageMenu = document.getElementById('language-menu');
-            
-            // Lógica para guardar el idioma y redirigir
-            startButton.addEventListener('click', () => {
-                const lang = languageButton.textContent.includes('English') ? 'en' : (languageButton.textContent.includes('Português') ? 'pt' : 'es');
-                localStorage.setItem('userLanguage', lang);
-                window.location.href = 'login.html';
-            });
 
-            // Lógica para el menú de idiomas
-            languageButton.addEventListener('click', () => languageMenu.classList.toggle('hidden'));
-            languageMenu.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A') {
-                    languageButton.textContent = e.target.textContent;
-                    languageMenu.classList.add('hidden');
-                }
-            });
-        });
-    </script>
+    <audio id="background-music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
+    
+    <script type="module" src="app.js"></script>
 </body>
 </html>
