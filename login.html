@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><title>Bienvenido a Bingo VIP Bolivia</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="style.css"></head>
+<head><title>Iniciar Sesión</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="style.css"></head>
 <body>
-    <div id="loader-screen" class="main-container hidden"><img src="logo.png" alt="Logo" class="logo loader-logo"><div class="loader-bar-container"><div id="loader-bar"></div></div><p id="loader-percentage">0%</p></div>
-    <div id="main-content" class="main-container">
-        <div class="video-background"><video autoplay loop muted playsinline><source src="fondo-video.mp4" type="video/mp4"></video></div>
+    <div class="video-background"><video autoplay loop muted playsinline><source src="fondo-video.mp4" type="video/mp4"></video></div>
+    <div class="main-container">
         <div class="content-wrapper">
-            <div class="start-logo-wrapper"><img src="logo.png" alt="Logo" class="logo"></div>
-            <button id="start-button" class="cta-button">Iniciar Juego</button>
-            <p class="warning-text">⚠️ Juego para mayores de 18 años.</p>
+            <a href="index.html"><img src="logo.png" alt="Logo" class="logo"></a>
+            <h1>Iniciar Sesión</h1>
+            <form id="login-form" class="form-container">
+                <input type="email" name="email" placeholder="Correo Electrónico" required>
+                <div class="password-wrapper"><input type="password" id="password-field" name="password" placeholder="Contraseña" required><span class="toggle-password">👁️</span></div>
+                <button type="submit" class="cta-button">Entrar</button>
+            </form>
+            <div class="form-footer"><p>¿No tienes una cuenta? <a href="register.html">Regístrate</a></p></div>
         </div>
     </div>
-    <audio id="background-music" loop><source src="music.mp3" type="audio/mpeg"></audio>
     <script type="module" src="app.js"></script>
 </body>
 </html>
