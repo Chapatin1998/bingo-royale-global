@@ -1,71 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido a Bingo VIP Bolivia</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+<head><title>Bienvenido a Bingo VIP Bolivia</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="style.css"></head>
 <body>
-    <div class="video-background"><video autoplay loop muted playsinline><source src="fondo-video.mp4" type="video/mp4"></video></div>
-    <div id="language-selector">
-        <div id="language-button" class="language-button"></div>
-        <div id="language-menu" class="hidden"><a href="#" data-lang="es">🇧🇴 Español</a><a href="#" data-lang="en">🇺🇸 English</a><a href="#" data-lang="pt">🇧🇷 Português</a></div>
-    </div>
-    <div id="start-screen" class="screen">
+    <div id="loader-screen" class="main-container hidden"><img src="logo.png" alt="Logo" class="logo loader-logo"><div class="loader-bar-container"><div id="loader-bar"></div></div><p id="loader-percentage">0%</p></div>
+    <div id="main-content" class="main-container">
+        <div class="video-background"><video autoplay loop muted playsinline><source src="fondo-video.mp4" type="video/mp4"></video></div>
         <div class="content-wrapper">
             <div class="start-logo-wrapper"><img src="logo.png" alt="Logo" class="logo"></div>
-            <button id="start-button" class="cta-button"></button>
+            <button id="start-button" class="cta-button">Iniciar Juego</button>
             <p id="warning-text" class="warning-text"></p>
         </div>
     </div>
-    <div id="loader-screen" class="screen hidden">
-         <div class="content-wrapper"><img src="logo.png" alt="Logo Cargando" class="logo loader-logo"><div class="loader-bar-container"><div id="loader-bar"></div></div><p id="loader-percentage">0%</p></div>
-    </div>
-    <audio id="background-music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const translations = {
-                es: { start: "Iniciar", warning: "⚠️ Juego para mayores de 18 años...", flag: "🇧🇴 Español" },
-                en: { start: "Start", warning: "⚠️ Game for ages 18+...", flag: "🇺🇸 English" },
-                pt: { start: "Iniciar", warning: "⚠️ Jogo para maiores de 18 anos...", flag: "🇧🇷 Português" }
-            };
-            function applyTranslations(lang) {
-                if (!translations[lang]) lang = 'es';
-                localStorage.setItem('userLanguage', lang);
-                const t = translations[lang];
-                document.getElementById('start-button').textContent = t.start;
-                document.getElementById('warning-text').textContent = t.warning;
-                document.getElementById('language-button').textContent = t.flag;
-            }
-            const savedLang = localStorage.getItem('userLanguage') || 'es';
-            applyTranslations(savedLang);
-            
-            document.getElementById('language-button').addEventListener('click', () => document.getElementById('language-menu').classList.toggle('hidden'));
-            document.getElementById('language-menu').addEventListener('click', (e) => {
-                if (e.target.tagName === 'A') {
-                    applyTranslations(e.target.dataset.lang);
-                    document.getElementById('language-menu').classList.add('hidden');
-                }
-            });
-
-            document.getElementById('start-button').addEventListener('click', () => {
-                document.getElementById('background-music')?.play().catch(e=>{});
-                document.getElementById('start-screen').style.opacity = '0';
-                document.getElementById('loader-screen').classList.remove('hidden');
-                let progress = 0;
-                const interval = setInterval(() => {
-                    progress++;
-                    if(progress > 100) progress = 100;
-                    document.getElementById('loader-bar').style.width = progress + '%';
-                    document.getElementById('loader-percentage').textContent = progress + '%';
-                    if (progress === 100) {
-                        clearInterval(interval);
-                        setTimeout(() => window.location.href = 'login.html', 500);
-                    }
-                }, 70);
-            });
-        });
-    </script>
+    <audio id="background-music" loop><source src="music.mp3" type="audio/mpeg"></audio>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
