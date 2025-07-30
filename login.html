@@ -2,69 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
     <title>Iniciar Sesión - Bingo VIP Bolivia</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Estilos específicos para login.html */
-        .logo {
-            filter: drop-shadow(0 0 8px var(--color-oro));
-        }
-        .form-container input {
-            border-radius: 25px;
-            padding: 14px 20px; /* Ajustar el padding para que se vea bien con bordes redondeados */
-        }
-        .cta-button {
-            border-radius: 25px;
-        }
-        .form-footer p, .form-footer a {
-            font-size: 0.85em;
-        }
-        .legal-links {
-            margin-top: 15px;
-            font-size: 0.75em;
-            color: var(--color-gris);
-        }
-        .legal-links a {
-            color: var(--color-oro);
-            text-decoration: none;
-        }
-        .legal-links a:hover {
-            text-decoration: underline;
-        }
-        #language-selector {
-            position: fixed; top: 20px; right: 20px; z-index: 1000;
-        }
-        .language-button {
-            background-color: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px;
-            font-size: 0.9em; border: 1px solid #333; cursor: pointer;
-        }
-        .language-menu {
-            position: absolute;
-            top: 110%; right: 0;
-            background-color: rgba(0,0,0,0.8);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #333;
-        }
-        .language-menu a {
-            display: block;
-            padding: 10px 15px;
-            color: var(--color-blanco);
-            text-decoration: none;
-            font-size: 0.9em;
-        }
-        .language-menu a:hover {
-            background-color: var(--color-oro);
-            color: #000;
-        }
-    </style>
 </head>
 <body>
     <div class="video-background">
-        <video autoplay loop muted playsinline>
-            <source src="fondo-video.mp4" type="video/mp4">
-        </video>
+        <video autoplay loop muted playsinline><source src="fondo-video.mp4" type="video/mp4"></video>
     </div>
 
     <div id="language-selector">
@@ -92,47 +36,9 @@
             
             <div class="form-footer">
                 <p>¿No tienes una cuenta? <a href="register.html">Regístrate</a></p>
-                <p class="warning-text">⚠️ Juego para mayores de 18 años. Juega con responsabilidad. Una sola cuenta por persona.</p>
-                <p class="legal-links"><a href="#">Comunicado</a> | <a href="#">Términos y Condiciones</a></p>
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const languageButton = document.getElementById('language-button');
-            const languageMenu = document.getElementById('language-menu');
-            const warningText = document.querySelector('.warning-text');
-            const startButtonText = "Entrar"; // Texto del botón de inicio de sesión
-            const registerLinkText = "¿No tienes una cuenta? <a href=\"register.html\">Regístrate</a>";
-            const comunicadoLinkText = "<a href=\"#\">Comunicado</a>";
-            const terminosLinkText = "<a href=\"#\">Términos y Condiciones</a>";
-
-            const translations = {
-                es: { start: startButtonText, warning: "⚠️ Juego para mayores de 18 años. Juega con responsabilidad. Una sola cuenta por persona.", flag: "🇧🇴 Español", register: registerLinkText, comunicado: comunicadoLinkText, terminos: terminosLinkText },
-                en: { start: "Log In", warning: "⚠️ Game for ages 18+. Play responsibly. One account per person.", flag: "🇺🇸 English", register: "Don't have an account? <a href=\"register.html\">Sign Up</a>", comunicado: "<a href=\"#\">Statement</a>", terminos: "<a href=\"#\">Terms & Conditions</a>" },
-                pt: { start: "Entrar", warning: "⚠️ Jogo para maiores de 18 anos. Jogue com responsabilidade. Uma conta por pessoa.", flag: "🇧🇷 Português", register: "Não tem uma conta? <a href=\"register.html\">Cadastre-se</a>", comunicado: "<a href=\"#\">Comunicado</a>", terminos: "<a href=\"#\">Termos e Condições</a>" }
-            };
-
-            languageButton.addEventListener('click', () => {
-                languageMenu.classList.toggle('hidden');
-            });
-
-            languageMenu.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A') {
-                    const lang = e.target.dataset.lang;
-                    const contentWrapper = document.querySelector('.content-wrapper');
-                    contentWrapper.querySelector('h1').textContent = translations [lang].start.toUpperCase();
-                    const formFooter = contentWrapper.querySelector('.form-footer');
-                    formFooter.querySelector('p').innerHTML = translations [lang].register;
-                    formFooter.querySelector('.warning-text').textContent = translations [lang].warning;
-                    const legalLinks = formFooter.querySelector('.legal-links');
-                    legalLinks.innerHTML = `${translations [lang].comunicado} | ${translations [lang].terminos}`;
-                    languageButton.textContent = translations [lang].flag;
-                    languageMenu.classList.add('hidden');
-                }
-            });
-        });
-    </script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
