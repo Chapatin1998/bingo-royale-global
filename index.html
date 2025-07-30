@@ -7,46 +7,48 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="video-background">
-        <video autoplay loop muted playsinline>
-            <source src="fondo-video.mp4" type="video/mp4">
-        </video>
-    </div>
-
+    <div class="video-background"><video autoplay loop muted playsinline><source src="fondo-video.mp4" type="video/mp4"></video></div>
     <div id="language-selector">
-        <div id="language-button" class="language-button"></div>
+        <div id="language-button" class="language-button">🇧🇴 Español</div>
         <div id="language-menu" class="language-menu hidden">
             <a href="#" data-lang="es">🇧🇴 Español</a>
             <a href="#" data-lang="en">🇺🇸 English</a>
             <a href="#" data-lang="pt">🇧🇷 Português</a>
         </div>
     </div>
-
-    <div id="start-screen" class="screen visible">
-        <div class="overlay"></div>
+    <div class="main-container">
         <div class="content-wrapper">
-            <div class="start-logo-wrapper">
-                  <img src="logo.png" alt="Logo" class="logo">
-             </div>
-
+            <div id="start-screen">
+                <div class="start-logo-wrapper"><img src="logo.png" alt="Logo" class="logo"></div>
+                <button id="start-button" class="cta-button">Iniciar</button>
+                <p id="warning-text" class="warning-text">⚠️ Juego para mayores de 18 años. Juega con responsabilidad.</p>
             </div>
-            <button id="start-button" class="cta-button"></button>
-            <p id="warning-text" class="warning-text"></p>
         </div>
     </div>
-
-    <div id="loader-screen" class="screen hidden">
-         <div class="content-wrapper">
-            <img src="logo.png" alt="Logo Cargando" class="logo loader-logo">
-            <div class="loader-bar-container">
-                <div id="loader-bar" class="loader-bar"></div>
-            </div>
-            <p id="loader-percentage">0%</p>
-        </div>
-    </div>
-
     <audio id="background-music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
+    <script>
+        // Script mínimo solo para esta página
+        document.addEventListener('DOMContentLoaded', () => {
+            const startButton = document.getElementById('start-button');
+            const languageButton = document.getElementById('language-button');
+            const languageMenu = document.getElementById('language-menu');
+            
+            // Lógica para guardar el idioma y redirigir
+            startButton.addEventListener('click', () => {
+                const lang = languageButton.textContent.includes('English') ? 'en' : (languageButton.textContent.includes('Português') ? 'pt' : 'es');
+                localStorage.setItem('userLanguage', lang);
+                window.location.href = 'login.html';
+            });
 
-    <script type="module" src="app.js"></script>
+            // Lógica para el menú de idiomas
+            languageButton.addEventListener('click', () => languageMenu.classList.toggle('hidden'));
+            languageMenu.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    languageButton.textContent = e.target.textContent;
+                    languageMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
