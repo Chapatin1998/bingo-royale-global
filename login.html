@@ -3,42 +3,20 @@
 <head><title>Iniciar Sesión</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="style.css"></head>
 <body>
     <div class="video-background"><video autoplay loop muted playsinline><source src="fondo-video.mp4" type="video/mp4"></video></div>
+    <div id="language-selector"><div id="language-button" class="language-button"></div><div id="language-menu" class="hidden"><a href="#" data-lang="es">🇧🇴 Español</a><a href="#" data-lang="en">🇺🇸 English</a><a href="#" data-lang="pt">🇧🇷 Português</a></div></div>
+    <div class="main-container">
+        <div class="content-wrapper">
+            <a href="index.html"><img src="logo.png" alt="Logo" class="logo"></a>
+            <h1 id="login-title"></h1>
+            <form id="login-form" class="form-container">
+                <input type="email" name="email" required>
+                <div class="password-wrapper"><input type="password" id="password-field" name="password" required><span class="toggle-password">👁️</span></div>
+                <button id="login-button" type="submit" class="cta-button"></button>
+            </form>
+            <div class="form-footer"><p id="register-text"></p><p id="warning-text" class="warning-text"></p></div>
+        </div>
+    </div>
     <audio id="background-music" loop><source src="music.mp3" type="audio/mpeg"></audio>
-    <div class="main-container"><div class="content-wrapper">
-        <a href="index.html"><img src="logo.png" alt="Logo" class="logo"></a>
-        <h1>Iniciar Sesión</h1>
-        <form id="login-form" class="form-container">
-            <input type="email" name="email" placeholder="Correo" required>
-            <div class="password-wrapper"><input type="password" id="password-field" name="password" placeholder="Contraseña" required><span class="toggle-password">👁️</span></div>
-            <button type="submit" class="cta-button">Entrar</button>
-        </form>
-        <div class="form-footer"><p>¿No tienes cuenta? <a href="register.html">Regístrate</a></p><p class="warning-text">⚠️ Juego para mayores de 18 años.</p></div>
-    </div></div>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-        const firebaseConfig = { /* ... Pega tu config de Firebase aquí ... */ };
-        initializeApp(firebaseConfig);
-        const auth = getAuth();
-        
-        document.getElementById('login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = e.target.email.value;
-            const password = e.target.password.value;
-            signInWithEmailAndPassword(auth, email, password)
-            .then(() => window.location.href = 'lobby.html')
-            .catch(error => alert(error.message));
-        });
-        
-        // Lógica del ojo de la contraseña
-        document.querySelector('.toggle-password').addEventListener('click', function() {
-            const passField = document.getElementById('password-field');
-            passField.type = passField.type === 'password' ? 'text' : 'password';
-            this.textContent = passField.type === 'password' ? '👁️' : '🙈';
-        });
-        
-        // Lógica de la música
-        document.body.addEventListener('click', () => document.getElementById('background-music')?.play().catch(e=>{}), { once: true });
-    </script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
