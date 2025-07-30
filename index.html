@@ -7,16 +7,29 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="video-background">
+    <div id="loader-screen" class="main-container">
+        <img src="logo.png" alt="Logo" class="logo">
+        <div class="loader-bar-container" style="width: 80%; max-width: 300px; height: 8px; background-color: #222; border-radius: 4px; overflow: hidden; margin-top: 20px;">
+            <div id="loader-bar" style="width: 0%; height: 100%; background-color: #FFD700; border-radius: 4px; transition: width 0.1s linear;"></div>
         </div>
-    
-    <div class="main-container">
+        <p id="loader-percentage" style="margin-top: 15px; font-size: 1em; color: #FFD700;">0%</p>
+    </div>
+
+    <div id="main-content" class="main-container hidden">
+        <div class="video-background">
+            <video autoplay loop muted playsinline>
+                <source src="fondo-video.mp4" type="video/mp4"></video>
+        </div>
         <div class="content-wrapper">
             <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo">
             <h1>¡Bienvenido a Bingo VIP Bolivia!</h1>
             <p class="subtitle">Tu experiencia de bingo premium comienza aquí.</p>
-            <a href="login.html" class="start-button">Iniciar Juego</a>
+            <button id="start-button" class="start-button">Iniciar Juego</button>
         </div>
     </div>
+
+    <audio id="background-music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
+    
+    <script type="module" src="app.js"></script>
 </body>
 </html>
