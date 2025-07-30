@@ -7,13 +7,34 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="video-background"><video autoplay loop muted playsinline><source src="fondo-video.mp4" type="video/mp4"></video></div>
-    <div class="main-container fade-in">
+    <div class="video-background">
+        <video autoplay loop muted playsinline>
+            <source src="fondo-video.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div id="start-screen" class="screen">
         <div class="content-wrapper">
-            <img src="logo.png" alt="Logo" class="logo">
-            <button id="start-button" class="cta-button">Iniciar Juego</button>
+            <div class="start-logo-wrapper">
+                <img src="logo.png" alt="Logo" class="logo">
+            </div>
+            <button id="start-button" class="cta-button">Iniciar</button>
+            <p id="warning-text" class="warning-text">⚠️ Juego para mayores de 18 años.</p>
         </div>
     </div>
+
+    <div id="loader-screen" class="screen hidden">
+         <div class="content-wrapper">
+            <img src="logo.png" alt="Logo Cargando" class="logo loader-logo">
+            <div class="loader-bar-container">
+                <div id="loader-bar" class="loader-bar"></div>
+            </div>
+            <p id="loader-percentage">0%</p>
+        </div>
+    </div>
+
+    <audio id="background-music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
+
     <script type="module" src="app.js"></script>
 </body>
 </html>
