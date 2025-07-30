@@ -8,7 +8,6 @@
         :root {
             --color-oro: #FFD700;
             --color-blanco: #ffffff;
-            --color-gris: #aaa;
         }
         body, html {
             margin: 0; padding: 0;
@@ -31,7 +30,12 @@
             background: url('portada.jpg') no-repeat center center;
             background-size: cover;
             filter: grayscale(60%) brightness(0.5);
-            transform: scale(1.1);
+            /* NUEVO: Animación de fondo */
+            animation: zoom-in 25s infinite alternate ease-in-out;
+        }
+        @keyframes zoom-in {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
         }
         .overlay {
             position: fixed; top: 0; left: 0;
@@ -58,10 +62,27 @@
             font-size: 1.2em; font-weight: bold; text-decoration: none; border-radius: 10px;
             border: 0; transition: all 0.3s ease; cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
         }
-        .start-button:hover { transform: scale(1.05); filter: brightness(1.1); }
+        .start-button:hover { transform: scale(1.05); }
+        /* NUEVO: Efecto de brillo en el botón */
+        .start-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.8s ease-in-out;
+        }
+        .start-button:hover::before {
+            left: 150%;
+        }
         .hidden { display: none; }
-        .fade-in { animation: fadeIn 1s 0.5s forwards; opacity: 0; }
+        .fade-in { animation: fadeIn 1.2s 0.5s forwards ease-out; opacity: 0; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         #loader-screen {
@@ -121,19 +142,18 @@
                         setTimeout(() => {
                             if (loaderScreen) loaderScreen.style.display = 'none';
                             if (mainContent) mainContent.classList.remove('hidden');
-                        }, 1000); // Espera que la transición de opacidad termine
+                        }, 1000);
                     }, 500);
                 }
-            }, 80); // Velocidad de la barra de carga
+            }, 80);
 
             if (startButton) {
                 startButton.addEventListener('click', () => {
                     if (backgroundMusic) {
                         backgroundMusic.volume = 0.3;
-                        backgroundMusic.play().catch(e => console.error("Música bloqueada por el navegador."));
+                        backgroundMusic.play().catch(e => console.error("Música bloqueada."));
                     }
                     alert("¡Fundación construida! Próximo paso: la página de login.");
-                    // En el futuro, esta línea será:
                     // window.location.href = 'login.html'; 
                 });
             }
