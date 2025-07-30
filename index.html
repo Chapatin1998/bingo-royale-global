@@ -2,22 +2,144 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Bingo VIP Bolivia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Bingo VIP Bolivia</title>
     <style>
-        body {
-            background-color: #0c0c0c;
-            color: #FFD700;
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-size: 2em;
+        :root {
+            --color-oro: #FFD700;
+            --color-blanco: #ffffff;
+            --color-gris: #aaa;
         }
+        body, html {
+            margin: 0; padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--color-blanco);
+            background-color: #000;
+            overflow: hidden;
+        }
+        .main-container {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .background-image {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; z-index: -1;
+            background: url('portada.jpg') no-repeat center center;
+            background-size: cover;
+            filter: grayscale(60%) brightness(0.5);
+            transform: scale(1.1);
+        }
+        .overlay {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; z-index: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 30%, transparent);
+        }
+        .content-wrapper {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            z-index: 1;
+        }
+        .logo { 
+            width: 100px; 
+            margin-bottom: 30px; 
+            animation: pulse 3s infinite alternate ease-in-out;
+        }
+        @keyframes pulse {
+            from { transform: scale(1); opacity: 0.9; }
+            to { transform: scale(1.05); opacity: 1; }
+        }
+        .start-button {
+            background-color: var(--color-oro); color: #000; padding: 18px 40px;
+            font-size: 1.2em; font-weight: bold; text-decoration: none; border-radius: 10px;
+            border: 0; transition: all 0.3s ease; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .start-button:hover { transform: scale(1.05); filter: brightness(1.1); }
+        .hidden { display: none; }
+        .fade-in { animation: fadeIn 1s 0.5s forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-out { animation: fadeOut 1s forwards; }
+        @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-10px); } }
+        
+        #loader-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1s ease-in-out;
+        }
+        .loader-bar-container { width: 80%; max-width: 300px; height: 8px; background-color: #222; border-radius: 4px; overflow: hidden; margin-top: 20px;}
+        .loader-bar { width: 0%; height: 100%; background-color: var(--color-oro); border-radius: 4px; transition: width 0.1s linear; }
+        #loader-percentage { margin-top: 15px; font-size: 1em; color: var(--color-oro); }
     </style>
 </head>
 <body>
-    <p>BINGO VIP BOLIVIA</p>
+    <div id="loader-screen">
+        <img src="logo.png" alt="Logo" class="logo" style="margin-bottom: 0;">
+        <div class="loader-bar-container">
+            <div id="loader-bar" class="loader-bar"></div>
+        </div>
+        <p id="loader-percentage">0%</p>
+    </div>
+
+    <div id="main-content" class="main-container hidden">
+        <div class="background-image"></div>
+        <div class="overlay"></div>
+        <div class="content-wrapper">
+            <div id="start-content" class="fade-in">
+                <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo">
+                <button id="start-button" class="start-button">Iniciar Juego</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="background-music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loaderScreen = document.getElementById('loader-screen');
+            const loaderBar = document.getElementById('loader-bar');
+            const loaderPercentage = document.getElementById('loader-percentage');
+            const mainContent = document.getElementById('main-content');
+            const startButton = document.getElementById('start-button');
+            const backgroundMusic = document.getElementById('background-music');
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 5) + 1;
+                if (progress > 100) progress = 100;
+                
+                if (loaderBar) loaderBar.style.width = progress + '%';
+                if (loaderPercentage) loaderPercentage.textContent = progress + '%';
+                
+                if (progress === 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        if (loaderScreen) loaderScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            if (loaderScreen) loaderScreen.style.display = 'none';
+                            if (mainContent) mainContent.classList.remove('hidden');
+                        }, 1000); // Espera que la transición termine
+                    }, 500);
+                }
+            }, 100);
+
+            if (startButton) {
+                startButton.addEventListener('click', () => {
+                    if (backgroundMusic) {
+                        backgroundMusic.volume = 0.3;
+                        backgroundMusic.play().catch(e => console.error("Música bloqueada por el navegador."));
+                    }
+                    // Aquí, en el futuro, redirigiremos a login.html
+                    // Por ahora, solo activa la música.
+                    alert("¡Música activada! Próximo paso: la página de login.");
+                });
+            }
+        });
+    </script>
 </body>
 </html>
