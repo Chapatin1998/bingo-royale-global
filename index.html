@@ -4,148 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenido a Bingo VIP Bolivia</title>
-    <style>
-        :root {
-            --color-oro: #FFD700;
-            --color-blanco: #ffffff;
-            --color-rojo-advertencia: #ff4d4d;
-        }
-        body, html {
-            margin: 0; padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            color: var(--color-blanco);
-            background-color: #000;
-            overflow: hidden;
-        }
-        .screen {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            text-align: center;
-            box-sizing: border-box;
-            transition: opacity 1.2s ease-in-out;
-        }
-        .video-background {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%; z-index: -1;
-        }
-        .video-background video { 
-            width: 100%; height: 100%; 
-            object-fit: cover; 
-            filter: grayscale(50%) brightness(0.6) contrast(1.1) sepia(20%);
-        }
-        .video-background::after {
-            content: ''; position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAMFBMVEUAAAAzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzPZyImLAAAAD3RSTlMAAQIDBAUGBwgJCgsMDQ4PEBITFRUWFxiZkaGqq62wzNfd5uvo8fLz9ff6+/7/uEs6kwAAAIVJREFUeNqV00sOgDAIBEDfMhQ3vX/uh24G8d338PD8AgA+9eWH2g1YVsvxgltO3YIu120Zg2p9A+d3vIMBEB45jkj3NaU3k55z4J3jRm4k85x4Z+c3I87z4B3l52aA/ePE7aTfDACL8J8j3C50dcj5Pwcg4gMMAuYRDAKiIwwCwhIMAuISHALiEgwCohIMAgLDkQGADy5sQGq74wUAAAAASUVORK5CYII=');
-            opacity: 0.1; animation: grain 8s steps(10) infinite;
-        }
-        @keyframes grain {
-          0%, 100% { transform:translate(0, 0) } 10% { transform:translate(-5%, -10%) } 20% { transform:translate(-15%, 5%) }
-          30% { transform:translate(7%, -25%) } 40% { transform:translate(-5%, 25%) } 50% { transform:translate(-15%, 10%) }
-          60% { transform:translate(15%, 0%) } 70% { transform:translate(0%, 15%) } 80% { transform:translate(-15%, 0%) }
-          90% { transform:translate(10%, 5%) }
-        }
-        .overlay {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%; z-index: 0;
-            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%);
-        }
-        .content-wrapper {
-            width: 100%; max-width: 450px; padding: 20px; z-index: 1;
-        }
-        .logo { 
-            width: clamp(150px, 35vw, 220px); margin-bottom: 30px; 
-        }
-        .start-logo-wrapper {
-            position: relative;
-            animation: pulse 3s infinite alternate ease-in-out;
-        }
-        .start-logo-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            z-index: -1;
-            animation: aura-glow 3s infinite alternate ease-in-out;
-        }
-        @keyframes aura-glow {
-            from { opacity: 0.7; }
-            to { opacity: 1; }
-        }
-        .cta-button {
-            background-color: var(--color-oro); color: #000; padding: 18px 40px;
-            font-size: 1.2em; font-weight: bold; text-decoration: none;
-            /* CAMBIO: Botón redondeado */
-            border-radius: 25px;
-            border: 0; transition: all 0.3s ease; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        .cta-button:hover { transform: scale(1.05); }
-        .hidden { opacity: 0; pointer-events: none; }
-        .visible { opacity: 1; }
-        .warning-text {
-            margin-top: 30px; font-size: 0.8em; 
-            color: var(--color-rojo-advertencia);
-            text-shadow: 0 0 8px rgba(255, 77, 77, 0.7);
-            max-width: 300px; margin-left: auto; margin-right: auto;
-        }
-        #loader-screen { background-color: rgba(0,0,0,0.9); }
-        .loader-logo {
-            width: clamp(150px, 35vw, 220px);
-            animation: float-glow 4s infinite ease-in-out;
-        }
-        @keyframes float-glow {
-            0%   { transform: translateY(0px); filter: drop-shadow(0 0 15px var(--color-oro)); }
-            50%  { transform: translateY(-10px); filter: drop-shadow(0 0 25px var(--color-oro)); }
-            100% { transform: translateY(0px); filter: drop-shadow(0 0 15px var(--color-oro)); }
-        }
-        .loader-bar-container { 
-            width: 80%; max-width: 350px; height: 10px; 
-            background-color: #222; border-radius: 5px; 
-            margin-top: 30px; border: 1px solid #444;
-            position: relative; overflow: hidden;
-        }
-        .loader-bar { width: 0%; height: 100%; background-color: var(--color-oro); transition: width 0.2s linear; }
-        .loader-bar::after {
-            content: ''; position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            animation: shimmer 2s infinite linear;
-        }
-        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-        #loader-percentage { margin-top: 15px; font-size: 1.1em; color: var(--color-oro); }
-        
-        #language-selector {
-            position: fixed; top: 20px; right: 20px; z-index: 1000;
-        }
-        .language-button {
-            background-color: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px;
-            font-size: 0.9em; border: 1px solid #333; cursor: pointer;
-        }
-        .language-menu {
-            position: absolute;
-            top: 110%; right: 0;
-            background-color: rgba(0,0,0,0.8);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #333;
-        }
-        .language-menu a {
-            display: block;
-            padding: 10px 15px;
-            color: var(--color-blanco);
-            text-decoration: none;
-            font-size: 0.9em;
-        }
-        .language-menu a:hover {
-            background-color: var(--color-oro);
-            color: #000;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="video-background">
@@ -162,93 +21,47 @@
             <a href="#" data-lang="pt">🇧🇷 Português</a>
         </div>
     </div>
-
-    <div id="start-screen" class="screen visible">
-        <div class="overlay"></div>
+    
+    <div class="main-container">
         <div class="content-wrapper">
-            <div class="start-logo-wrapper">
-                <img src="logo.png" alt="Logo" class="logo start-logo">
+            <div id="start-screen">
+                <img src="logo.png" alt="Logo" class="logo">
+                <h1 id="start-title">¡Bienvenido!</h1>
+                <p id="start-subtitle" class="subtitle">La experiencia de bingo premium te espera.</p>
+                <button id="start-button" class="cta-button">Iniciar</button>
             </div>
-            <button id="start-button" class="cta-button">Iniciar</button>
-            <p id="warning-text" class="warning-text">⚠️ Juego para mayores de 18 años. Juega con responsabilidad. Una sola cuenta por persona.</p>
         </div>
     </div>
-
-    <div id="loader-screen" class="screen hidden">
-         <div class="content-wrapper">
-            <img src="logo.png" alt="Logo Cargando" class="logo loader-logo">
-            <div class="loader-bar-container">
-                <div id="loader-bar" class="loader-bar"></div>
-            </div>
-            <p id="loader-percentage">0%</p>
-        </div>
-    </div>
-
+    
     <audio id="background-music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
-
-    <script>
+    <script type="module" src="app.js"></script> <script>
+        // Pequeño script para la página de inicio
         document.addEventListener('DOMContentLoaded', () => {
-            const startScreen = document.getElementById('start-screen');
-            const loaderScreen = document.getElementById('loader-screen');
             const startButton = document.getElementById('start-button');
-            const backgroundMusic = document.getElementById('background-music');
-            const languageButton = document.getElementById('language-button');
             const languageMenu = document.getElementById('language-menu');
-            const warningText = document.getElementById('warning-text');
-
             const translations = {
-                es: { start: "Iniciar", warning: "⚠️ Juego para mayores de 18 años. Juega con responsabilidad. Una sola cuenta por persona.", flag: "🇧🇴 Español" },
-                en: { start: "Start", warning: "⚠️ Game for ages 18+. Play responsibly. One account per person.", flag: "🇺🇸 English" },
-                pt: { start: "Iniciar", warning: "⚠️ Jogo para maiores de 18 anos. Jogue com responsabilidade. Uma conta por pessoa.", flag: "🇧🇷 Português" }
+                es: { title: "¡Bienvenido!", subtitle: "La experiencia de bingo premium te espera.", button: "Iniciar" },
+                en: { title: "Welcome!", subtitle: "The premium bingo experience awaits.", button: "Start" },
+                pt: { title: "Bem-vindo!", subtitle: "A experiência de bingo premium espera por você.", button: "Iniciar" }
             };
-
-            languageButton.addEventListener('click', () => {
-                languageMenu.classList.toggle('hidden');
-            });
 
             languageMenu.addEventListener('click', (e) => {
                 if (e.target.tagName === 'A') {
                     const lang = e.target.dataset.lang;
-                    startButton.textContent = translations[lang].start;
-                    warningText.textContent = translations[lang].warning;
-                    languageButton.textContent = translations[lang].flag;
-                    languageMenu.classList.add('hidden');
+                    document.getElementById('start-title').textContent = translations[lang].title;
+                    document.getElementById('start-subtitle').textContent = translations[lang].subtitle;
+                    document.getElementById('start-button').textContent = translations[lang].button;
                 }
             });
-            
+
             if (startButton) {
                 startButton.addEventListener('click', () => {
+                    const backgroundMusic = document.getElementById('background-music');
                     if (backgroundMusic) {
-                        backgroundMusic.volume = 0.3;
-                        backgroundMusic.play().catch(e => console.log("Audio necesita interacción"));
+                        backgroundMusic.volume = 0.2;
+                        backgroundMusic.play();
                     }
-
-                    startScreen.style.opacity = '0';
-                    loaderScreen.classList.remove('hidden');
-                    
-                    setTimeout(() => {
-                        startScreen.style.display = 'none';
-                    }, 1200);
-
-                    const loaderBar = document.getElementById('loader-bar');
-                    const loaderPercentage = document.getElementById('loader-percentage');
-                    let progress = 0;
-                    const loadTime = 7000; 
-                    const interval = setInterval(() => {
-                        progress++;
-                        if (progress > 100) progress = 100;
-                        
-                        loaderBar.style.width = progress + '%';
-                        loaderPercentage.textContent = progress + '%';
-                        
-                        if (progress === 100) {
-                            clearInterval(interval);
-                            setTimeout(() => {
-                                // CAMBIO FINAL: Ahora redirige a la página de login
-                                window.location.href = 'login.html'; 
-                            }, 1000);
-                        }
-                    }, loadTime / 100);
+                    window.location.href = 'login.html';
                 });
             }
         });
