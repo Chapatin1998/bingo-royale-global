@@ -1,18 +1,15 @@
-// =================================================================
-// BINGO VIP BOLIVIA - CÓDIGO MAESTRO DEFINITIVO
-// =================================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDREqTx0PpnRDmE4J-wQlYR1JkqaJvHI4Y", // Tu llave API correcta
-  authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
-  projectId: "bingo-vip-bolivia-df2db",
-  storageBucket: "bingo-vip-bolivia-df2db.appspot.com",
-  messagingSenderId: "310290230955",
-  appId: "1:310290230955:web:3526c26c2800b43ffcd1ee"
+    apiKey: "AIzaSyDREqTx0PpnRDmE4J-wQlYR1JkqaJvHI4Y",
+    authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
+    projectId: "bingo-vip-bolivia-df2db",
+    storageBucket: "bingo-vip-bolivia-df2db.appspot.com",
+    messagingSenderId: "310290230955",
+    appId: "1:310290230955:web:3526c26c2800b43ffcd1ee"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -21,7 +18,7 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- LÓGICA DE LA PÁGINA DE INICIO (index.html) ---
+    // --- LÓGICA DE INICIO ---
     const startButton = document.getElementById('start-button');
     if (startButton) {
         startButton.addEventListener('click', () => {
@@ -46,10 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const email = loginForm.email.value;
-            const password = loginForm.password.value;
-            signInWithEmailAndPassword(auth, email, password)
-                .catch((error) => alert(error.message));
+            signInWithEmailAndPassword(auth, e.target.email.value, e.target.password.value)
+                .catch(error => alert(error.message));
         });
     }
 
@@ -58,10 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (registerForm) {
         registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const email = registerForm.email.value;
-            const password = registerForm.password.value;
-            createUserWithEmailAndPassword(auth, email, password)
-                .catch((error) => alert(error.message));
+            createUserWithEmailAndPassword(auth, e.target.email.value, e.target.password.value)
+                .catch(error => alert(error.message));
         });
     }
     
@@ -84,26 +77,21 @@ document.addEventListener('DOMContentLoaded', () => {
             submitButton.textContent = 'Guardando...';
 
             try {
-                const fullName = profileForm.fullName.value;
-                const phoneNumber = profileForm.countryCode.value + profileForm.phoneNumber.value;
-                const idFrontFile = profileForm.idFrontUpload.files[0];
-                const idBackFile = profileForm.idBackUpload.files[0];
-                const selfieFile = profileForm.selfieUpload.files[0];
-
                 const [idFrontUrl, idBackUrl, selfieUrl] = await Promise.all([
-                    uploadFileAndGetURL(user, idFrontFile, 'id_front'),
-                    uploadFileAndGetURL(user, idBackFile, 'id_back'),
-                    uploadFileAndGetURL(user, selfieFile, 'id_selfie')
+                    uploadFileAndGetURL(user, e.target.idFrontUpload.files[0], 'id_front'),
+                    uploadFileAndGetURL(user, e.target.idBackUpload.files[0], 'id_back'),
+                    uploadFileAndGetURL(user, e.target.selfieUpload.files[0], 'id_selfie')
                 ]);
-
                 const userProfile = {
-                    uid: user.uid, email: user.email, fullName: fullName, phoneNumber: phoneNumber,
+                    uid: user.uid, email: user.email,
+                    fullName: e.target.fullName.value, idNumber: e.target.idNumber.value,
+                    phoneNumber: e.target.countryCode.value + e.target.phoneNumber.value,
                     idFrontImageUrl: idFrontUrl, idBackImageUrl: idBackUrl, selfieWithIdUrl: selfieUrl,
                     balance: 0, isVerified: false, createdAt: new Date()
                 };
                 await setDoc(doc(db, "users", user.uid), userProfile);
             } catch (error) {
-                alert("Error al guardar el perfil: " + error.message);
+                alert(error.message);
                 submitButton.disabled = false;
                 submitButton.textContent = 'Guardar y Entrar';
             }
@@ -125,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- ROUTER / GUARDIA DE SEGURIDAD ---
 onAuthStateChanged(auth, async (user) => {
     const currentPage = window.location.pathname.split("/").pop();
-    const protectedPages = ['lobby.html', 'complete-profile.html', 'game.html'];
+    const protectedPages = ['lobby.html', 'complete-profile.html'];
     if (user) {
         const userDocRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(userDocRef);
