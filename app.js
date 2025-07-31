@@ -1,89 +1,96 @@
-// =================================================================
-// BINGO VIP BOLIVIA - CÓDIGO MAESTRO (CON LOBBY INTELIGENTE)
-// =================================================================
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyDREqTx0PpnRDmE4J-wQlYR1JkqaJvHI4Y", // Tu llave API correcta
-    authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
-    projectId: "bingo-vip-bolivia-df2db",
-    storageBucket: "bingo-vip-bolivia-df2db.appspot.com",
-    messagingSenderId: "310290230955",
-    appId: "1:310290230955:web:3526c26c2800b43ffcd1ee"
+// DICCIONARIO DE TRADUCCIONES
+const translations = {
+    es: { 
+        startBtn: "Iniciar", 
+        warning: "⚠️ Juego para mayores de 18 años. Juega con responsabilidad.", 
+        flag: "🇧🇴 Español" 
+    },
+    en: { 
+        startBtn: "Start", 
+        warning: "⚠️ Game for ages 18+. Play responsibly.", 
+        flag: "🇺🇸 English" 
+    },
+    pt: { 
+        startBtn: "Iniciar", 
+        warning: "⚠️ Jogo para maiores de 18 anos. Jogue com responsabilidade.", 
+        flag: "🇧🇷 Português" 
+    }
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
-
-// --- LÓGICA DE LA INTERFAZ DE USUARIO ---
-document.addEventListener('DOMContentLoaded', () => {
+// FUNCIÓN PARA APLICAR TRADUCCIONES
+function applyTranslations(lang) {
+    if (!translations[lang]) lang = 'es';
+    localStorage.setItem('userLanguage', lang);
     
-    // --- Lógica para la PÁGINA DE INICIO (index.html) ---
+    const t = translations[lang];
     const startButton = document.getElementById('start-button');
-    if (startButton) {
-        // ... (Aquí va la lógica de la barra de carga que ya teníamos)
-    }
+    const warningText = document.getElementById('warning-text');
+    const languageButton = document.getElementById('language-button');
+    
+    if (startButton) startButton.textContent = t.startBtn;
+    if (warningText) warningText.textContent = t.warning;
+    if (languageButton) languageButton.textContent = t.flag;
+}
 
-    // --- Lógica para la PÁGINA DE LOGIN (login.html) ---
-    const loginForm = document.getElementById('login-form');
-    if (loginForm) {
-        // ... (Aquí va la lógica del formulario de login y el ojo de la contraseña)
-    }
+// LÓGICA PRINCIPAL DE LA PÁGINA
+document.addEventListener('DOMContentLoaded', () => {
+    const startScreen = document.getElementById('start-screen');
+    const loaderScreen = document.getElementById('loader-screen');
+    const startButton = document.getElementById('start-button');
+    const backgroundMusic = document.getElementById('background-music');
+    const languageButton = document.getElementById('language-button');
+    const languageMenu = document.getElementById('language-menu');
+    
+    const savedLang = localStorage.getItem('userLanguage') || 'es';
+    applyTranslations(savedLang);
 
-    // --- Lógica para la PÁGINA DE REGISTRO (register.html) ---
-    const registerForm = document.getElementById('register-form');
-    if (registerForm) {
-        registerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            createUserWithEmailAndPassword(auth, e.target.email.value, e.target.password.value)
-                .catch(error => alert(error.message));
+    if (languageButton) {
+        languageButton.addEventListener('click', () => languageMenu.classList.toggle('hidden'));
+    }
+    if (languageMenu) {
+        languageMenu.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                const lang = e.target.dataset.lang;
+                applyTranslations(lang);
+                languageMenu.classList.add('hidden');
+            }
         });
     }
 
-    // --- Lógica para la PÁGINA DE COMPLETAR PERFIL (complete-profile.html) ---
-    const profileForm = document.getElementById('profile-form');
-    if (profileForm) {
-        // ... (Aquí va la lógica para subir las 3 fotos y guardar el perfil)
-    }
-    
-    // --- Lógica para la PÁGINA DE LOBBY (lobby.html) ---
-    const logoutButton = document.getElementById('logout-button');
-    if (logoutButton) {
-        logoutButton.addEventListener('click', () => {
-            signOut(auth).catch(error => console.error("Error al cerrar sesión:", error));
+    if (startButton) {
+        startButton.addEventListener('click', () => {
+            if (backgroundMusic) {
+                backgroundMusic.volume = 0.3;
+                backgroundMusic.play().catch(e => {});
+            }
+
+            startScreen.style.opacity = '0';
+            loaderScreen.classList.remove('hidden');
+            
+            setTimeout(() => {
+                startScreen.style.display = 'none';
+            }, 1200);
+
+            const loaderBar = document.getElementById('loader-bar');
+            const loaderPercentage = document.getElementById('loader-percentage');
+            let progress = 0;
+            const loadTime = 7000; // 7 segundos de carga
+            const interval = setInterval(() => {
+                progress++;
+                if (progress > 100) progress = 100;
+                
+                if(loaderBar) loaderBar.style.width = progress + '%';
+                if(loaderPercentage) loaderPercentage.textContent = progress + '%';
+                
+                if (progress === 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        // Por ahora, solo una alerta para confirmar que funciona
+                        alert("¡Base perfecta! Próximo paso: login.");
+                        // window.location.href = 'login.html'; 
+                    }, 1000);
+                }
+            }, loadTime / 100);
         });
     }
 });
-
-// --- ROUTER / GUARDIA DE SEGURIDAD ---
-onAuthStateChanged(auth, async (user) => {
-    const currentPage = window.location.pathname.split("/").pop();
-    const protectedPages = ['lobby.html', 'complete-profile.html', 'game.html', 'wallet.html'];
-
-    if (user) {
-        // --- El usuario ESTÁ CONECTADO ---
-        const userDocRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(userDocRef);
-
-        if (!docSnap.exists() && currentPage !== 'complete-profile.html') {
-            window.location.href = 'complete-profile.html';
-            return;
-        }
-
-        if (docSnap.exists() && !protectedPages.includes(currentPage)) {
-            window.location.href = 'lobby.html';
-            return;
-        }
-
-        if (docSnap.exists() && currentPage === 'lobby.html') {
-            const userData = docSnap.data();
-            const welcomeMessage = document.getElementById('welcome-message');
-<h4>¡Gracias de nuevo por tu atención al detalle! Eres un excelente director de proyecto. A partir de ahora, me aseguraré de que cada pieza de código que te dé sea completa y no omita nada.
-
-Cuando estés listo, reemplaza esos dos archivos. Ahora sí, el resultado será el que esperamos.
