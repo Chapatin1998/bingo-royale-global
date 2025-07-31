@@ -31,16 +31,16 @@
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100%; z-index: -1;
         }
-        .video-background video {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            filter: grayscale(30%) brightness(0.6) contrast(1.3) sepia(20%); /* Ajustes de realismo */
+        .video-background video { 
+            width: 100%; height: 100%; 
+            object-fit: cover; 
+            filter: grayscale(50%) brightness(0.6) contrast(1.1) sepia(20%);
         }
         .content-wrapper {
             width: 100%; max-width: 450px; padding: 20px; z-index: 1;
         }
-        .logo {
-            width: clamp(150px, 35vw, 220px); margin-bottom: 30px;
+        .logo { 
+            width: clamp(150px, 35vw, 220px); margin-bottom: 30px; 
         }
         .start-logo-wrapper {
             position: relative;
@@ -59,47 +59,39 @@
         }
         .hidden { opacity: 0; pointer-events: none; }
         .warning-text {
-            margin-top: 30px; font-size: 0.8em;
-            color: #aaa;
-            max-width: 350px; margin-left: auto; margin-right: auto;
-            line-height: 1.5;
+            margin-top: 30px; font-size: 0.8em; 
+            color: var(--color-rojo-advertencia);
+            text-shadow: 0 0 8px rgba(255, 77, 77, 0.7);
+            max-width: 300px; margin-left: auto; margin-right: auto;
         }
-        #loader-screen { background-color: rgba(0,0,0,0.85); }
+        /* CAMBIO: Fondo de carga semi-transparente */
+        #loader-screen { background-color: rgba(0,0,0,0.85); } 
         .loader-logo {
             width: clamp(150px, 35vw, 220px);
             animation: float-glow 4s infinite ease-in-out;
         }
         @keyframes float-glow {
-            0%   { transform: translateY(0px); filter: drop-shadow(0 0 15px var(--color-oro)); }
-            50%  { transform: translateY(-10px); filter: drop-shadow(0 0 25px var(--color-oro)); }
-            100% { transform: translateY(0px); filter: drop-shadow(0 0 15px var(--color-oro)); }
+            0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 15px var(--color-oro)); }
+            50% { transform: translateY(-10px); filter: drop-shadow(0 0 25px var(--color-oro)); }
         }
-        .loader-bar-container {
-            width: 80%; max-width: 350px; height: 10px;
-            background-color: #222; border-radius: 5px;
+        .loader-bar-container { 
+            width: 80%; max-width: 350px; height: 10px; 
+            background-color: #222; border-radius: 5px; 
             margin-top: 30px; border: 1px solid #444;
             position: relative;
             overflow: hidden;
         }
-        .loader-bar {
-            width: 0%; height: 100%;
-            background: linear-gradient(90deg, #f0c000, var(--color-oro));
-            border-radius: 5px; transition: width 0.3s ease-in-out; /* Transición más suave */
+        .loader-bar { width: 0%; height: 100%; background: var(--color-oro); border-radius: 5px; transition: width 0.1s linear; }
+        /* CAMBIO: Efecto de brillo en la barra */
+        .loader-bar::after {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite linear;
         }
-        .loader-bar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 30%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-            animation: shimmer 2s infinite;
-            background-size: 200% 100%;
-        }
-        @keyframes shimmer {
-            0% { background-position: 100% 0; }
-            100% { background-position: -100% 0; }
+        @keyframes shimmer { 
+            0% { transform: translateX(-100%); } 
+            100% { transform: translateX(100%); } 
         }
         #loader-percentage { margin-top: 15px; font-size: 1.1em; color: var(--color-oro); }
         #language-selector { position: fixed; top: 20px; right: 20px; z-index: 1000; }
@@ -115,105 +107,74 @@
             <source src="fondo-video.mp4" type="video/mp4">
         </video>
     </div>
-
     <div id="language-selector">
         <div id="language-button" class="language-button">🇧🇴 Español</div>
         <div id="language-menu" class="hidden"><a href="#" data-lang="es">🇧🇴 Español</a><a href="#" data-lang="en">🇺🇸 English</a><a href="#" data-lang="pt">🇧🇷 Português</a></div>
     </div>
-
     <div id="start-screen" class="screen">
         <div class="content-wrapper">
-            <div class="start-logo-wrapper">
-                <img src="logo.png" alt="Logo" class="logo">
-            </div>
+            <div class="start-logo-wrapper"><img src="logo.png" alt="Logo" class="logo"></div>
             <button id="start-button" class="cta-button">Iniciar</button>
-            <p id="warning-text" class="warning-text">Al continuar, confirmas que tienes más de 18 años y aceptas nuestros Términos y Condiciones. El juego es una forma de entretenimiento y debe ser practicado con responsabilidad.</p>
+            <p id="warning-text" class="warning-text">⚠️ Juego para mayores de 18 años...</p>
         </div>
     </div>
-
     <div id="loader-screen" class="screen hidden">
          <div class="content-wrapper">
             <img src="logo.png" alt="Logo Cargando" class="logo loader-logo">
-            <div class="loader-bar-container">
-                <div id="loader-bar"></div>
-            </div>
+            <div class="loader-bar-container"><div id="loader-bar"></div></div>
             <p id="loader-percentage">0%</p>
         </div>
     </div>
-
     <audio id="background-music" loop preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const startScreen = document.getElementById('start-screen');
-            const loaderScreen = document.getElementById('loader-screen');
-            const startButton = document.getElementById('start-button');
-            const backgroundMusic = document.getElementById('background-music');
-            const languageButton = document.getElementById('language-button');
-            const languageMenu = document.getElementById('language-menu');
-            const warningText = document.getElementById('warning-text');
-
             const translations = {
-                es: { start: "Iniciar", warning: "Al continuar, confirmas que tienes más de 18 años y aceptas nuestros Términos y Condiciones. El juego es una forma de entretenimiento y debe ser practicado con responsabilidad.", flag: "🇧🇴 Español" },
-                en: { start: "Start", warning: "By continuing, you confirm you are over 18 and accept our Terms and Conditions. Gaming is a form of entertainment and should be practiced responsibly.", flag: "🇺🇸 English" },
-                pt: { start: "Iniciar", warning: "Ao continuar, você confirma que tem mais de 18 anos e aceita nossos Termos e Condições. O jogo é uma forma de entretenimento e deve ser praticado com responsabilidade.", flag: "🇧🇷 Português" }
+                es: { start: "Iniciar", warning: "⚠️ Juego para mayores de 18 años...", flag: "🇧🇴 Español" },
+                en: { start: "Start", warning: "⚠️ Game for ages 18+...", flag: "🇺🇸 English" },
+                pt: { start: "Iniciar", warning: "⚠️ Jogo para maiores de 18 anos...", flag: "🇧🇷 Português" }
             };
-
             function applyTranslations(lang) {
-                if (!translations.hasOwnProperty(lang)) lang = 'es';
+                if (!translations[lang]) lang = 'es';
                 localStorage.setItem('userLanguage', lang);
-                const t = translations?.[lang];
-                if (startButton) startButton.textContent = t?.start || translations.es.start;
-                if (warningText) warningText.textContent = t?.warning || translations.es.warning;
-                if (languageButton) languageButton.textContent = t?.flag || translations.es.flag;
+                const t = translations[lang];
+                document.getElementById('start-button').textContent = t.start;
+                document.getElementById('warning-text').textContent = t.warning;
+                document.getElementById('language-button').textContent = t.flag;
             }
-
             const savedLang = localStorage.getItem('userLanguage') || 'es';
             applyTranslations(savedLang);
+            
+            const languageButton = document.getElementById('language-button');
+            const languageMenu = document.getElementById('language-menu');
+            languageButton.addEventListener('click', () => languageMenu.classList.toggle('hidden'));
+            languageMenu.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    applyTranslations(e.target.dataset.lang);
+                    languageMenu.classList.add('hidden');
+                }
+            });
 
-            if (languageButton) {
-                languageButton.addEventListener('click', () => languageMenu.classList.toggle('hidden'));
-            }
-            if (languageMenu) {
-                languageMenu.addEventListener('click', (e) => {
-                    if (e.target.tagName === 'A') {
-                        applyTranslations(e.target.dataset.lang);
-                        languageMenu.classList.add('hidden');
+            const startButton = document.getElementById('start-button');
+            startButton.addEventListener('click', () => {
+                document.getElementById('background-music')?.play().catch(e => {});
+                document.getElementById('start-screen').style.opacity = '0';
+                document.getElementById('loader-screen').classList.remove('hidden');
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress++;
+                    if(progress > 100) progress = 100;
+                    document.getElementById('loader-bar').style.width = progress + '%';
+                    document.getElementById('loader-percentage').textContent = progress + '%';
+                    if (progress === 100) {
+                        clearInterval(interval);
+                        setTimeout(() => { 
+                            alert("¡Base perfecta! Próximo paso: login.");
+                            // window.location.href = 'login.html'; 
+                        }, 500);
                     }
-                });
-            }
-
-            if (startButton) {
-                startButton.addEventListener('click', () => {
-                    if (backgroundMusic) {
-                        backgroundMusic.volume = 0.3;
-                        backgroundMusic.play().catch(e => {});
-                    }
-                    startScreen.style.opacity = '0';
-                    loaderScreen.classList.remove('hidden');
-                    setTimeout(() => startScreen.style.display = 'none', 1200);
-
-                    const loaderBar = document.getElementById('loader-bar');
-                    const loaderPercentage = document.getElementById('loader-percentage');
-                    let progress = 0;
-                    const loadTime = 7000;
-                    const interval = setInterval(() => {
-                        progress++;
-                        if (progress > 100) progress = 100;
-                        if(loaderBar) loaderBar.style.width = progress + '%';
-                        if(loaderPercentage) loaderPercentage.textContent = progress + '%';
-                        if (progress === 100) {
-                            clearInterval(interval);
-                            setTimeout(() => {
-                                alert("¡La pantalla de inicio está terminada! Ahora podemos enfocarnos en la página de login.");
-                                // window.location.href = 'login.html';
-                            }, 1000);
-                        }
-                    }, loadTime / 100);
-                });
-            }
+                }, 70);
+            });
         });
     </script>
 </body>
 </html>
-</details>
