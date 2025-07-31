@@ -14,14 +14,24 @@
     </div>
     
     <div class="main-container">
-        <div class="content-wrapper">
-            <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo">
-            <h1 id="welcome-message">Bienvenido...</h1>
-            <p class="subtitle" style="color: #fff;">Las salas de juego estarán disponibles próximamente.</p>
+        <div class="content-wrapper" style="max-width: 900px;">
             
-            <div class="form-container">
-                <button id="logout-button" class="cta-button">Cerrar Sesión</button>
+            <div class="lobby-header">
+                <h1 id="welcome-message">Bienvenido...</h1>
+                <div class="header-controls">
+                    <a href="wallet.html" class="wallet-link">
+                        💰 <span id="lobby-balance">Cargando...</span> Bs.
+                    </a>
+                    <button id="logout-button" class="cta-button secondary">Cerrar Sesión</button>
+                </div>
             </div>
+
+            <h2>Salas Disponibles</h2>
+            
+            <div class="rooms-grid">
+                <p style="color: var(--color-gris);">Próximamente...</p>
+            </div>
+
         </div>
     </div>
 
