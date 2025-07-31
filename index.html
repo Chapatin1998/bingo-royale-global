@@ -31,17 +31,16 @@
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100%; z-index: -1;
         }
-        .video-background video { 
-            width: 100%; height: 100%; 
-            object-fit: cover; 
-            /* CAMBIO: Filtro de video más realista */
-            filter: grayscale(40%) brightness(0.7) contrast(1.2) sepia(20%);
+        .video-background video {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: grayscale(30%) brightness(0.6) contrast(1.3) sepia(20%); /* Ajustes de realismo */
         }
         .content-wrapper {
             width: 100%; max-width: 450px; padding: 20px; z-index: 1;
         }
-        .logo { 
-            width: clamp(150px, 35vw, 220px); margin-bottom: 30px; 
+        .logo {
+            width: clamp(150px, 35vw, 220px); margin-bottom: 30px;
         }
         .start-logo-wrapper {
             position: relative;
@@ -60,8 +59,8 @@
         }
         .hidden { opacity: 0; pointer-events: none; }
         .warning-text {
-            margin-top: 30px; font-size: 0.8em; 
-            color: #aaa; /* Un color menos agresivo que el rojo */
+            margin-top: 30px; font-size: 0.8em;
+            color: #aaa;
             max-width: 350px; margin-left: auto; margin-right: auto;
             line-height: 1.5;
         }
@@ -75,27 +74,33 @@
             50%  { transform: translateY(-10px); filter: drop-shadow(0 0 25px var(--color-oro)); }
             100% { transform: translateY(0px); filter: drop-shadow(0 0 15px var(--color-oro)); }
         }
-        .loader-bar-container { 
-            width: 80%; max-width: 350px; height: 10px; 
-            background-color: #222; border-radius: 5px; 
+        .loader-bar-container {
+            width: 80%; max-width: 350px; height: 10px;
+            background-color: #222; border-radius: 5px;
             margin-top: 30px; border: 1px solid #444;
             position: relative;
             overflow: hidden;
         }
-        .loader-bar { 
+        .loader-bar {
             width: 0%; height: 100%;
-            /* CAMBIO: Barra con degradado y color */
-            background: linear-gradient(90deg, #f0c000, var(--color-oro)); 
-            border-radius: 5px; transition: width 0.1s linear; 
+            background: linear-gradient(90deg, #f0c000, var(--color-oro));
+            border-radius: 5px; transition: width 0.3s ease-in-out; /* Transición más suave */
         }
-        /* CAMBIO: Efecto de brillo en la barra */
-        .loader-bar::after {
-            content: ''; position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            animation: shimmer 2s infinite linear;
+        .loader-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            animation: shimmer 2s infinite;
+            background-size: 200% 100%;
         }
-        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        @keyframes shimmer {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
         #loader-percentage { margin-top: 15px; font-size: 1.1em; color: var(--color-oro); }
         #language-selector { position: fixed; top: 20px; right: 20px; z-index: 1000; }
         .language-button { background-color: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-size: 0.9em; border: 1px solid #333; cursor: pointer; }
@@ -140,8 +145,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // El JavaScript de la versión anterior funciona perfectamente con estos cambios.
-            // Lo incluimos aquí para que sea un archivo completo.
             const startScreen = document.getElementById('start-screen');
             const loaderScreen = document.getElementById('loader-screen');
             const startButton = document.getElementById('start-button');
@@ -155,14 +158,14 @@
                 en: { start: "Start", warning: "By continuing, you confirm you are over 18 and accept our Terms and Conditions. Gaming is a form of entertainment and should be practiced responsibly.", flag: "🇺🇸 English" },
                 pt: { start: "Iniciar", warning: "Ao continuar, você confirma que tem mais de 18 anos e aceita nossos Termos e Condições. O jogo é uma forma de entretenimento e deve ser praticado com responsabilidade.", flag: "🇧🇷 Português" }
             };
-            
+
             function applyTranslations(lang) {
-                if (!translations[lang]) lang = 'es';
+                if (!translations.hasOwnProperty(lang)) lang = 'es';
                 localStorage.setItem('userLanguage', lang);
-                const t = translations[lang];
-                if (startButton) startButton.textContent = t.start;
-                if (warningText) warningText.textContent = t.warning;
-                if (languageButton) languageButton.textContent = t.flag;
+                const t = translations?.[lang];
+                if (startButton) startButton.textContent = t?.start || translations.es.start;
+                if (warningText) warningText.textContent = t?.warning || translations.es.warning;
+                if (languageButton) languageButton.textContent = t?.flag || translations.es.flag;
             }
 
             const savedLang = localStorage.getItem('userLanguage') || 'es';
@@ -179,7 +182,7 @@
                     }
                 });
             }
-            
+
             if (startButton) {
                 startButton.addEventListener('click', () => {
                     if (backgroundMusic) {
@@ -202,8 +205,8 @@
                         if (progress === 100) {
                             clearInterval(interval);
                             setTimeout(() => {
-                                alert("¡Pieza terminada! Próximo paso: construir la página de login.");
-                                // window.location.href = 'login.html'; 
+                                alert("¡La pantalla de inicio está terminada! Ahora podemos enfocarnos en la página de login.");
+                                // window.location.href = 'login.html';
                             }, 1000);
                         }
                     }, loadTime / 100);
@@ -213,3 +216,4 @@
     </script>
 </body>
 </html>
+</details>
