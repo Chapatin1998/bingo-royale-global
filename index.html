@@ -8,6 +8,7 @@
         :root {
             --color-oro: #FFD700;
             --color-blanco: #ffffff;
+            --color-rojo-advertencia: #ff4d4d;
         }
         body, html {
             margin: 0; padding: 0;
@@ -23,12 +24,7 @@
             justify-content: center; align-items: center;
             text-align: center;
             box-sizing: border-box;
-            /* CAMBIO: La transición ahora es controlada por CSS */
-            transition: opacity 1s ease-in-out, visibility 1s;
-        }
-        .screen.hidden {
-            opacity: 0;
-            visibility: hidden;
+            transition: opacity 1.2s ease-in-out;
         }
         .video-background {
             position: fixed; top: 0; left: 0;
@@ -37,15 +33,16 @@
         .video-background video { 
             width: 100%; height: 100%; 
             object-fit: cover; 
-            filter: grayscale(40%) brightness(0.7);
+            filter: grayscale(40%) brightness(0.7) contrast(1.1);
         }
         .content-wrapper { width: 100%; max-width: 450px; padding: 20px; z-index: 1; }
         .logo { 
             width: clamp(150px, 35vw, 220px); 
             margin-bottom: 30px; 
         }
-        .start-logo {
-             animation: pulse 3s infinite alternate ease-in-out;
+        .start-logo-wrapper {
+            position: relative;
+            animation: pulse 3s infinite alternate ease-in-out;
         }
         @keyframes pulse {
             from { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));}
@@ -59,13 +56,20 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
         .cta-button:hover { transform: scale(1.05); }
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
         .warning-text {
             margin-top: 30px; font-size: 0.8em; 
-            color: #aaa;
-            max-width: 350px; margin-left: auto; margin-right: auto;
+            color: var(--color-rojo-advertencia);
+            text-shadow: 0 0 8px rgba(255, 77, 77, 0.7);
+            max-width: 300px; margin-left: auto; margin-right: auto;
+            line-height: 1.5;
         }
-        #loader-screen { background-color: rgba(0,0,0,0.9); }
+        #loader-screen { background-color: rgba(0,0,0,0.85); }
         .loader-logo {
+            width: clamp(150px, 35vw, 220px);
             animation: float-glow 4s infinite ease-in-out;
         }
         @keyframes float-glow {
@@ -79,18 +83,32 @@
             position: relative;
             overflow: hidden;
         }
-        .loader-bar { width: 0%; height: 100%; background: var(--color-oro); border-radius: 5px; transition: width 0.1s linear; }
+        .loader-bar { 
+            width: 0%; height: 100%; 
+            background: var(--color-oro); 
+            border-radius: 5px; 
+            position: relative;
+            transition: width 0.1s linear; 
+        }
         .loader-bar::after {
-            content: ''; position: absolute; top: 0; left: 0;
-            width: 50%; height: 100%;
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 50%;
+            height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
             animation: shimmer 1.5s infinite linear;
         }
         @keyframes shimmer { 
-            from { transform: translateX(0%); } 
-            to { transform: translateX(300%); } 
+            0% { transform: translateX(-100%); } 
+            100% { transform: translateX(300%); }
         }
         #loader-percentage { margin-top: 15px; font-size: 1.1em; color: var(--color-oro); }
+        #language-selector { position: fixed; top: 20px; right: 20px; z-index: 1000; }
+        .language-button { background-color: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-size: 0.9em; border: 1px solid #333; cursor: pointer; }
+        .language-menu { position: absolute; top: 110%; right: 0; background-color: rgba(0,0,0,0.8); border-radius: 8px; overflow: hidden; border: 1px solid #333; }
+        .language-menu a { display: block; padding: 10px 15px; color: var(--color-blanco); text-decoration: none; font-size: 0.9em; }
+        .language-menu a:hover { background-color: var(--color-oro); color: #000; }
     </style>
 </head>
 <body>
@@ -100,11 +118,22 @@
         </video>
     </div>
 
+    <div id="language-selector">
+        <div id="language-button" class="language-button"></div>
+        <div id="language-menu" class="hidden">
+            <a href="#" data-lang="es">🇧🇴 Español</a>
+            <a href="#" data-lang="en">🇺🇸 English</a>
+            <a href="#" data-lang="pt">🇧🇷 Português</a>
+        </div>
+    </div>
+
     <div id="start-screen" class="screen">
         <div class="content-wrapper">
-            <img src="logo.png" alt="Logo" class="logo start-logo">
-            <button id="start-button" class="cta-button">Iniciar</button>
-            <p class="warning-text">Juego para mayores de 18 años. Juega con responsabilidad.</p>
+            <div class="start-logo-wrapper">
+                <img src="logo.png" alt="Logo" class="logo">
+            </div>
+            <button id="start-button" class="cta-button"></button>
+            <p id="warning-text" class="warning-text"></p>
         </div>
     </div>
 
@@ -122,40 +151,70 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const translations = {
+                es: { start: "Iniciar", warning: "Al continuar, confirmas ser mayor de 18 años y aceptas nuestros Términos y Condiciones. Juega con responsabilidad.", flag: "🇧🇴 Español" },
+                en: { start: "Start", warning: "By continuing, you confirm you are over 18 and accept our Terms & Conditions. Play responsibly.", flag: "🇺🇸 English" },
+                pt: { start: "Iniciar", warning: "Ao continuar, você confirma que tem mais de 18 anos e aceita nossos Termos e Condições. Jogue com responsabilidade.", flag: "🇧🇷 Português" }
+            };
+
             const startScreen = document.getElementById('start-screen');
             const loaderScreen = document.getElementById('loader-screen');
             const startButton = document.getElementById('start-button');
             const backgroundMusic = document.getElementById('background-music');
+            const languageButton = document.getElementById('language-button');
+            const languageMenu = document.getElementById('language-menu');
+            const warningText = document.getElementById('warning-text');
+            
+            function applyTranslations(lang) {
+                if (!translations[lang]) lang = 'es';
+                localStorage.setItem('userLanguage', lang);
+                const t = translations[lang];
+                if (startButton) startButton.textContent = t.start;
+                if (warningText) warningText.textContent = t.warning;
+                if (languageButton) languageButton.textContent = t.flag;
+            }
 
-            startButton.addEventListener('click', () => {
-                // Iniciar música
-                backgroundMusic.volume = 0.2;
-                backgroundMusic.play().catch(e => {});
+            const savedLang = localStorage.getItem('userLanguage') || 'es';
+            applyTranslations(savedLang);
 
-                // Empezar la transición de pantallas
-                startScreen.classList.add('hidden');
-                loaderScreen.classList.remove('hidden');
-
-                // Lógica de la barra de carga
-                const loaderBar = document.getElementById('loader-bar');
-                const loaderPercentage = document.getElementById('loader-percentage');
-                let progress = 0;
-                const loadTime = 5000; // 5 segundos de carga
-                const interval = setInterval(() => {
-                    progress++;
-                    if (progress > 100) progress = 100;
-                    loaderBar.style.width = progress + '%';
-                    loaderPercentage.textContent = progress + '%';
-                    
-                    if (progress === 100) {
-                        clearInterval(interval);
-                        setTimeout(() => {
-                            alert("¡AHORA SÍ! Base perfecta. Próximo paso: login.");
-                            // window.location.href = 'login.html'; 
-                        }, 500);
-                    }
-                }, loadTime / 100);
+            if(languageButton) languageButton.addEventListener('click', () => languageMenu.classList.toggle('hidden'));
+            if(languageMenu) languageMenu.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    applyTranslations(e.target.dataset.lang);
+                    languageMenu.classList.add('hidden');
+                }
             });
+            
+            if (startButton) {
+                startButton.addEventListener('click', () => {
+                    if (backgroundMusic) {
+                        backgroundMusic.volume = 0.2;
+                        backgroundMusic.play().catch(e => {});
+                    }
+
+                    startScreen.style.opacity = '0';
+                    loaderScreen.classList.remove('hidden');
+                    setTimeout(() => startScreen.style.display = 'none', 1200);
+
+                    const loaderBar = document.getElementById('loader-bar');
+                    const loaderPercentage = document.getElementById('loader-percentage');
+                    let progress = 0;
+                    const loadTime = 5000;
+                    const interval = setInterval(() => {
+                        progress++;
+                        if (progress > 100) progress = 100;
+                        if(loaderBar) loaderBar.style.width = progress + '%';
+                        if(loaderPercentage) loaderPercentage.textContent = progress + '%';
+                        if (progress === 100) {
+                            clearInterval(interval);
+                            setTimeout(() => {
+                                alert("¡Pieza #1 Terminada! Ahora sí, al login.");
+                                // window.location.href = 'login.html'; 
+                            }, 500);
+                        }
+                    }, loadTime / 100);
+                });
+            }
         });
     </script>
 </body>
