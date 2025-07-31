@@ -1,4 +1,3 @@
-/* BINGO VIP BOLIVIA - ESTILO MAESTRO DEFINITIVO */
 :root {
     --color-oro: #FFD700;
     --color-blanco: #ffffff;
@@ -52,6 +51,7 @@ h1 { margin: 10px 0; font-size: clamp(2em, 7vw, 2.5em); font-weight: 800; }
     border: 0; transition: all 0.3s ease; cursor: pointer; width: 100%;
     box-sizing: border-box;
 }
+.cta-button:disabled { background-color: var(--color-gris); cursor: not-allowed; }
 .form-footer { margin-top: 15px; font-size: 0.8em; color: var(--color-gris); }
 .form-footer a { color: var(--color-oro); font-weight: bold; }
 .hidden { opacity: 0; pointer-events: none; }
