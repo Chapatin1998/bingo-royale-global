@@ -49,13 +49,14 @@ h1 { margin: 10px 0; font-size: clamp(2em, 7vw, 2.5em); font-weight: 800; }
 .hidden { display: none !important; }
 .fade-in { animation: fadeIn 1s forwards; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-/* === PANTALLA DE CARGA PERFECCIONADA === */
+/* === PANTALLA DE CARGA PERFECCIONADA v2 === */
 #loader-screen { 
-    background-color: rgba(0,0,0,0.85); /* Fondo transparente */ 
+    background-color: rgba(0,0,0,0.85); 
     opacity: 1;
 }
-.loader-logo { animation: float-glow 4s infinite ease-in-out; }
+.loader-logo { 
+    animation: float-glow 4s infinite ease-in-out; 
+}
 @keyframes float-glow {
     0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 15px var(--color-oro)); }
     50% { transform: translateY(-10px); filter: drop-shadow(0 0 25px var(--color-oro)); }
@@ -75,23 +76,25 @@ h1 { margin: 10px 0; font-size: clamp(2em, 7vw, 2.5em); font-weight: 800; }
     position: relative;
     overflow: hidden;
 }
-/* Efecto de brillo animado en la barra */
 .loader-bar::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 50%;
+    width: 50%; /* Ancho del brillo */
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
     animation: shimmer 1.5s infinite linear;
 }
 @keyframes shimmer { 
     0% { transform: translateX(-100%); } 
-    100% { transform: translateX(300%); } /* Aumentado para que recorra toda la barra */
+    100% { transform: translateX(270%); } /* Ajustado para que cruce toda la barra */
 }
-#loader-percentage { margin-top: 15px; font-size: 1.1em; color: var(--color-oro); }
-
+#loader-percentage { 
+    margin-top: 15px; 
+    font-size: 1.1em; 
+    color: var(--color-oro); 
+}
 /* === OTROS ESTILOS === */
 #language-selector { position: fixed; top: 20px; right: 20px; z-index: 1000; }
 .language-button { background-color: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-size: 0.9em; border: 1px solid #333; cursor: pointer; }
