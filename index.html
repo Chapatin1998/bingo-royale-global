@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenido a Bingo VIP Bolivia</title>
-    
-    <!-- CSS TODO EN UNO -->
     <style>
         :root {
             --color-oro: #FFD700;
@@ -29,90 +27,123 @@
             transition: opacity 1.2s ease-in-out;
             opacity: 1;
         }
-        .background-image {
+        .video-background {
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100%; z-index: -1;
-            background: url('portada.jpg') no-repeat center center;
-            background-size: cover;
-            filter: grayscale(60%) brightness(0.5);
-            /* Animación de fondo */
-            animation: zoom-in 25s infinite alternate ease-in-out;
         }
-        @keyframes zoom-in {
-            from { transform: scale(1); }
-            to { transform: scale(1.1); }
+        .video-background video { 
+            width: 100%; height: 100%; 
+            object-fit: cover; 
+            filter: grayscale(50%) brightness(0.6) contrast(1.1) sepia(20%);
         }
-        .overlay {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%; z-index: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 30%, transparent);
-        }
-        .content-wrapper {
-            width: 100%;
-            max-width: 400px;
-            padding: 20px;
-            z-index: 1;
-        }
+        .content-wrapper { width: 100%; max-width: 450px; padding: 20px; z-index: 1; }
         .logo { 
-            width: clamp(100px, 25vw, 150px);
+            width: clamp(150px, 35vw, 220px); 
             margin-bottom: 30px; 
-            animation: pulse-glow-logo 3s infinite alternate;
         }
-        @keyframes pulse-glow-logo {
-            from { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.4)); }
-            to { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7)); }
+        .start-logo-wrapper {
+            position: relative;
+            animation: pulse 3s infinite alternate ease-in-out;
         }
-        .start-button {
+        @keyframes pulse {
+            from { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));}
+            to { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));}
+        }
+        .cta-button {
             background-color: var(--color-oro); color: #000; padding: 18px 40px;
-            font-size: 1.2em; font-weight: bold; text-decoration: none; border-radius: 10px;
+            font-size: 1.2em; font-weight: bold; text-decoration: none;
+            border-radius: 25px;
             border: 0; transition: all 0.3s ease; cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .warning-text {
+            margin-top: 30px; font-size: 0.8em; 
+            color: var(--color-rojo-advertencia);
+            text-shadow: 0 0 8px rgba(255, 77, 77, 0.7);
+            max-width: 300px; margin-left: auto; margin-right: auto;
+            line-height: 1.5;
+        }
+        #loader-screen { background-color: rgba(0,0,0,0.85); }
+        .loader-logo {
+            width: clamp(150px, 35vw, 220px);
+            animation: float-glow 4s infinite ease-in-out;
+        }
+        @keyframes float-glow {
+            0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 15px var(--color-oro)); }
+            50% { transform: translateY(-10px); filter: drop-shadow(0 0 25px var(--color-oro)); }
+        }
+        .loader-bar-container { 
+            width: 80%; max-width: 350px; height: 10px; 
+            background-color: #1a1a1a; border-radius: 5px; 
+            margin-top: 30px; border: 1px solid #333;
             position: relative;
             overflow: hidden;
         }
-        .start-button:hover { transform: scale(1.05); }
-        .start-button::before {
-            content: ''; position: absolute; top: 0; left: -100%;
-            width: 50%; height: 100%;
+        .loader-bar { 
+            width: 0%; height: 100%; 
+            background: var(--color-oro); 
+            border-radius: 5px; 
+            position: relative;
+            transition: width 0.1s linear; 
+        }
+        .loader-bar::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 50%;
+            height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-25deg);
-            transition: left 0.8s ease-in-out;
+            animation: shimmer 1.5s infinite linear;
         }
-        .start-button:hover::before { left: 150%; }
-        .hidden { display: none; }
-        .fade-in { animation: fadeIn 1.2s 0.5s forwards ease-out; opacity: 0; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        #loader-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #000; z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 1s ease-in-out;
+        @keyframes shimmer { 
+            0% { transform: translateX(-100%); } 
+            100% { transform: translateX(300%); }
         }
-        .loader-bar-container { width: 80%; max-width: 300px; height: 12px; background-color: #333; border-radius: 6px; overflow: hidden; }
-        .loader-bar { width: 0%; height: 100%; background-color: var(--color-oro); border-radius: 6px; transition: width 0.4s ease-in-out; }
-        #loader-percentage { margin-top: 20px; font-size: 1.1em; color: var(--color-oro); }
-        .loading-text { margin-top: 10px; font-size: 0.9em; color: var(--color-gris); }
+        #loader-percentage { margin-top: 15px; font-size: 1.1em; color: var(--color-oro); }
+        #language-selector { position: fixed; top: 20px; right: 20px; z-index: 1000; }
+        .language-button { background-color: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-size: 0.9em; border: 1px solid #333; cursor: pointer; }
+        .language-menu { position: absolute; top: 110%; right: 0; background-color: rgba(0,0,0,0.8); border-radius: 8px; overflow: hidden; border: 1px solid #333; }
+        .language-menu a { display: block; padding: 10px 15px; color: var(--color-blanco); text-decoration: none; font-size: 0.9em; }
+        .language-menu a:hover { background-color: var(--color-oro); color: #000; }
     </style>
 </head>
 <body>
-    <div id="loader-screen">
-        <img src="logo.png" alt="Logo" class="logo">
-        <div class="loader-bar-container">
-            <div id="loader-bar" class="loader-bar"></div>
-        </div>
-        <p id="loader-percentage">0%</p>
-        <p class="loading-text">Cargando elementos del juego...</p>
+    <div class="video-background">
+        <video autoplay loop muted playsinline>
+            <source src="fondo-video.mp4" type="video/mp4">
+        </video>
     </div>
 
-    <div id="main-content" class="main-container hidden">
-        <div class="background-image"></div>
-        <div class="overlay"></div>
+    <div id="language-selector">
+        <div id="language-button" class="language-button"></div>
+        <div id="language-menu" class="hidden">
+            <a href="#" data-lang="es">🇧🇴 Español</a>
+            <a href="#" data-lang="en">🇺🇸 English</a>
+            <a href="#" data-lang="pt">🇧🇷 Português</a>
+        </div>
+    </div>
+
+    <div id="start-screen" class="screen">
         <div class="content-wrapper">
-            <div id="start-content" class="fade-in">
-                <img src="logo.png" alt="Logo Bingo VIP Bolivia" class="logo">
-                <button id="start-button" class="start-button">Iniciar Juego</button>
+            <div class="start-logo-wrapper">
+                <img src="logo.png" alt="Logo" class="logo">
             </div>
+            <button id="start-button" class="cta-button"></button>
+            <p id="warning-text" class="warning-text"></p>
+        </div>
+    </div>
+
+    <div id="loader-screen" class="screen hidden">
+         <div class="content-wrapper">
+            <img src="logo.png" alt="Logo Cargando" class="logo loader-logo">
+            <div class="loader-bar-container">
+                <div id="loader-bar" class="loader-bar"></div>
+            </div>
+            <p id="loader-percentage">0%</p>
         </div>
     </div>
 
@@ -120,43 +151,68 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const translations = {
+                es: { start: "Iniciar", warning: "Al continuar, confirmas ser mayor de 18 años y aceptas nuestros Términos y Condiciones. Juega con responsabilidad.", flag: "🇧🇴 Español" },
+                en: { start: "Start", warning: "By continuing, you confirm you are over 18 and accept our Terms & Conditions. Play responsibly.", flag: "🇺🇸 English" },
+                pt: { start: "Iniciar", warning: "Ao continuar, você confirma que tem mais de 18 anos e aceita nossos Termos e Condições. Jogue com responsabilidade.", flag: "🇧🇷 Português" }
+            };
+
+            const startScreen = document.getElementById('start-screen');
             const loaderScreen = document.getElementById('loader-screen');
-            const loaderBar = document.getElementById('loader-bar');
-            const loaderPercentage = document.getElementById('loader-percentage');
-            const mainContent = document.getElementById('main-content');
             const startButton = document.getElementById('start-button');
             const backgroundMusic = document.getElementById('background-music');
-            let progress = 0;
-            const loadTime = 4000; // 4 segundos de carga
-            const incrementDelay = loadTime / 100;
+            const languageButton = document.getElementById('language-button');
+            const languageMenu = document.getElementById('language-menu');
+            const warningText = document.getElementById('warning-text');
+            
+            function applyTranslations(lang) {
+                if (!translations[lang]) lang = 'es';
+                localStorage.setItem('userLanguage', lang);
+                const t = translations[lang];
+                if (startButton) startButton.textContent = t.start;
+                if (warningText) warningText.textContent = t.warning;
+                if (languageButton) languageButton.textContent = t.flag;
+            }
 
-            const interval = setInterval(() => {
-                progress++;
-                if (progress > 100) progress = 100;
-                
-                loaderBar.style.width = progress + '%';
-                loaderPercentage.textContent = progress + '%';
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        loaderScreen.style.opacity = '0';
-                        setTimeout(() => {
-                            loaderScreen.style.display = 'none';
-                            mainContent.classList.remove('hidden');
-                        }, 1000);
-                    }, 500);
+            const savedLang = localStorage.getItem('userLanguage') || 'es';
+            applyTranslations(savedLang);
+
+            if(languageButton) languageButton.addEventListener('click', () => languageMenu.classList.toggle('hidden'));
+            if(languageMenu) languageMenu.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    applyTranslations(e.target.dataset.lang);
+                    languageMenu.classList.add('hidden');
                 }
-            }, incrementDelay);
-
+            });
+            
             if (startButton) {
                 startButton.addEventListener('click', () => {
                     if (backgroundMusic) {
-                        backgroundMusic.volume = 0.3;
-                        backgroundMusic.play().catch(e => console.error("Música bloqueada."));
+                        backgroundMusic.volume = 0.2;
+                        backgroundMusic.play().catch(e => {});
                     }
-                    alert("¡Pieza terminada! Próximo paso: la página de login.");
-                    // window.location.href = 'login.html'; 
+
+                    startScreen.style.opacity = '0';
+                    loaderScreen.classList.remove('hidden');
+                    setTimeout(() => startScreen.style.display = 'none', 1200);
+
+                    const loaderBar = document.getElementById('loader-bar');
+                    const loaderPercentage = document.getElementById('loader-percentage');
+                    let progress = 0;
+                    const loadTime = 5000;
+                    const interval = setInterval(() => {
+                        progress++;
+                        if (progress > 100) progress = 100;
+                        if(loaderBar) loaderBar.style.width = progress + '%';
+                        if(loaderPercentage) loaderPercentage.textContent = progress + '%';
+                        if (progress === 100) {
+                            clearInterval(interval);
+                            setTimeout(() => {
+                                alert("¡ÉXITO! La base está perfecta. Ahora sí, al login.");
+                                // window.location.href = 'login.html'; 
+                            }, 500);
+                        }
+                    }, loadTime / 100);
                 });
             }
         });
