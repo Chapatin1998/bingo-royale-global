@@ -37,7 +37,7 @@ body, html {
     max-width: 400px; 
     padding: 20px; 
     z-index: 1; 
-    overflow-y: auto; /* Permite scroll en pantallas pequeñas */
+    overflow-y: auto; /* Permite scroll en formularios largos */
     max-height: 95vh;
 }
 .logo { 
