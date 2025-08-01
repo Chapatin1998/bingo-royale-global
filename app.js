@@ -1,112 +1,102 @@
 // =================================================================
-// BINGO VIP BOLIVIA - CÓDIGO MAESTRO DEFINITIVO
+// BINGO VIP BOLIVIA - CÓDIGO MAESTRO DE LÓGICA
 // =================================================================
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDREqTx0PpnRDmE4J-wQlYR1JkqaJvHI4Y",
-    authDomain: "bingo-vip-bolivia-df2db.firebaseapp.com",
-    projectId: "bingo-vip-bolivia-df2db",
-    storageBucket: "bingo-vip-bolivia-df2db.appspot.com",
-    messagingSenderId: "310290230955",
-    appId: "1:310290230955:web:3526c26c2800b43ffcd1ee"
+// --- DICCIONARIO DE TRADUCCIONES ---
+const translations = {
+    es: { 
+        startBtn: "Iniciar Juego", 
+        warning: "⚠️ Al continuar, confirmas ser mayor de 18 años y aceptas nuestros Términos y Condiciones.", 
+        flag: "🇧🇴 Español" 
+    },
+    en: { 
+        startBtn: "Start Game", 
+        warning: "⚠️ By continuing, you confirm you are over 18 and accept our Terms & Conditions.", 
+        flag: "🇺🇸 English" 
+    },
+    pt: { 
+        startBtn: "Iniciar Jogo", 
+        warning: "⚠️ Ao continuar, você confirma que tem mais de 18 anos e aceita nossos Termos e Condições.", 
+        flag: "🇧🇷 Português" 
+    }
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
+// --- FUNCIÓN PARA APLICAR TRADUCCIONES ---
+function applyTranslations(lang) {
+    if (!translations[lang]) lang = 'es';
+    localStorage.setItem('userLanguage', lang);
+    
+    const t = translations[lang];
+    const startButton = document.getElementById('start-button');
+    const warningText = document.getElementById('warning-text');
+    const languageButton = document.getElementById('language-button');
+    
+    if (startButton) startButton.textContent = t.startBtn;
+    if (warningText) warningText.textContent = t.warning;
+    if (languageButton) languageButton.textContent = t.flag;
+}
 
+// --- LÓGICA PRINCIPAL (SE EJECUTA CUANDO LA PÁGINA CARGA) ---
 document.addEventListener('DOMContentLoaded', () => {
-    // --- LÓGICA DE INICIO ---
+    
+    // --- Lógica Común: Idioma ---
+    const languageButton = document.getElementById('language-button');
+    const languageMenu = document.getElementById('language-menu');
+    const savedLang = localStorage.getItem('userLanguage') || 'es';
+    applyTranslations(savedLang);
+
+    if (languageButton) {
+        languageButton.addEventListener('click', () => {
+            if (languageMenu) languageMenu.classList.toggle('hidden');
+        });
+    }
+    if (languageMenu) {
+        languageMenu.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                const lang = e.target.dataset.lang;
+                applyTranslations(lang);
+                languageMenu.classList.add('hidden');
+            }
+        });
+    }
+
+    // --- Lógica Específica para INDEX.HTML ---
     const startButton = document.getElementById('start-button');
     if (startButton) {
+        const mainContent = document.getElementById('main-content');
+        const loaderScreen = document.getElementById('loader-screen');
+        const backgroundMusic = document.getElementById('background-music');
+
         startButton.addEventListener('click', () => {
-            document.getElementById('main-content').style.opacity = '0';
-            document.getElementById('loader-screen').classList.remove('hidden');
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress++;
-                if(progress > 100) progress = 100;
-                document.getElementById('loader-bar').style.width = progress + '%';
-                document.getElementById('loader-percentage').textContent = progress + '%';
-                if (progress === 100) {
-                    clearInterval(interval);
-                    setTimeout(() => window.location.href = 'login.html', 500);
-                }
-            }, 70);
-        });
-    }
-
-    // --- LÓGICA DE LOGIN ---
-    const loginForm = document.getElementById('login-form');
-    if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            signInWithEmailAndPassword(auth, e.target.email.value, e.target.password.value)
-                .catch(error => alert(error.message));
-        });
-    }
-
-    // --- LÓGICA DE REGISTRO ---
-    const registerForm = document.getElementById('register-form');
-    if (registerForm) {
-        registerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            createUserWithEmailAndPassword(auth, e.target.email.value, e.target.password.value)
-                .catch(error => alert(error.message));
-        });
-    }
-    
-    // --- LÓGICA DE COMPLETAR PERFIL ---
-    const profileForm = document.getElementById('profile-form');
-    if (profileForm) {
-        async function uploadFile(user, file, folder) { if (!file) return null; const storageRef = ref(storage, `${folder}/${user.uid}/${file.name}`); await uploadBytes(storageRef, file); return await getDownloadURL(storageRef); }
-        profileForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); const user = auth.currentUser; if (!user) return;
-            const btn = e.target.querySelector('button'); btn.disabled = true; btn.textContent = 'Guardando...';
-            try {
-                const [frontUrl, backUrl, selfieUrl] = await Promise.all([ uploadFile(user, e.target.idFront.files[0], 'id_front'), uploadFile(user, e.target.idBack.files[0], 'id_back'), uploadFile(user, e.target.selfie.files[0], 'id_selfie') ]);
-                await setDoc(doc(db, "users", user.uid), { uid: user.uid, email: user.email, fullName: e.target.fullName.value, phone: e.target.phone.value, idNumber: e.target.idNumber.value, idFrontUrl, backUrl, selfieUrl, balance: 0, isVerified: false, createdAt: new Date() });
-            } catch (error) { alert(error.message); btn.disabled = false; btn.textContent = 'Guardar y Entrar'; }
-        });
-    }
-
-    // --- LÓGICA COMÚN: OJO DE CONTRASEÑA ---
-    const togglePassword = document.querySelector('.toggle-password');
-    if (togglePassword) {
-        togglePassword.addEventListener('click', function() { this.previousElementSibling.type = this.previousElementSibling.type === 'password' ? 'text' : 'password'; this.textContent = this.previousElementSibling.type === 'password' ? '👁️' : '🙈'; });
-    }
-    
-    // --- LÓGICA COMÚN: MÚSICA ---
-    const backgroundMusic = document.getElementById('background-music');
-    if (backgroundMusic) {
-        document.body.addEventListener('click', () => {
-            if(backgroundMusic.paused) {
+            if (backgroundMusic) {
                 backgroundMusic.volume = 0.2;
                 backgroundMusic.play().catch(e => {});
             }
-        }, { once: true });
-    }
-});
+            if (mainContent) mainContent.style.opacity = '0';
+            if (loaderScreen) loaderScreen.classList.remove('hidden');
+            
+            setTimeout(() => {
+                if (mainContent) mainContent.style.display = 'none';
+            }, 1200);
 
-// --- ROUTER / GUARDIA DE SEGURIDAD ---
-onAuthStateChanged(auth, async (user) => {
-    const currentPage = window.location.pathname.split("/").pop();
-    const protectedPages = ['lobby.html', 'complete-profile.html'];
-    if (user) {
-        const docSnap = await getDoc(doc(db, "users", user.uid));
-        if (!docSnap.exists() && currentPage !== 'complete-profile.html') {
-            window.location.href = 'complete-profile.html';
-        } else if (docSnap.exists() && currentPage !== 'lobby.html') {
-            window.location.href = 'lobby.html';
-        }
-    } else {
-        if (protectedPages.includes(currentPage)) {
-            window.location.href = 'login.html';
-        }
+            const loaderBar = document.getElementById('loader-bar');
+            const loaderPercentage = document.getElementById('loader-percentage');
+            let progress = 0;
+            const loadTime = 7000; // 7 segundos de carga
+            const interval = setInterval(() => {
+                progress++;
+                if (progress > 100) progress = 100;
+                if (loaderBar) loaderBar.style.width = progress + '%';
+                if (loaderPercentage) loaderPercentage.textContent = progress + '%';
+                if (progress === 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        // Por ahora, solo una alerta para confirmar que funciona
+                        alert("¡Base perfecta! Próximo paso: conectar el login.");
+                        // window.location.href = 'login.html'; 
+                    }, 500);
+                }
+            }, loadTime / 100);
+        });
     }
 });
