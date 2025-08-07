@@ -1,11 +1,8 @@
+import Loader from './components/Loader/Loader.tsx';
 function App() {
-    return (
-        <div>
-              <h1>Bingo Royale</h1>
-                  </div>
-                    )
-                    }
+  return (
+      <Loader />
+        );
+        }
 
-                    export default App
-                    
-}
+        export default App;
