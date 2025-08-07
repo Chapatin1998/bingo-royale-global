@@ -1,7 +1,8 @@
-import Loader from './components/Loader/Loader.tsx';
+import Welcome from './components/Welcome/Welcome';
+
 function App() {
   return (
-      <Loader />
+      <Welcome />
         );
         }
 
