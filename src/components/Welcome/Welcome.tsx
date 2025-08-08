@@ -1,31 +1,36 @@
+import { Link } from 'react-router-dom'; // <-- IMPORTANTE
 import './Welcome.css';
 
 const Welcome = () => {
   return (
       <div className="welcome-container">
-            {/* Este video se reproducirá en bucle, sin sonido y automáticamente */}
-                  <video autoPlay loop muted className="welcome-video-bg">
-                          {/* Más adelante pondremos un video real en la carpeta 'public/videos' */}
-                                  <source src="/videos/fondo-casino.mp4" type="video/mp4" />
-                                          Tu navegador no soporta el tag de video.
-                                                </video>
+            <video autoPlay loop muted className="welcome-video-bg">
+                    <source src="/videos/fondo-casino.mp4" type="video/mp4" />
+                            Tu navegador no soporta el tag de video.
+                                  </video>
 
-                                                      <div className="welcome-content">
-                                                              {/* Este será el logo de nuestro juego */}
-                                                                      <div className="welcome-logo">
-                                                                                BINGO ROYALE
-                                                                                        </div>
+                                        <audio src="/audio/musica-fondo.mp3" autoPlay loop></audio>
 
-                                                                                                <p className="welcome-subtitle">La experiencia VIP de Bingo</p>
+                                              <div className="welcome-content">
+                                                      <div className="welcome-logo">
+                                                                BINGO ROYALE
+                                                                        </div>
 
-                                                                                                        <div className="welcome-buttons">
-                                                                                                                  <button className="btn btn-primary">Iniciar Sesión</button>
-                                                                                                                            <button className="btn btn-secondary">Registrarse</button>
-                                                                                                                                    </div>
-                                                                                                                                          </div>
-                                                                                                                                              </div>
-                                                                                                                                                );
-                                                                                                                                                };
+                                                                                <p className="welcome-subtitle">La experiencia VIP de Bingo</p>
 
-                                                                                                                                                export default Welcome;
-                                                                                                                                                
+                                                                                        <div className="welcome-buttons">
+                                                                                                  {/* Envolvemos el botón en un Link que lleva a /login */}
+                                                                                                            <Link to="/login">
+                                                                                                                        <button className="btn btn-primary">Iniciar Sesión</button>
+                                                                                                                                  </Link>
+                                                                                                                                            {/* Envolvemos el botón en un Link que lleva a /register */}
+                                                                                                                                                      <Link to="/register">
+                                                                                                                                                                  <button className="btn btn-secondary">Registrarse</button>
+                                                                                                                                                                            </Link>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                          </div>
+                                                                                                                                                                                              </div>
+                                                                                                                                                                                                );
+                                                                                                                                                                                                };
+
+                                                                                                                                                                                                export default Welcome;                      
