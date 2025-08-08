@@ -116,4 +116,15 @@
                                                                                                                                               .auth-link a:hover {
                                                                                                                                                 text-decoration: underline;
                                                                                                                                                 }
-                                                                                                                                                
+                                                                                                                                                /* Estilos para la nueva sección de advertencias */
+                                                                                                                                                .auth-disclaimer {
+                                                                                                                                                  margin-top: 1.5rem;
+                                                                                                                                                    margin-bottom: 1rem;
+                                                                                                                                                      font-size: 0.8rem; /* Letra más pequeña */
+                                                                                                                                                        color: #888; /* Un color gris para que no sea tan prominente */
+                                                                                                                                                        }
+
+                                                                                                                                                        .auth-disclaimer p {
+                                                                                                                                                          margin: 0.25rem 0;
+                                                                                                                                                          }
+                                                                                                                                                          
