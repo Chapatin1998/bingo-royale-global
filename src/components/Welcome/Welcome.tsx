@@ -9,8 +9,6 @@ const Welcome = () => {
                             Tu navegador no soporta el tag de video.
                                   </video>
 
-                                        <audio src="/audio/musica-fondo.mp3" autoPlay loop></audio>
-
                                               {/* --- NUEVO: SELECTOR DE IDIOMA (VISUAL) --- */}
                                                     <div className="welcome-lang">
                                                             <span>🇧🇴 ES</span>
