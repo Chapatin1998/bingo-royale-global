@@ -1,21 +1,161 @@
-.action-button.play-button {
-  width: 100%;
-  padding: 15px;
-  font-size: 1.2rem;
-  background-color: #4caf50; /* Verde para Jugar */
-  color: white;
+.lobby-container-professional {
+  min-height: 100vh;
+  background: #121212 url('/videos/fondo-casino.mp4') no-repeat center center/cover;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
-.action-button.play-button:hover {
-    background-color: #66bb6a;
+.lobby-container-professional::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
 }
 
-.action-button.wallet-button {
-  width: 100%;
-  padding: 12px;
+.lobby-header-pro {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: rgba(18, 18, 18, 0.8);
+  border-bottom: 1px solid var(--color-gold);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.lobby-logo-pro {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-gold);
+}
+
+.player-info-pro {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  color: var(--color-text);
+}
+
+.player-balance {
+  background-color: #2a2a2a;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  text-decoration: none;
+  color: var(--color-text);
+  border: 1px solid #444;
+  display: flex;
+  gap: 1rem;
+  transition: background-color 0.3s;
+}
+.player-balance:hover {
+  background-color: #333;
+}
+
+.balance-amount {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.points-amount {
+  color: #f9a825;
+}
+
+.logout-button-pro {
+  background-color: transparent;
+  color: #ff6b6b;
+  border: 1px solid #ff6b6b;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.logout-button-pro:hover {
+  background-color: #ff6b6b;
+  color: white;
+}
+
+.lobby-main {
+  position: relative;
+  z-index: 1;
+  padding: 3rem 2rem;
+  flex-grow: 1;
+}
+
+.lobby-main-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--color-gold);
+  margin-bottom: 2rem;
+}
+
+.game-rooms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.room-card {
+  background-color: rgba(26, 26, 26, 0.9);
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.room-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-gold);
+  box-shadow: 0 10px 30px rgba(224, 180, 82, 0.2);
+}
+
+.room-card h3 {
+  font-size: 1.8rem;
+  color: var(--color-gold);
+  margin-bottom: 0.5rem;
+}
+
+.room-card p {
   font-size: 1rem;
+  color: #aaa;
+  margin-bottom: 1.5rem;
+}
+
+.room-players {
+  color: #4caf50;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.play-now-btn {
+  display: inline-block;
+  width: 100%;
+  padding: 1rem;
   background-color: var(--color-gold);
   color: #121212;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s;
 }
-.action-button.wallet-button:hover {
-    background-color: #fff;
+.room-card:hover .play-now-btn {
+  background-color: #fff;
+}
+
+.room-card.disabled {
+  filter: grayscale(80%);
+  border-color: #222;
+  cursor: not-allowed;
+}
+.room-card.disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+.room-card.disabled .play-now-btn {
+  background-color: #444;
+  color: #777;
 }
