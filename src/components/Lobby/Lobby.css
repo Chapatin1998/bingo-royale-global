@@ -1,56 +1,21 @@
-.lobby-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  color: var(--color-text);
-}
-.lobby-box {
-  text-align: center;
-  padding: 2rem 3rem;
-  background-color: rgba(18, 18, 18, 0.9);
-  border-radius: 15px;
-  border: 1px solid var(--color-gold);
-}
-.lobby-email {
-  color: var(--color-gold);
-  font-weight: bold;
-  margin: 0.5rem 0 1.5rem 0;
-}
-.logout-button {
-  padding: 10px 20px;
-  background-color: transparent;
-  color: #ff6b6b;
-  border: 1px solid #ff6b6b;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.logout-button:hover {
-  background-color: #ff6b6b;
+.action-button.play-button {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.2rem;
+  background-color: #4caf50; /* Verde para Jugar */
   color: white;
 }
-/* --- Añadir al final de Lobby.css --- */
-.lobby-actions {
-  margin-top: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.action-button.play-button:hover {
+    background-color: #66bb6a;
 }
 
 .action-button.wallet-button {
   width: 100%;
   padding: 12px;
   font-size: 1rem;
-  font-weight: bold;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
   background-color: var(--color-gold);
   color: #121212;
-  transition: background-color 0.3s;
 }
-
 .action-button.wallet-button:hover {
-  background-color: #fff;
+    background-color: #fff;
 }
