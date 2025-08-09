@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
 import './Lobby.css';
 
-// Interfaz para el perfil del usuario
 interface UserProfile {
   name: string;
   balance: number;
@@ -38,7 +37,13 @@ const Lobby = () => {
   };
 
   return (
-    <div className="lobby-container-professional">
+    // Corregimos el nombre de la clase aquí para consistencia
+    <div className="lobby-container-pro"> 
+      {/* AÑADIMOS EL VIDEO DE FONDO AQUÍ */}
+      <video autoPlay loop muted className="lobby-video-bg">
+        <source src="/videos/fondo-casino.mp4" type="video/mp4" />
+      </video>
+
       <header className="lobby-header-pro">
         <div className="lobby-logo-pro">BINGO ROYALE</div>
         <div className="player-info-pro">
@@ -50,7 +55,7 @@ const Lobby = () => {
           <button onClick={handleLogout} className="logout-button-pro">Salir</button>
         </div>
       </header>
-      
+
       <main className="lobby-main">
         <h1 className="lobby-main-title">Salas Disponibles</h1>
         <div className="game-rooms">
