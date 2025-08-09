@@ -30,3 +30,27 @@
   background-color: #ff6b6b;
   color: white;
 }
+/* --- Añadir al final de Lobby.css --- */
+.lobby-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.action-button.wallet-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: var(--color-gold);
+  color: #121212;
+  transition: background-color 0.3s;
+}
+
+.action-button.wallet-button:hover {
+  background-color: #fff;
+}
