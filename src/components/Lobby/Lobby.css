@@ -1,0 +1,32 @@
+.lobby-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: var(--color-text);
+}
+.lobby-box {
+  text-align: center;
+  padding: 2rem 3rem;
+  background-color: rgba(18, 18, 18, 0.9);
+  border-radius: 15px;
+  border: 1px solid var(--color-gold);
+}
+.lobby-email {
+  color: var(--color-gold);
+  font-weight: bold;
+  margin: 0.5rem 0 1.5rem 0;
+}
+.logout-button {
+  padding: 10px 20px;
+  background-color: transparent;
+  color: #ff6b6b;
+  border: 1px solid #ff6b6b;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.logout-button:hover {
+  background-color: #ff6b6b;
+  color: white;
+}
